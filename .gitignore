@@ -2,6 +2,7 @@
 node_modules
 /dist
 
+src/services/firebase/key.js
 
 
 # local env files
