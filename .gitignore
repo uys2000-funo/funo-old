@@ -2,6 +2,10 @@
 node_modules
 /dist
 
+src/services/firebase/key.js
+/src/services/firebase/key.js
+src/services/firebase/key*
+/src/services/firebase/key*
 
 # local env files
 .env.local
