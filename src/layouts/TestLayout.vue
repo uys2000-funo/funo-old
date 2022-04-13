@@ -4,6 +4,7 @@
     @touchmove="moveEvent"
     @mouseup="isMove = false"
     @touchend="isMove = false"
+    style="min-height: 100vh"
   >
     <div>
       <router-view />

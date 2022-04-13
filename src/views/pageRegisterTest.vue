@@ -3,11 +3,7 @@
     <div>
       <h6>Img</h6>
       <div>
-        <q-file
-          v-model="filesImages"
-          label="Profil Img"
-          accept=".jpg, image/*"
-        />
+        <q-file v-model="pImg" label="Profil Img" accept=".jpg, image/*" />
       </div>
     </div>
     <div>
@@ -21,21 +17,40 @@
         <q-input v-model="pObj.mail" label="Mail" />
         <q-input v-model="pObj.pass" label="Password" />
 
-        <q-btn style="width: 100%" label="Register Person" />
+        <q-btn
+          style="width: 100%"
+          label="Register Person"
+          @click="registerFunction(pObj)"
+        />
       </div>
     </div>
     <div>
       <h6>company</h6>
-      <div></div>
+      <div>
+        <q-input v-model="cObj.name" label="Full Name" />
+        <q-input v-model="cObj.phone" label="Phone" />
+        <q-input v-model="cObj.mail" label="Mail" />
+        <q-input v-model="cObj.pass" label="Password" />
+
+        <q-file v-model="tImg" label="Tax Sheet Photo" accept=".jpg, image/*" />
+
+        <q-btn
+          style="width: 100%"
+          label="Register Person"
+          @click="registerFunction(cObj)"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { registerFunction } from "../services/firebase/main";
 export default {
   data() {
     return {
-      img: null,
+      pImg: null,
+      tImg: null,
       pObj: {
         name: "",
         birth: "",
@@ -45,7 +60,24 @@ export default {
         mail: "",
         pass: "",
       },
+      cObj: {
+        name: "",
+        phone: "",
+        mail: "",
+        pass: "",
+      },
     };
+  },
+  methods: {
+    registerFunction: function (data) {
+      registerFunction(data, this.pImg, this.tImg);
+    },
   },
 };
 </script>
+
+<style scoped>
+h6 {
+  margin-top: 20px;
+}
+</style>

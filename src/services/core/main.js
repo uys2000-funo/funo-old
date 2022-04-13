@@ -1,10 +1,8 @@
 import settings from "../settings";
-const c = (input) => {
-  if (settings.debug) console.log(input);
-  return input;
-};
+import c from "../c";
 
 const getPaths = function (routes = [], oldPath = "", paths = []) {
+  c("Run: getPaths", routes, oldPath, paths);
   routes.forEach((item) => {
     paths.push({
       path: oldPath + item.path,
@@ -15,16 +13,18 @@ const getPaths = function (routes = [], oldPath = "", paths = []) {
   });
   return paths;
 };
+
 export const setDebugRouter = function (routes) {
-  if (settings.debug)
-    return [
+  c("Run: setDebugRouter", routes);
+  if (settings.developer)
+    return c("setDebugRouter", [
       {
         path: "/",
         name: "TestLayoutLoader",
         component: () => import("../../layouts/TestLayout.vue"),
         children: routes,
-        props: { routes: c(getPaths(routes)) },
+        props: { routes: c("Res: getPaths", getPaths(routes)) },
       },
-    ];
-  else return routes;
+    ]);
+  else return c("Res: setDebugRouter", routes);
 };

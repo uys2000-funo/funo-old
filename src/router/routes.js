@@ -6,30 +6,13 @@ export default setDebugRouter([
     component: () => import("../views/pageEnter.vue"),
   },
   {
-    path: "/login",
-    name: "Login",
-    component: () => import("../views/pageEnter.vue"),
-  },
-  {
     path: "/registerTest",
     name: "registerTest",
     component: () => import("../views/pageRegisterTest.vue"),
   },
   {
-    path: "/register",
-    name: "Register",
-    component: () => import("../views/pageEnter.vue"),
-    children: [
-      {
-        path: "",
-        name: "Person",
-        component: () => import("../views/pageEnter.vue"),
-      },
-      {
-        path: "comp",
-        name: "Company",
-        component: () => import("../views/pageEnter.vue"),
-      },
-    ],
+    path: "/loginTest",
+    name: "loginTest",
+    component: () => import("../views/pageLoginTest.vue"),
   },
 ]);
