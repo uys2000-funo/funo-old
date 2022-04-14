@@ -1603,6 +1603,18 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/gapi.auth2@0.0.55":
+  version "0.0.55"
+  resolved "https://registry.yarnpkg.com/@types/gapi.auth2/-/gapi.auth2-0.0.55.tgz#88523c1b8d4866ea64ec9cbecb9ecc90b80b88aa"
+  integrity sha512-chmROsbo28jI5or0aRP8X3aBuWkq8jJHj75al/C0BhI/qum8v7XSxxQ9aLpA2ULPWgWSyh6orn9ZCaUSA4iQCA==
+  dependencies:
+    "@types/gapi" "*"
+
+"@types/gapi@*", "@types/gapi@0.0.41":
+  version "0.0.41"
+  resolved "https://registry.yarnpkg.com/@types/gapi/-/gapi-0.0.41.tgz#c477ee4f0951c005869219fd10b456ae2bba437e"
+  integrity sha512-tmHO66z/f91JZCDqinj/nNvQEszsz/hBT4+MvCSKT5sDzl5Ld/oXZ8WaecCBjRLw2uWKUInUHM9MhEXWkOiNjw==
+
 "@types/html-minifier-terser@^6.0.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@types/html-minifier-terser/-/html-minifier-terser-6.1.0.tgz#4fc33a00c1d0c16987b1a20cf92d20614c55ac35"
@@ -6307,6 +6319,14 @@ vue-eslint-parser@^8.0.1:
     esquery "^1.4.0"
     lodash "^4.17.21"
     semver "^7.3.5"
+
+vue-gapi@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/vue-gapi/-/vue-gapi-2.0.1.tgz#cb31a7c6dd043d79f21767a7966f29fc545b6155"
+  integrity sha512-0ECD+waUU3dmp4wgdMSvWEvoJY0CWw5RYhsLhsvTCBp2zKbKpxd7WD5PKWNGRr/a5tQ8kY4sYmx2ivGRyaNrgQ==
+  dependencies:
+    "@types/gapi" "0.0.41"
+    "@types/gapi.auth2" "0.0.55"
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"

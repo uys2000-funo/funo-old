@@ -38,16 +38,24 @@ export const getUserAuth = function (mail, pass) {
     .then((res) => c("Res: getUserAuth", res))
     .catch((err) => c(["Res: getUserAuth", err], false));
 };
+const getProvider = function () {
+  const provider = new GoogleAuthProvider();
+  provider.addScope("https://www.googleapis.com/auth/userinfo.profile");
+  provider.addScope("https://www.googleapis.com/auth/user.gender.read");
+  provider.addScope("https://www.googleapis.com/auth/user.addresses.read");
+  provider.addScope("https://www.googleapis.com/auth/user.birthday.read");
+  provider.addScope("https://www.googleapis.com/auth/user.phonenumbers.read");
+  return provider;
+};
 export const getUserAuthGoogle = function () {
   c("Run: getUserAuthGoogle");
-  const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({
-    login_hint: "user@example.com",
-  });
-  provider.addScope("https://www.googleapis.com/auth/userinfo.email");
-  provider.addScope("https://www.googleapis.com/auth/userinfo.profile");
+  const provider = getProvider();
   c("Call: signInWithPopup", auth);
   return signInWithPopup(auth, provider)
-    .then((res) => c("Res: getUserAuth", res))
-    .catch((err) => c(["Res: getUserAuth", err], false));
+    .then((res) => {
+      const credential = GoogleAuthProvider.credentialFromResult(res);
+      const token = credential.accessToken;
+      return c("Res: signInWithPopup", [res, token]);
+    })
+    .catch((err) => c(["Res: signInWithPopup", err], false));
 };

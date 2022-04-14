@@ -13,6 +13,7 @@
     "firebase": "9.6.10",
     "quasar": "^2.0.0",
     "vue": "^3.2.13",
+    "vue-gapi": "^2.0.1",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {

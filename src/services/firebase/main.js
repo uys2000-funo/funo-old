@@ -1,7 +1,6 @@
 import { createUserFirestore, getUserFirestore } from "./sFirestore";
 import { createUserAuth, getUserAuth, getUserAuthGoogle } from "./sAuth";
 import { createUserStorage } from "./sStorage";
-
 import c from "../c";
 
 export const registerFunction = function (uData, uImg = null, tImg = null) {
@@ -26,13 +25,60 @@ export const loginFunction = function (uData) {
     });
   });
 };
+const getEditedData = function (gData, aData) {
+  return c("Res: getEditedData", {
+    name: aData.user.displayName,
+    birth: gData.birthdays[0].date,
+    gender: gData.genders[0].value,
+    nick: null,
+    phone: null,
+    mail: aData.user.email,
+    pass: null,
+  });
+};
+const getUserDataFromGoogle = function (id, accessToken, aData) {
+  c("Run: getUserDataFromGoogle", [id, accessToken]);
+  getEditedData;
+  const url = `https://people.googleapis.com/v1/people/${id}?personFields=phoneNumbers,genders,birthdays,addresses`;
+  return fetch(url, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: "application/json",
+    },
+  }).then((res) => {
+    return res.json().then((gData) => {
+      c("Res: getUserDataFromGoogle", gData);
+      c("Call: getEditedData", [gData, aData]);
+      return getEditedData(gData, aData);
+    });
+  });
+};
+const getCheckedData = function (aData, fData) {
+  if (fData.data() == undefined) {
+    c(
+      "Call: getUserDataFromGoogle",
+      [aData[0].user.providerData[0].uid, aData[1]],
+      aData
+    );
+    return c("Res: loginFunction", {
+      userAuth: aData,
+      userFire: getUserDataFromGoogle(
+        aData[0].user.providerData[0].uid,
+        aData[1],
+        aData[0]
+      )
+    });
+  } else {
+    return c("Res: loginFunction", { userAuth: aData, userFire: fData.data() });
+  }
+};
 export const loginFunctionGoogle = function () {
   c("Run: loginFunctionGoogle");
   c("Call: getUserAuthGoogle");
-  return getUserAuthGoogle().then((res) => {
-    c("Call: getUserFirestore", res);
-    return getUserFirestore(res.user.uid).then((re) => {
-      return c("Res: loginFunction", { userAuth: res, userFire: re.data() });
+  return getUserAuthGoogle().then((aData) => {
+    c("Call: getUserFirestore", [aData[0].user.uid]);
+    return getUserFirestore(aData[0].user.uid).then((fData) => {
+      return getCheckedData(aData, fData);
     });
   });
 };

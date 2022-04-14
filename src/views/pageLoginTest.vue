@@ -11,14 +11,15 @@
       <q-btn
         style="width: 100%"
         label="Login Google"
-        @click="loginFunctionGoogle(lObj)"
+        @click="loginFunctionGoogle()"
       />
     </div>
   </div>
+  {{ user }}
 </template>
 
 <script>
-import { loginFunction } from "../services/firebase/main";
+import { loginFunction, loginFunctionGoogle } from "../services/firebase/main";
 export default {
   data() {
     return {
@@ -26,11 +27,15 @@ export default {
         mail: "",
         pass: "",
       },
+      user: null,
     };
   },
   methods: {
     loginFunction: function (data) {
       loginFunction(data, this.pImg, this.tImg);
+    },
+    loginFunctionGoogle: function () {
+      this.user = loginFunctionGoogle();
     },
     handleCredentialResponse: function (response) {
       console.log("Encoded JWT ID token: " + response.credential);
