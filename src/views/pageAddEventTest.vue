@@ -165,6 +165,7 @@
 <script>
 import { addEventFunction } from "../services/firebase/main";
 import { gettLastUser } from "@/services/core/main";
+import c from '@/services/c';
 export default {
   inject: ["getUser", "setUser"],
   data() {
@@ -206,7 +207,8 @@ export default {
         this.setUser(user);
       }
       const uID = user.userAuth.user.uid;
-      if (!this.limit) this.eObj = 0;
+      if (!this.limit) this.eObj.limit = 0;
+      c("Call: addEventFunction",[uID, this.eObj, this.imgs])
       addEventFunction(uID, this.eObj, this.imgs);
     },
   },

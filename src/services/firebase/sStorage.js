@@ -19,8 +19,8 @@ const uploadBoth = function (uID, uImg, tImg) {
     .then((res) => {
       c("Res: uploadBoth(uImg)", res);
       return uploadImage(tImg, `U/${uID}/imgs/uImg`)
-        .then((re) => c(["Res: uploadBoth(tImg)", re], [true, true]))
-        .catch((err) => c(["Res: uploadBoth(tImg)", err], [true, false]));
+        .then((re) => c(["Res: uploadBoth(All)", re], [true, true]))
+        .catch((err) => c(["Res: uploadBoth(All)", err], [true, false]));
     })
     .catch((res) => {
       c("Res: uploadBoth(uImg)", res);
@@ -40,16 +40,21 @@ const uploadOne = function (check, uID, aImg) {
       .catch((err) => c(["Res: uploadOne", err], [undefined, false]));
 };
 export const createUserImgsStorage = function (uID, uImg, tImg) {
-  c("Run: createUserStorage", [uID, uImg, tImg]);
+  c("Run: createUserImgsStorage", [uID, uImg, tImg]);
   if ((uImg != null) & (tImg != null)) return uploadBoth(uID, uImg, tImg);
   else if (uImg != null) return uploadOne(true, uID, uImg);
   else if (tImg != null) return uploadOne(false, uID, tImg);
-  else return c("Res: createUserStorage", [(false, false)]);
+  else return c("Res: createUserImgsStorage", [undefined, undefined]);
 };
-const uploadWithOrder = function () {};
-uploadWithOrder;
+const uploadWithOrder = function (eID, eImgs, i = 0) {
+  c("Run: uploadWithOrder", [eID, eImgs, i]);
+  if ((eImgs[i] != null) & (eImgs[i] != undefined))
+    return uploadImage(eImgs[i], `E/${eID}/imgs/img${i}`).then((res) => {
+      c(["Res: uploadImage", res], true);
+      return uploadWithOrder(eID, eImgs, i + 1);
+    });
+};
 export const createEventImgsStorage = function (eID, eImgs) {
-  c("Run: createEventImgsStorage", [eID, eImgs, eImgs]);
-  if (eImgs != null) uploadImage(eImgs, `U/${eID}/imgs/uImg`);
-  return c("Res: createEventImgsStorage", true);
+  c("Run: createEventImgsStorage", [eID, eImgs]);
+  return uploadWithOrder(eID, eImgs);
 };
