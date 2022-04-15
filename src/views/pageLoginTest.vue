@@ -20,7 +20,9 @@
 
 <script>
 import { loginFunction, loginFunctionGoogle } from "../services/firebase/main";
+import { setLastUser } from "@/services/core/main";
 export default {
+  inject: ["setUser"],
   data() {
     return {
       lObj: {
@@ -32,10 +34,16 @@ export default {
   },
   methods: {
     loginFunction: function (data) {
-      loginFunction(data, this.pImg, this.tImg);
+      loginFunction(data, this.pImg, this.tImg).then((res) => {
+        this.setUser(res);
+        setLastUser(res);
+      });
     },
     loginFunctionGoogle: function () {
-      this.user = loginFunctionGoogle();
+      loginFunctionGoogle().then((res) => {
+        this.setUser(res);
+        setLastUser(res);
+      });
     },
     handleCredentialResponse: function (response) {
       console.log("Encoded JWT ID token: " + response.credential);

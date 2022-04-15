@@ -6,7 +6,7 @@
     @touchend="isMove = false"
     style="min-height: 100vh"
   >
-    <div>
+    <div class="page">
       <router-view />
     </div>
     <div
@@ -63,5 +63,8 @@ export default {
 .b {
   width: 200px;
   height: 200px;
+}
+.page{
+  padding: 10vh 20vw;
 }
 </style>

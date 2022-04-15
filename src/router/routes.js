@@ -15,4 +15,14 @@ export default setDebugRouter([
     name: "loginTest",
     component: () => import("../views/pageLoginTest.vue"),
   },
+  {
+    path: "/addEventTest",
+    name: "addEventTest",
+    component: () => import("../views/pageAddEventTest.vue"),
+  },
+  {
+    path: "/updateSetting",
+    name: "updateSetting",
+    component: () => import("../views/pageUpdateSetting.vue"),
+  },
 ]);
