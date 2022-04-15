@@ -25,4 +25,9 @@ export default setDebugRouter([
     name: "updateSetting",
     component: () => import("../views/pageUpdateSetting.vue"),
   },
+  {
+    path: "/eventsAll",
+    name: "eventsAll",
+    component: () => import("../views/pageEventsAllTest.vue"),
+  },
 ]);

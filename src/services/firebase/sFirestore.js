@@ -15,6 +15,7 @@ const db = getFirestore(app);
 
 export const createUserFirestore = function (uID, data) {
   c("Run: createUserFirestore", [uID, data]);
+  data["events"] = [];
   const refDoc = doc(db, "U", uID);
   return setDoc(refDoc, data)
     .then((res) => c(["Res: createUserFirestore", res], true))
@@ -35,10 +36,10 @@ export const createEventFirestore = function (data) {
     .then((res) => c("Res: createEventFirestore", res))
     .catch((err) => c(["Res: createEventFirestore", err], false));
 };
-export const createEventFirestoreUser = function (uID, data) {
-  c("Run: createEventFirestoreUser", [uID, data]);
+export const createEventFirestoreUser = function (uID, eID) {
+  c("Run: createEventFirestoreUser", [uID, eID]);
   const refCol = doc(db, "U", uID);
-  return updateDoc(refCol, { events: arrayUnion(data) })
+  return updateDoc(refCol, { events: arrayUnion(eID) })
     .then((res) => c("Res: createEventFirestoreUser", res))
     .catch((err) => c(["Res: createEventFirestoreUser", err], false));
 };

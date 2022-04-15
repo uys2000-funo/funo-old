@@ -2,6 +2,7 @@ import {
   createUserFirestore,
   getUserFirestore,
   createEventFirestore,
+  createEventFirestoreUser,
 } from "./sFirestore";
 import { createUserAuth, getUserAuth, getUserAuthGoogle } from "./sAuth";
 import { createEventImgsStorage, createUserImgsStorage } from "./sStorage";
@@ -88,13 +89,15 @@ export const loginFunctionGoogle = function () {
   });
 };
 export const addEventFunction = function (uID, data, eImgs) {
-  eImgs;
   c("Run: addEventFunction", [uID, data, eImgs]);
   data["owners"] = [uID];
   c("Call: createEventFirestore", data);
   return createEventFirestore(data).then((res) => {
     c("Res: createEventFirestore", res);
-    c("Call: createEventImgsStorage", [res.id, eImgs]);
-    return createEventImgsStorage(res.id, eImgs);
+    c("Call: createEventFirestoreUser", [uID, res.id]);
+    return createEventFirestoreUser(uID, res.id).then(() => {
+      c("Call: createEventImgsStorage", [res.id, eImgs]);
+      return createEventImgsStorage(res.id, eImgs);
+    });
   });
 };
