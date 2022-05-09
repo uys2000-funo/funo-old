@@ -6,9 +6,7 @@
     @touchend="isMove = false"
     style="min-height: 100vh"
   >
-    <div class="page">
-      <router-view />
-    </div>
+    <router-view />
     <div
       class="a"
       :style="position"
@@ -31,6 +29,7 @@
 </template>
 <script>
 export default {
+  name: "TestLayout",
   props: ["routes"],
   data() {
     return {

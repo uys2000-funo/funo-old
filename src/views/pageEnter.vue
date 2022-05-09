@@ -1,5 +1,5 @@
 <template>
-  <div class="page column no-wrap justify-center items-center content-center">
+  <div class="column no-wrap justify-center items-center content-center">
     <div
       class="col-1 column no-wrap justify-center items-center content-center"
     >

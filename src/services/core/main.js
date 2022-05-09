@@ -15,17 +15,20 @@ const getPaths = function (routes = [], oldPath = "", paths = []) {
 };
 export const setDebugRouter = function (routes) {
   c("Run: setDebugRouter", routes);
-  if (settings.developer)
-    return c("setDebugRouter", [
-      {
-        path: "/",
-        name: "TestLayoutLoader",
-        component: () => import("../../layouts/TestLayout.vue"),
-        children: routes,
-        props: { routes: getPaths(routes) },
-      },
-    ]);
-  else return c("Res: setDebugRouter", routes);
+  let r = {
+    path: "/",
+    name: "MainLayoutLoader",
+    children: routes,
+  };
+
+  if (settings.developer) {
+    r.name = "TestLayoutLoader";
+    r["component"] = () => import("../../layouts/TestLayout.vue");
+    r.props = { routes: getPaths(routes) };
+  } else {
+    r["component"] = () => import("../../layouts/MainLayout.vue");
+  }
+  return c("Res: setDebugRouter", [r]);
 };
 export const setLastUser = function (user) {
   c("Run :setLastUser", user);

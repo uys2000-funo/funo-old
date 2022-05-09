@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="event in events" :key="event">
+    <div class="d" v-for="event in events" :key="event">
       <div>
         <span>name: {{ event.name }}</span
         ><br />
@@ -43,3 +43,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.d{
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  border: solid black 1px;
+  margin: 5px;
+}
+</style>

@@ -18,13 +18,13 @@
       >
         <div class="col-3 field" rounded outlined>
           <q-input
-            v-model="text"
+            v-model="user.mail"
             :dense="h < 720"
             placeholder=" Kullanıcı Adı"
           />
         </div>
         <div class="col-3 field" rounded outlined>
-          <q-input v-model="text" :dense="h < 720" placeholder=" Şifre" />
+          <q-input v-model="user.pass" :dense="h < 720" placeholder=" Şifre" />
         </div>
         <div class="col-2 row full-width">
           <p class="reg">Şifreni mi unuttun?</p>
@@ -33,8 +33,18 @@
           <q-btn
             class="login bg-primary text-white"
             fab-mini
-            label="Giriş Yap"
-          />
+            @click="loginFunction(user)"
+          >
+            <template v-slot:default>
+              <span class="loginText">GİRİŞ YAP</span>
+              <q-tooltip v-model="loginError" class="bg-primary"
+                >Bişiler Yanlış Mı Ne</q-tooltip
+              >
+            </template>
+            <template v-slot:loading>
+              <span class="loginText">KONTROL EDİLİYOR</span>
+            </template>
+          </q-btn>
         </div>
       </div>
     </div>
@@ -50,8 +60,24 @@
         class="col-2 column no-wrap justify-center items-center content-center"
       >
         <div>
-          <q-btn rounded label="Google" />
-          <q-btn rounded label="Facebook" />
+          <q-btn rounded @click="loginFunctionGoogle" :loading="btnGoogle">
+            <template v-slot:default>
+              <q-icon>
+                <img
+                  :src="require('@/assets/images/icons/google.svg')"
+                  alt="icon"
+                />
+              </q-icon>
+              <div>Google</div>
+            </template>
+            <template v-slot:loading>
+              <q-spinner-facebook />
+              <div>Google</div>
+            </template>
+          </q-btn>
+          <q-tooltip v-model="loginErrorGoogle" class="bg-primary"
+            >Bişiler Yanlış Mı Ne</q-tooltip
+          >
         </div>
       </div>
       <div
@@ -69,22 +95,53 @@ export default {
   data() {
     return {
       h: window.innerHeight,
+      btnGoogle: false,
+      btnLogin: false,
+      loginError: false,
+      loginErrorGoogle: false,
+      user: {
+        mail: null,
+        pass: null,
+      },
     };
   },
 
   methods: {
+    loginSucces: function (res) {
+      this.setUser(res);
+      setLastUser(res);
+      this.$router.push("/main");
+    },
     loginFunction: function (data) {
-      loginFunction(data, this.pImg, this.tImg).then((res) => {
-        this.setUser(res);
-        setLastUser(res);
-        this.$router.push("/main")
-      });
+      this.btnLogin = true;
+      loginFunction(data, this.pImg, this.tImg)
+        .then((res) => {
+          this.btnLogin = false;
+          this.loginSucces(res);
+        })
+        .catch(() => {
+          this.loginError = true;
+          this.btnLogin = false;
+          setTimeout(() => {
+            this.loginError = false;
+          }, 1000);
+        });
     },
     loginFunctionGoogle: function () {
-      loginFunctionGoogle().then((res) => {
-        this.setUser(res);
-        setLastUser(res);
-      });
+      this.btnGoogle = true;
+      loginFunctionGoogle()
+        .then((res) => {
+          this.btnGoogle = false;
+          this.loginSucces(res);
+        })
+        .catch(() => {
+          this.btnGoogle = false;
+          this.loginErrorGoogle = true;
+          setTimeout(() => {
+            this.loginErrorGoogle = false;
+            console.log(this.loginErrorGoogle);
+          }, 1000);
+        });
     },
   },
 };
@@ -130,6 +187,8 @@ img {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25),
     0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
+}
+.loginText {
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 800;

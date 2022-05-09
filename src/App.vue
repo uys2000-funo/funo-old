@@ -29,7 +29,8 @@ export default {
 };
 </script>
 <style>
-.page {
+#app > div > div:not([class="a"]) {
+  padding: 10px;
   width: 100vw;
   height: 100vh;
 }
