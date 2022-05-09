@@ -6,6 +6,11 @@ export default setDebugRouter([
     component: () => import("../views/pageEnter.vue"),
   },
   {
+    path: "/login",
+    name: "Login",
+    component: () => import("../views/pageLogin.vue"),
+  },
+  {
     path: "/registerTest",
     name: "registerTest",
     component: () => import("../views/pageRegisterTest.vue"),

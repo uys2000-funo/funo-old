@@ -20,7 +20,7 @@ const createUserUpdate = function (displayName, hasImg) {
   c("Call: updateProfile", [auth.currentUser, data]);
   return updateProfile(auth.currentUser, data)
     .then((res) => c(["Res: createUserUpdate", res], true))
-    .catch((err) => c(["Res: createUserUpdate", err], false));
+    .catch((err) => c(["Err: createUserUpdate", err], false));
 };
 export const createUserAuth = function (mail, pass, displayName, hasImg) {
   c("Run: createUserAuth", [mail, pass, displayName, hasImg]);
@@ -29,14 +29,14 @@ export const createUserAuth = function (mail, pass, displayName, hasImg) {
     .then((res) =>
       c("Res: createUserAuth", res, createUserUpdate(displayName, hasImg))
     )
-    .catch((err) => c(["Res: createUserAuth", err], false));
+    .catch((err) => c(["Err: createUserAuth", err], false));
 };
 export const getUserAuth = function (mail, pass) {
   c("Run: getUserAuth", [mail, pass]);
   c("Call: signInWithEmailAndPassword", [auth, mail, pass]);
   return signInWithEmailAndPassword(auth, mail, pass)
     .then((res) => c("Res: getUserAuth", res))
-    .catch((err) => c(["Res: getUserAuth", err], false));
+    .catch((err) => c(["Err: getUserAuth", err], false));
 };
 const getProvider = function () {
   const provider = new GoogleAuthProvider();
@@ -57,5 +57,5 @@ export const getUserAuthGoogle = function () {
       const token = credential.accessToken;
       return c("Res: signInWithPopup", [res, token]);
     })
-    .catch((err) => c(["Res: signInWithPopup", err], false));
+    .catch((err) => c(["Err: signInWithPopup", err], false));
 };

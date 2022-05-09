@@ -45,9 +45,6 @@ export default {
         setLastUser(res);
       });
     },
-    handleCredentialResponse: function (response) {
-      console.log("Encoded JWT ID token: " + response.credential);
-    },
   },
   mounted() {},
 };

@@ -9,7 +9,7 @@ const uploadImage = function (img, path) {
   const refImg = ref(storage, path);
   return uploadBytes(refImg, img)
     .then((res) => c(["Res: uploadBytes", res], true))
-    .catch((err) => c(["Res: uploadBytes", err], false));
+    .catch((err) => c(["Err: uploadBytes", err], false));
 };
 
 const uploadBoth = function (uID, uImg, tImg) {
@@ -20,24 +20,24 @@ const uploadBoth = function (uID, uImg, tImg) {
       c("Res: uploadBoth(uImg)", res);
       return uploadImage(tImg, `U/${uID}/imgs/uImg`)
         .then((re) => c(["Res: uploadBoth(All)", re], [true, true]))
-        .catch((err) => c(["Res: uploadBoth(All)", err], [true, false]));
+        .catch((err) => c(["Err: uploadBoth(All)", err], [true, false]));
     })
     .catch((res) => {
       c("Res: uploadBoth(uImg)", res);
       return uploadImage(tImg, `U/${uID}/imgs/uImg`)
         .then((re) => c(["Res: uploadBoth(All)", re], [false, true]))
-        .catch((err) => c(["Res: uploadBoth(All)", err], [false, false]));
+        .catch((err) => c(["Err: uploadBoth(All)", err], [false, false]));
     });
 };
 const uploadOne = function (check, uID, aImg) {
   if (check)
     return uploadImage(aImg, `U/${uID}/imgs/uImg`)
       .then((res) => c(["Res: uploadOne", res], [true, undefined]))
-      .catch((err) => c(["Res: uploadOne", err], [false, undefined]));
+      .catch((err) => c(["Err: uploadOne", err], [false, undefined]));
   else
     return uploadImage(aImg, `U/${uID}/imgs/uImg`)
       .then((res) => c(["Res: uploadOne", res], [undefined, true]))
-      .catch((err) => c(["Res: uploadOne", err], [undefined, false]));
+      .catch((err) => c(["Err: uploadOne", err], [undefined, false]));
 };
 export const createUserImgsStorage = function (uID, uImg, tImg) {
   c("Run: createUserImgsStorage", [uID, uImg, tImg]);

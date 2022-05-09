@@ -56,15 +56,12 @@ export default {
 
 <style scoped>
 .a {
-  position: absolute;
+  position: fixed;
   width: 200px;
   background-color: wheat;
 }
 .b {
   width: 200px;
   height: 200px;
-}
-.page{
-  padding: 10vh 20vw;
 }
 </style>

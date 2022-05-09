@@ -3,6 +3,7 @@ import {
   getUserFirestore,
   createEventFirestore,
   createEventFirestoreUser,
+  getAllEvetntsFirestore,
 } from "./sFirestore";
 import { createUserAuth, getUserAuth, getUserAuthGoogle } from "./sAuth";
 import { createEventImgsStorage, createUserImgsStorage } from "./sStorage";
@@ -101,3 +102,7 @@ export const addEventFunction = function (uID, data, eImgs) {
     });
   });
 };
+export const  getAllEvetnts = function(){
+  c("Call: getAllEvetntsFirestore", "")
+  return getAllEvetntsFirestore()
+} 
