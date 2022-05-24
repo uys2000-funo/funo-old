@@ -1,10 +1,3 @@
 <template>
-  <div>
-    <router-view />
-  </div>
+  <div> asd</div>
 </template>
-<script>
-export default {
-  name: "MainLayout",
-};
-</script>

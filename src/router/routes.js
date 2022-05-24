@@ -14,6 +14,41 @@ export default setDebugRouter([
     path: "/register",
     name: "Register",
     component: () => import("../layouts/RegisterLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "RegisterIndex",
+        component: () => import("../views/pageRegister.vue"),
+      },
+      {
+        path: "c",
+        name: "RegisterC",
+        component: () => import("../views/pageRegisterC.vue"),
+      },
+      {
+        path: "p",
+        name: "RegisterP",
+        component: () => import("../views/pageRegisterP.vue"),
+      },
+    ],
+  },
+  {
+    path: "/app",
+    name: "App",
+    component: () => import("../layouts/AppLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "AppMainIndex",
+        component: () => import("../layouts/MainLayout.vue"),
+      },
+      {
+        path: "main",
+        name: "AppMain",
+        component: () => import("../layouts/MainLayout.vue"),
+        children: [],
+      },
+    ],
   },
   {
     path: "/registerTest",
@@ -36,8 +71,8 @@ export default setDebugRouter([
     component: () => import("../views/pageUpdateSetting.vue"),
   },
   {
-    path: "/eventsAll",
-    name: "eventsAll",
+    path: "/eventsAllTest",
+    name: "eventsAllTest",
     component: () => import("../views/pageEventsAllTest.vue"),
   },
 ]);

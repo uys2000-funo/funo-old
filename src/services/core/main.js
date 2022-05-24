@@ -26,7 +26,7 @@ export const setDebugRouter = function (routes) {
     r["component"] = () => import("../../layouts/TestLayout.vue");
     r.props = { routes: getPaths(routes) };
   } else {
-    r["component"] = () => import("../../layouts/MainLayout.vue");
+    r["component"] = () => import("../../layouts/AppLayout.vue");
   }
   return c("Res: setDebugRouter", [r]);
 };

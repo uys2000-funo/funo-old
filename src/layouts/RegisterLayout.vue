@@ -5,7 +5,7 @@
         <img :src="require('@/assets/images/register.svg')" alt="image" />
       </div>
       <div class="bec">
-        <q-btn round flat fab-mini @click="$router.go(-1)">
+        <q-btn round flat fab-mini @click="goBack">
           <q-icon>
             <img
               :src="require('@/assets/images/icons/backArrow.svg')"
@@ -15,20 +15,67 @@
         </q-btn>
       </div>
     </div>
-    <div class="col-8">
-      <div style="height:100%;">asd</div>
-      <router-view />
+    <div class="col-7">
+      <router-view :page="page" />
+    </div>
+    <div class="col-1">
+      <q-btn
+        v-if="page != 0 && page != -4 && page != 3"
+        class="btn"
+        @click="goNext"
+      >
+        <div>Devam</div>
+      </q-btn>
+      <q-btn v-if="page == -4 || page == 3" class="btn" @click="register">
+        <div>Kaydol</div>
+      </q-btn>
     </div>
   </div>
 </template>
-
+<script>
+export default {
+  data() {
+    return {
+      page: 0,
+    };
+  },
+  methods: {
+    setPage: function (value) {
+      console.log(value);
+      this.page = value;
+    },
+    goNext: function () {
+      this.page < 0 ? (this.page -= 1) : (this.page += 1);
+    },
+    goBack: function () {
+      this.page < 0 ? (this.page += 1) : (this.page -= 1);
+      if (this.page == 0) this.$router.go(-1);
+    },
+    register: function () {},
+  },
+  provide() {
+    return {
+      setPage: this.setPage,
+    };
+  },
+};
+</script>
 <style scoped>
 .reg {
+  height: 100%;
   margin: auto;
+}
+.reg img {
+  height: 100%;
 }
 .bec {
   position: fixed;
   left: 2vw;
   top: 1vh;
+}
+.btn {
+  background: #ff7f00;
+  border-radius: 20px;
+  width: 75vw;
 }
 </style>
