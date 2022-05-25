@@ -92,7 +92,9 @@ export const loginFunctionGoogle = function () {
 export const addEventFunction = function (uID, data, eImgs) {
   c("Run: addEventFunction", [uID, data, eImgs]);
   data["owners"] = [uID];
+  data["imgCount"] = eImgs.length;
   c("Call: createEventFirestore", data);
+
   return createEventFirestore(data).then((res) => {
     c("Res: createEventFirestore", res);
     c("Call: createEventFirestoreUser", [uID, res.id]);
@@ -102,7 +104,7 @@ export const addEventFunction = function (uID, data, eImgs) {
     });
   });
 };
-export const  getAllEvetnts = function(){
-  c("Call: getAllEvetntsFirestore", "")
-  return getAllEvetntsFirestore()
-} 
+export const getAllEvetnts = function () {
+  c("Call: getAllEvetntsFirestore", "");
+  return getAllEvetntsFirestore();
+};

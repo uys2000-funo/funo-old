@@ -35,7 +35,7 @@ export default setDebugRouter([
   {
     path: "/app",
     name: "App",
-    component: () => import("../layouts/AppLayout.vue"),
+    component: () => import("../layouts/HomeLayout.vue"),
     children: [
       {
         path: "",
