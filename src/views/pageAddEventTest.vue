@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="f">
     <q-input v-model="eObj.name" label="Etkinlik Adı" />
     <q-input v-model="eObj.desc" label="Etkinlik Açıklama" />
     <div>
@@ -120,6 +120,12 @@
       </div>
     </div>
     <div>
+      <h6>Fiyat</h6>
+      <div>
+        <q-input v-model="eObj.price" label="Fiyat" />
+      </div>
+    </div>
+    <div>
       <h6>Katılımcı Limiti</h6>
       <div>
         <q-toggle
@@ -165,7 +171,6 @@
 <script>
 import { addEventFunction } from "../services/firebase/main";
 import { gettLastUser } from "@/services/core/main";
-import c from '@/services/c';
 export default {
   inject: ["getUser", "setUser"],
   data() {
@@ -196,6 +201,7 @@ export default {
         type: false,
         app: "",
         url: "",
+        price: 0,
       },
     };
   },
@@ -207,9 +213,9 @@ export default {
         this.setUser(user);
       }
       const uID = user.userAuth.user.uid;
+      const uName = user.userFire.name;
       if (!this.limit) this.eObj.limit = 0;
-      c("Call: addEventFunction",[uID, this.eObj, this.imgs])
-      addEventFunction(uID, this.eObj, this.imgs);
+      addEventFunction(uID, this.eObj, this.imgs, uName);
     },
   },
   computed: {
@@ -241,3 +247,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.f{
+  height: 100vh;
+  overflow: auto;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="f">
     <div class="d" v-for="event in events" :key="event">
       <div>
         <span>name: {{ event.name }}</span
@@ -50,5 +50,9 @@ export default {
   height: calc(100% - 20px);
   border: solid black 1px;
   margin: 5px;
+}
+.f{
+  height: 100vh;
+  overflow: auto;
 }
 </style>

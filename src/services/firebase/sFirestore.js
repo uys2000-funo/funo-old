@@ -10,45 +10,52 @@ import {
   getDocs,
 } from "firebase/firestore";
 import app from "./app";
-import c from "../c";
-
 const db = getFirestore(app);
 
 export const createUserFirestore = function (uID, data) {
-  c("Run: createUserFirestore", [uID, data]);
   data["events"] = [];
+  data["joinEvent"] = [];
   const refDoc = doc(db, "U", uID);
-  return setDoc(refDoc, data)
-    .then((res) => c(["Res: createUserFirestore", res], true))
-    .catch((err) => c(["Err: createUserFirestore", err], false));
+  return setDoc(refDoc, data);
 };
 export const getUserFirestore = function (uID) {
-  c("Run: getUserFirestore", uID);
   const refDoc = doc(db, "U", uID);
-  return getDoc(refDoc)
-    .then((res) => c("Res: getUserFirestore", res))
-    .catch((err) => c(["Err: getUserFirestore", err], false));
+  return getDoc(refDoc);
 };
 
 export const createEventFirestore = function (data) {
-  c("Run: createEventFirestore", [data]);
   const refCol = collection(db, "E");
-  return addDoc(refCol, data)
-    .then((res) => c("Res: createEventFirestore", res))
-    .catch((err) => c(["Err: createEventFirestore", err], false));
+  return addDoc(refCol, data);
 };
 export const createEventFirestoreUser = function (uID, eID) {
-  c("Run: createEventFirestoreUser", [uID, eID]);
   const refCol = doc(db, "U", uID);
-  return updateDoc(refCol, { events: arrayUnion(eID) })
-    .then((res) => c("Res: createEventFirestoreUser", res))
-    .catch((err) => c(["Err: createEventFirestoreUser", err], false));
+  return updateDoc(refCol, { events: arrayUnion(eID) });
 };
 export const getAllEvetntsFirestore = function () {
   const refCol = collection(db, "E");
-  return getDocs(refCol).then((res) => {
-    return c("Res: getAllEvetnts", res);
-  }).catch(err=>{
-    return c("Err: getAllEvetnts", err)
-  })
+  return getDocs(refCol);
+};
+export const getEventFirestore = function (eID) {
+  const refDoc = doc(db, "E", eID);
+  return getDoc(refDoc);
+};
+export const updateEvent = function (eID, event) {
+  const refDoc = doc(db, "E", eID);
+  return updateDoc(refDoc, event);
+};
+export const addUserToEventFirestore = function (uID, eID) {
+  const refDoc = doc(db, "E", eID);
+  return updateDoc(refDoc, {
+    users: arrayUnion(uID),
+  });
+};
+export const updateUser = function (uID, user) {
+  const refDoc = doc(db, "U", uID);
+  return updateDoc(refDoc, user);
+};
+export const addEventToUserFirestore = function (uID, eID) {
+  const refDoc = doc(db, "U", uID);
+  return updateDoc(refDoc, {
+    eventsJoin: arrayUnion(eID),
+  });
 };

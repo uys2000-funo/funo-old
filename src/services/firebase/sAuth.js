@@ -7,36 +7,23 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import app from "./app";
-import c from "../c";
-
 const auth = getAuth(app);
 
 const createUserUpdate = function (displayName, hasImg) {
-  c("Run: createUserUpdate", [displayName, hasImg]);
   const data = {
     displayName: displayName,
     photoURL: hasImg ? `U/${auth.currentUser.uid}/imgs/pImg` : null,
   };
-  c("Call: updateProfile", [auth.currentUser, data]);
-  return updateProfile(auth.currentUser, data)
-    .then((res) => c(["Res: createUserUpdate", res], true))
-    .catch((err) => c(["Err: createUserUpdate", err], false));
+  return updateProfile(auth.currentUser, data);
 };
 export const createUserAuth = function (mail, pass, displayName, hasImg) {
-  c("Run: createUserAuth", [mail, pass, displayName, hasImg]);
-  c("Call: createUserWithEmailAndPassword", [auth, mail, pass]);
-  return createUserWithEmailAndPassword(auth, mail, pass)
-    .then((res) =>
-      c("Res: createUserAuth", res, createUserUpdate(displayName, hasImg))
-    )
-    .catch((err) => c(["Err: createUserAuth", err], false));
+  return createUserWithEmailAndPassword(auth, mail, pass).then((res) => {
+    createUserUpdate(displayName, hasImg);
+    return res;
+  });
 };
 export const getUserAuth = function (mail, pass) {
-  c("Run: getUserAuth", [mail, pass]);
-  c("Call: signInWithEmailAndPassword", [auth, mail, pass]);
-  return signInWithEmailAndPassword(auth, mail, pass)
-    .then((res) => c("Res: getUserAuth", res))
-    .catch((err) => c(["Err: getUserAuth", err], false));
+  return signInWithEmailAndPassword(auth, mail, pass);
 };
 const getProvider = function () {
   const provider = new GoogleAuthProvider();
@@ -48,14 +35,10 @@ const getProvider = function () {
   return provider;
 };
 export const getUserAuthGoogle = function () {
-  c("Run: getUserAuthGoogle");
   const provider = getProvider();
-  c("Call: signInWithPopup", auth);
-  return signInWithPopup(auth, provider)
-    .then((res) => {
-      const credential = GoogleAuthProvider.credentialFromResult(res);
-      const token = credential.accessToken;
-      return c("Res: signInWithPopup", [res, token]);
-    })
-    .catch((err) => c(["Err: signInWithPopup", err], false));
+  return signInWithPopup(auth, provider).then((res) => {
+    const credential = GoogleAuthProvider.credentialFromResult(res);
+    const token = credential.accessToken;
+    return [res, token];
+  });
 };

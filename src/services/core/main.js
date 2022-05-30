@@ -1,5 +1,5 @@
 import settings from "../settings";
-import c from "../c";
+import { c } from "../c";
 
 const getPaths = function (routes = [], oldPath = "", paths = []) {
   c("Run: getPaths", routes, oldPath, paths);

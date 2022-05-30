@@ -38,15 +38,23 @@ export default setDebugRouter([
     component: () => import("../layouts/HomeLayout.vue"),
     children: [
       {
-        path: "",
-        name: "AppMainIndex",
-        component: () => import("../layouts/MainLayout.vue"),
-      },
-      {
         path: "main",
         name: "AppMain",
         component: () => import("../layouts/MainLayout.vue"),
-        children: [],
+        children: [
+          {
+            path: "",
+            name: "EventsAll",
+            component: () => import("../views/pageEventsAll.vue"),
+            children: [
+              {
+                path: ":id",
+                name: "Event",
+                component: () => import("../components/compEventPopup.vue"),
+              },
+            ],
+          },
+        ],
       },
     ],
   },

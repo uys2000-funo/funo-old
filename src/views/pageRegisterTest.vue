@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="f">
     <div>
       <h6>Img</h6>
       <div>
@@ -79,5 +79,9 @@ export default {
 <style scoped>
 h6 {
   margin-top: 20px;
+}
+.f{
+  height: 100vh;
+  overflow: auto;
 }
 </style>

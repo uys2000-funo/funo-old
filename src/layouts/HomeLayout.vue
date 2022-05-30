@@ -1,9 +1,9 @@
 <template>
-  <div class="asd row no-wrap justify-start items-start content-start">
-    <div class="col-8">
+  <div class="asd column no-wrap justify-start items-start content-start">
+    <div class="col-11" style="width: 100%">
       <router-view />
     </div>
-    <div class="menu row no-wrap col-4">
+    <div class="menu row no-wrap col-1">
       <div class="col-2 text-center">
         <img
           :src="require('@/assets/images/icons/addEvent.svg')"
@@ -46,14 +46,11 @@ export default {
 <style scoped>
 .asd {
   height: 100vh;
-  width: 100vw;
 }
 .menu {
-  position: fixed;
   bottom: 0px;
   left: 0px;
-  width: 100vw;
-  height: 10vh;
+  width: 100%;
 }
 .menu > div {
   margin: auto;

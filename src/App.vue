@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import c from "@/services/c";
+import { c } from "@/services/c";
 export default {
   name: "LayoutDefault",
   components: {},
@@ -30,7 +30,6 @@ export default {
 </script>
 <style>
 #app > div > div:not([class="a"]) {
-  padding: 10px;
   width: 100vw;
   height: 100vh;
 }

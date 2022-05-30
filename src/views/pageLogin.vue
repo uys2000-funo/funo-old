@@ -92,6 +92,7 @@
 import { loginFunction, loginFunctionGoogle } from "../services/firebase/main";
 import { setLastUser } from "@/services/core/main";
 export default {
+  inject: ["setUser"],
   data() {
     return {
       h: window.innerHeight,
@@ -110,7 +111,7 @@ export default {
     loginSucces: function (res) {
       this.setUser(res);
       setLastUser(res);
-      this.$router.push("/main");
+      this.$router.push("/app/main");
     },
     loginFunction: function (data) {
       this.btnLogin = true;
@@ -119,7 +120,8 @@ export default {
           this.btnLogin = false;
           this.loginSucces(res);
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           this.loginError = true;
           this.btnLogin = false;
           setTimeout(() => {
