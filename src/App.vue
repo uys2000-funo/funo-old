@@ -4,6 +4,8 @@
 
 <script>
 import { c } from "@/services/c";
+import { gettLastUser } from "./services/core/main";
+import { autoLogin } from "./services/firebase/main";
 export default {
   name: "LayoutDefault",
   components: {},
@@ -25,6 +27,12 @@ export default {
     setUser: function (value) {
       this.user = c("Run setUser:", value);
     },
+  },
+  mounted() {
+    this.user = gettLastUser();
+    autoLogin(this.user.userFire).then((res) => {
+      this.user = res;
+    });
   },
 };
 </script>

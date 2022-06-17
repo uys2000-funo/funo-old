@@ -12,9 +12,8 @@ export const c = function (function_name, data, err) {
     console.log("Debug :", function_name, data, err ? err : "");
   return data;
 };
-export const f = function () {
-  const fFunc = arguments[0];
-  const fArgs = argToArray(arguments).splice(1, arguments.length);
+
+const f2 = function (fFunc, fArgs) {
   c(`Run : ${fFunc.name}`, fArgs);
   return fFunc
     .apply(null, fArgs)
@@ -24,4 +23,10 @@ export const f = function () {
     .catch((err) => {
       return c(`Err: ${fFunc.name}`, err == undefined ? false : err);
     });
+};
+export const f = function () {
+  const fFunc = arguments[0];
+  const fArgs = argToArray(arguments).splice(1, arguments.length);
+  if (settings.debug) return f2(fFunc, fArgs);
+  else return fFunc.apply(null, fArgs);
 };

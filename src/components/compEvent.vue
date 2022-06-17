@@ -6,24 +6,24 @@
     </div>
     <div
       class="img"
-      :style="` background-image: url('${require('@/assets/images/loading.gif')}'); ${bgImg}`"
+      :style="`background-image: url('${require('@/assets/images/loading.gif')}'); ${bgImg}`"
     ></div>
     <div class="row wrap justify-between items-center content-center">
       <span class="col-4">
         {{ event.startDate.time }}-{{ event.endDate.time }}
       </span>
       <span class="col-4 text-center q-my-sm">
-        {{ event.price == 0 ? "ücrestis" : event.price }}
+        {{ event.price == 0 ? "ücretsiz" : event.price }}
       </span>
-      <span class="col-4 text-right">Katılımcılar</span>
+      <comp-participants-vue class="col-4 text-right" :userIDs="event.users" />
     </div>
     <div class="row wrap justify-between items-center content-center">
       <span class="col-4">{{ event.app }}</span>
       <q-btn
         class="col-4 text-center bg-primary"
-        label="katıl"
+        :label="joinCheck ? 'Vazgeç' : 'katıl'"
         dense
-        @click="joinEvent(event)"
+        @click="joinCheck ? exitEvent(event) : joinEvent(event)"
       />
       <span class="col-4 text-right">
         <router-link :to="{ path: `/app/main/${event.id}` }">
@@ -35,13 +35,21 @@
 </template>
 
 <script>
-import { getImgStorage, joinEvent } from "@/services/firebase/main";
+import { getImgStorage, joinEvent, exitEvent } from "@/services/firebase/main";
+import { chekUserEventJoinStatus } from "@/services/core/main";
+import compParticipantsVue from "./compParticipants.vue";
 export default {
   props: ["event"],
   inject: ["getUser", "setUser"],
+  components: {
+    compParticipantsVue,
+  },
   data() {
     return {
       imgPath: "",
+      joinCheck: false,
+      user: "",
+      images: [],
     };
   },
   computed: {
@@ -51,6 +59,11 @@ export default {
     },
   },
   methods: {
+    filtering: function (array, item) {
+      return array.filter(function (value) {
+        return value != item;
+      });
+    },
     getImg: function () {
       getImgStorage(`E/${this.event.id}/imgs/img0`).then((res) => {
         console.log(res);
@@ -58,22 +71,52 @@ export default {
       });
     },
     updateUser: function (eId) {
-      const user = this.getUser();
-      if (user.userFire.joinEvent == undefined) user.userFire.joinEvent = [];
-      user.userFire.joinEvent.push(eId);
-      this.setUser(user);
-      return [user, user.userAuth.user.uid];
+      if (this.user.userFire.eventsJoin == undefined)
+        this.user.userFire.eventsJoin = [];
+      this.user.userFire.eventsJoin.push(eId);
+      this.setUser(this.user);
+      return [this.user, this.user.userAuth.user.uid];
     },
     updateEvent: function (event, uID) {
-      if (event.users == undefined) event.users= [];
+      if (event.users == undefined) event.users = [];
       event.users.push(uID);
       return event;
+    },
+    updateUserExit: function (eId) {
+      const events = this.user.userFire.eventsJoin;
+      this.user.userFire.eventsJoin = this.filtering(events, eId);
+      this.setUser(this.user);
+      return [this.user, this.user.userAuth.user.uid];
+    },
+    updateEventExit: function (event, uID) {
+      if (event.users == undefined) event.users = [];
+      event.users = this.filtering(event.users, uID);
+      return event;
+    },
+    checkEvent: function () {
+      console.log(this.user, this.event.id);
+      return chekUserEventJoinStatus(this.user, this.event.id);
     },
     joinEvent: function (event) {
       const [user, uID] = this.updateUser(event.id);
       event = this.updateEvent(event, uID);
-      joinEvent(uID, event.id, user.userFire, event);
+      joinEvent(uID, event.id, user.userFire, event).then(() => {
+        this.joinCheck = this.checkEvent();
+      });
     },
+    exitEvent: function (event) {
+      console.log("exit");
+      const [user, uID] = this.updateUserExit(event.id);
+      event = this.updateEventExit(event, uID);
+      exitEvent(uID, event.id, user.userFire, event).then(() => {
+        this.joinCheck = this.checkEvent();
+      });
+    },
+    getUserImages: function () {},
+  },
+  mounted() {
+    this.user = this.getUser();
+    this.joinCheck = this.checkEvent();
   },
 };
 </script>

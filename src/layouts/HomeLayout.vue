@@ -1,40 +1,24 @@
 <template>
-  <div class="asd column no-wrap justify-start items-start content-start">
+  <div class="asd column no-wrap justify-around items-start content-start">
     <div class="col-11" style="width: 100%">
       <router-view />
     </div>
     <div class="menu row no-wrap col-1">
-      <div class="col-2 text-center">
-        <img
-          :src="require('@/assets/images/icons/addEvent.svg')"
-          alt=""
-          class="fit"
-        />
-      </div>
-      <div class="col-2 text-center">
-        <img
-          :src="require('@/assets/images/icons/compas.svg')"
-          alt=""
-          class="fit"
-        />
-      </div>
-      <div class="col-4 text-center">
-        <img :src="require('@/assets/images/logo.svg')" alt="" class="fit" />
-      </div>
-      <div class="col-2 text-center">
-        <img
-          :src="require('@/assets/images/icons/world.svg')"
-          alt=""
-          class="fit"
-        />
-      </div>
-      <div class="col-2 text-center">
-        <img
-          :src="require('@/assets/images/icons/person.svg')"
-          alt=""
-          class="fit"
-        />
-      </div>
+      <q-btn flat to="/app/main/eventCreate">
+        <img :src="require('@/assets/images/icons/addEvent.svg')" alt="" />
+      </q-btn>
+      <q-btn flat>
+        <img :src="require('@/assets/images/icons/compas.svg')" alt="" />
+      </q-btn>
+      <q-btn flat>
+        <img :src="require('@/assets/images/logo.svg')" alt=""  />
+      </q-btn>
+      <q-btn flat>
+        <img :src="require('@/assets/images/icons/world.svg')" alt="" />
+      </q-btn>
+      <q-btn flat>
+        <img :src="require('@/assets/images/icons/person.svg')" alt="" />
+      </q-btn>
     </div>
   </div>
 </template>
@@ -52,9 +36,13 @@ export default {
   left: 0px;
   width: 100%;
 }
-.menu > div {
+.menu > .q-btn {
   margin: auto;
   height: 75%;
   margin-bottom: 0px;
+}
+.q-btn {
+  border-radius: 50%;
+  width: 20%;
 }
 </style>

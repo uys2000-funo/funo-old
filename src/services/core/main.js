@@ -4,12 +4,15 @@ import { c } from "../c";
 const getPaths = function (routes = [], oldPath = "", paths = []) {
   c("Run: getPaths", routes, oldPath, paths);
   routes.forEach((item) => {
-    paths.push({
-      path: oldPath + item.path,
-      name: item.name,
-    });
     if (item.children != undefined)
-      paths.concat(getPaths(item.children, item.path + "/", paths));
+      paths.concat(getPaths(item.children, oldPath + item.path + "/", paths));
+    else {
+      if (item.path.indexOf(":"))
+        paths.push({
+          path: oldPath + item.path,
+          name: item.name,
+        });
+    }
   });
   return c("Res: getPaths", paths);
 };
@@ -39,4 +42,9 @@ export const gettLastUser = function () {
 };
 export const updateSettings = function (key, value) {
   c("Run: updateSettings", [key, value]);
+};
+export const chekUserEventJoinStatus = function (user, eID) {
+  c("Run: chekUserEventJoinStatus", [user, eID]);
+  const res = user.userFire.eventsJoin.some((item) => item === eID);
+  return c("Res: chekUserEventJoinStatus", res);
 };

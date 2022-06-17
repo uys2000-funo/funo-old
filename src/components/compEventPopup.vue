@@ -43,6 +43,7 @@
       </div>
       <div>
         <g-icon src="gender.svg" sizeO="15vw" />
+        <comp-participants-vue :userIDs="event.users" />
       </div>
       <div>
         <q-input
@@ -64,15 +65,17 @@
 </template>
 
 <script>
-import { getEvent } from "@/services/firebase/main";
+import { getEvent, getImgStorage } from "@/services/firebase/main";
 import gImg from "./compEventPopupImg.vue";
 import goBackBtn from "./backButtonTopLeft.vue";
 import gIcon from "./gIcon.vue";
+import compParticipantsVue from "./compParticipants.vue";
 export default {
   components: {
     gImg,
     gIcon,
     goBackBtn,
+    compParticipantsVue,
   },
   data() {
     return {
@@ -81,13 +84,27 @@ export default {
       text: "",
     };
   },
-  methods: {},
+  methods: {
+    getEvent: function () {
+      getEvent(this.$route.params.id).then((res) => {
+        this.event = res.data();
+        console.table(this.event);
+      });
+    },
+    getUserImage: function () {
+      getImgStorage;
+      this.event.users.forEach((element) => {
+        console.log("-------------", element);
+      });
+    },
+  },
   mounted() {
-    console.log(this.$route.params.id);
-    getEvent(this.$route.params.id).then((res) => {
-      this.event = res.data();
-      console.table(this.event);
-    });
+    this.getEvent();
+  },
+  watch: {
+    event() {
+      this.getUserImage();
+    },
   },
 };
 </script>

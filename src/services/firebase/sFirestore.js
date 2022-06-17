@@ -8,6 +8,7 @@ import {
   updateDoc,
   arrayUnion,
   getDocs,
+  arrayRemove,
 } from "firebase/firestore";
 import app from "./app";
 const db = getFirestore(app);
@@ -49,6 +50,12 @@ export const addUserToEventFirestore = function (uID, eID) {
     users: arrayUnion(uID),
   });
 };
+export const removeUserToEventFirestore = function (uID, eID) {
+  const refDoc = doc(db, "E", eID);
+  return updateDoc(refDoc, {
+    users: arrayRemove(uID),
+  });
+};
 export const updateUser = function (uID, user) {
   const refDoc = doc(db, "U", uID);
   return updateDoc(refDoc, user);
@@ -57,5 +64,11 @@ export const addEventToUserFirestore = function (uID, eID) {
   const refDoc = doc(db, "U", uID);
   return updateDoc(refDoc, {
     eventsJoin: arrayUnion(eID),
+  });
+};
+export const removeEventToUserFirestore = function (uID, eID) {
+  const refDoc = doc(db, "U", uID);
+  return updateDoc(refDoc, {
+    eventsJoin: arrayRemove(eID),
   });
 };

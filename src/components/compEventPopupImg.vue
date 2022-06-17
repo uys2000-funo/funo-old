@@ -27,6 +27,9 @@ export default {
     };
   },
   computed: {
+    loading: function () {
+      return require("@/assets/images/loading.gif");
+    },
     getImg: function () {
       if (this.imgs[this.slide] == undefined) this.getImgFunc();
       return this.imgs[this.slide];
@@ -34,6 +37,7 @@ export default {
   },
   methods: {
     getImgFunc: function () {
+      this.imgs[this.slide] = this.loading;
       getImgStorage(`E/${this.eID}/imgs/img${this.slide - 1}`).then((res) => {
         console.log(res);
         this.imgs[this.slide] = res;

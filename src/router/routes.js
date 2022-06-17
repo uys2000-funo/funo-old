@@ -43,7 +43,12 @@ export default setDebugRouter([
         component: () => import("../layouts/MainLayout.vue"),
         children: [
           {
-            path: "",
+            path: "eventCreate",
+            name: "EventCreate",
+            component: () => import("../components/compEventAddPopup.vue"),
+          },
+          {
+            path: "events",
             name: "EventsAll",
             component: () => import("../views/pageEventsAll.vue"),
             children: [

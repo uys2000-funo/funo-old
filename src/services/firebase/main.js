@@ -9,6 +9,8 @@ import {
   addEventToUserFirestore,
   updateUser,
   updateEvent,
+  removeEventToUserFirestore,
+  removeUserToEventFirestore,
 } from "./sFirestore";
 import { createUserAuth, getUserAuth, getUserAuthGoogle } from "./sAuth";
 import {
@@ -103,9 +105,21 @@ export const getEvent = function (eID) {
   return f(getEventFirestore, eID);
 };
 export const joinEvent = function (uID, eID, user, event) {
-  f(addEventToUserFirestore, uID, uID)
+  return f(addEventToUserFirestore, uID, eID)
     .then(() =>
       f(addUserToEventFirestore, uID, eID).catch(() => f(updateUser, uID, user))
     )
     .catch(() => f(updateEvent, eID, event));
+};
+export const exitEvent = function (uID, eID, user, event) {
+  return f(removeEventToUserFirestore, uID, eID)
+    .then(() =>
+      f(removeUserToEventFirestore, uID, eID).catch(() =>
+        f(updateUser, uID, user)
+      )
+    )
+    .catch(() => f(updateEvent, eID, event));
+};
+export const autoLogin = function (user) {
+  return f(loginFunction, user);
 };
