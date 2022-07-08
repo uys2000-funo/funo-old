@@ -12,10 +12,9 @@
           <div>
             <p>İşletme İsmi</p>
             <q-input
-              outlined
               rounded
               placeholder="İşletme ismini giriniz"
-              v-model="text"
+              v-model="cUser.name"
             />
           </div>
           <div>
@@ -24,7 +23,7 @@
               outlined
               rounded
               placeholder="İşletme vergi numarasını giriniz"
-              v-model="text"
+              v-model="cUser.taxNumber"
             />
           </div>
           <div>
@@ -33,7 +32,7 @@
               outlined
               rounded
               placeholder="Telefon numaranızı giriniz"
-              v-model="text"
+              v-model="cUser.phoneNumber"
             />
           </div>
           <div>
@@ -42,7 +41,7 @@
               outlined
               rounded
               placeholder="İşletme konumunu şeçin"
-              v-model="text"
+              v-model="cUser.companyAdress"
             />
           </div>
         </div>
@@ -56,7 +55,7 @@
             outlined
             rounded
             placeholder="Kullanıcı adınızı girin"
-            v-model="text"
+            v-model="cUser.userName"
           />
         </div>
         <div>
@@ -65,7 +64,7 @@
             outlined
             rounded
             placeholder="Şİfrenizi giriniz"
-            v-model="text"
+            v-model="cUser.pass"
           />
         </div>
         <div>
@@ -74,12 +73,13 @@
             outlined
             rounded
             placeholder="Mail adresinizi girin"
-            v-model="text"
+            v-model="cUser.email"
           />
         </div>
         <div>
           <q-checkbox
-            v-model="right"
+            :model-value="right"
+            @update:model-value="setRight"
             label="Kullanıcı sözlemesini  okudum ve onaylıyorum"
           />
         </div>
@@ -100,10 +100,28 @@
 
 <script>
 export default {
-  props: ["page"],
-  inject: ["setPage"],
+  props: ["page", "uWatch", "right"],
+  inject: ["setPage", "setUser", "setRight"],
+  data() {
+    return {
+      cUser: {
+        name: "",
+        taxNumber: "",
+        phoneNumber: "",
+        companyAdress: "",
+        userName: "",
+        pass: "",
+        email: "",
+      },
+    };
+  },
   mounted() {
     if (this.page == 0) this.setPage(1);
+  },
+  watch: {
+    uWatch() {
+      this.setUser(this.cUser);
+    },
   },
 };
 </script>

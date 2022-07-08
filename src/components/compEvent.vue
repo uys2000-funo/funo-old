@@ -26,7 +26,7 @@
         @click="joinCheck ? exitEvent(event) : joinEvent(event)"
       />
       <span class="col-4 text-right">
-        <router-link :to="{ path: `/app/main/${event.id}` }">
+        <router-link :to="{ path: `/app/main/events/event/${event.id}` }">
           Dahası
         </router-link>
       </span>

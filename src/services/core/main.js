@@ -1,15 +1,22 @@
 import settings from "../settings";
-import { c } from "../c";
+import { c, f } from "../c";
 
 const getPaths = function (routes = [], oldPath = "", paths = []) {
   c("Run: getPaths", routes, oldPath, paths);
   routes.forEach((item) => {
     if (item.children != undefined)
-      paths.concat(getPaths(item.children, oldPath + item.path + "/", paths));
+      return paths.concat(
+        getPaths(item.children, oldPath + item.path + "/", paths)
+      );
     else {
       if (item.path.indexOf(":"))
         paths.push({
           path: oldPath + item.path,
+          name: item.name,
+        });
+      else
+        paths.push({
+          path: oldPath,
           name: item.name,
         });
     }
@@ -47,4 +54,35 @@ export const chekUserEventJoinStatus = function (user, eID) {
   c("Run: chekUserEventJoinStatus", [user, eID]);
   const res = user.userFire.eventsJoin.some((item) => item === eID);
   return c("Res: chekUserEventJoinStatus", res);
+};
+
+const checkComp = function (user) {
+  return new Promise((resolve) => {
+    let ret = true;
+    if (user.name == "") ret = false;
+    if (user.taxNumber == "") ret = false;
+    if (user.phoneNumber == "") ret = false;
+    if (user.companyAdress == "") ret = false;
+    if (user.userName == "") ret = false;
+    if (user.pass == "" || user.pass.length < 6) ret = false;
+    if (user.email == "") ret = false;
+    resolve(ret);
+  });
+};
+const checkUser = function (user) {
+  console.log(user);
+  return new Promise((resolve) => {
+    let ret = true;
+    if (user.name == "") ret = false;
+    if (user.birthdate == "") ret = false;
+    if (user.phoneNumber == "") ret = false;
+    if (user.userName == "") ret = false;
+    if (user.pass == "" || user.pass.length < 6) ret = false;
+    if (user.email == "") ret = false;
+    resolve(ret);
+  });
+};
+export const registerCheck = function (user) {
+  if (user.taxNumber == undefined) return f(checkUser, user);
+  else f(checkComp, user);
 };

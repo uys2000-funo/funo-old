@@ -8,7 +8,6 @@
       </div>
     </template>
   </q-infinite-scroll>
-  <router-view />
 </template>
 
 <script>

@@ -13,15 +13,19 @@ export const c = function (function_name, data, err) {
   return data;
 };
 
+const c2 = function (function_name, data, err) {
+  console.log("Debug :", function_name, data, err ? err : "");
+  return data;
+};
 const f2 = function (fFunc, fArgs) {
-  c(`Run : ${fFunc.name}`, fArgs);
+  c2(`Run : ${fFunc.name}`, fArgs);
   return fFunc
     .apply(null, fArgs)
     .then((res) => {
-      return c(`Res: ${fFunc.name}`, res == undefined ? true : res);
+      return c2(`Res: ${fFunc.name}`, res == undefined ? true : res);
     })
     .catch((err) => {
-      return c(`Err: ${fFunc.name}`, err == undefined ? false : err);
+      return c2(`Err: ${fFunc.name}`, err == undefined ? false : err);
     });
 };
 export const f = function () {

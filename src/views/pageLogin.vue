@@ -111,7 +111,7 @@ export default {
     loginSucces: function (res) {
       this.setUser(res);
       setLastUser(res);
-      this.$router.push("/app/main");
+      this.$router.push("/app/main/events");
     },
     loginFunction: function (data) {
       this.btnLogin = true;

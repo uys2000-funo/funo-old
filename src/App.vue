@@ -1,5 +1,15 @@
 <template>
   <router-view />
+
+  <q-dialog v-model="inf">
+    <q-card style="width:50vw">
+      <q-card-section>
+        <div class="text-h6">Info</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none"> Loginning </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
@@ -11,6 +21,7 @@ export default {
   components: {},
   data() {
     return {
+      inf: false,
       user: null,
     };
   },
@@ -30,8 +41,14 @@ export default {
   },
   mounted() {
     this.user = gettLastUser();
+    if (this.user) this.inf = true;
     autoLogin(this.user.userFire).then((res) => {
-      this.user = res;
+      if (res) {
+        this.inf = false;
+        this.setUser(res);
+        const path = this.$route.path;
+        if (path == "/" || path == "/login") this.$router.push("/app/main");
+      }
     });
   },
 };

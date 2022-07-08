@@ -4,13 +4,13 @@
       <router-view />
     </div>
     <div class="menu row no-wrap col-1">
-      <q-btn flat to="/app/main/eventCreate">
+      <q-btn flat to="/app/main/events/create">
         <img :src="require('@/assets/images/icons/addEvent.svg')" alt="" />
       </q-btn>
       <q-btn flat>
         <img :src="require('@/assets/images/icons/compas.svg')" alt="" />
-      </q-btn>
-      <q-btn flat>
+      </q-btn >
+      <q-btn flat to="/app/main/events">
         <img :src="require('@/assets/images/logo.svg')" alt=""  />
       </q-btn>
       <q-btn flat>

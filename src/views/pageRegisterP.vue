@@ -14,7 +14,7 @@
             outlined
             rounded
             placeholder="Adınızı ve sosyadınızı giriniz"
-            v-model="text"
+            v-model="pUser.name"
           />
         </div>
         <div>
@@ -23,8 +23,25 @@
             outlined
             rounded
             placeholder="Doğum tarihinizi  seçiniz"
-            v-model="text"
-          />
+            v-model="pUser.birthdate"
+            mask="##/##/####"
+          >
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer text-primary">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date v-model="pUser.birthdate" mask="DD/MM/YYYY">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
         <div>
           <p>Telefon Numarası</p>
@@ -32,7 +49,10 @@
             outlined
             rounded
             placeholder="Telefon numaranızı giriniz"
-            v-model="text"
+            mask="#"
+            reverse-fill-mask
+            prefix="+"
+            v-model="pUser.phoneNumber"
           />
         </div>
         <div class="row no-wrap justify-around items-center content-center">
@@ -41,7 +61,12 @@
             class="col-7 column no-wrap justify-around items-center content-center"
           >
             <div>
-              <q-toggle size="8vh" v-model="value" color="orange" />
+              <q-toggle
+                size="8vh"
+                v-model="pUser.sex"
+                color="orange"
+                keep-color
+              />
             </div>
             <div>Kadın / Erkek</div>
           </div>
@@ -56,7 +81,7 @@
             outlined
             rounded
             placeholder="Kullanıcı adınızı girin"
-            v-model="text"
+            v-model="pUser.userName"
           />
         </div>
         <div>
@@ -65,7 +90,7 @@
             outlined
             rounded
             placeholder="Şİfrenizi giriniz"
-            v-model="text"
+            v-model="pUser.pass"
           />
         </div>
         <div>
@@ -74,12 +99,13 @@
             outlined
             rounded
             placeholder="Mail adresinizi girin"
-            v-model="text"
+            v-model="pUser.email"
           />
         </div>
         <div>
           <q-checkbox
-            v-model="right"
+            :model-value="right"
+            @update:model-value="setRight"
             label="Kullanıcı sözlemesini  okudum ve onaylıyorum"
           />
         </div>
@@ -100,10 +126,28 @@
 
 <script>
 export default {
-  props: ["page"],
-  inject: ["setPage"],
+  props: ["page", "uWatch", "right"],
+  inject: ["setPage", "setUser", "setRight"],
+  data() {
+    return {
+      pUser: {
+        name: "",
+        birthdate: "",
+        phoneNumber: "",
+        sex: false,
+        userName: "",
+        pass: "",
+        email: "",
+      },
+    };
+  },
   mounted() {
     if (this.page == 0) this.setPage(-1);
+  },
+  watch: {
+    uWatch() {
+      this.setUser(this.pUser);
+    },
   },
 };
 </script>
@@ -112,8 +156,19 @@ export default {
 .co {
   width: 100vw;
 }
-.bg{
+.bg {
   color: #000;
   background-color: #00000000;
+}
+</style>
+<style>
+.q-toggle__inner--falsy {
+  color: rgb(250, 50, 0) !important;
+}
+.q-toggle__inner--truthy {
+  color: rgb(0, 250, 150) !important;
+}
+.q-toggle__thumb {
+  color: white !important;
 }
 </style>

@@ -6,85 +6,44 @@
     transition-show="slide-up"
     transition-hide="slide-down"
   >
-    <div class="column no-wrap justify-center items-center content-center">
-      <div class="col-4">
-        <div class="reg">
+    <div class="fit bg-secondary column">
+      <go-back-btn
+        :beforeGoBack="() => (dialog = false)"
+        :goBackFunc="() => 'asd'"
+      />
+      <div class="column no-wrap col-6 text-center">
+        <div class="col-2">
+          <h5 class="q-mt-md">Temel Bilgiler</h5>
+        </div>
+        <div class="col-10">
           <img :src="require('@/assets/images/register.svg')" alt="image" />
         </div>
-        <div class="bec">
-          <q-btn round flat fab-mini @click="goBack">
-            <q-icon>
-              <img
-                :src="require('@/assets/images/icons/backArrow.svg')"
-                alt="icon"
-              />
-            </q-icon>
-          </q-btn>
-        </div>
       </div>
-      <div class="col-7">
+      <div class="col-6">
         <router-view :page="page" />
-      </div>
-      <div class="col-1">
-        <q-btn
-          v-if="page != 0 && page != -4 && page != 3"
-          class="btn"
-          @click="goNext"
-        >
-          <div>Devam</div>
-        </q-btn>
-        <q-btn v-if="page == -4 || page == 3" class="btn" @click="register">
-          <div>Kaydol</div>
-        </q-btn>
       </div>
     </div>
   </q-dialog>
 </template>
+
 <script>
+import goBackBtn from "../components/backButtonTopLeft.vue";
 export default {
+  components: {
+    goBackBtn,
+  },
   data() {
     return {
       dialog: true,
       page: 0,
     };
   },
-  methods: {
-    setPage: function (value) {
-      console.log(value);
-      this.page = value;
-    },
-    goNext: function () {
-      this.page < 0 ? (this.page -= 1) : (this.page += 1);
-    },
-    goBack: function () {
-      this.page < 0 ? (this.page += 1) : (this.page -= 1);
-      if (this.page == 0) this.$router.go(-1);
-    },
-    register: function () {},
-  },
-  provide() {
-    return {
-      setPage: this.setPage,
-    };
-  },
 };
 </script>
+
 <style scoped>
-.reg {
-  height: 100%;
-  margin: auto;
-}
-.reg img {
-  height: 100%;
-}
-.bec {
-  position: fixed;
-  left: 2vw;
-  top: 1vh;
-}
-.btn {
-  background: #ff7f00;
-  border-radius: 20px;
-  width: 75vw;
+
+img {
+  height:100%
 }
 </style>

@@ -6,7 +6,7 @@
     transition-show="slide-up"
     transition-hide="slide-down"
   >
-    <div class="bg-white">
+    <div class="bg-secondary">
       <go-back-btn :beforeGoBack="() => (dialog = false)" />
       <g-img :cImg="event.imgCount" :eID="$route.params.id" />
       <div class="text-center">{{ event.name }}</div>

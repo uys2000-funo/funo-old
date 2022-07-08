@@ -16,10 +16,11 @@
       </div>
     </div>
     <div class="col-7">
-      <router-view :page="page" />
+      <router-view :page="page" :right="right" :uWatch="uWatch" ref="r" />
     </div>
     <div class="col-1">
       <q-btn
+        :disable="abs(page) == 2 && !right"
         v-if="page != 0 && page != -4 && page != 3"
         class="btn"
         @click="goNext"
@@ -33,15 +34,23 @@
   </div>
 </template>
 <script>
+import { registerCheck } from "@/services/core/main";
+
+registerCheck;
 export default {
   data() {
     return {
       page: 0,
+      right: false,
+      uWatch: false,
+      user: {},
     };
   },
   methods: {
+    abs: function (val) {
+      return Math.abs(val);
+    },
     setPage: function (value) {
-      console.log(value);
       this.page = value;
     },
     goNext: function () {
@@ -51,11 +60,19 @@ export default {
       this.page < 0 ? (this.page += 1) : (this.page -= 1);
       if (this.page == 0) this.$router.go(-1);
     },
-    register: function () {},
+    register: function () {
+      this.uWatch = true;
+      setTimeout(() => {
+        registerCheck(this.user);
+        if (this.user.any) console.log(this.user);
+      }, 10);
+    },
   },
   provide() {
     return {
       setPage: this.setPage,
+      setRight: () => (this.right = !this.right),
+      setUser: (user) => (this.user = user),
     };
   },
 };
