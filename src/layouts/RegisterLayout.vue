@@ -2,7 +2,7 @@
   <div class="column no-wrap justify-center items-center content-center">
     <div class="col-4">
       <div class="reg">
-        <img :src="require('@/assets/images/register.svg')" alt="image" />
+        <register-wheel v-if="page != -4" :page="page" />
       </div>
       <div class="bec">
         <q-btn round flat fab-mini @click="goBack">
@@ -20,24 +20,32 @@
     </div>
     <div class="col-1">
       <q-btn
-        :disable="abs(page) == 2 && !right"
         v-if="page != 0 && page != -4 && page != 3"
         class="btn"
         @click="goNext"
       >
         <div>Devam</div>
       </q-btn>
-      <q-btn v-if="page == -4 || page == 3" class="btn" @click="register">
+      <q-btn
+        v-if="page == -4 || page == 3"
+        :disable="!right"
+        class="btn"
+        @click="register"
+      >
         <div>Kaydol</div>
       </q-btn>
     </div>
   </div>
 </template>
 <script>
+import registerWheel from "@/components/compRegisterWheel.vue";
 import { registerCheck } from "@/services/core/main";
 
 registerCheck;
 export default {
+  components: {
+    registerWheel,
+  },
   data() {
     return {
       page: 0,
@@ -63,8 +71,7 @@ export default {
     register: function () {
       this.uWatch = true;
       setTimeout(() => {
-        registerCheck(this.user);
-        if (this.user.any) console.log(this.user);
+        if (registerCheck(this.user)) console.log(this.user);
       }, 10);
     },
   },
@@ -81,9 +88,6 @@ export default {
 .reg {
   height: 100%;
   margin: auto;
-}
-.reg img {
-  height: 100%;
 }
 .bec {
   position: fixed;

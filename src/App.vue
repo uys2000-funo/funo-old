@@ -2,7 +2,7 @@
   <router-view />
 
   <q-dialog v-model="inf">
-    <q-card style="width:50vw">
+    <q-card style="width: 50vw">
       <q-card-section>
         <div class="text-h6">Info</div>
       </q-card-section>
@@ -41,15 +41,17 @@ export default {
   },
   mounted() {
     this.user = gettLastUser();
-    if (this.user) this.inf = true;
-    autoLogin(this.user.userFire).then((res) => {
-      if (res) {
-        this.inf = false;
-        this.setUser(res);
-        const path = this.$route.path;
-        if (path == "/" || path == "/login") this.$router.push("/app/main");
-      }
-    });
+    if (this.user) {
+      this.inf = true;
+      autoLogin(this.user.userFire).then((res) => {
+        if (res) {
+          this.inf = false;
+          this.setUser(res);
+          const path = this.$route.path;
+          if (path == "/" || path == "/login") this.$router.push("/app/main");
+        }
+      });
+    }
   },
 };
 </script>
