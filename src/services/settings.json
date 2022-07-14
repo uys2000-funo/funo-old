@@ -1,4 +1,5 @@
 {
   "developer": false,
-  "debug": true
+  "debug": true,
+  "autoLogin": true
 }

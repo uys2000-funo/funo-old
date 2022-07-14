@@ -18,20 +18,20 @@ export default {
       rotation: 0,
       direction: false,
       lastSides: [false, false],
-      startSides: [false, false],
       lastPosition: [0, 0],
-      startPosition: [0, 0],
       sideStartPosition: [0, 0],
     };
   },
   methods: {
-    pageUpdate: function () {
-      const k = Math.floor(this.rotation / 90) % 4;
+    pageUpdate: function (K) {
+      const k = K % 4;
       if (k == 0)
-        if (this.page != -3 && this.page != -4) {
+        if (this.page < -1) this.setPage(-4);
+        else if (this.page > 1) this.setPage(4);
+        else {
           this.setPage(0);
           this.$router.push("/register");
-        } else this.setPage(-4);
+        }
       else if (k == 1) this.page < 0 ? this.setPage(-1) : this.setPage(1);
       else if (k == 2) this.page < 0 ? this.setPage(-2) : this.setPage(2);
       else this.page < 0 ? this.setPage(-3) : this.setPage(3);
@@ -53,7 +53,7 @@ export default {
         if (r < 45) this.rotation = k * 90;
         else this.rotation = (k + 1) * 90;
       }
-      this.pageUpdate();
+      this.pageUpdate(Math.floor(this.rotation / 90));
     },
     rotateTopLeft: function (X, Y) {
       let x = X - this.lastPosition[0];
@@ -94,13 +94,8 @@ export default {
     },
     dragStart: function (event) {
       this.trans = "";
-      this.startPosition = [event.touches[0].clientX, event.touches[0].clientY];
-      this.lastPosition = this.startPosition;
-      this.startSides = this.getSide(
-        this.lastPosition[0],
-        this.lastPosition[1]
-      );
-      this.lastSides = this.startSides;
+      this.lastPosition = [event.touches[0].clientX, event.touches[0].clientY];
+      this.lastSides = this.getSide(this.lastPosition[0], this.lastPosition[1]);
     },
     dragEvent: function (event) {
       this.calculateRotate(event.touches[0].clientX, event.touches[0].clientY);
@@ -108,11 +103,12 @@ export default {
   },
   mounted() {
     this.trans = "; transition: 1s";
-    const k = Math.abs(this.page);
-    if (this.rotation < 0) this.rotation = k * 90;
-    else this.rotation = k * 90;
-    console.log(k);
-    this.pageUpdate();
+    setTimeout(() => {
+      const k = Math.abs(this.page);
+      if (this.rotation < 0) this.rotation = k * 90;
+      else this.rotation = k * 90;
+      this.pageUpdate(k);
+    }, 10);
   },
   watch: {
     page() {
@@ -120,7 +116,7 @@ export default {
       const k = Math.abs(this.page);
       if (this.rotation < 0) this.rotation = k * 90;
       else this.rotation = k * 90;
-      this.pageUpdate();
+      this.pageUpdate(k);
     },
   },
 };

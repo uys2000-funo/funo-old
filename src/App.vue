@@ -16,6 +16,8 @@
 import { c } from "@/services/c";
 import { gettLastUser } from "./services/core/main";
 import { autoLogin } from "./services/firebase/main";
+import settings from "@/services/settings";
+
 export default {
   name: "LayoutDefault",
   components: {},
@@ -38,20 +40,23 @@ export default {
     setUser: function (value) {
       this.user = c("Run setUser:", value);
     },
+    autoLogin() {
+      this.user = gettLastUser();
+      if (this.user) {
+        this.inf = true;
+        autoLogin(this.user.userFire).then((res) => {
+          if (res) {
+            this.inf = false;
+            this.setUser(res);
+            const path = this.$route.path;
+            if (path == "/" || path == "/login") this.$router.push("/app/main");
+          }
+        });
+      }
+    },
   },
   mounted() {
-    this.user = gettLastUser();
-    if (this.user) {
-      this.inf = true;
-      autoLogin(this.user.userFire).then((res) => {
-        if (res) {
-          this.inf = false;
-          this.setUser(res);
-          const path = this.$route.path;
-          if (path == "/" || path == "/login") this.$router.push("/app/main");
-        }
-      });
-    }
+    if (settings.autoLogin) this.autoLogin();
   },
 };
 </script>

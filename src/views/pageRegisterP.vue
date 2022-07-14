@@ -12,7 +12,7 @@
           <p>Ad Soyad</p>
           <q-input
             outlined
-            rounded
+            
             placeholder="Adınızı ve sosyadınızı giriniz"
             v-model="pUser.name"
           />
@@ -21,7 +21,7 @@
           <p>Doğum Tarihi</p>
           <q-input
             outlined
-            rounded
+            
             placeholder="Doğum tarihinizi  seçiniz"
             v-model="pUser.birthdate"
             mask="##/##/####"
@@ -47,7 +47,7 @@
           <p>Telefon Numarası</p>
           <q-input
             outlined
-            rounded
+            
             placeholder="Telefon numaranızı giriniz"
             mask="#"
             reverse-fill-mask
@@ -79,7 +79,7 @@
           <p>Kullanıcı Adı</p>
           <q-input
             outlined
-            rounded
+            
             placeholder="Kullanıcı adınızı girin"
             v-model="pUser.userName"
           />
@@ -88,7 +88,7 @@
           <p>Şifre</p>
           <q-input
             outlined
-            rounded
+            
             placeholder="Şİfrenizi giriniz"
             v-model="pUser.pass"
           />
@@ -97,9 +97,9 @@
           <p>Mail</p>
           <q-input
             outlined
-            rounded
+            
             placeholder="Mail adresinizi girin"
-            v-model="pUser.email"
+            v-model="pUser.mail"
           />
         </div>
         <div>
@@ -112,24 +112,47 @@
       </div>
     </q-carousel-slide>
     <q-carousel-slide name="-3" class="column no-wrap flex-center">
-      <div style="width: 95vw">
+      <div style="width: 95vw; max-height: 90%">
         <p>Profil Fotoğrafı</p>
-        <q-img :src="require('@/assets/images/registerUpload.svg')">
+        <q-img
+          :src="
+            img == null ? require('@/assets/images/registerUpload.svg') : img
+          "
+          @click="imageEvent"
+        >
           <div class="absolute-full text-subtitle2 flex flex-center bg">
             Profil fotoğrafı yüklemek için dokunun
           </div>
         </q-img>
+        <div class="hid">
+          <input
+            @change="imageSetEvent"
+            ref="imgPicker"
+            type="file"
+            accept="image/*"
+          />
+        </div>
+      </div>
+    </q-carousel-slide>
+    <q-carousel-slide name="-4" class="column no-wrap flex-center">
+      <div style="width: 95vw">
+        <register-tag />
       </div>
     </q-carousel-slide>
   </q-carousel>
 </template>
 
 <script>
+import registerTag from "@/components/compRegisterTag.vue";
 export default {
   props: ["page", "uWatch", "right"],
-  inject: ["setPage", "setUser", "setRight"],
+  inject: ["setPage", "setUser", "setRight", "setImage"],
+  components: {
+    registerTag,
+  },
   data() {
     return {
+      img: null,
       pUser: {
         name: "",
         birthdate: "",
@@ -137,9 +160,24 @@ export default {
         sex: false,
         userName: "",
         pass: "",
-        email: "",
+        mail: "",
       },
     };
+  },
+  methods: {
+    updateImage: function (val) {
+      this.img = val.target.result;
+    },
+    imageSetEvent: function (val) {
+      const img = val.target.files[0];
+      const reader = new FileReader();
+      reader.addEventListener("load", this.updateImage, false);
+      reader.readAsDataURL(img);
+      this.setImage(img);
+    },
+    imageEvent: function () {
+      this.$refs.imgPicker.click();
+    },
   },
   mounted() {
     if (this.page == 0) this.setPage(-1);
@@ -170,5 +208,8 @@ export default {
 }
 .q-toggle__thumb {
   color: white !important;
+}
+.hid {
+  display: none;
 }
 </style>

@@ -51,7 +51,7 @@ export default setDebugRouter([
               {
                 path: "create",
                 name: "Create",
-                component: () => import("../layouts/EventCreateLayout.vue"),
+                component: () => import("../layouts/EventAddLayout.vue"),
                 children:[
                   {
                     path:"",

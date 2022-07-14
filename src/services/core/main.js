@@ -59,26 +59,38 @@ export const chekUserEventJoinStatus = function (user, eID) {
 const checkComp = function (user) {
   return new Promise((resolve) => {
     let ret = true;
-    if (user.name == "") ret = false;
-    if (user.taxNumber == "") ret = false;
-    if (user.phoneNumber == "") ret = false;
-    if (user.companyAdress == "") ret = false;
-    if (user.userName == "") ret = false;
-    if (user.pass == "" || user.pass.length < 6) ret = false;
-    if (user.email == "") ret = false;
+    if (user.name == "") c("Ret: checkComp name == Null", (ret = false));
+    if (user.taxNumber == "")
+      c("Ret: checkComp taxNumber == Null", (ret = false));
+    if (user.phoneNumber == "")
+      c("Ret: checkComp phoneNumber == Null", (ret = false));
+    if (user.companyAdress == "")
+      c("Ret: checkComp companyAdress == Null", (ret = false));
+    if (user.userName == "")
+      c("Ret: checkComp userName == 6", (ret = false));
+    if (user.pass == "" || user.pass?.length < 6)
+      c("Ret: checkComp pass < Null", (ret = false));
+    if (user.mail == "") c("Ret: checkComp mail == Null", (ret = false));
+    if (user.tags?.length < 6)
+      c("Ret: checkComp tags.length < 6", (ret = false));
     resolve(ret);
   });
 };
 const checkUser = function (user) {
-  console.log(user);
   return new Promise((resolve) => {
     let ret = true;
-    if (user.name == "") ret = false;
-    if (user.birthdate == "") ret = false;
-    if (user.phoneNumber == "") ret = false;
-    if (user.userName == "") ret = false;
-    if (user.pass == "" || user.pass.length < 6) ret = false;
-    if (user.email == "") ret = false;
+    if (user.name == "") c("Ret: checkComp name == Null", (ret = false));
+    if (user.birthdate == "")
+      c("Ret: checkComp birthdate == Null", (ret = false));
+    if (user.phoneNumber == "")
+      c("Ret: checkComp phoneNumber == Null", (ret = false));
+    if (user.userName == "")
+      c("Ret: checkComp userName == Null", (ret = false));
+    if (user.pass == "" || user.pass?.length < 6)
+      c("Ret: checkComp pass < 6", (ret = false));
+    if (user.mail == "") c("Ret: checkComp mail == Null", (ret = false));
+    if (user.tags?.length < 6)
+      c("Ret: checkComp tags.length < 6", (ret = false));
     resolve(ret);
   });
 };
