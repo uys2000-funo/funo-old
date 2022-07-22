@@ -1,7 +1,7 @@
 <template>
   <div class="asd column no-wrap justify-around items-start content-start">
     <div class="col-11" style="width: 100%">
-      <router-view />
+        <router-view />
     </div>
     <div class="menu row no-wrap col-1">
       <q-btn flat to="/app/main/events/create">
@@ -9,9 +9,9 @@
       </q-btn>
       <q-btn flat>
         <img :src="require('@/assets/images/icons/compas.svg')" alt="" />
-      </q-btn >
+      </q-btn>
       <q-btn flat to="/app/main/events">
-        <img :src="require('@/assets/images/logo.svg')" alt=""  />
+        <img :src="require('@/assets/images/logo.svg')" alt="" />
       </q-btn>
       <q-btn flat>
         <img :src="require('@/assets/images/icons/world.svg')" alt="" />

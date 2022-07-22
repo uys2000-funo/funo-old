@@ -1,13 +1,13 @@
 <template>
-  <q-infinite-scroll @load="onLoad" :offset="0" v-if="eventsShow.length != 0">
-    <com-event v-for="event in eventsShow" :key="event" :event="event" />
-    <template v-slot:loading>
-      <div class="row justify-center q-my-md">
-        <router-view />
-        <q-spinner-dots color="primary" size="40px" />
-      </div>
-    </template>
-  </q-infinite-scroll>
+    <q-infinite-scroll @load="onLoad" :offset="0" v-if="eventsShow.length != 0">
+      <com-event v-for="event in eventsShow" :key="event" :event="event" />
+      <template v-slot:loading>
+        <div class="row justify-center q-my-md">
+          <router-view />
+          <q-spinner-dots color="primary" size="40px" />
+        </div>
+      </template>
+    </q-infinite-scroll>
 </template>
 
 <script>

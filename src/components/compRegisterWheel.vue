@@ -124,6 +124,5 @@ export default {
 <style scoped>
 img {
   height: 100%;
-  transition: 0.2s;
 }
 </style>

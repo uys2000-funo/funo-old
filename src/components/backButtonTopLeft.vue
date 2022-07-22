@@ -14,7 +14,7 @@
 <script>
 import gIcon from "./gIcon.vue";
 export default {
-  props: ["beforeGoBack", "time","goBackFunc"],
+  props: ["beforeGoBack", "time", "goBackFunc"],
   components: {
     gIcon,
   },
@@ -23,8 +23,8 @@ export default {
       if (this.beforeGoBack) this.beforeGoBack();
       setTimeout(
         () => {
-          console.log(this.onGoBackFunc);
-          this.$router.go(-1);
+          if (this.goBackFunc != undefined) this.goBackFunc();
+          else this.$router.go(-1);
         },
         this.time == undefined ? 400 : this.time
       );
@@ -33,4 +33,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.q-btn {
+  position: fixed;
+  left: 2vw;
+  top: 1vh;
+}
+</style>

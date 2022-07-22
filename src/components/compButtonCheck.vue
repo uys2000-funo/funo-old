@@ -12,23 +12,23 @@
       <q-icon>
         <img :src="require(`@/assets/images/icons/${btn}.svg`)" alt="" />
       </q-icon>
-      <span v-if="!checked" class="q-ml-sm text-gray">{{ btnName }}</span>
-      <span v-if="checked" class="q-ml-sm text-black">{{ btnName }}</span>
+      <span v-if="!event.tags[btn]" class="q-ml-sm text-gray">{{
+        btnName
+      }}</span>
+      <span v-if="event.tags[btn]" class="q-ml-sm text-black">{{
+        btnName
+      }}</span>
     </div>
   </q-btn>
 </template>
 
 <script>
 export default {
-  props: ["btn", "btnName", "clr"],
-  data() {
-    return {
-      checked: false,
-    };
-  },
+  inject: ["updateEventInner"],
+  props: ["btn", "btnName", "clr", "event"],
   methods: {
     setChecked: function () {
-      this.checked = !this.checked;
+      this.updateEventInner("tags", this.btn, !this.event.tags[this.btn]);
     },
   },
 };

@@ -37,11 +37,9 @@
       </div>
     </div>
     <div class="col-10">
-      <div class="fit">
-        <q-scroll-area style="width:100vw;height:100%">
-          <router-view />
-        </q-scroll-area>
-      </div>
+      <q-scroll-area style="width: 100vw; height: 100%">
+         <router-view />
+      </q-scroll-area>
     </div>
   </div>
 </template>

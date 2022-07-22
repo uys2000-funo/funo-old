@@ -12,7 +12,6 @@
           <p>Ad Soyad</p>
           <q-input
             outlined
-            
             placeholder="Adınızı ve sosyadınızı giriniz"
             v-model="pUser.name"
           />
@@ -21,7 +20,6 @@
           <p>Doğum Tarihi</p>
           <q-input
             outlined
-            
             placeholder="Doğum tarihinizi  seçiniz"
             v-model="pUser.birthdate"
             mask="##/##/####"
@@ -47,7 +45,6 @@
           <p>Telefon Numarası</p>
           <q-input
             outlined
-            
             placeholder="Telefon numaranızı giriniz"
             mask="#"
             reverse-fill-mask
@@ -79,7 +76,6 @@
           <p>Kullanıcı Adı</p>
           <q-input
             outlined
-            
             placeholder="Kullanıcı adınızı girin"
             v-model="pUser.userName"
           />
@@ -88,7 +84,6 @@
           <p>Şifre</p>
           <q-input
             outlined
-            
             placeholder="Şİfrenizi giriniz"
             v-model="pUser.pass"
           />
@@ -97,7 +92,6 @@
           <p>Mail</p>
           <q-input
             outlined
-            
             placeholder="Mail adresinizi girin"
             v-model="pUser.mail"
           />
@@ -198,6 +192,9 @@ export default {
   color: #000;
   background-color: #00000000;
 }
+.hid {
+  display: none;
+}
 </style>
 <style>
 .q-toggle__inner--falsy {
@@ -208,8 +205,5 @@ export default {
 }
 .q-toggle__thumb {
   color: white !important;
-}
-.hid {
-  display: none;
 }
 </style>

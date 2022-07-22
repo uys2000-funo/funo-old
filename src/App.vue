@@ -49,7 +49,7 @@ export default {
             this.inf = false;
             this.setUser(res);
             const path = this.$route.path;
-            if (path == "/" || path == "/login") this.$router.push("/app/main");
+            if (path == "/" || path == "/login") this.$router.push("/app/main/events");
           }
         });
       }

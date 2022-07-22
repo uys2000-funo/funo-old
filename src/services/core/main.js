@@ -66,8 +66,7 @@ const checkComp = function (user) {
       c("Ret: checkComp phoneNumber == Null", (ret = false));
     if (user.companyAdress == "")
       c("Ret: checkComp companyAdress == Null", (ret = false));
-    if (user.userName == "")
-      c("Ret: checkComp userName == 6", (ret = false));
+    if (user.userName == "") c("Ret: checkComp userName == 6", (ret = false));
     if (user.pass == "" || user.pass?.length < 6)
       c("Ret: checkComp pass < Null", (ret = false));
     if (user.mail == "") c("Ret: checkComp mail == Null", (ret = false));
@@ -96,5 +95,34 @@ const checkUser = function (user) {
 };
 export const registerCheck = function (user) {
   if (user.taxNumber == undefined) return f(checkUser, user);
-  else f(checkComp, user);
+  else return f(checkComp, user);
+};
+
+const checkEvent = function (event) {
+  return new Promise((resolve) => {
+    let ret = true;
+    if (event.name == "") c("Ret: checkEvent name == Null", (ret = false));
+    if (event.startDate.date == "")
+      c("Ret: checkEvent startDate date == Null", (ret = false));
+    if (event.startDate.time == "")
+      c("Ret: checkEvent startDate time == Null", (ret = false));
+    if (event.endDate.date == "")
+      c("Ret: checkEvent endDate date == Null", (ret = false));
+    if (event.endDate.time == "")
+      c("Ret: checkEvent endDate time == Null", (ret = false));
+    if (event.app == "") c("Ret: checkEvent app == Null", (ret = false));
+    if (event.url == "") c("Ret: checkEvent url == Null", (ret = false));
+    let tag = false;
+    if (event.tags.spor) tag = true;
+    else if (event.tags.artt) tag = true;
+    else if (event.tags.educ) tag = true;
+    else if (event.tags.musi) tag = true;
+    else if (event.tags.meet) tag = true;
+    else if (event.tags.part) tag = true;
+    if (!tag) c("Ret: checkEvent tag not Found", (ret = false));
+    resolve(ret);
+  });
+};
+export const eventCheck = function (event) {
+  return f(checkEvent, event);
 };

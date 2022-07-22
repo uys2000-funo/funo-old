@@ -20,27 +20,21 @@ export default {
       lastSides: [false, false],
       lastPosition: [0, 0],
       sideStartPosition: [0, 0],
+      k: 2,
+      center: [0, 0],
     };
   },
   methods: {
     pageUpdate: function (K) {
       const k = K % 4;
-      if (k == 0)
-        if (this.page < -1) this.setPage(-4);
-        else if (this.page > 1) this.setPage(4);
-        else {
-          this.setPage(0);
-          this.$router.push("/register");
-        }
+      if (k == 0) this.setPage(0);
       else if (k == 1) this.page < 0 ? this.setPage(-1) : this.setPage(1);
       else if (k == 2) this.page < 0 ? this.setPage(-2) : this.setPage(2);
       else this.page < 0 ? this.setPage(-3) : this.setPage(3);
     },
     updateLast: function (X, Y) {
-      if (this.page != 0) {
-        this.lastPosition = [X, Y];
-        this.lastSides = this.getSide(X, Y);
-      } else this.rotation = 0;
+      this.lastPosition = [X, Y];
+      this.lastSides = this.getSide(X, Y);
     },
     toLastPosition: function () {
       this.trans = "; transition: 1s";
@@ -58,42 +52,42 @@ export default {
     rotateTopLeft: function (X, Y) {
       let x = X - this.lastPosition[0];
       let y = Y - this.lastPosition[1];
-      this.rotation += (x - y) / 2;
+      this.rotation += (x - y) / this.k;
     },
     rotateTopRigh: function (X, Y) {
       let x = X - this.lastPosition[0];
       let y = this.lastPosition[1] - Y;
-      this.rotation += (x - y) / 2;
+      this.rotation += (x - y) / this.k;
     },
     rotateBotLeft: function (X, Y) {
       let x = this.lastPosition[0] - X;
       let y = Y - this.lastPosition[1];
-      this.rotation += (x - y) / 2;
+      this.rotation += (x - y) / this.k;
     },
     rotateBotRigh: function (X, Y) {
       let x = this.lastPosition[0] - X;
       let y = this.lastPosition[1] - Y;
-      this.rotation += (x - y) / 2;
+      this.rotation += (x - y) / this.k;
     },
     getSide: function (X, Y) {
-      const cWidth = window.innerWidth / 2;
-      const cHeigh = window.innerHeight / 6;
       let [x, y] = [false, false];
-      if (X < cWidth) x = true;
-      if (Y < cHeigh) y = true;
+      if (X < this.center[0]) x = true;
+      if (Y < this.center[1]) y = true;
       return [x, y];
     },
-    calculateRotate: function (X, Y) {
+    calculateRotate: function (X, Y, cWidth, cHeigh) {
       if (this.lastSides[0] && this.lastSides[1]) this.rotateTopLeft(X, Y);
       else if (!this.lastSides[0] && this.lastSides[1])
         this.rotateTopRigh(X, Y);
       else if (this.lastSides[0] && !this.lastSides[1])
         this.rotateBotLeft(X, Y);
       else this.rotateBotRigh(X, Y);
-      this.updateLast(X, Y);
+      this.updateLast(X, Y, cWidth, cHeigh);
     },
     dragStart: function (event) {
       this.trans = "";
+      this.center[0] = event.target.width / 2 + event.target.x;
+      this.center[1] = event.target.height / 2 + event.target.y;
       this.lastPosition = [event.touches[0].clientX, event.touches[0].clientY];
       this.lastSides = this.getSide(this.lastPosition[0], this.lastPosition[1]);
     },
@@ -124,6 +118,5 @@ export default {
 <style scoped>
 img {
   height: 100%;
-  transition: 0.2s;
 }
 </style>
