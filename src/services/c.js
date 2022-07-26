@@ -36,7 +36,9 @@ export const f = function () {
 };
 
 export const fr = function (ret) {
-  return new Promise((resolve) => {
-    resolve(ret);
+  console.log("Debug : Done", ret);
+  return new Promise((resolve, refect) => {
+    if (ret) resolve(ret);
+    else refect(ret);
   });
 };

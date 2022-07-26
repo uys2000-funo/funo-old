@@ -77,7 +77,7 @@ export default {
       else this.imgs.push(val);
     },
     setImage: function (img) {
-      console.log(img)
+      console.log(img);
       this.img = img;
     },
     abs: function (val) {
@@ -95,10 +95,15 @@ export default {
     },
     register: function () {
       this.uWatch = true;
-      this.user.tags = this.imgs;
-      console.log(this.imgs)
+      // To wait watch function in RegsterP ad registerC pages
       setTimeout(() => {
-        if (registerCheck(this.user)) registerFunction(this.user, this.img);
+        this.user.tags = this.imgs;
+        if (registerCheck(this.user))
+          registerFunction(this.user, this.img)
+            .then((res) => {
+              if (res) this.$router.push("/app/login/");
+              else alert("Some Problems");
+            })
       }, 10);
     },
   },

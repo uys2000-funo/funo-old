@@ -30,13 +30,13 @@ export const createUserImgsStorage = function (uID, uImg, tImg) {
 const uploadWithOrder = function (eID, eImgs, i = 0) {
   if ((eImgs[i] != null) & (eImgs[i] != undefined))
     return f(uploadImage, eImgs[i], `E/${eID}/imgs/img${i}`).then(() => {
-      return f(uploadWithOrder, eID, eImgs, i + 1);
+      return uploadWithOrder(eID, eImgs, i + 1);
     });
   else fr(true);
 };
 export const createEventImgsStorage = function (eID, eImgs) {
   c("Run: createEventImgsStorage", [eID, eImgs]);
-  return uploadWithOrder(eID, eImgs);
+  return f(uploadWithOrder, eID, eImgs);
 };
 export const getImage = function (iPath) {
   const imgRef = ref(storage, iPath);

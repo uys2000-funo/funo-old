@@ -1,5 +1,4 @@
 <template>
-
   <q-dialog
     v-model="dialog"
     persistent
@@ -49,7 +48,7 @@
         <q-btn v-if="page != 3" class="btn" @click="goNext">
           <div>Devam</div>
         </q-btn>
-        <q-btn v-else class="btn" @click="addEvent">
+        <q-btn v-else :disabed="dis" class="btn" @click="addEvent">
           <div>Kaydol</div>
         </q-btn>
       </div>
@@ -61,9 +60,9 @@
 import { eventCheck, gettLastUser } from "@/services/core/main";
 import goBackBtn from "../components/backButtonTopLeft.vue";
 import eventAddWheel from "../components/compEventAddWheel.vue";
-import { addEventFunction } from '@/services/firebase/main';
+import { addEventFunction } from "@/services/firebase/main";
 export default {
-  inject:["getUser","setUser"],
+  inject: ["getUser", "setUser"],
   components: {
     goBackBtn,
     eventAddWheel,
@@ -73,6 +72,7 @@ export default {
       dialog: true,
       imgs: [],
       page: 0,
+      dis: false,
       eObj: {
         name: "",
         desc: "",
@@ -109,16 +109,23 @@ export default {
       this.page -= 1;
       if (this.page == -1) this.$router.back();
     },
-    addEventFunction: function () {
+    getUserInf: function () {
       let user = this.getUser();
       if (user == null) {
         user = gettLastUser();
         this.setUser(user);
       }
-      const uID = user.userAuth.user.uid;
-      const uName = user.userFire.name;
+      return [user.userAuth.user.uid, user.userFire.name];
+    },
+    addEventFunction: function () {
+      this.dis = true;
+      const [uID, uName] = this.getUserInf();
       if (!this.limit) this.eObj.limit = 0;
-      addEventFunction(uID, this.eObj, this.imgs, uName);
+      addEventFunction(uID, this.eObj, this.imgs, uName).then((res) => {
+        if (res) this.$router.push("/app/main/events/");
+        else alert("Some Problems");
+        this.dis = false;
+      });
     },
     addEvent: function () {
       eventCheck(this.eObj).then((res) => {
