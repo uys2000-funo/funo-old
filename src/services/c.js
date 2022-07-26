@@ -34,3 +34,9 @@ export const f = function () {
   if (settings.debug) return f2(fFunc, fArgs);
   else return fFunc.apply(null, fArgs);
 };
+
+export const fr = function (ret) {
+  return new Promise((resolve) => {
+    resolve(ret);
+  });
+};

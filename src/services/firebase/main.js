@@ -34,7 +34,7 @@ export const registerFunction = function (uData, uImg = null, tImg = null) {
   });
 };
 export const loginFunction = function (uData) {
-  return getUserAuth(uData.mail, uData.pass).then((res) => {
+  return getUserAuth(uData?.mail, uData?.pass).then((res) => {
     return f(getUserFirestore, res.user.uid).then((re) => {
       return c("Res: loginFunction", { userAuth: res, userFire: re.data() });
     });

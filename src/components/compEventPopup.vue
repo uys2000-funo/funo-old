@@ -93,9 +93,6 @@ export default {
     },
     getUserImage: function () {
       getImgStorage;
-      this.event.users.forEach((element) => {
-        console.log("-------------", element);
-      });
     },
   },
   mounted() {

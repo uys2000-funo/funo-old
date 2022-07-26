@@ -19,7 +19,7 @@
       <div class="q-mt-sm">
         <q-scroll-area style="height: 50px; width: calc(100vw - 10px)">
           <div class="row no-wrap">
-            <div v-for="n in buttons" :key="n">
+            <div v-for="n in tags" :key="n">
               <q-btn class="q-mx-xs">
                 <div class="row no-wrap">
                   <q-icon>
@@ -28,7 +28,7 @@
                       alt=""
                     />
                   </q-icon>
-                  <span class="q-ml-sm">{{ n }}</span>
+                  <span class="q-ml-sm">{{ buttons[n] }}</span>
                 </div>
               </q-btn>
             </div>
@@ -38,7 +38,7 @@
     </div>
     <div class="col-10">
       <q-scroll-area style="width: 100vw; height: 100%">
-         <router-view />
+        <router-view />
       </q-scroll-area>
     </div>
   </div>
@@ -46,10 +46,22 @@
 
 <script>
 export default {
+  inject: ["getUser"],
   data() {
     return {
-      buttons: ["spor", "artt", "educ", "musi", "meet", "part"],
+      buttons: {
+        spor: "spor",
+        artt: "art",
+        educ: "education",
+        musi: "music",
+        meet: "meeting",
+        part: "party",
+      },
+      tags: [],
     };
+  },
+  mounted() {
+    this.tags = this.getUser().userFire?.tags;
   },
 };
 </script>

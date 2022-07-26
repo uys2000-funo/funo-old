@@ -52,8 +52,12 @@ export const updateSettings = function (key, value) {
 };
 export const chekUserEventJoinStatus = function (user, eID) {
   c("Run: chekUserEventJoinStatus", [user, eID]);
-  const res = user.userFire.eventsJoin.some((item) => item === eID);
-  return c("Res: chekUserEventJoinStatus", res);
+  if (user.userFire.eventsJoin)
+    return c(
+      "Res: chekUserEventJoinStatus",
+      user.userFire.eventsJoin.some((item) => item === eID)
+    );
+  else return false;
 };
 
 const checkComp = function (user) {

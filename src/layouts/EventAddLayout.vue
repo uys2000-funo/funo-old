@@ -1,4 +1,5 @@
 <template>
+
   <q-dialog
     v-model="dialog"
     persistent
@@ -105,7 +106,6 @@ export default {
       this.page += 1;
     },
     goBack: function () {
-      console.log(this.page);
       this.page -= 1;
       if (this.page == -1) this.$router.back();
     },

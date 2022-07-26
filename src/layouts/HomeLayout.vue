@@ -1,7 +1,7 @@
 <template>
   <div class="asd column no-wrap justify-around items-start content-start">
     <div class="col-11" style="width: 100%">
-        <router-view />
+      <router-view />
     </div>
     <div class="menu row no-wrap col-1">
       <q-btn flat to="/app/main/events/create">
@@ -25,6 +25,7 @@
 <script>
 export default {
   name: "AppLayout",
+  
 };
 </script>
 <style scoped>

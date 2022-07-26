@@ -1,6 +1,6 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import app from "./app";
-import { c, f } from "../c";
+import { c, f, fr } from "../c";
 const storage = getStorage(app);
 
 const uploadImage = function (img, path) {
@@ -32,6 +32,7 @@ const uploadWithOrder = function (eID, eImgs, i = 0) {
     return f(uploadImage, eImgs[i], `E/${eID}/imgs/img${i}`).then(() => {
       return f(uploadWithOrder, eID, eImgs, i + 1);
     });
+  else fr(true);
 };
 export const createEventImgsStorage = function (eID, eImgs) {
   c("Run: createEventImgsStorage", [eID, eImgs]);

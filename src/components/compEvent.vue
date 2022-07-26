@@ -71,9 +71,9 @@ export default {
       });
     },
     updateUser: function (eId) {
-      if (this.user.userFire.eventsJoin == undefined)
-        this.user.userFire.eventsJoin = [];
-      this.user.userFire.eventsJoin.push(eId);
+      if (this.user.userFire.joinEvent == undefined)
+        this.user.userFire.joinEvent = [];
+      this.user.userFire.joinEvent.push(eId);
       this.setUser(this.user);
       return [this.user, this.user.userAuth.user.uid];
     },
@@ -83,8 +83,8 @@ export default {
       return event;
     },
     updateUserExit: function (eId) {
-      const events = this.user.userFire.eventsJoin;
-      this.user.userFire.eventsJoin = this.filtering(events, eId);
+      const events = this.user.userFire.joinEvent;
+      this.user.userFire.joinEvent = this.filtering(events, eId);
       this.setUser(this.user);
       return [this.user, this.user.userAuth.user.uid];
     },

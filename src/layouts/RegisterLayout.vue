@@ -95,7 +95,8 @@ export default {
     },
     register: function () {
       this.uWatch = true;
-      this.user["tags"] = this.imgs;
+      this.user.tags = this.imgs;
+      console.log(this.imgs)
       setTimeout(() => {
         if (registerCheck(this.user)) registerFunction(this.user, this.img);
       }, 10);
