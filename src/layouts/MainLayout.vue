@@ -20,7 +20,7 @@
         <q-scroll-area style="height: 50px; width: calc(100vw - 10px)">
           <div class="row no-wrap">
             <div v-for="n in tags" :key="n">
-              <q-btn class="q-mx-xs">
+              <q-btn class="q-mx-xs" @click="updateTags(n)">
                 <div class="row no-wrap">
                   <q-icon>
                     <img
@@ -28,7 +28,11 @@
                       alt=""
                     />
                   </q-icon>
-                  <span class="q-ml-sm">{{ buttons[n] }}</span>
+                  <span
+                    class="q-ml-sm"
+                    :style="`color:${tagsColor[n] ? 'gray' : 'black'}`"
+                    >{{ buttons[n] }}</span
+                  >
                 </div>
               </q-btn>
             </div>
@@ -38,7 +42,7 @@
     </div>
     <div class="col-10">
       <q-scroll-area style="width: 100vw; height: 100%">
-        <router-view />
+        <router-view :tags="cTags" />
       </q-scroll-area>
     </div>
   </div>
@@ -57,8 +61,31 @@ export default {
         meet: "meeting",
         part: "party",
       },
+      tagsColor: {
+        spor: false,
+        artt: false,
+        educ: false,
+        musi: false,
+        meet: false,
+        part: false,
+      },
       tags: [],
+      cTags: [],
     };
+  },
+  methods: {
+    updateTags: function (val) {
+      if (this.cTags.find((v) => v == val)) {
+        this.tagsColor[val] = false;
+        this.cTags = this.cTags.filter((v) => v != val);
+      } else {
+        this.tagsColor[val] = true;
+        this.cTags.push(val);
+      }
+    },
+    checkTags: function (val) {
+      return this.tags.some((i) => i == val);
+    },
   },
   mounted() {
     this.tags = this.getUser().userFire?.tags;
