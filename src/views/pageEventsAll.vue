@@ -1,14 +1,20 @@
 <template>
-  <q-infinite-scroll @load="onLoad" :offset="0" v-if="eventsShow.length != 0">
-    <div v-for="event in eventsShow" :key="event">
-      <com-event :event="event" v-if="checkTags(event.tags)" />
+  <q-scroll-area style="width: 100vw; height: 100%">
+    <div>
+      <span> çevrendeki etkinlikler </span>
     </div>
-    <template v-slot:loading>
-      <div class="row justify-center q-my-md">
-        <q-spinner-dots color="primary" size="40px" />
+    <q-infinite-scroll @load="onLoad" :offset="0" v-if="eventsShow.length != 0">
+      <div v-for="event in eventsShow" :key="event">
+        <com-event :event="event" v-if="checkTags(event.tags)" />
+        <span>.</span>
       </div>
-    </template>
-  </q-infinite-scroll>
+      <template v-slot:loading>
+        <div class="row justify-center q-my-md">
+          <q-spinner-dots color="primary" size="40px" />
+        </div>
+      </template>
+    </q-infinite-scroll>
+  </q-scroll-area>
   <router-view />
 </template>
 
@@ -22,6 +28,7 @@ export default {
   props: ["tags"],
   data() {
     return {
+      hideAmount: 0,
       shown: { f: 0, l: 2 },
       eventsShow: [],
       events: [],
@@ -39,9 +46,16 @@ export default {
     },
     checkTags: function (tags) {
       if (this.tags.length != 0) {
-        if (this.tags.some((val) => tags[val])) return true;
-        else return false;
-      } else return true;
+        if (this.tags.some((val) => tags[val])) {
+          return true;
+        } else {
+          this.hideAmount += 1;
+          return false;
+        }
+      } else {
+        this.hideAmount = 0;
+        return true;
+      }
     },
   },
   mounted() {
@@ -53,6 +67,12 @@ export default {
       });
       this.onLoad(0, () => "");
     });
+  },
+  watch: {
+    hideAmount() {
+      console.log(this.hideAmount, this.eventsShow.length);
+      if (this.hideAmount >= this.eventsShow.length) this.onLoad(0, () => {});
+    },
   },
 };
 </script>

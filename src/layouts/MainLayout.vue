@@ -20,7 +20,11 @@
         <q-scroll-area style="height: 50px; width: calc(100vw - 10px)">
           <div class="row no-wrap">
             <div v-for="n in tags" :key="n">
-              <q-btn class="q-mx-xs" @click="updateTags(n)">
+              <q-btn
+                class="q-mx-xs"
+                :class="{ bgWhite: tagsColor[n] }"
+                @click="updateTags(n)"
+              >
                 <div class="row no-wrap">
                   <q-icon>
                     <img
@@ -30,7 +34,7 @@
                   </q-icon>
                   <span
                     class="q-ml-sm"
-                    :style="`color:${tagsColor[n] ? 'gray' : 'black'}`"
+                    :style="`color:${tagsColor[n] ? 'white' : 'black'}`"
                     >{{ buttons[n] }}</span
                   >
                 </div>
@@ -41,9 +45,7 @@
       </div>
     </div>
     <div class="col-10">
-      <q-scroll-area style="width: 100vw; height: 100%">
-        <router-view :tags="cTags" />
-      </q-scroll-area>
+      <router-view :tags="cTags" />
     </div>
   </div>
 </template>
@@ -97,5 +99,8 @@ export default {
 .q-btn {
   background: #ffffff;
   border-radius: 15px;
+}
+.bgWhite {
+  background: #ff7f00;
 }
 </style>

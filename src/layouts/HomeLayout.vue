@@ -13,7 +13,7 @@
       <q-btn flat to="/app/main/events">
         <img :src="require('@/assets/images/logo.svg')" alt="" />
       </q-btn>
-      <q-btn flat>
+      <q-btn flat to="/app/main/map">
         <img :src="require('@/assets/images/icons/world.svg')" alt="" />
       </q-btn>
       <q-btn flat>
@@ -25,7 +25,6 @@
 <script>
 export default {
   name: "AppLayout",
-  
 };
 </script>
 <style scoped>

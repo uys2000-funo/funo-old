@@ -47,19 +47,19 @@ export default setDebugRouter([
             name: "EventsAll",
             component: () => import("../views/pageEventsAll.vue"),
             children: [
-            /// Popup pages will be in events page to contiune show event list at background
+              /// Popup pages will be in events page to contiune show event list at background
               {
                 path: "create",
                 name: "Create",
                 component: () => import("../layouts/EventAddLayout.vue"),
-                children:[
+                children: [
                   {
-                    path:"",
-                    name:"CreateEvent",
-                    component: ()=>import("../components/compEventAddPopup.vue")
-                  }
-                ]
-
+                    path: "",
+                    name: "CreateEvent",
+                    component: () =>
+                      import("../components/compEventAddPopup.vue"),
+                  },
+                ],
               },
               {
                 path: "event",
@@ -74,6 +74,11 @@ export default setDebugRouter([
                 ],
               },
             ],
+          },
+          {
+            path: "map",
+            name: "EventsMap",
+            component: () => import("../views/pageEventsMap.vue"),
           },
         ],
       },
