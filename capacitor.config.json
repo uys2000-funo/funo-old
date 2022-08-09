@@ -1,0 +1,6 @@
+{
+  "appId": "com.gogal.evento",
+  "appName": "evento",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
