@@ -6,7 +6,7 @@
           <img :src="require('@/assets/images/logoText.svg')" alt="" />
         </div>
         <div class="col-4 text-center">
-          <p style="margin: auto">Beyoğlu,İstanbul</p>
+          <p style="margin: auto">{{ position }}</p>
         </div>
         <div class="col-4 text-right">
           <img :src="require('@/assets/images/icons/message.svg')" alt="" />
@@ -52,7 +52,7 @@
 
 <script>
 export default {
-  inject: ["getUser"],
+  inject: ["getUser", "position"],
   data() {
     return {
       buttons: {

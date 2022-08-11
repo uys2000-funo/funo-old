@@ -4,7 +4,7 @@ import {
   updateProfile,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
 } from "firebase/auth";
 import app from "./app";
 const auth = getAuth(app);
@@ -36,7 +36,7 @@ const getProvider = function () {
 };
 export const getUserAuthGoogle = function () {
   const provider = getProvider();
-  return signInWithPopup(auth, provider).then((res) => {
+  return signInWithRedirect(auth, provider).then((res) => {
     const credential = GoogleAuthProvider.credentialFromResult(res);
     const token = credential.accessToken;
     return [res, token];

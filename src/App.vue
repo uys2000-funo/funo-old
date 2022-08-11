@@ -18,6 +18,10 @@ import { gettLastUser } from "./services/core/main";
 import { autoLogin } from "./services/firebase/main";
 import settings from "@/services/settings";
 
+import { App as CapacitorApp } from "@capacitor/app";
+import { Geolocation } from "@capacitor/geolocation";
+import { computed } from "@vue/runtime-core";
+
 export default {
   name: "LayoutDefault",
   components: {},
@@ -25,15 +29,49 @@ export default {
     return {
       inf: false,
       user: null,
+      position: [],
     };
   },
   provide() {
     return {
+      position: computed(() => this.position),
       getUser: this.getUser,
       setUser: this.setUser,
     };
   },
   methods: {
+    setBackButton: function () {
+      CapacitorApp.addListener("backButton", ({ canGoBack }) => {
+        if (!canGoBack) {
+          alert("asd");
+        } else {
+          window.history.back();
+        }
+      });
+    },
+    checkLocationAccesWeb: function () {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position)
+        this.position = [position.coords.latitude, position.coords.longitude];
+      });
+    },
+    checkLocationAcces: function () {
+      Geolocation.checkPermissions().then((res) => {
+        if (res.location == "denied")
+          Geolocation.getCurrentPosition()
+            .then((res) => {
+              this.position = res;
+              console.log(res);
+            })
+            .catch((err) => {
+              alert(
+                "You should give acces to location for usageto tihs app \n",
+                err
+              );
+              this.checkLocationAcces();
+            });
+      });
+    },
     getUser: function () {
       return c("Run getUser:", this.user);
     },
@@ -49,13 +87,17 @@ export default {
             this.inf = false;
             this.setUser(res);
             const path = this.$route.path;
-            if (path == "/" || path == "/login") this.$router.push("/app/main/events");
+            if (path == "/" || path == "/login")
+              this.$router.push("/app/main/events");
           }
         });
       }
     },
   },
   mounted() {
+    this.setBackButton();
+    this.checkLocationAcces();
+    this.checkLocationAccesWeb();
     if (settings.autoLogin) this.autoLogin();
   },
 };

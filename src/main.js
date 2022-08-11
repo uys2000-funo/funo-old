@@ -4,4 +4,7 @@ import router from "./router";
 import { Quasar } from "quasar";
 import quasarUserOptions from "./quasar-user-options";
 
-createApp(App).use(router).use(Quasar, quasarUserOptions).mount("#app");
+createApp(App)
+  .use(router)
+  .use(Quasar, quasarUserOptions)
+  .mount("#app");
