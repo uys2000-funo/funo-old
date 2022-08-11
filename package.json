@@ -17,6 +17,7 @@
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.8.3",
     "firebase": "9.6.10",
+    "pinia": "^2.0.18",
     "quasar": "^2.0.0",
     "vue": "^3.2.13",
     "vue-gapi": "^2.0.1",
