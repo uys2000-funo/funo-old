@@ -1,22 +1,31 @@
 <template>
-  <yandex-map class="fit" :settings="settings" :coords="[38.561785, -121.449756]" zoom="10.6">
+  <yandex-map
+    ref="ymap"
+    class="fit"
+    :settings="settings"
+    :coords="cords[0]"
+    zoom="10.6"
+  >
     <ymap-marker
-      marker-id="123"
-      :coords="[38.561785, -121.449756]"
+      v-for="cord in cords"
+      :key="cord"
+      marker-id="1"
+      :coords="cord"
       :marker-events="['click']"
-    ></ymap-marker>
+    />
   </yandex-map>
 </template>
 
 <script>
 import { yandexMap, ymapMarker } from "vue-yandex-maps";
 
+import { locationStorage } from "@/storages/location";
 export default {
   name: "MapComponent",
   components: { yandexMap, ymapMarker },
-
-  setup() {
+  data() {
     return {
+      locationStorage: locationStorage(),
       settings: {
         apiKey: "cdbd6f55-bb30-4404-a6bb-215a26c76d72",
         lang: "tr_TR",
@@ -24,8 +33,18 @@ export default {
         enterprise: false,
         version: "2.1",
       },
-      coords: [38.561785, -121.449756],
+      cords: [
+        [54.82896654088406, 39.831893822753904],
+        [55.76, 37.56],
+        [55.8, 37.3],
+        [55.8, 37.4],
+        [55.7, 37.3],
+        [55.7, 37.4],
+      ],
     };
+  },
+  mounted() {
+    console.log(this.$refs.ymap);
   },
 };
 </script>

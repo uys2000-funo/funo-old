@@ -93,7 +93,7 @@ export const addEventFunction = function (uID, data, eImgs, uName) {
     });
   });
 };
-export const getAllEvetnts = function () {
+export const getAllEvents = function () {
   return f(getAllEvetntsFirestore);
 };
 

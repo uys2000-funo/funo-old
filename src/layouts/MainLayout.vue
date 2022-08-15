@@ -6,7 +6,7 @@
           <img :src="require('@/assets/images/logoText.svg')" alt="" />
         </div>
         <div class="col-4 text-center">
-          <p style="margin: auto">{{ position }}</p>
+          <p style="margin: auto">{{ locationStorage.getPosition }}</p>
         </div>
         <div class="col-4 text-right">
           <img :src="require('@/assets/images/icons/message.svg')" alt="" />
@@ -51,10 +51,13 @@
 </template>
 
 <script>
+import { locationStorage } from "@/storages/location";
+
 export default {
-  inject: ["getUser", "position"],
+  inject: ["getUser"],
   data() {
     return {
+      locationStorage: locationStorage(),
       buttons: {
         spor: "spor",
         artt: "art",
