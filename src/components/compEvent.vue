@@ -1,5 +1,5 @@
 <template>
-  <div class="q-mb-md a">
+  <div v-if="checkTags" class="q-mb-md a">
     <div class="row wrap justify-between items-start content-start">
       <span>{{ event.ownersNames[0] }}</span>
       <span>{{ event.name }}</span>
@@ -39,7 +39,7 @@ import { getImgStorage, joinEvent, exitEvent } from "@/services/firebase/main";
 import { chekUserEventJoinStatus } from "@/services/core/main";
 import compParticipantsVue from "./compParticipants.vue";
 export default {
-  props: ["event"],
+  props: ["event","tags"],
   inject: ["getUser", "setUser"],
   components: {
     compParticipantsVue,
@@ -56,6 +56,17 @@ export default {
     bgImg: function () {
       this.getImg();
       return this.imgPath;
+    },
+    checkTags: function () {
+      if (this.tags.length != 0) {
+        if (this.tags.some((val) => this.event.tags[val])) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
     },
   },
   methods: {

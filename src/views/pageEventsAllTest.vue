@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import { getAllEvetnts } from "@/services/firebase/main";
+import { getAllEvents } from "@/services/firebase/main";
 export default {
   data() {
     return {
@@ -37,7 +37,7 @@ export default {
     };
   },
   mounted() {
-    getAllEvetnts().then(
+    getAllEvents().then(
       (res) => (this.events = res.docs.map((item) => item.data()))
     );
   },

@@ -19,8 +19,7 @@ import { autoLogin } from "./services/firebase/main";
 import settings from "@/services/settings";
 
 import { App as CapacitorApp } from "@capacitor/app";
-import { Geolocation } from "@capacitor/geolocation";
-import { computed } from "@vue/runtime-core";
+import { locationStorage } from "@/storages/location";
 
 export default {
   name: "LayoutDefault",
@@ -30,11 +29,11 @@ export default {
       inf: false,
       user: null,
       position: [],
+      locationStorage: locationStorage(),
     };
   },
   provide() {
     return {
-      position: computed(() => this.position),
       getUser: this.getUser,
       setUser: this.setUser,
     };
@@ -51,27 +50,13 @@ export default {
     },
     checkLocationAccesWeb: function () {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position)
-        this.position = [position.coords.latitude, position.coords.longitude];
+        this.locationStorage.setPosition(
+          position.coords.latitude,
+          position.coords.longitude
+        );
       });
     },
-    checkLocationAcces: function () {
-      Geolocation.checkPermissions().then((res) => {
-        if (res.location == "denied")
-          Geolocation.getCurrentPosition()
-            .then((res) => {
-              this.position = res;
-              console.log(res);
-            })
-            .catch((err) => {
-              alert(
-                "You should give acces to location for usageto tihs app \n",
-                err
-              );
-              this.checkLocationAcces();
-            });
-      });
-    },
+
     getUser: function () {
       return c("Run getUser:", this.user);
     },
@@ -96,7 +81,6 @@ export default {
   },
   mounted() {
     this.setBackButton();
-    this.checkLocationAcces();
     this.checkLocationAccesWeb();
     if (settings.autoLogin) this.autoLogin();
   },
