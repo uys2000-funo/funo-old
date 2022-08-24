@@ -109,4 +109,14 @@ export default setDebugRouter([
     name: "eventsAllTest",
     component: () => import("../views/pageEventsAllTest.vue"),
   },
+  {
+    path: "/locationChooseTest",
+    name: "locationChooseTest",
+    component: () => import("../views/pageLocationChoose.vue"),
+  },
+  {
+    path: "/pageLocationTest",
+    name: "pageLocationTest",
+    component: () => import("../views/pageLocationTest.vue"),
+  },
 ]);
