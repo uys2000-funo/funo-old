@@ -1,18 +1,23 @@
 <template>
-  <div class="column no-wrap" style="height: 100%">
+  <div class="column no-wrap q-mt-sm" style="height: 100%">
     <div class="col-2">
       <div class="row wrap justify-center items-center content-center q-mt-xs">
         <div class="col-4">
           <img :src="require('@/assets/images/logoText.svg')" alt="" />
         </div>
         <div class="col-4 text-center">
-          <p style="margin: auto">{{ locationStorage.getPosition }}</p>
+          <p style="margin: auto">{{ location.getPosition }}</p>
         </div>
         <div class="col-4 text-right">
-          <img :src="require('@/assets/images/icons/message.svg')" alt="" />
+          <img
+            :src="require('@/assets/images/icons/message.svg')"
+            alt=""
+            @click="pages.setMessagesDialog(true)"
+          />
           <img
             :src="require('@/assets/images/icons/notification.svg')"
             alt=""
+            @click="pages.setNotificationDialog(true)"
           />
         </div>
       </div>
@@ -48,16 +53,22 @@
       <router-view :tags="cTags" />
     </div>
   </div>
+  <comp-notifications />
+  <comp-messages />
 </template>
 
 <script>
-import { locationStorage } from "@/storages/location";
-
+import { location } from "@/storages/location";
+import { pages } from "@/storages/pages";
+import compNotifications from "@/components/compNotifications.vue";
+import compMessages from "@/components/compMessages.vue";
 export default {
   inject: ["getUser"],
+  components: { compNotifications, compMessages },
   data() {
     return {
-      locationStorage: locationStorage(),
+      location: location(),
+      pages: pages(),
       buttons: {
         spor: "spor",
         artt: "art",
@@ -76,6 +87,7 @@ export default {
       },
       tags: [],
       cTags: [],
+      notDialog: false,
     };
   },
   methods: {

@@ -82,6 +82,11 @@ export default setDebugRouter([
           },
         ],
       },
+      {
+        path: "profile",
+        name: "profile",
+        component: () => import("../views/pageProfile.vue"),
+      },
     ],
   },
   {

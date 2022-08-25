@@ -19,7 +19,7 @@ import { autoLogin } from "./services/firebase/main";
 import settings from "@/services/settings";
 
 import { App as CapacitorApp } from "@capacitor/app";
-import { locationStorage } from "@/storages/location";
+import { location } from "@/storages/location";
 
 export default {
   name: "LayoutDefault",
@@ -29,7 +29,7 @@ export default {
       inf: false,
       user: null,
       position: [],
-      locationStorage: locationStorage(),
+      location: location(),
     };
   },
   provide() {
@@ -50,7 +50,7 @@ export default {
     },
     checkLocationAccesWeb: function () {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.locationStorage.setPosition(
+        this.location.setPosition(
           position.coords.latitude,
           position.coords.longitude
         );

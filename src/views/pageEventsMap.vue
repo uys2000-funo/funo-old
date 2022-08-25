@@ -18,14 +18,13 @@
 
 <script>
 import { yandexMap, ymapMarker } from "vue-yandex-maps";
-
-import { locationStorage } from "@/storages/location";
+import { location } from "@/storages/location";
 export default {
   name: "MapComponent",
   components: { yandexMap, ymapMarker },
   data() {
     return {
-      locationStorage: locationStorage(),
+      location: location(),
       settings: {
         apiKey: "cdbd6f55-bb30-4404-a6bb-215a26c76d72",
         lang: "tr_TR",
