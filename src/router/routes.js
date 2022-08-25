@@ -85,7 +85,7 @@ export default setDebugRouter([
       {
         path: "profile",
         name: "profile",
-        component: () => import("../views/pageProfile.vue"),
+        component: () => import("../layouts/profileLayout.vue"),
       },
     ],
   },
