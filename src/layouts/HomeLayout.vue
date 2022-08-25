@@ -7,7 +7,7 @@
       <q-btn flat to="/app/main/events/create">
         <img :src="require('@/assets/images/icons/addEvent.svg')" alt="" />
       </q-btn>
-      <q-btn flat>
+      <q-btn flat to="/app/discover">
         <img :src="require('@/assets/images/icons/compas.svg')" alt="" />
       </q-btn>
       <q-btn flat to="/app/main/events">

@@ -1,8 +1,11 @@
 <template>
+  <div style="position: absolute; display: none">
+    {{ `width:${s[0]};height:${s[0]}; ${style})` }}
+  </div>
   <div
     class="wheel text-center"
     :class="{ transition: transition }"
-    :style="`width:${w};height:${h}; ${style})`"
+    :style="`width:${s[0]};height:${s[0]}; ${style})`"
     ref="wheel"
     @touchstart="dragStart"
     @touchmove="dragEvent"
@@ -60,7 +63,8 @@ import {
   getLastRotate,
 } from "@/services/core/animations/wheel";
 export default {
-  props: ["w", "h"],
+  props: ["s", "se", "r","moveEvent"],
+  emits: [],
   data() {
     return {
       rotate: 0,
@@ -76,8 +80,8 @@ export default {
     dragStart: function (e) {
       this.transition = false;
       const size = [
-        this.$refs.wheel.offsetWidth,
-        this.$refs.wheel.offsetHeight * 0.33, //*0.33 because we move wheel to top
+        this.$refs.wheel.offsetWidth * this.se[0], //Size exception
+        this.$refs.wheel.offsetHeight * this.se[1], //Size exception. "margin-top:-33%;" = 0.33
       ];
       this.lastPosition = [e.touches[0].clientX, e.touches[0].clientY];
       this.lastSide = getSide(this.lastPosition, size);
@@ -85,16 +89,18 @@ export default {
     dragEvent: function (e) {
       const currentPosition = [e.touches[0].clientX, e.touches[0].clientY];
       const size = [
-        this.$refs.wheel.offsetWidth,
-        this.$refs.wheel.offsetHeight * 0.33, //*0.33 because we move wheel to top
+        this.$refs.wheel.offsetWidth * this.se[0],
+        this.$refs.wheel.offsetHeight * this.se[1], //*0.33 because we move wheel to top
       ];
       const gt = [currentPosition, this.lastPosition, this.lastSide];
       this.rotate += (getRotate(gt[0], gt[1], gt[2]) * 2) / 3;
       [this.lastPosition, this.lastSide] = getLastValues(currentPosition, size);
+      if (this.moveEvent) this.moveEvent(Math.floor(this.rotate / this.r));
     },
     dragEnd: function () {
       this.transition = true;
-      this.rotate = getLastRotate(this.rotate, 45);
+      this.rotate = getLastRotate(this.rotate, this.r);
+      if (this.rFunc) this.rFunc(Math.floor(this.rotate / this.r));
     },
   },
   watch: {
@@ -105,6 +111,9 @@ export default {
         (this.rotate + 45) * -1
       }deg);`;
     },
+  },
+  mounted() {
+    console.log(this.s);
   },
 };
 </script>
@@ -117,8 +126,8 @@ export default {
   }
 }
 .wheel {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   display: flex;
   position: relative;
   justify-content: center;

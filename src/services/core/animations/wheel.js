@@ -1,19 +1,19 @@
-export const getRoateTL = function (currentPosition, lastPosition) {
+export const getRotateTL = function (currentPosition, lastPosition) {
   let x = currentPosition[0] - lastPosition[0];
   let y = currentPosition[1] - lastPosition[1];
   return x - y;
 };
-export const getRoateTR = function (currentPosition, lastPosition) {
+export const getRotateTR = function (currentPosition, lastPosition) {
   let x = currentPosition[0] - lastPosition[0];
   let y = lastPosition[1] - currentPosition[1];
   return x - y;
 };
-export const getRoateBL = function (currentPosition, lastPosition) {
+export const getRotateBL = function (currentPosition, lastPosition) {
   let x = lastPosition[0] - currentPosition[0];
-  let y = currentPosition[0] - lastPosition[1];
+  let y = currentPosition[1] - lastPosition[1];
   return x - y;
 };
-export const getRoateBR = function (currentPosition, lastPosition) {
+export const getRotateBR = function (currentPosition, lastPosition) {
   let x = lastPosition[0] - currentPosition[0];
   let y = lastPosition[1] - currentPosition[1];
   return x - y;
@@ -26,23 +26,22 @@ export const getSide = function (lastPosition, size) {
 };
 export const getRotate = function (currentPosition, lastPosition, side) {
   const gr = [currentPosition, lastPosition];
-  if (side[0] && side[1]) return getRoateTL(gr[0], gr[1]);
-  else if (!side[0] && side[1]) return this.rotateTR(gr[0], gr[1]);
-  else if (side[0] && !side[1]) return this.rotateBL(gr[0], gr[1]);
-  else return this.rotateBR(gr[0], gr[1]);
+  if (side[0] && side[1]) return getRotateTL(gr[0], gr[1]);
+  else if (!side[0] && side[1]) return getRotateTR(gr[0], gr[1]);
+  else if (side[0] && !side[1]) return getRotateBL(gr[0], gr[1]);
+  else return getRotateBR(gr[0], gr[1]);
 };
 export const getLastValues = function (currentPosition, size) {
   return [currentPosition, getSide(currentPosition, size)];
 };
-export const getLastRotate = function (rotation) {
-  this.trans = "; transition: 1s";
-  const r = rotation % 90;
-  const k = Math.floor(rotation / 90);
+export const getLastRotate = function (rotation, p) {
+  const e = rotation % p;
+  const k = Math.floor(rotation / p);
   if (rotation < 0)
-    if (r < 45) return (k + 1) * 90;
-    else return k * 90;
+    if (e < p / 2) return (k + 1) * p;
+    else return k * p;
   else {
-    if (r < 45) return k * 90;
-    else return (k + 1) * 90;
+    if (e < p / 2) return k * p;
+    else return (k + 1) * p;
   }
 };

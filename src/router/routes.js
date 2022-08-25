@@ -87,6 +87,11 @@ export default setDebugRouter([
         name: "profile",
         component: () => import("../layouts/profileLayout.vue"),
       },
+      {
+        path: "discover",
+        name: "discover",
+        component: () => import("../layouts/discoverLayout.vue"),
+      },
     ],
   },
   {
