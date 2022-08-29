@@ -100,7 +100,7 @@ export default {
     dragEnd: function () {
       this.transition = true;
       this.rotate = getLastRotate(this.rotate, this.r);
-      if (this.rFunc) this.rFunc(Math.floor(this.rotate / this.r));
+      if (this.moveEvent) this.moveEvent(Math.floor(this.rotate / this.r));
     },
   },
   watch: {

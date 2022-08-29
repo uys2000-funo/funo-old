@@ -18,13 +18,13 @@
       >
         <div class="col-3 field" rounded outlined>
           <q-input
-            v-model="user.mail"
+            v-model="userL.mail"
             :dense="h < 720"
             placeholder=" Kullanıcı Adı"
           />
         </div>
         <div class="col-3 field" rounded outlined>
-          <q-input v-model="user.pass" :dense="h < 720" placeholder=" Şifre" />
+          <q-input v-model="userL.pass" :dense="h < 720" placeholder=" Şifre" />
         </div>
         <div class="col-2 row full-width">
           <p class="reg">Şifreni mi unuttun?</p>
@@ -33,7 +33,7 @@
           <q-btn
             class="login bg-primary text-white"
             fab-mini
-            @click="loginFunction(user)"
+            @click="loginFunction(userL)"
           >
             <template v-slot:default>
               <span class="loginText">GİRİŞ YAP</span>
@@ -91,8 +91,8 @@
 <script>
 import { loginFunction, loginFunctionGoogle } from "../services/firebase/main";
 import { setLastUser } from "@/services/core/main";
+import { user } from "@/storages/user";
 export default {
-  inject: ["setUser"],
   data() {
     return {
       h: window.innerHeight,
@@ -100,16 +100,16 @@ export default {
       btnLogin: false,
       loginError: false,
       loginErrorGoogle: false,
-      user: {
+      user: user(),
+      userL: {
         mail: null,
         pass: null,
       },
     };
   },
-
   methods: {
     loginSucces: function (res) {
-      this.setUser(res);
+      this.user.setUser(res);
       setLastUser(res);
       this.$router.push("/app/main/events");
     },
@@ -118,7 +118,8 @@ export default {
       loginFunction(data, this.pImg, this.tImg)
         .then((res) => {
           this.btnLogin = false;
-          this.loginSucces(res);
+          console.log(res);
+          if (res) this.loginSucces(res);
         })
         .catch((err) => {
           console.log(err);

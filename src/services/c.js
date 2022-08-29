@@ -25,7 +25,10 @@ const f2 = function (fFunc, fArgs) {
       return c2(`Res: ${fFunc.name}`, res == undefined ? true : res);
     })
     .catch((err) => {
-      return c2(`Err: ${fFunc.name}`, err == undefined ? false : err);
+      return c2(
+        `Err: ${fArgs} - ${fFunc.name}`,
+        err == undefined ? false : err
+      );
     });
 };
 export const f = function () {

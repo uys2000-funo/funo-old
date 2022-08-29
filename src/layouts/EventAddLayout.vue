@@ -57,18 +57,19 @@
 </template>
 
 <script>
-import { eventCheck, gettLastUser } from "@/services/core/main";
+import { eventCheck } from "@/services/core/main";
 import goBackBtn from "../components/backButtonTopLeft.vue";
 import eventAddWheel from "../components/compEventAddWheel.vue";
 import { addEventFunction } from "@/services/firebase/main";
+import { user } from "@/storages/user";
 export default {
-  inject: ["getUser", "setUser"],
   components: {
     goBackBtn,
     eventAddWheel,
   },
   data() {
     return {
+      user: user(),
       dialog: true,
       imgs: [],
       page: 0,
@@ -109,23 +110,16 @@ export default {
       this.page -= 1;
       if (this.page == -1) this.$router.back();
     },
-    getUserInf: function () {
-      let user = this.getUser();
-      if (user == null) {
-        user = gettLastUser();
-        this.setUser(user);
-      }
-      return [user.userAuth.user.uid, user.userFire.name];
-    },
     addEventFunction: function () {
       this.dis = true;
-      const [uID, uName] = this.getUserInf();
       if (!this.limit) this.eObj.limit = 0;
-      addEventFunction(uID, this.eObj, this.imgs, uName).then((res) => {
-        if (res) this.$router.push("/app/main/events/");
-        else alert("Some Problems");
-        this.dis = false;
-      });
+      addEventFunction(this.user.ID, this.eObj, this.imgs, this.user.name).then(
+        (res) => {
+          if (res) this.$router.push("/app/main/events/");
+          else alert("Some Problems");
+          this.dis = false;
+        }
+      );
     },
     addEvent: function () {
       eventCheck(this.eObj).then((res) => {

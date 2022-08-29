@@ -44,7 +44,7 @@ export const setLastUser = function (user) {
   c("Run :setLastUser", user);
   localStorage.setItem("u", JSON.stringify(user));
 };
-export const gettLastUser = function () {
+export const getLastUser = function () {
   return c("Run gettLastUser", JSON.parse(localStorage.getItem("u")));
 };
 export const updateSettings = function (key, value) {
@@ -52,7 +52,7 @@ export const updateSettings = function (key, value) {
 };
 export const chekUserEventJoinStatus = function (user, eID) {
   c("Run: chekUserEventJoinStatus", [user, eID]);
-  if (user.userFire.eventsJoin)
+  if (user.userFire?.eventsJoin)
     return c(
       "Res: chekUserEventJoinStatus",
       user.userFire.eventsJoin.some((item) => item === eID)

@@ -10,7 +10,7 @@
       v-if="eventStorage.events.length != 0"
     >
       <div v-for="event in eventStorage.events" :key="event">
-        <com-event :event="event" :tags="tags" />
+        <comp-event :event="event" :tags="tags" />
       </div>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">
@@ -23,12 +23,12 @@
 </template>
 
 <script>
-import comEvent from "@/components/compEvent.vue";
+import compEvent from "@/components/compEvent.vue";
 import { eventStorage } from "@/storages/events";
 import { getAllEventsFunction } from "@/services/core/events";
 export default {
   components: {
-    comEvent,
+    compEvent,
   },
   props: ["tags"],
   data() {

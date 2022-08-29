@@ -170,11 +170,11 @@
 
 <script>
 import { addEventFunction } from "../services/firebase/main";
-import { gettLastUser } from "@/services/core/main";
+import { user } from "@/storages/user";
 export default {
-  inject: ["getUser", "setUser"],
   data() {
     return {
+      user: user(),
       imgs: [],
       limit: false,
       eObj: {
@@ -207,13 +207,8 @@ export default {
   },
   methods: {
     addEventFunction: function () {
-      let user = this.getUser();
-      if (user == null) {
-        user = gettLastUser();
-        this.setUser(user);
-      }
-      const uID = user.userAuth.user.uid;
-      const uName = user.userFire.name;
+      const uID = this.user.ID;
+      const uName = this.user.name;
       if (!this.limit) this.eObj.limit = 0;
       addEventFunction(uID, this.eObj, this.imgs, uName);
     },
@@ -249,7 +244,7 @@ export default {
 </script>
 
 <style scoped>
-.f{
+.f {
   height: 100vh;
   overflow: auto;
 }

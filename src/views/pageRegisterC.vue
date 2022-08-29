@@ -13,7 +13,6 @@
             <p>İşletme İsmi</p>
             <q-input
               outlined
-              
               placeholder="İşletme ismini giriniz"
               v-model="cUser.name"
             />
@@ -31,7 +30,6 @@
             <q-input
               outlined
               v-model="cUser.phoneNumber"
-              
               placeholder="Telefon numaranızı giriniz"
               mask="#"
               reverse-fill-mask
@@ -42,7 +40,6 @@
             <p>İşletme Konumu</p>
             <q-input
               outlined
-              
               placeholder="İşletme konumunu şeçin"
               v-model="cUser.companyAdress"
             />
@@ -56,7 +53,6 @@
           <p>Kullanıcı Adı</p>
           <q-input
             outlined
-            
             placeholder="Kullanıcı adınızı girin"
             v-model="cUser.userName"
           />
@@ -65,7 +61,6 @@
           <p>Şifre</p>
           <q-input
             outlined
-            
             placeholder="Şİfrenizi giriniz"
             v-model="cUser.pass"
           />
@@ -74,7 +69,6 @@
           <p>Mail</p>
           <q-input
             outlined
-            
             placeholder="Mail adresinizi girin"
             v-model="cUser.mail"
           />
@@ -121,6 +115,7 @@
 
 <script>
 import registerTag from "@/components/compRegisterTag.vue";
+import { user } from "@/storages/user";
 export default {
   props: ["page", "uWatch", "right"],
   inject: ["setPage", "setUser", "setRight", "setImage"],
@@ -130,6 +125,7 @@ export default {
   data() {
     return {
       img: null,
+      user: user(),
       cUser: {
         name: "",
         taxNumber: "",
@@ -161,7 +157,7 @@ export default {
   },
   watch: {
     uWatch() {
-      this.setUser(this.cUser);
+      this.user.setUser(this.cUser);
     },
   },
 };

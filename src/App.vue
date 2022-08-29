@@ -13,29 +13,23 @@
 </template>
 
 <script>
-import { c } from "@/services/c";
-import { gettLastUser } from "./services/core/main";
+import { getLastUser } from "./services/core/main";
 import { autoLogin } from "./services/firebase/main";
 import settings from "@/services/settings";
 
 import { App as CapacitorApp } from "@capacitor/app";
 import { location } from "@/storages/location";
-
+import { user } from "@/storages/user";
+//import { getLocation } from "@/services/openWeather/geocode";
 export default {
   name: "LayoutDefault",
   components: {},
   data() {
     return {
       inf: false,
-      user: null,
       position: [],
+      user: user(),
       location: location(),
-    };
-  },
-  provide() {
-    return {
-      getUser: this.getUser,
-      setUser: this.setUser,
     };
   },
   methods: {
@@ -50,33 +44,30 @@ export default {
     },
     checkLocationAccesWeb: function () {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.location.setPosition(
-          position.coords.latitude,
-          position.coords.longitude
-        );
+        const location = [position.coords.latitude, position.coords.longitude];
+        this.location.setPosition(location[0], location[1]);
+        //getLocation(location[0], location[1]).then((res) => {
+        //  console.log(res);
+        //  this.location.setLocation(res);
+        //});
       });
     },
-
-    getUser: function () {
-      return c("Run getUser:", this.user);
-    },
-    setUser: function (value) {
-      this.user = c("Run setUser:", value);
-    },
     autoLogin() {
-      this.user = gettLastUser();
-      if (this.user) {
-        this.inf = true;
-        autoLogin(this.user.userFire).then((res) => {
+      this.user.setLastUser(getLastUser());
+      this.inf = true;
+      if (
+        this.user.lastUser?.userFire?.mail &&
+        this.user.lastUser?.userFire?.pass
+      )
+        autoLogin(this.user.lastUser?.userFire).then((res) => {
           if (res) {
             this.inf = false;
-            this.setUser(res);
+            this.user.setUser(res);
             const path = this.$route.path;
             if (path == "/" || path == "/login")
               this.$router.push("/app/main/events");
           }
         });
-      }
     },
   },
   mounted() {

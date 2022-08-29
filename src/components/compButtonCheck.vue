@@ -12,12 +12,12 @@
       <q-icon>
         <img :src="require(`@/assets/images/icons/${btn}.svg`)" alt="" />
       </q-icon>
-      <span v-if="!event.tags[btn]" class="q-ml-sm text-gray">{{
-        btnName
-      }}</span>
-      <span v-if="event.tags[btn]" class="q-ml-sm text-black">{{
-        btnName
-      }}</span>
+      <span v-if="!event.tags[btn]" class="q-ml-sm text-gray">
+        {{ btnName }}
+      </span>
+      <span v-if="event.tags[btn]" class="q-ml-sm text-black">
+        {{ btnName }}
+      </span>
     </div>
   </q-btn>
 </template>

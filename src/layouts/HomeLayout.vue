@@ -16,7 +16,7 @@
       <q-btn flat to="/app/main/map">
         <img :src="require('@/assets/images/icons/world.svg')" alt="" />
       </q-btn>
-      <q-btn flat to="/app/profile">
+      <q-btn flat to="/app/profile/user">
         <img :src="require('@/assets/images/icons/person.svg')" alt="" />
       </q-btn>
     </div>

@@ -38,9 +38,9 @@
 import { getImgStorage, joinEvent, exitEvent } from "@/services/firebase/main";
 import { chekUserEventJoinStatus } from "@/services/core/main";
 import compParticipantsVue from "./compParticipants.vue";
+import { user } from "@/storages/user";
 export default {
-  props: ["event","tags"],
-  inject: ["getUser", "setUser"],
+  props: ["event", "tags"],
   components: {
     compParticipantsVue,
   },
@@ -48,7 +48,7 @@ export default {
     return {
       imgPath: "",
       joinCheck: false,
-      user: "",
+      user: user().user,
       images: [],
     };
   },
@@ -82,10 +82,15 @@ export default {
       });
     },
     updateUser: function (eId) {
-      if (this.user.userFire.joinEvent == undefined)
+      if (this.user.userFire == undefined)
+        this.user.userFire = {
+          joinEvent: [],
+        };
+      else if ((this.user.userFire.joinEvent = undefined))
         this.user.userFire.joinEvent = [];
       this.user.userFire.joinEvent.push(eId);
-      this.setUser(this.user);
+      user().setUser(this.user);
+      console.log(this.user);
       return [this.user, this.user.userAuth.user.uid];
     },
     updateEvent: function (event, uID) {
@@ -96,7 +101,7 @@ export default {
     updateUserExit: function (eId) {
       const events = this.user.userFire.joinEvent;
       this.user.userFire.joinEvent = this.filtering(events, eId);
-      this.setUser(this.user);
+      user().setUser(this.user);
       return [this.user, this.user.userAuth.user.uid];
     },
     updateEventExit: function (event, uID) {
@@ -105,7 +110,6 @@ export default {
       return event;
     },
     checkEvent: function () {
-      console.log(this.user, this.event.id);
       return chekUserEventJoinStatus(this.user, this.event.id);
     },
     joinEvent: function (event) {
@@ -126,7 +130,6 @@ export default {
     getUserImages: function () {},
   },
   mounted() {
-    this.user = this.getUser();
     this.joinCheck = this.checkEvent();
   },
 };

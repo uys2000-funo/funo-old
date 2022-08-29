@@ -15,33 +15,32 @@
       />
     </div>
   </div>
-  {{ user }}
 </template>
 
 <script>
 import { loginFunction, loginFunctionGoogle } from "../services/firebase/main";
 import { setLastUser } from "@/services/core/main";
+import { user } from "@/storages/user";
 export default {
-  inject: ["setUser"],
   data() {
     return {
       lObj: {
         mail: "",
         pass: "",
       },
-      user: null,
+      user:user(),
     };
   },
   methods: {
     loginFunction: function (data) {
       loginFunction(data, this.pImg, this.tImg).then((res) => {
-        this.setUser(res);
+        this.user.setUser(res);
         setLastUser(res);
       });
     },
     loginFunctionGoogle: function () {
       loginFunctionGoogle().then((res) => {
-        this.setUser(res);
+        this.user.setUser(res);
         setLastUser(res);
       });
     },

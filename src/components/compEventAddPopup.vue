@@ -7,6 +7,7 @@
       animated
       class="co bg-secondary"
     >
+      <!-- Temel Bilgiler-->
       <q-carousel-slide name="0">
         <div>
           <span>Etkinlik Adı</span>
@@ -51,6 +52,7 @@
           </div>
         </div>
       </q-carousel-slide>
+      <!-- Zaman Tarih-->
       <q-carousel-slide name="1">
         <div
           class="h row no-wrap fit justify-between items-center content-center"
@@ -250,6 +252,7 @@
           </q-tooltip>
         </div>
       </q-carousel-slide>
+      <!-- Konum Fiyat-->
       <q-carousel-slide name="2">
         <div>
           <span> Konum Adı </span>
@@ -258,15 +261,21 @@
             <q-toggle
               color="bg-primary"
               :model-value="event.type"
-              @update:model-value="updateEvent('type', $event)"
+              @update:model-value="
+                (value) => {
+                  updateEvent('type', value);
+                  eventType = !value;
+                }
+              "
             />
           </div>
-          <div v-if="event.type">
+          <div v-if="!event.type">
             <q-input
               outlined
               :model-value="event.app"
               @update:model-value="updateEvent('app', $event)"
               placeholder="Konum Seçin"
+              @click="selectLocation = true"
             />
             <q-input
               outlined
@@ -275,7 +284,7 @@
               placeholder="Bizi Nasıl Bulabilirler? (Tarif)"
             />
           </div>
-          <div v-if="!event.type">
+          <div v-if="event.type">
             <q-input
               outlined
               :model-value="event.app"
@@ -309,6 +318,7 @@
           </q-slide-transition>
         </div>
       </q-carousel-slide>
+      <!-- Görsel-->
       <q-carousel-slide name="3">
         <q-img
           :src="
@@ -332,23 +342,34 @@
       </q-carousel-slide>
     </q-carousel>
   </div>
+  <div v-if="selectLocation">
+    <comp-location-choose
+      @setCord="(value) => updateEvent('app', value)"
+      @endFunc="selectLocation = false"
+    />
+  </div>
 </template>
 
 <script>
 import compButtonCheck from "./compButtonCheck.vue";
+import compLocationChoose from "./compLocationChoose.vue";
 export default {
   components: {
     compButtonCheck,
+    compLocationChoose,
   },
   props: ["page", "event"],
   inject: ["setImages", "updateEvent", "updateEventInner"],
   data() {
     return {
       img: "",
+      selectLocation: false,
       limit: false,
       price: false,
       inf: false,
       eventType: false,
+      tmpApp: "",
+      tmpLocation: "",
       buttons: ["spor", "artt", "educ", "musi", "meet", "part"],
       buttonNames: ["Spor", "Art", "Education", "Music", "Meeting", "Party"],
     };
@@ -371,6 +392,18 @@ export default {
   watch: {
     inf() {
       if (this.inf == true) setTimeout(() => (this.inf = false), 5000);
+    },
+    eventType() {
+      if (this.event.type) {
+        this.tmpLocation = this.event.app;
+        console.log(this.tmpApp, this.tmpLocation);
+        if (this.tmpApp) this.updateEvent("app", this.tmpApp);
+        else this.updateEvent("app", "");
+      } else {
+        this.tmpApp = this.event.app;
+        if (this.tmpLocation) this.updateEvent("app", this.tmpLocation);
+        this.updateEvent("app", this.tmpLocation);
+      }
     },
   },
 };

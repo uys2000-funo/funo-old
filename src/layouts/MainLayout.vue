@@ -6,7 +6,7 @@
           <img :src="require('@/assets/images/logoText.svg')" alt="" />
         </div>
         <div class="col-4 text-center">
-          <p style="margin: auto">{{ location.getPosition }}</p>
+          <p style="margin: auto">{{ location.location }}</p>
         </div>
         <div class="col-4 text-right">
           <img
@@ -62,8 +62,8 @@ import { location } from "@/storages/location";
 import { pages } from "@/storages/pages";
 import compNotifications from "@/components/compNotifications.vue";
 import compMessages from "@/components/compMessages.vue";
+import {user} from "@/storages/user"
 export default {
-  inject: ["getUser"],
   components: { compNotifications, compMessages },
   data() {
     return {
@@ -85,7 +85,7 @@ export default {
         meet: false,
         part: false,
       },
-      tags: [],
+      tags: user().tags,
       cTags: [],
       notDialog: false,
     };
@@ -103,9 +103,6 @@ export default {
     checkTags: function (val) {
       return this.tags.some((i) => i == val);
     },
-  },
-  mounted() {
-    this.tags = this.getUser().userFire?.tags;
   },
 };
 </script>

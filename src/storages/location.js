@@ -15,13 +15,16 @@ export const location = defineStore("location", {
         longitude: longitude,
       };
     },
+    setLocation(value) {
+      this.location = value;
+    },
   },
   getters: {
     getPosition: (state) => {
       return [state.position.latitude, state.position.longitude];
     },
     getPosition2: (state) => {
-      return [state.position.latitude+10, state.position.longitude+10];
+      return [state.position.latitude + 10, state.position.longitude + 10];
     },
   },
 });
