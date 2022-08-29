@@ -54,11 +54,11 @@ export default {
     },
     autoLogin() {
       this.user.setLastUser(getLastUser());
-      this.inf = true;
       if (
         this.user.lastUser?.userFire?.mail &&
         this.user.lastUser?.userFire?.pass
-      )
+      ) {
+        this.inf = true;
         autoLogin(this.user.lastUser?.userFire).then((res) => {
           if (res) {
             this.inf = false;
@@ -68,6 +68,7 @@ export default {
               this.$router.push("/app/main/events");
           }
         });
+      }
     },
   },
   mounted() {

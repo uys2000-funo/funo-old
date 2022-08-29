@@ -6,7 +6,7 @@
       :se="[1, 0.33]"
       :moveEvent="moveEvent"
     >
-      <template v-slot:c> {{ r }} </template>
+      <template v-slot:c> {{ img }} </template>
       <template v-slot:ie>
         <img :src="require('@/assets/images/dot.svg')" />
       </template>
@@ -49,12 +49,16 @@
 <script>
 import { getImgStorage } from "@/services/firebase/main";
 import compWheel from "@/components/compWheel.vue";
+import { getImage } from "@/services/firebase/sStorage";
+import { user } from "@/storages/user";
 getImgStorage;
 export default {
   components: { compWheel },
   props: ["r", "setR"],
   data() {
     return {
+      u: user(),
+      img: "",
       run: require("@/assets/images/profile/run.svg"),
       sign: require("@/assets/images/profile/sign.svg"),
       user: require("@/assets/images/profile/user.svg"),
@@ -104,11 +108,11 @@ export default {
         else if (i == 1) this.p.sw = this.p.n;
         else this.p.w = this.p.ne;
       }
-      console.log(i);
       if (this.setR) this.setR(res);
     },
   },
   mounted() {
+    getImage("U/" + this.u.ID + "/imgs/uImg").then((res) => (this.img = res));
     this.setupEvent(0);
   },
 };

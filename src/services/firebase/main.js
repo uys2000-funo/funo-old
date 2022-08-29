@@ -59,8 +59,8 @@ const getUserDataFromGoogle = function (id, accessToken, aData) {
       Accept: "application/json",
     },
   }).then((res) => {
-    return f(res.json).then((gData) => {
-      return f(getEditedData, gData, aData);
+    return res.json().then((gData) => {
+      return getEditedData(gData, aData);
     });
   });
 };
