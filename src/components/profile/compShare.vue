@@ -1,3 +1,3 @@
 <template>
-  events
+  share
 </template>

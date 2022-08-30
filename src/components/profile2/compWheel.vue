@@ -64,8 +64,8 @@ export default {
       run: require("@/assets/images/profile/run.svg"),
       sign: require("@/assets/images/profile/sign.svg"),
       user: require("@/assets/images/profile/user.svg"),
-      edit: require("@/assets/images/profile/edit.svg"),
-      settings: require("@/assets/images/profile/settings.svg"),
+      mail: require("@/assets/images/profile/mail.svg"),
+      people: require("@/assets/images/profile/people.svg"),
       p: {
         e: "",
         se: "",
@@ -80,13 +80,13 @@ export default {
   },
   methods: {
     setupEvent: function () {
-      this.p.ne = this.run;
-      this.p.e = this.settings;
-      this.p.se = this.edit;
+      this.p.ne = this.people;
+      this.p.e = this.run;
+      this.p.se = this.sign;
       this.p.s = this.user;
-      this.p.sw = this.sign;
-      this.p.w = this.run;
-      this.p.nw = this.settings;
+      this.p.sw = this.mail;
+      this.p.w = this.people;
+      this.p.nw = this.run;
     },
     moveEvent: function (res) {
       let i = res % 8;
