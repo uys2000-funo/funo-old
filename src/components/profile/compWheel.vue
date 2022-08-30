@@ -1,12 +1,14 @@
 <template>
-  <div style="margin-top: -33%">
+  <div style="margin-top: -30%">
     <comp-wheel
       :s="['90vw', '90vw']"
       :r="45"
-      :se="[1, 0.33]"
+      :se="[1, 0.30]"
       :moveEvent="moveEvent"
     >
-      <template v-slot:c> {{ img }} </template>
+      <template v-slot:c>
+        <img :src="img" style="width: 100%" alt="No Profile Photo" />
+      </template>
       <template v-slot:ie>
         <img :src="require('@/assets/images/dot.svg')" />
       </template>
@@ -47,9 +49,9 @@
   </div>
 </template>
 <script>
-import { getImgStorage } from "@/services/firebase/main";
+import { getImg, getImgStorage } from "@/services/firebase/main";
 import compWheel from "@/components/compWheel.vue";
-import { getImage } from "@/services/firebase/sStorage";
+import { getLocalValue, setLocalValue } from "@/services/core/local";
 import { user } from "@/storages/user";
 getImgStorage;
 export default {
@@ -112,7 +114,11 @@ export default {
     },
   },
   mounted() {
-    getImage("U/" + this.u.ID + "/imgs/uImg").then((res) => (this.img = res));
+    this.img = getLocalValue("uImg");
+    getImg("U/" + this.u.ID + "/imgs/uImg").then((res) => {
+      this.img = res;
+      setLocalValue("uImg", res);
+    });
     this.setupEvent(0);
   },
 };

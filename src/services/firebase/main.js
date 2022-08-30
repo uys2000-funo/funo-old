@@ -123,3 +123,6 @@ export const exitEvent = function (uID, eID, user, event) {
 export const autoLogin = function (user) {
   return f(loginFunction, user);
 };
+export const getImg = function (imgDirection) {
+  return f(getImage, imgDirection);
+};

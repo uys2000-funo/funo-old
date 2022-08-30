@@ -63,7 +63,7 @@ import {
   getLastRotate,
 } from "@/services/core/animations/wheel";
 export default {
-  props: ["s", "se", "r","moveEvent"],
+  props: ["s", "se", "r", "moveEvent"],
   emits: [],
   data() {
     return {
@@ -150,6 +150,18 @@ export default {
     height: 90%;
     border-radius: 50%;
     border: 1px dashed;
+  }
+  //center
+  & > div:nth-child(3) {
+    width: 49%;
+    height: 49%;
+    border-radius: 50%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    overflow: hidden;
   }
   //inner icons
   & > div:nth-child(4) {

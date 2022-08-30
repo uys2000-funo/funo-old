@@ -101,7 +101,7 @@ export default {
         if (registerCheck(this.user))
           registerFunction(this.user, this.img)
             .then((res) => {
-              if (res) this.$router.push("/app/login/");
+              if (res) this.$router.push("/login/");
               else alert("Some Problems");
             })
       }, 10);

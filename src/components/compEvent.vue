@@ -82,6 +82,7 @@ export default {
       });
     },
     updateUser: function (eId) {
+      console.log(this.user);
       if (this.user.userFire == undefined)
         this.user.userFire = {
           joinEvent: [],
@@ -90,7 +91,6 @@ export default {
         this.user.userFire.joinEvent = [];
       this.user.userFire.joinEvent.push(eId);
       user().setUser(this.user);
-      console.log(this.user);
       return [this.user, this.user.userAuth.user.uid];
     },
     updateEvent: function (event, uID) {

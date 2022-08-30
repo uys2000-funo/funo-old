@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <router-view v-if="!inf" />
 
   <q-dialog v-model="inf">
     <q-card style="width: 50vw">

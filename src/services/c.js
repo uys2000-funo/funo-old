@@ -13,35 +13,42 @@ export const c = function (function_name, data, err) {
   return data;
 };
 
-const c2 = function (function_name, data, err) {
+const iC = function (function_name, data, err) {
   console.log("Debug :", function_name, data, err ? err : "");
   return data;
 };
-const f2 = function (fFunc, fArgs) {
-  c2(`Run : ${fFunc.name}`, fArgs);
-  return fFunc
+export const fr = function (ret) {
+  console.log("Debug : Done", ret);
+  return new Promise((resolve, refect) => {
+    if (ret) resolve(ret);
+    else refect(ret);
+  });
+};
+
+const innerF = function (fFunc, fArgs, resolve, reject) {
+  iC(`Run : ${fFunc.name}`, fArgs);
+  fFunc
     .apply(null, fArgs)
     .then((res) => {
-      return c2(`Res: ${fFunc.name}`, res == undefined ? true : res);
+      resolve(iC(`Res: ${fFunc.name}`, res == undefined ? true : res));
     })
     .catch((err) => {
-      return c2(
-        `Err: ${fArgs} - ${fFunc.name}`,
-        err == undefined ? false : err
+      reject(
+        iC(`Err: ${fArgs} - ${fFunc.name}`, err == undefined ? false : err)
       );
     });
 };
 export const f = function () {
   const fFunc = arguments[0];
   const fArgs = argToArray(arguments).splice(1, arguments.length);
-  if (settings.debug) return f2(fFunc, fArgs);
-  else return fFunc.apply(null, fArgs);
-};
-
-export const fr = function (ret) {
-  console.log("Debug : Done", ret);
-  return new Promise((resolve, refect) => {
-    if (ret) resolve(ret);
-    else refect(ret);
+  return new Promise((resolve, reject) => {
+    if (settings.debug) return innerF(fFunc, fArgs, resolve, reject);
+    else
+      fFunc
+        .apply(null, fArgs)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => reject(err));
   });
 };
