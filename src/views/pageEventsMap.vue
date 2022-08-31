@@ -18,7 +18,7 @@
 
 <script>
 import { yandexMap, ymapMarker } from "vue-yandex-maps";
-import { location } from "@/storages/location";
+import { location } from "@/store/location";
 export default {
   name: "MapComponent",
   components: { yandexMap, ymapMarker },

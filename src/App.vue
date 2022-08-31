@@ -18,8 +18,8 @@ import { autoLogin } from "./services/firebase/main";
 import settings from "@/services/settings";
 
 import { App as CapacitorApp } from "@capacitor/app";
-import { location } from "@/storages/location";
-import { user } from "@/storages/user";
+import { location } from "@/store/location";
+import { user } from "@/store/user";
 //import { getLocation } from "@/services/openWeather/geocode";
 export default {
   name: "LayoutDefault",

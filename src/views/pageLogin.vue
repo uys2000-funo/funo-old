@@ -91,7 +91,7 @@
 <script>
 import { loginFunction, loginFunctionGoogle } from "../services/firebase/main";
 import { setLastUser } from "@/services/core/main";
-import { user } from "@/storages/user";
+import { user } from "@/store/user";
 export default {
   data() {
     return {

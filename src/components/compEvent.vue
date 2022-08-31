@@ -38,7 +38,7 @@
 import { getImgStorage, joinEvent, exitEvent } from "@/services/firebase/main";
 import { chekUserEventJoinStatus } from "@/services/core/main";
 import compParticipantsVue from "./compParticipants.vue";
-import { user } from "@/storages/user";
+import { user } from "@/store/user";
 export default {
   props: ["event", "tags"],
   components: {
@@ -48,7 +48,7 @@ export default {
     return {
       imgPath: "",
       joinCheck: false,
-      user: user().user,
+      user: user(),
       images: [],
     };
   },
@@ -82,16 +82,16 @@ export default {
       });
     },
     updateUser: function (eId) {
-      console.log(this.user);
-      if (this.user.userFire == undefined)
-        this.user.userFire = {
-          joinEvent: [],
+      console.log(this.user.user);
+      if (this.user.user.userFire == undefined)
+        this.user.user.userFire = {
+          eventsJoined: [],
         };
-      else if ((this.user.userFire.joinEvent = undefined))
-        this.user.userFire.joinEvent = [];
-      this.user.userFire.joinEvent.push(eId);
-      user().setUser(this.user);
-      return [this.user, this.user.userAuth.user.uid];
+      else if ((this.user.user.userFire.eventsJoined = undefined))
+        this.user.user.userFire.eventsJoined = [];
+      this.user.user.userFire.eventsJoined.push(eId);
+      user().setUser(this.user.user);
+      return [this.user.user, this.user.user.userAuth.user.uid];
     },
     updateEvent: function (event, uID) {
       if (event.users == undefined) event.users = [];
@@ -99,10 +99,10 @@ export default {
       return event;
     },
     updateUserExit: function (eId) {
-      const events = this.user.userFire.joinEvent;
-      this.user.userFire.joinEvent = this.filtering(events, eId);
-      user().setUser(this.user);
-      return [this.user, this.user.userAuth.user.uid];
+      const events = this.user.user.userFire.eventsJoin;
+      this.user.user.userFire.eventsJoin = this.filtering(events, eId);
+      user().setUser(this.user.user);
+      return [this.user.user, this.user.user.userAuth.user.uid];
     },
     updateEventExit: function (event, uID) {
       if (event.users == undefined) event.users = [];
@@ -110,7 +110,7 @@ export default {
       return event;
     },
     checkEvent: function () {
-      return chekUserEventJoinStatus(this.user, this.event.id);
+      return chekUserEventJoinStatus(this.user.user, this.event.id);
     },
     joinEvent: function (event) {
       const [user, uID] = this.updateUser(event.id);

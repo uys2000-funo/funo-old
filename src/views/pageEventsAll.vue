@@ -2,14 +2,14 @@
   <q-scroll-area style="width: 100vw; height: 100%">
     <div>
       <span> çevrendeki etkinlikler </span>
-      {{ eventStorage.index }}
+      {{ events.index }}
     </div>
     <q-infinite-scroll
-      @load="eventStorage.getNextEvents"
+      @load="events.getNextEvents"
       :offset="0"
-      v-if="eventStorage.events.length != 0"
+      v-if="events.events.length != 0"
     >
-      <div v-for="event in eventStorage.events" :key="event">
+      <div v-for="event in events.events" :key="event">
         <comp-event :event="event" :tags="tags" />
       </div>
       <template v-slot:loading>
@@ -24,7 +24,7 @@
 
 <script>
 import compEvent from "@/components/compEvent.vue";
-import { eventStorage } from "@/storages/events";
+import { events } from "@/store/events";
 import { getAllEventsFunction } from "@/services/core/events";
 export default {
   components: {
@@ -33,16 +33,11 @@ export default {
   props: ["tags"],
   data() {
     return {
-      eventStorage: eventStorage(),
-      hideAmount: 0,
-      shown: { f: 0, l: 2 },
+      events: events(),
     };
   },
   mounted() {
-    getAllEventsFunction(
-      this.eventStorage.setEvents,
-      this.eventStorage.getNextEvents
-    );
+    getAllEventsFunction(this.events.setEvents, this.events.getNextEvents);
   },
   watch: {},
 };

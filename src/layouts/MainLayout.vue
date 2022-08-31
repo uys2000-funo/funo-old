@@ -58,11 +58,11 @@
 </template>
 
 <script>
-import { location } from "@/storages/location";
-import { pages } from "@/storages/pages";
+import { location } from "@/store/location";
+import { pages } from "@/store/pages";
 import compNotifications from "@/components/compNotifications.vue";
 import compMessages from "@/components/compMessages.vue";
-import {user} from "@/storages/user"
+import {user} from "@/store/user"
 export default {
   components: { compNotifications, compMessages },
   data() {

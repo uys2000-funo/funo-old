@@ -6,7 +6,7 @@
     animated
     infinite
     control-color="primary"
-    class="bg-secondary"
+    class="bg-secondary fit"
   >
     <q-carousel-slide name="0" class="column no-wrap flex-center">
       <comp-share />

@@ -170,7 +170,7 @@
 
 <script>
 import { addEventFunction } from "../services/firebase/main";
-import { user } from "@/storages/user";
+import { user } from "@/store/user";
 export default {
   data() {
     return {

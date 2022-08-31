@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
 
-export const eventStorage = defineStore("events", {
+export const events = defineStore("events", {
   state: () => ({
+    eventsCreated: [],
+    eventsJoined: [],
     eventsAll: [],
     eventsShow: [],
     index: 0,
@@ -35,6 +37,12 @@ export const eventStorage = defineStore("events", {
       this.index += events.length;
       this.eventsShow = this.eventsShow.concat(events);
       f();
+    },
+    setEventsCreated(events) {
+      this.eventsCreated = events;
+    },
+    addEventsCreated(events) {
+      this.eventsCreated = this.eventsCreated.concat(events);
     },
   },
   getters: {

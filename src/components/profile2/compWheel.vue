@@ -52,7 +52,7 @@
 import { getImg, getImgStorage } from "@/services/firebase/main";
 import compWheel from "@/components/compWheel.vue";
 import { getLocalValue, setLocalValue } from "@/services/core/local";
-import { user } from "@/storages/user";
+import { user } from "@/store/user";
 getImgStorage;
 export default {
   components: { compWheel },

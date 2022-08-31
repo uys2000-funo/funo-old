@@ -29,28 +29,44 @@
       <div :style="styleInner"><slot name="in" /></div>
     </div>
     <div>
-      <div :style="styleInner"><slot name="oe" /></div>
+      <div class="bg-secondary rounded-borders" :style="styleInner">
+        <slot name="oe" />
+      </div>
     </div>
     <div>
-      <div :style="styleInner"><slot name="os" /></div>
+      <div class="bg-secondary rounded-borders" :style="styleInner">
+        <slot name="os" />
+      </div>
     </div>
     <div>
-      <div :style="styleInner"><slot name="ow" /></div>
+      <div class="bg-secondary rounded-borders" :style="styleInner">
+        <slot name="ow" />
+      </div>
     </div>
     <div>
-      <div :style="styleInner"><slot name="on" /></div>
+      <div class="bg-secondary rounded-borders" :style="styleInner">
+        <slot name="on" />
+      </div>
     </div>
     <div>
-      <div :style="styleInnerException"><slot name="ose" /></div>
+      <div class="bg-secondary rounded-borders" :style="styleInnerException">
+        <slot name="ose" />
+      </div>
     </div>
     <div>
-      <div :style="styleInnerException"><slot name="osw" /></div>
+      <div class="bg-secondary rounded-borders" :style="styleInnerException">
+        <slot name="osw" />
+      </div>
     </div>
     <div>
-      <div :style="styleInnerException"><slot name="onw" /></div>
+      <div class="bg-secondary rounded-borders" :style="styleInnerException">
+        <slot name="onw" />
+      </div>
     </div>
     <div>
-      <div :style="styleInnerException"><slot name="one" /></div>
+      <div class="bg-secondary rounded-borders" :style="styleInnerException">
+        <slot name="one" />
+      </div>
     </div>
   </div>
 </template>
@@ -142,19 +158,19 @@ export default {
     width: 50%;
     height: 50%;
     border-radius: 50%;
-    border: 1px dashed;
+    border: 2px dashed #00000050;
   }
   //wheel
   & > div:nth-child(2) {
     width: 90%;
     height: 90%;
     border-radius: 50%;
-    border: 1px dashed;
+    border: 2px dashed #00000050;
   }
   //center
   & > div:nth-child(3) {
-    width: 49%;
-    height: 49%;
+    width: 25%;
+    height: 25%;
     border-radius: 50%;
     display: flex;
     flex-wrap: nowrap;

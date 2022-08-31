@@ -1,9 +1,9 @@
 <template>
-  <div style="margin-top: -25%">
+  <div style="margin-top: -30%">
     <comp-wheel
       :s="['80vw', '80vw']"
       :r="45"
-      :se="[1, 0.25]"
+      :se="[1, 0.3]"
       :moveEvent="moveEvent"
     >
       <template v-slot:c>
@@ -52,7 +52,7 @@
 import { getImg, getImgStorage } from "@/services/firebase/main";
 import compWheel from "@/components/compWheel.vue";
 import { getLocalValue, setLocalValue } from "@/services/core/local";
-import { user } from "@/storages/user";
+import { user } from "@/store/user";
 getImgStorage;
 export default {
   components: { compWheel },

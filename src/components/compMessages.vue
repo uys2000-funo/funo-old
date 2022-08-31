@@ -15,7 +15,7 @@
 </template>
 <script>
 import backButtonTopLeft from "./backButtonTopLeft.vue";
-import { pages } from "@/storages/pages";
+import { pages } from "@/store/pages";
 export default {
   components: { backButtonTopLeft },
   data() {

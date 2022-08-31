@@ -61,7 +61,7 @@ import { eventCheck } from "@/services/core/main";
 import goBackBtn from "../components/backButtonTopLeft.vue";
 import eventAddWheel from "../components/compEventAddWheel.vue";
 import { addEventFunction } from "@/services/firebase/main";
-import { user } from "@/storages/user";
+import { user } from "@/store/user";
 export default {
   components: {
     goBackBtn,

@@ -52,7 +52,7 @@ import registerWheel from "@/components/compRegisterWheel.vue";
 import tagOrder from "@/components/compTagOrder.vue";
 import { registerCheck } from "@/services/core/main";
 import { registerFunction } from "../services/firebase/main";
-
+import { register } from "@/store/register";
 export default {
   components: {
     registerWheel,
@@ -64,6 +64,7 @@ export default {
       page: 0,
       right: false,
       uWatch: false,
+      registers: register(),
       imgs: [],
       user: {},
     };
@@ -98,12 +99,11 @@ export default {
       // To wait watch function in RegsterP ad registerC pages
       setTimeout(() => {
         this.user.tags = this.imgs;
-        if (registerCheck(this.user))
-          registerFunction(this.user, this.img)
-            .then((res) => {
-              if (res) this.$router.push("/login/");
-              else alert("Some Problems");
-            })
+        if (registerCheck(this.user)) console.log(this.user);
+        registerFunction(this.user, this.img).then((res) => {
+          if (res) this.$router.push("/login/");
+          else alert("Some Problems");
+        });
       }, 10);
     },
   },

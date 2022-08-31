@@ -138,7 +138,7 @@
 
 <script>
 import registerTag from "@/components/compRegisterTag.vue";
-import { user } from "@/storages/user";
+import { user } from "@/store/user";
 export default {
   props: ["page", "uWatch", "right"],
   inject: ["setPage", "setRight", "setImage"],
