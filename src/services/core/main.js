@@ -70,10 +70,11 @@ const checkComp = function (user) {
       c("Ret: checkComp phoneNumber == Null", (ret = false));
     if (user.companyAdress == "")
       c("Ret: checkComp companyAdress == Null", (ret = false));
-    if (user.userName == "") c("Ret: checkComp userName == 6", (ret = false));
+    if (user.userName == "") c("Ret: checkComp userName == Null", (ret = false));
     if (user.pass == "" || user.pass?.length < 6)
       c("Ret: checkComp pass < Null", (ret = false));
-    if (user.mail == "") c("Ret: checkComp mail == Null", (ret = false));
+    if (user.mail == "")
+      c("Ret: checkComp mail == Null", (ret = false));
     if (user.tags?.length < 6)
       c("Ret: checkComp tags.length < 6", (ret = false));
     resolve(ret);

@@ -40,7 +40,7 @@
         v-if="page == -4 || page == 4"
         :disable="!right"
         class="btn"
-        @click="register"
+        @click="registerEvent"
       >
         <div>Kaydol</div>
       </q-btn>
@@ -64,7 +64,7 @@ export default {
       page: 0,
       right: false,
       uWatch: false,
-      registers: register(),
+      register: register(),
       imgs: [],
       user: {},
     };
@@ -94,15 +94,17 @@ export default {
       this.page < 0 ? (this.page += 1) : (this.page -= 1);
       if (this.page == 0) this.$router.go(-1);
     },
-    register: function () {
+    registerEvent: function () {
       this.uWatch = true;
       // To wait watch function in RegsterP ad registerC pages
       setTimeout(() => {
-        this.user.tags = this.imgs;
-        if (registerCheck(this.user)) console.log(this.user);
-        registerFunction(this.user, this.img).then((res) => {
-          if (res) this.$router.push("/login/");
-          else alert("Some Problems");
+        this.register.user.tags = this.imgs;
+        registerCheck(this.register.user).then((r) => {
+          if (r)
+            registerFunction(this.register.user, this.img).then((res) => {
+              if (res) this.$router.push("/login/");
+              else alert("Some Problems");
+            });
         });
       }, 10);
     },
@@ -112,7 +114,6 @@ export default {
       updateImgs: this.updateImgs,
       setPage: this.setPage,
       setRight: () => (this.right = !this.right),
-      setUser: (user) => (this.user = user),
       setImage: (img) => this.setImage(img),
     };
   },

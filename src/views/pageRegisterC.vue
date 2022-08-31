@@ -115,17 +115,17 @@
 
 <script>
 import registerTag from "@/components/compRegisterTag.vue";
-import { user } from "@/store/user";
+import { register } from "@/store/register";
 export default {
   props: ["page", "uWatch", "right"],
-  inject: ["setPage", "setUser", "setRight", "setImage"],
+  inject: ["setPage", "setRight", "setImage"],
   components: {
     registerTag,
   },
   data() {
     return {
       img: null,
-      user: user(),
+      register: register(),
       cUser: {
         name: "",
         taxNumber: "",
@@ -157,7 +157,7 @@ export default {
   },
   watch: {
     uWatch() {
-      this.user.setUser(this.cUser);
+      this.register.user = this.cUser;
     },
   },
 };

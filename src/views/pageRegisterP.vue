@@ -138,7 +138,7 @@
 
 <script>
 import registerTag from "@/components/compRegisterTag.vue";
-import { user } from "@/store/user";
+import { register } from "@/store/register";
 export default {
   props: ["page", "uWatch", "right"],
   inject: ["setPage", "setRight", "setImage"],
@@ -148,7 +148,7 @@ export default {
   data() {
     return {
       img: null,
-      user: user(),
+      register: register(),
       pUser: {
         name: "",
         birthdate: "",
@@ -180,7 +180,8 @@ export default {
   },
   watch: {
     uWatch() {
-      this.user.setUser(this.cUser);
+      console.log("asd")
+      this.register.user = this.pUser;
     },
   },
 };
