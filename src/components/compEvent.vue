@@ -18,7 +18,7 @@
       <comp-participants-vue class="col-4 text-right" :userIDs="event.users" />
     </div>
     <div class="row wrap justify-between items-center content-center">
-      <span class="col-4">{{ event.app }}</span>
+      <span class="col-4">{{ event.app.text }}</span>
       <q-btn
         class="col-4 text-center bg-primary"
         :label="joinCheck ? 'Vazgeç' : 'katıl'"

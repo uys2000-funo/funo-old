@@ -96,7 +96,7 @@ export default {
         limit: 0,
         apro: false,
         type: false,
-        app: "",
+        app: { text: "", coord: [0, 0] },
         url: "",
         price: 0,
       },

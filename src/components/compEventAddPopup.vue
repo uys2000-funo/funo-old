@@ -261,19 +261,13 @@
             <q-toggle
               color="bg-primary"
               :model-value="event.type"
-              @update:model-value="
-                (value) => {
-                  updateEvent('type', value);
-                  eventType = !value;
-                }
-              "
+              @update:model-value="updateLocationType"
             />
           </div>
           <div v-if="!event.type">
             <q-input
               outlined
-              :model-value="event.app"
-              @update:model-value="updateEvent('app', $event)"
+              :model-value="event.app?.text"
               placeholder="Konum Seçin"
               @click="selectLocation = true"
             />
@@ -287,8 +281,8 @@
           <div v-if="event.type">
             <q-input
               outlined
-              :model-value="event.app"
-              @update:model-value="updateEvent('app', $event)"
+              :model-value="event.app?.text"
+              @update:model-value="updateEvent('app', { text: $event })"
               placeholder="Platformu yazınız"
             />
             <q-input
@@ -344,13 +338,14 @@
   </div>
   <div v-if="selectLocation">
     <comp-location-choose
-      @setCord="(value) => updateEvent('app', value)"
+      @setCord="(value) => updateLocation(value)"
       @endFunc="selectLocation = false"
     />
   </div>
 </template>
 
 <script>
+import { getLocation } from "@/services/geoCode/geocode";
 import compButtonCheck from "./compButtonCheck.vue";
 import compLocationChoose from "./compLocationChoose.vue";
 export default {
@@ -367,14 +362,32 @@ export default {
       limit: false,
       price: false,
       inf: false,
-      eventType: false,
-      tmpApp: "",
-      tmpLocation: "",
+      tmpApp: { text: "" },
+      tmpLocation: { text: "" },
       buttons: ["spor", "artt", "educ", "musi", "meet", "part"],
       buttonNames: ["Spor", "Art", "Education", "Music", "Meeting", "Party"],
     };
   },
   methods: {
+    updateLocationType: function (value) {
+      this.updateEvent("type", value);
+      if (value) {
+        this.tmpLocation = this.event.app;
+        if (this.tmpApp) {
+          this.updateEvent("app", this.tmpApp);
+        } else this.updateEvent("app", { text: "" });
+      } else {
+        this.tmpApp = this.event.app;
+        if (this.tmpLocation) {
+          this.updateEvent("app", this.tmpLocation);
+        } else this.updateEvent("app", { text: "" });
+      }
+    },
+    updateLocation: function (value) {
+      getLocation(value[0], value[1]).then((res) => {
+        this.updateEvent("app", { coord: value, text: res });
+      });
+    },
     updateImage: function (val) {
       this.img = val.target.result;
     },
@@ -392,18 +405,6 @@ export default {
   watch: {
     inf() {
       if (this.inf == true) setTimeout(() => (this.inf = false), 5000);
-    },
-    eventType() {
-      if (this.event.type) {
-        this.tmpLocation = this.event.app;
-        console.log(this.tmpApp, this.tmpLocation);
-        if (this.tmpApp) this.updateEvent("app", this.tmpApp);
-        else this.updateEvent("app", "");
-      } else {
-        this.tmpApp = this.event.app;
-        if (this.tmpLocation) this.updateEvent("app", this.tmpLocation);
-        this.updateEvent("app", this.tmpLocation);
-      }
     },
   },
 };

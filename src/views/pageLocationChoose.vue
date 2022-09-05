@@ -24,7 +24,7 @@
 </template>
 <script>
 import { yandexMap, ymapMarker } from "vue-yandex-maps";
-import { getLocation } from "@/services/openWeather/geocode";
+import { getLocation } from "@/services/geoCode/geocode";
 export default {
   name: "LoacitonChooseTest",
   components: { yandexMap, ymapMarker },
