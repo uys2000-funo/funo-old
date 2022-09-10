@@ -14,19 +14,15 @@
           <template v-slot:c> {{ r }} </template>
           <template v-slot:ie>
             <img :src="require('@/assets/images/dot.svg')" />
-            e
           </template>
           <template v-slot:is>
             <img :src="require('@/assets/images/dot.svg')" />
-            s
           </template>
           <template v-slot:iw>
             <img :src="require('@/assets/images/dot.svg')" />
-            w
           </template>
           <template v-slot:in>
             <img :src="require('@/assets/images/dot.svg')" />
-            n
           </template>
           <template v-slot:oe>
             <img :src="p.e" />

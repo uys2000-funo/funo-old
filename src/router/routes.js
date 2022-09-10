@@ -136,4 +136,9 @@ export default setDebugRouter([
     name: "pageLocationTest",
     component: () => import("../views/pageLocationTest.vue"),
   },
+  {
+    path: "/test",
+    name: "telefon",
+    component: () => import("@/components/qTest.vue"),
+  },
 ]);
