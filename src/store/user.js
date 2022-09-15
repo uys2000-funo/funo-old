@@ -31,8 +31,16 @@ export const user = defineStore("user", {
       else return false;
     },
     tags: (state) => {
-      if (state.userFire?.tags) return state.userFire?.tags;
+      if (state.user.userFire?.tags) return state.user.userFire?.tags;
       else return ["spor", "artt", "educ", "musi", "meet", "part"];
+    },
+    jEvents: (state) => {
+      if (state.user.userFire?.joinEvent) return state.user.userFire?.joinEvent;
+      else return null;
+    },
+    addJEvents: (state) => {
+      if (state.user.userFire?.joinEvent) return state.user.userFire?.joinEvent;
+      else return null;
     },
   },
 });

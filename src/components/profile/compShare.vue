@@ -1,3 +1,3 @@
 <template>
-  share
+  Paylaştığım fotolar
 </template>

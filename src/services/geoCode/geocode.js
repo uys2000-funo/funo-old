@@ -1,6 +1,6 @@
 let url =
   "https://geocode-maps.yandex.ru/1.x/?format=json&apikey=cdbd6f55-bb30-4404-a6bb-215a26c76d72&geocode={lat},{lon}&lang=en-US";
-export const getLocation = function (lat, lon) {
+export const getLocation = function (lon, lat) {
   const eUrl = url.replace("{lat}", lat).replace("{lon}", lon);
   return fetch(eUrl, {
     method: "GET", // *GET, POST, PUT, DELETE, etc.
@@ -16,8 +16,9 @@ export const getLocation = function (lat, lon) {
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
   }).then((res) => {
     return res.json().then((re) => {
-      console.log(re.response.GeoObjectCollection.featureMember)
-      return re.response.GeoObjectCollection.featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData.Address.formatted;
+      console.log(re.response.GeoObjectCollection.featureMember);
+      return re.response.GeoObjectCollection.featureMember[0].GeoObject
+        .metaDataProperty.GeocoderMetaData.Address.formatted;
     });
   });
 };

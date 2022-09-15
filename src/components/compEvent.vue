@@ -82,16 +82,11 @@ export default {
       });
     },
     updateUser: function (eId) {
-      console.log(this.user.user);
-      if (this.user.user.userFire == undefined)
-        this.user.user.userFire = {
-          eventsJoined: [],
-        };
-      else if ((this.user.user.userFire.eventsJoined = undefined))
-        this.user.user.userFire.eventsJoined = [];
-      this.user.user.userFire.eventsJoined.push(eId);
+      if (this.user.user.userFire.joinEvent == undefined)
+        this.user.user.userFire.joinEvent = [];
+      this.user.user.userFire.joinEvent.push(eId);
       user().setUser(this.user.user);
-      return [this.user.user, this.user.user.userAuth.user.uid];
+      return [this.user.user, this.user.ID];
     },
     updateEvent: function (event, uID) {
       if (event.users == undefined) event.users = [];
@@ -99,10 +94,10 @@ export default {
       return event;
     },
     updateUserExit: function (eId) {
-      const events = this.user.user.userFire.eventsJoin;
-      this.user.user.userFire.eventsJoin = this.filtering(events, eId);
+      const events = this.user.jEvents;
+      this.user.user.userFire.joinEvent = this.filtering(events, eId);
       user().setUser(this.user.user);
-      return [this.user.user, this.user.user.userAuth.user.uid];
+      return [this.user.user, this.user.ID];
     },
     updateEventExit: function (event, uID) {
       if (event.users == undefined) event.users = [];
@@ -115,17 +110,14 @@ export default {
     joinEvent: function (event) {
       const [user, uID] = this.updateUser(event.id);
       event = this.updateEvent(event, uID);
-      joinEvent(uID, event.id, user.userFire, event).then(() => {
-        this.joinCheck = this.checkEvent();
-      });
+      this.joinCheck = this.checkEvent();
+      joinEvent(uID, event.id, user.userFire, event);
     },
     exitEvent: function (event) {
-      console.log("exit");
       const [user, uID] = this.updateUserExit(event.id);
       event = this.updateEventExit(event, uID);
-      exitEvent(uID, event.id, user.userFire, event).then(() => {
-        this.joinCheck = this.checkEvent();
-      });
+      this.joinCheck = this.checkEvent();
+      exitEvent(uID, event.id, user.userFire, event);
     },
     getUserImages: function () {},
   },

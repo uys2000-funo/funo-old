@@ -52,10 +52,10 @@ export const updateSettings = function (key, value) {
 };
 export const chekUserEventJoinStatus = function (user, eID) {
   c("Run: chekUserEventJoinStatus", [user, eID]);
-  if (user.userFire?.eventsJoin)
+  if (user.userFire?.joinEvent)
     return c(
       "Res: chekUserEventJoinStatus",
-      user.userFire.eventsJoin.some((item) => item === eID)
+      user.userFire.joinEvent.some((item) => item === eID)
     );
   else return false;
 };
