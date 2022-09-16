@@ -346,8 +346,8 @@
 
 <script>
 import { getLocation } from "@/services/geoCode/geocode";
-import compButtonCheck from "./compButtonCheck.vue";
-import compLocationChoose from "./compLocationChoose.vue";
+import compButtonCheck from "../components/compButtonCheck.vue";
+import compLocationChoose from "../components/general/compLocationChoose.vue";
 export default {
   components: {
     compButtonCheck,

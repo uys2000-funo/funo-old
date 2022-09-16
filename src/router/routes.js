@@ -57,7 +57,7 @@ export default setDebugRouter([
                     path: "",
                     name: "CreateEvent",
                     component: () =>
-                      import("../components/compEventAddPopup.vue"),
+                      import("../popups/eventAddPopup.vue"),
                   },
                 ],
               },
@@ -69,7 +69,7 @@ export default setDebugRouter([
                   {
                     path: ":id",
                     name: "Event",
-                    component: () => import("../components/compEventPopup.vue"),
+                    component: () => import("../popups/eventPopup.vue"),
                   },
                 ],
               },
@@ -111,7 +111,7 @@ export default setDebugRouter([
   {
     path: "/registerTest",
     name: "registerTest",
-    component: () => import("../views/pageRegisterTest.vue"),
+    component: () => import("../testViews/registerTest.vue"),
   },
   {
     path: "/loginTest",
@@ -121,7 +121,7 @@ export default setDebugRouter([
   {
     path: "/addEventTest",
     name: "addEventTest",
-    component: () => import("../views/pageAddEventTest.vue"),
+    component: () => import("../testViews/eventAddTest.vue"),
   },
   {
     path: "/updateSetting",
@@ -131,7 +131,7 @@ export default setDebugRouter([
   {
     path: "/eventsAllTest",
     name: "eventsAllTest",
-    component: () => import("../views/pageEventsAllTest.vue"),
+    component: () => import("../testViews/eventFlowTest.vue"),
   },
   {
     path: "/locationChooseTest",
@@ -141,11 +141,11 @@ export default setDebugRouter([
   {
     path: "/pageLocationTest",
     name: "pageLocationTest",
-    component: () => import("../views/pageLocationTest.vue"),
+    component: () => import("../testViews/locationTest.vue"),
   },
   {
     path: "/test",
     name: "telefon",
-    component: () => import("@/components/qTest.vue"),
+    component: () => import("@/testViews/carouselTest.vue"),
   },
 ]);

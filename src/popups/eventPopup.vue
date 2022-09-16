@@ -65,11 +65,11 @@
 </template>
 
 <script>
-import { getEvent, getImgStorage } from "@/services/firebase/main";
-import gImg from "./compEventPopupImg.vue";
-import goBackBtn from "./backButtonTopLeft.vue";
-import gIcon from "./gIcon.vue";
-import compParticipantsVue from "./general/compEvent/compParticipants.vue";
+import { getEvent, getImgStorage } from "@/services/firebase/events";
+import gImg from "../components/eventPopup/compImg.vue";
+import goBackBtn from "../components/general/backButtonTopLeft.vue";
+import gIcon from "../components/gIcon.vue";
+import compParticipantsVue from "../components/general/compEvent/compParticipants.vue";
 export default {
   components: {
     gImg,

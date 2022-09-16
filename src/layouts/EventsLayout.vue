@@ -60,8 +60,8 @@
 <script>
 import { location } from "@/store/location";
 import { pages } from "@/store/pages";
-import compNotifications from "@/components/compNotifications.vue";
-import compMessages from "@/components/compMessages.vue";
+import compNotifications from "@/popups/notificationsPopup.vue";
+import compMessages from "@/popups/messagesPopup.vue";
 import {user} from "@/store/user"
 export default {
   components: { compNotifications, compMessages },

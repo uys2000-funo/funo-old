@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import { getAllEvents } from "@/services/firebase/main";
+import { getAllEvents } from "@/services/firebase/events";
 export default {
   data() {
     return {

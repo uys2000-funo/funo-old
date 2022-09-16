@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { getImgStorage, joinEvent, exitEvent } from "@/services/firebase/main";
+import { getImgStorage, joinEvent, exitEvent } from "@/services/firebase/events";
 import { chekUserEventJoinStatus } from "@/services/core/main";
 import compParticipantsVue from "./compEvent/compParticipants.vue";
 import { user } from "@/store/user";
@@ -168,6 +168,7 @@ export default {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   padding: 10px 15px;
+  max-width: 100vw;
 }
 a {
   color: black;

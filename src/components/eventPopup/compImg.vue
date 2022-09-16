@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { getImgStorage } from "@/services/firebase/main";
+import { getImgStorage } from "@/services/firebase/events";
 export default {
   props: ["cImg", "eID"],
   data() {

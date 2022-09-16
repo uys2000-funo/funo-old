@@ -1,4 +1,4 @@
-import { getAllEvents } from "../firebase/main";
+import { getAllEvents } from "../firebase/events";
 
 const f = () => "";
 

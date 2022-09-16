@@ -14,7 +14,7 @@
 
 <script>
 import { getLastUser } from "./services/core/main";
-import { autoLogin } from "./services/firebase/main";
+import { autoLogin } from "./services/firebase/login";
 import settings from "@/services/settings";
 
 import { App as CapacitorApp } from "@capacitor/app";

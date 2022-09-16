@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import registerTag from "@/components/compRegisterTag.vue";
+import registerTag from "@/components/register/compRegisterTag.vue";
 import { register } from "@/store/register";
 export default {
   props: ["page", "uWatch", "right"],

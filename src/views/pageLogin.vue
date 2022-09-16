@@ -89,7 +89,7 @@
   </div>
 </template>
 <script>
-import { loginFunction, loginFunctionGoogle } from "../services/firebase/main";
+import { loginFunction, loginFunctionGoogle } from "../services/firebase/login";
 import { setLastUser } from "@/services/core/main";
 import { user } from "@/store/user";
 export default {

@@ -48,10 +48,10 @@
   </div>
 </template>
 <script>
-import registerWheel from "@/components/compRegisterWheel.vue";
-import tagOrder from "@/components/compTagOrder.vue";
+import registerWheel from "@/components/register/compRegisterWheel.vue";
+import tagOrder from "@/components/register/compTagOrder.vue";
 import { registerCheck } from "@/services/core/main";
-import { registerFunction } from "../services/firebase/main";
+import { registerFunction } from "../services/firebase/login";
 import { register } from "@/store/register";
 export default {
   components: {

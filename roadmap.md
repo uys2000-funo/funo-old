@@ -75,3 +75,4 @@
 - [ ] Register with Google
 - [ ] Event Add multiple image Control
 - [ ] After creating event refresh events
+- [ ] EventAddLayout and eventAddPopup Should be changed

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import gIcon from "./gIcon.vue";
+import gIcon from "../gIcon.vue";
 export default {
   props: ["beforeGoBack", "time", "goBackFunc"],
   components: {

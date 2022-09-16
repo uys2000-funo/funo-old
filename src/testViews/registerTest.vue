@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { registerFunction } from "../services/firebase/main";
+import { registerFunction } from "../services/firebase/login";
 export default {
   data() {
     return {
