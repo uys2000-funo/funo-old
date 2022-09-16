@@ -63,12 +63,12 @@ export const updateUser = function (uID, user) {
 export const addEventToUserFirestore = function (uID, eID) {
   const refDoc = doc(db, "U", uID);
   return updateDoc(refDoc, {
-    eventsJoined: arrayUnion(eID),
+    joinEvent: arrayUnion(eID),
   });
 };
 export const removeEventToUserFirestore = function (uID, eID) {
   const refDoc = doc(db, "U", uID);
   return updateDoc(refDoc, {
-    eventsJoined: arrayRemove(eID),
+    joinEvent: arrayRemove(eID),
   });
 };

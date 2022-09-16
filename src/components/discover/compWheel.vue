@@ -1,9 +1,9 @@
 <template>
-  <div style="margin-top: -25%">
+  <div style="margin-top: -30%">
     <comp-wheel
       :s="['80vw', '80vw']"
       :r="45"
-      :se="[1, 0.25]"
+      :se="[1, 0.3]"
       :moveEvent="moveEvent"
     >
       <template v-slot:c>
@@ -61,11 +61,11 @@ export default {
     return {
       u: user(),
       img: "",
-      run: require("@/assets/images/profile/run.svg"),
-      sign: require("@/assets/images/profile/sign.svg"),
-      user: require("@/assets/images/profile/user.svg"),
-      mail: require("@/assets/images/profile/mail.svg"),
-      people: require("@/assets/images/profile/people.svg"),
+      usersFY: require("@/assets/images/discover/people.svg"),//usersFY
+      eventsFY: require("@/assets/images/discover/party.svg"),//eventsFY
+      search: require("@/assets/images/discover/search.svg"),//search
+      followed: require("@/assets/images/discover/user.svg"), //followed
+      atmospher: require("@/assets/images/discover/img.svg"), //atmospher
       p: {
         e: "",
         se: "",
@@ -80,13 +80,13 @@ export default {
   },
   methods: {
     setupEvent: function () {
-      this.p.ne = this.people;
-      this.p.e = this.run;
-      this.p.se = this.sign;
-      this.p.s = this.user;
-      this.p.sw = this.mail;
-      this.p.w = this.people;
-      this.p.nw = this.run;
+      this.p.ne = this.atmospher;
+      this.p.e = this.usersFY;
+      this.p.se = this.eventsFY;
+      this.p.s = this.search;
+      this.p.sw = this.followed;
+      this.p.w = this.atmospher;
+      this.p.nw = this.usersFY;
     },
     moveEvent: function (res) {
       let i = res % 8;

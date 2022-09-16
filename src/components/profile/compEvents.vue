@@ -43,7 +43,6 @@ export default {
   },
   mounted() {
     if (this.eventsCreated.length == 0) this.getEvents();
-    console.log(this.events, this.userEvents);
   },
 };
 </script>

@@ -38,6 +38,9 @@ export const events = defineStore("events", {
       this.eventsShow = this.eventsShow.concat(events);
       f();
     },
+    setEventsJoined(events) {
+      this.eventsJoined = events;
+    },
     setEventsCreated(events) {
       this.eventsCreated = events;
     },

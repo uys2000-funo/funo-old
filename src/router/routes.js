@@ -98,6 +98,13 @@ export default setDebugRouter([
         path: "discover",
         name: "discover",
         component: () => import("../layouts/DiscoverLayout.vue"),
+        children: [
+          {
+            path: ":id",
+            name: "discoverPage",
+            component: () => import("../views/pageDiscover.vue"),
+          },
+        ],
       },
     ],
   },
