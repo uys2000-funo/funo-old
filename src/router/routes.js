@@ -40,7 +40,7 @@ export default setDebugRouter([
       {
         path: "main",
         name: "AppMain",
-        component: () => import("../layouts/MainLayout.vue"),
+        component: () => import("../layouts/EventsLayout.vue"),
         children: [
           {
             path: "events",

@@ -3,9 +3,7 @@
     <input v-model="key" type="text" />
     <button @click="checkEvent">Enter</button>
   </div>
-  <div v-if="isLogged">
-    <router-view />
-  </div>
+  <router-view v-if="isLogged" />
 </template>
 
 <script>

@@ -37,13 +37,15 @@ export const setDebugRouter = function (routes) {
   } else {
     r["component"] = () => import("../../layouts/AppLayout.vue");
   }
-  if (settings.openBeta)
+  if (settings.openBeta) {
+    const z = { ...r };
     r = {
       path: "/",
       name: "OpenBetaLayout",
-      component: () => import("@/layouts/openBetaLayout.vue"),
-      children: r,
+      component: () => import("@/layouts/OpenBetaLayout.vue"),
+      children: [z],
     };
+  }
 
   return c("Res: setDebugRouter", [r]);
 };

@@ -1,6 +1,6 @@
 {
   "developer": true,
-  "openBeta": true,
+  "openBeta": false,
   "debug": true,
   "autoLogin": true
 }
