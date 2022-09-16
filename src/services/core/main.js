@@ -30,7 +30,6 @@ export const setDebugRouter = function (routes) {
     name: "MainLayoutLoader",
     children: routes,
   };
-
   if (settings.developer) {
     r.name = "TestLayoutLoader";
     r["component"] = () => import("../../layouts/TestLayout.vue");
@@ -38,6 +37,14 @@ export const setDebugRouter = function (routes) {
   } else {
     r["component"] = () => import("../../layouts/AppLayout.vue");
   }
+  if (settings.openBeta)
+    r = {
+      path: "/",
+      name: "OpenBetaLayout",
+      component: () => import("@/layouts/openBetaLayout.vue"),
+      children: r,
+    };
+
   return c("Res: setDebugRouter", [r]);
 };
 export const setLastUser = function (user) {
@@ -70,11 +77,11 @@ const checkComp = function (user) {
       c("Ret: checkComp phoneNumber == Null", (ret = false));
     if (user.companyAdress == "")
       c("Ret: checkComp companyAdress == Null", (ret = false));
-    if (user.userName == "") c("Ret: checkComp userName == Null", (ret = false));
+    if (user.userName == "")
+      c("Ret: checkComp userName == Null", (ret = false));
     if (user.pass == "" || user.pass?.length < 6)
       c("Ret: checkComp pass < Null", (ret = false));
-    if (user.mail == "")
-      c("Ret: checkComp mail == Null", (ret = false));
+    if (user.mail == "") c("Ret: checkComp mail == Null", (ret = false));
     if (user.tags?.length < 6)
       c("Ret: checkComp tags.length < 6", (ret = false));
     resolve(ret);

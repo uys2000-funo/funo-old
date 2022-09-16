@@ -1,3 +1,3 @@
 <template>
-  jevents
+  Events
 </template>

@@ -1,3 +1,3 @@
 <template>
-  settings
+  Atmospher
 </template>

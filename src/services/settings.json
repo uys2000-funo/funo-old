@@ -1,5 +1,6 @@
 {
   "developer": true,
+  "openBeta": true,
   "debug": true,
   "autoLogin": true
 }

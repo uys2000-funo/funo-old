@@ -11,13 +11,13 @@ import {
   updateEvent,
   removeEventToUserFirestore,
   removeUserToEventFirestore,
-} from "./sFirestore";
-import { createUserAuth, getUserAuth, getUserAuthGoogle } from "./sAuth";
+} from "./core/sFirestore";
+import { createUserAuth, getUserAuth, getUserAuthGoogle } from "./core/sAuth";
 import {
   createEventImgsStorage,
   createUserImgsStorage,
   getImage,
-} from "./sStorage";
+} from "./core/sStorage";
 import { c, f } from "../c";
 
 export const registerFunction = function (uData, uImg = null, tImg = null) {

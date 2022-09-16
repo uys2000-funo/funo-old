@@ -1,5 +1,5 @@
 import { f } from "../c";
-import { getEventFirestore } from "../firebase/sFirestore";
+import { getEventFirestore } from "../firebase/core/sFirestore";
 
 const error = function (reject, err = "TimeOut") {
   return setTimeout(() => {

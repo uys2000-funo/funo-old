@@ -10,30 +10,30 @@
     keep-alive
   >
     <q-carousel-slide name="0" class="column no-wrap flex-center">
-      <comp-share />
+      <comp-search />
     </q-carousel-slide>
     <q-carousel-slide name="1" class="column no-wrap flex-center">
-      <comp-edit-pro />
+      <comp-events />
     </q-carousel-slide>
     <q-carousel-slide name="2" class="column no-wrap flex-center">
-      <comp-setting />
+      <comp-users />
     </q-carousel-slide>
     <q-carousel-slide name="3" class="column no-wrap flex-center">
-      <comp-j-events />
+      <comp-atmo />
     </q-carousel-slide>
     <q-carousel-slide name="4" class="column no-wrap flex-center">
-      <comp-events />
+      <comp-followed />
     </q-carousel-slide>
   </q-carousel>
 </template>
 <script>
-import compShare from "@/components/profile/compShare.vue";
-import compEditPro from "@/components/profile/compEditPro.vue";
-import compSetting from "@/components/profile/compSettings.vue";
-import compJEvents from "@/components/profile/compJEvents.vue";
-import compEvents from "@/components/profile/compEvents.vue";
+import compSearch from "@/components/discover/compSearch.vue";
+import compEvents from "@/components/discover/compEvents.vue";
+import compUsers from "@/components/discover/compUsers.vue";
+import compAtmo from "@/components/discover/compAtmo.vue";
+import compFollowed from "@/components/discover/compFollowed.vue";
 export default {
-  components: { compShare, compEditPro, compSetting, compJEvents, compEvents },
+  components: { compSearch, compEvents, compUsers, compAtmo, compFollowed },
   props: ["page"],
   data() {
     return {

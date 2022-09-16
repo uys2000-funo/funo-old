@@ -1,6 +1,6 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import app from "./app";
-import { c, f, fr } from "../c";
+import { c, f, fr } from "../../c";
 const storage = getStorage(app);
 
 const uploadImage = function (img, path) {

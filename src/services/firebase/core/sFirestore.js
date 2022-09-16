@@ -72,3 +72,7 @@ export const removeEventToUserFirestore = function (uID, eID) {
     joinEvent: arrayRemove(eID),
   });
 };
+export const getDocument = function (collection, document) {
+  const refDoc = doc(db, collection, document);
+  return getDoc(refDoc);
+};
