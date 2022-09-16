@@ -45,7 +45,7 @@ export default setDebugRouter([
           {
             path: "events",
             name: "EventsAll",
-            component: () => import("../views/pageEventsAll.vue"),
+            component: () => import("../views/pageEvents.vue"),
             children: [
               /// Popup pages will be in events page to contiune show event list at background
               {

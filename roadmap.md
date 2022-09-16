@@ -19,41 +19,59 @@
   - [ ] Event Settings
   - [ ] Event Filter
 - [ ] Main Pages
+  - [x] Login Page
+    - [ ] Forgot Password
   - [x] Register Page
+    - [ ] Register Wheel (Needs Update)
+    - [ ] Register Image Upload (Needs Update)
   - [ ] Profile Page
     - [ ] Settings Page (Only Frontend)
     - [ ] Edit Page (Only Frontend)
-    - [ ] Images Part
-    - [x] Created Events Part
-    - [x] Joined Events Part
+    - [ ] Images Page
+      - [ ] Image Comp
+      - [ ] Image Upload
+    - [x] Created Events Page
+    - [x] Joined Events Page
   - [ ] Map Page
     - [x] Yandex Map integration
     - [ ] Events integration to map
   - [ ] Events Page
+    - [ ] Auto Location dedection
     - [x] Shorccut Filter Buttons
     - [ ] ShowCase Events
     - [ ] Eventflow
       - [x] Flowing
       - [ ] Flowing Orderly
     - [ ] Filtering
-    - [ ] Event Popup
+    - [ ] Event Detail Page Popup
+      - [ ] Event Participants Page Popup
     - [ ] Messages Popup
+      - [ ] Chat System
     - [ ] Notification Popup
+    - [ ] Shorcut Wheel
   - [ ] Discover Page
     - [ ] Discover User Page
+      - [ ] User Comp
     - [ ] Discover Event Page
     - [ ] Search Page
+      - [ ] typesense integration
     - [ ] Atmospher Page
+      - [ ] Event / User Comp
     - [ ] Follwed User Events Page
-  - [x] Event Add Page
+  - [ ] Event Add Page
+    - [x] Event Add Function
+    - [ ] Event Participant Approval Function
+    - [ ] Event Participant Limitation
+    - [x] Event Map (Lacation) integration
 
 ## Isues
 
-[ ] Login Page Inputs
-[ ] Login Page Pass Input
-[ ] Register Tag Order Page Slowness
-[ ] Events Re-Load Optimization
-[ ] Main Page Button Filter ( Not shows crossed events )
-[ ] Fixing layout and page documentation
-[ ] Register with Google
-[ ] Event Add multiple image Control
+- [ ] Login Page Inputs
+- [ ] Login Page Pass Input
+- [ ] Register Tag Order Page Slowness
+- [ ] Events Re-Load Optimization
+- [x] Main Page Button Filter ( Not shows crossed events )
+- [ ] Fixing layout and page documentation
+- [ ] Register with Google
+- [ ] Event Add multiple image Control
+- [ ] After creating event refresh events

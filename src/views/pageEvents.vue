@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import compEvent from "@/components/compEvent.vue";
+import compEvent from "@/components/general/compEvent.vue";
 import { events } from "@/store/events";
 import { getAllEventsFunction } from "@/services/core/events";
 export default {

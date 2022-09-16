@@ -2,6 +2,7 @@
   <div>
     <span v-if="userIDs != undefined">
       <span v-if="userIDs.length == 0"> Kimse Yok </span>
+      <span v-else-if="userIDs.length > 99"> 99+ Katılımcı </span>
       <span v-else> {{ userIDs.length }} Katılımcı </span>
     </span>
     <span v-else>İlk Ol</span>

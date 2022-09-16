@@ -20,7 +20,7 @@
 import { user } from "@/store/user";
 import { events } from "@/store/events";
 import { getEventsCreated } from "@/services/core/createdEvents";
-import compEvent from "../compEvent.vue";
+import compEvent from "../general/compEvent.vue";
 export default {
   components: { compEvent },
   data() {
