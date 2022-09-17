@@ -86,14 +86,20 @@ export default {
   },
   methods: {
     share: function () {
-      navigator
-        .share({
-          title: "Web Share API Draft",
-          text: "Take a look at this spec!",
-          url: "https://wicg.github.io/web-share/#share-method",
-        })
-        .then(() => console.log("Successful share"))
-        .catch((error) => console.log("Error sharing", error));
+      if (navigator.share)
+        navigator
+          .share({
+            title: "Share Event",
+            text: "There is amaing event You should come to :)",
+            url: `https://gogol-test-app.web.app/app/main/events/event/${this.pages.event.id}`,
+          })
+          .then(() => console.log("Successful share"))
+          .catch((error) => console.log("Error sharing", error));
+      else {
+        console.log(
+          `https://gogol-test-app.web.app/app/main/events/event/${this.pages.event.id}`
+        );
+      }
     },
   },
 };
