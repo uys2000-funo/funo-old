@@ -16,16 +16,6 @@ export const events = defineStore("events", {
     setCount(count) {
       this.count = count;
     },
-    //cleanEvents() {
-    //  this.eventsAll = [];
-    //  this.eventsShow = [];
-    //},
-    //cleanEventsAll() {
-    //  this.eventsAll = [];
-    //},
-    //cleanEventsShow() {
-    //  this.eventsShow = [];
-    //},
     setEvents(events) {
       this.eventsAll = events;
     },

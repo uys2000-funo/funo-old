@@ -108,9 +108,10 @@ export default {
     };
   },
   methods: {
-    loginSucces: function (res) {
+    loginSucces: function (res, s = true) {
+      console.log(res);
       this.user.setUser(res);
-      setLastUser(res);
+      if (s) setLastUser(res);
       this.$router.push("/app/main/events");
     },
     loginFunction: function (data) {
@@ -122,7 +123,7 @@ export default {
           if (res) this.loginSucces(res);
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err, this.user, this.pass);
           this.loginError = true;
           this.btnLogin = false;
           setTimeout(() => {
@@ -135,14 +136,14 @@ export default {
       loginFunctionGoogle()
         .then((res) => {
           this.btnGoogle = false;
-          this.loginSucces(res);
+          this.loginSucces(res, false);
         })
-        .catch(() => {
+        .catch((err) => {
           this.btnGoogle = false;
           this.loginErrorGoogle = true;
           setTimeout(() => {
             this.loginErrorGoogle = false;
-            console.log(this.loginErrorGoogle);
+            console.log(err);
           }, 1000);
         });
     },

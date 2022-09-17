@@ -139,11 +139,6 @@ export default setDebugRouter([
     component: () => import("../views/pageLocationChoose.vue"),
   },
   {
-    path: "/pageLocationTest",
-    name: "pageLocationTest",
-    component: () => import("../testViews/locationTest.vue"),
-  },
-  {
     path: "/test",
     name: "telefon",
     component: () => import("@/testViews/carouselTest.vue"),

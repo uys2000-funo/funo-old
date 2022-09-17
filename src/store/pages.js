@@ -4,6 +4,8 @@ export const pages = defineStore("pages", {
   state: () => ({
     notificationDialog: false,
     messagesDialog: false,
+    eventSettingsDialog: false,
+    event: {},
   }),
   actions: {
     setNotificationDialog(value) {
@@ -11,6 +13,13 @@ export const pages = defineStore("pages", {
     },
     setMessagesDialog(value) {
       this.messagesDialog = value;
+    },
+    openEventSettinsg(value) {
+      this.eventSettingsDialog = true;
+      this.event = value;
+    },
+    closeEventSettinsg() {
+      this.eventSettingsDialog = false;
     },
   },
   getters: {

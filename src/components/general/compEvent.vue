@@ -13,7 +13,12 @@
           {{ event.name }}
         </span>
         <!--Seetings Button-->
-        <q-icon v-ripple size="xs" name="more_vert" />
+        <q-icon
+          v-ripple
+          size="xs"
+          name="more_vert"
+          @click="pages.openEventSettinsg(event)"
+        />
       </div>
     </div>
     <!--Image-->
@@ -53,9 +58,14 @@
 </template>
 
 <script>
-import { getImgStorage, joinEvent, exitEvent } from "@/services/firebase/events";
+import {
+  getImgStorage,
+  joinEvent,
+  exitEvent,
+} from "@/services/firebase/events";
 import { chekUserEventJoinStatus } from "@/services/core/main";
 import compParticipantsVue from "./compEvent/compParticipants.vue";
+import { pages } from "@/store/pages";
 import { user } from "@/store/user";
 export default {
   props: ["event", "tags"],
@@ -64,6 +74,7 @@ export default {
   },
   data() {
     return {
+      pages: pages(),
       imgPath: "",
       joinCheck: false,
       user: user(),

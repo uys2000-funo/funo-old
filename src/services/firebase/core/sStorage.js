@@ -19,7 +19,7 @@ const uploadBoth = function (uID, uImg, tImg) {
 };
 const uploadOne = function (check, uID, aImg) {
   if (check) return f(uploadImage, aImg, `U/${uID}/imgs/uImg`);
-  else return f(uploadImage, aImg, `U/${uID}/imgs/uImg`);
+  else return f(uploadImage, aImg, `U/${uID}/imgs/tImg`);
 };
 export const createUserImgsStorage = function (uID, uImg, tImg) {
   if ((uImg != null) & (tImg != null)) return uploadBoth(uID, uImg, tImg);

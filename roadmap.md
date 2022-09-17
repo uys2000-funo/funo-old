@@ -76,3 +76,4 @@
 - [ ] Event Add multiple image Control
 - [ ] After creating event refresh events
 - [ ] EventAddLayout and eventAddPopup Should be changed
+- [ ] Event Add texts wrong says kaydol instad of create event

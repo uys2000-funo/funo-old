@@ -19,6 +19,7 @@
       </template>
     </q-infinite-scroll>
   </q-scroll-area>
+  <comp-event-settings />
   <router-view />
 </template>
 
@@ -26,9 +27,11 @@
 import compEvent from "@/components/general/compEvent.vue";
 import { events } from "@/store/events";
 import { getAllEventsFunction } from "@/services/core/events";
+import compEventSettings from "@/components/general/compEvent/compEventSettings.vue";
 export default {
   components: {
     compEvent,
+    compEventSettings,
   },
   props: ["tags"],
   data() {

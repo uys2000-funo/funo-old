@@ -26,12 +26,17 @@ export const loginFunction = function (uData) {
 const getEditedData = function (gData, aData) {
   return c("Res: getEditedData", {
     name: aData.user.displayName,
-    birth: gData.birthdays[0].date,
-    gender: gData.genders[0].value,
+    birth: `${gData.birthdays[0].date.day}/${gData.birthdays[0].date.month}/${gData.birthdays[0].date.year}`,
+    sex: gData.genders[0].value == "male",
     nick: null,
-    phone: null,
+    phoneNumber: null,
     mail: aData.user.email,
     pass: null,
+    birthdate: "04/09/2000",
+    events: [],
+    joinEvent: [],
+    tImg: null,
+    userName: aData.user.uid,
   });
 };
 const getUserDataFromGoogle = function (id, accessToken, aData) {
@@ -54,15 +59,19 @@ const getCheckedData = function (aData, fData) {
       aData[0].user.providerData[0].uid,
       aData[1],
       aData[0]
-    );
+    ).then((res) => {
+      //const imgUrl = aData[0].user.photoURL;
+      f(createUserFirestore, res.userName, res);
+      return c("Res: loginFunction", { userAuth: aData[0], userFire: res });
+    });
   } else {
-    return c("Res: loginFunction", { userAuth: aData, userFire: fData.data() });
+    return c("Res: loginFunction", { userAuth: aData[0], userFire: fData.data() });
   }
 };
 export const loginFunctionGoogle = function () {
   return f(getUserAuthGoogle).then((aData) => {
     return f(getUserFirestore, aData[0].user.uid).then((fData) => {
-      return f(getCheckedData, aData, fData);
+      return getCheckedData(aData, fData);
     });
   });
 };
