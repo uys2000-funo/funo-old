@@ -50,14 +50,13 @@ export default setDebugRouter([
               /// Popup pages will be in events page to contiune show event list at background
               {
                 path: "create",
-                name: "Create",
+                name: "CreateEvent",
                 component: () => import("../layouts/EventAddLayout.vue"),
                 children: [
                   {
-                    path: "",
-                    name: "CreateEvent",
-                    component: () =>
-                      import("../popups/eventAddPopup.vue"),
+                    path: ":id",
+                    name: "CreateEventPage",
+                    component: () => import("../views/pageEventAdd.vue"),
                   },
                 ],
               },
@@ -140,7 +139,7 @@ export default setDebugRouter([
   },
   {
     path: "/test",
-    name: "telefon",
-    component: () => import("@/testViews/carouselTest.vue"),
+    name: "test",
+    component: () => import("@/components/general/popupComp.vue"),
   },
 ]);

@@ -20,8 +20,8 @@ export const getRotateBR = function (currentPosition, lastPosition) {
 };
 export const getSide = function (lastPosition, size) {
   let [x, y] = [false, false];
-  if (lastPosition[0] < size[0] / 2) x = true;
-  if (lastPosition[1] < size[1] / 2) y = true;
+  if (lastPosition[0] < size[0] / 2 + size[2]) x = true;
+  if (lastPosition[1] < size[1] / 2 + size[3]) y = true;
   return [x, y];
 };
 export const getRotate = function (currentPosition, lastPosition, side) {

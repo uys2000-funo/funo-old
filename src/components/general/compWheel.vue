@@ -79,7 +79,7 @@ import {
   getLastRotate,
 } from "@/services/core/animations/wheel";
 export default {
-  props: ["s", "se", "r", "moveEvent"],
+  props: ["s", "r", "moveEvent"],
   emits: [],
   data() {
     return {
@@ -94,10 +94,13 @@ export default {
   },
   methods: {
     dragStart: function (e) {
+      console.log([this.$refs.wheel]);
       this.transition = false;
       const size = [
-        this.$refs.wheel.offsetWidth * this.se[0], //Size exception
-        this.$refs.wheel.offsetHeight * this.se[1], //Size exception. "margin-top:-33%;" = 0.33
+        this.$refs.wheel.offsetWidth,
+        this.$refs.wheel.offsetHeight,
+        this.$refs.wheel.offsetLeft,
+        this.$refs.wheel.offsetTop,
       ];
       this.lastPosition = [e.touches[0].clientX, e.touches[0].clientY];
       this.lastSide = getSide(this.lastPosition, size);
@@ -105,8 +108,10 @@ export default {
     dragEvent: function (e) {
       const currentPosition = [e.touches[0].clientX, e.touches[0].clientY];
       const size = [
-        this.$refs.wheel.offsetWidth * this.se[0],
-        this.$refs.wheel.offsetHeight * this.se[1], //*0.33 because we move wheel to top
+        this.$refs.wheel.offsetWidth,
+        this.$refs.wheel.offsetHeight,
+        this.$refs.wheel.offsetLeft,
+        this.$refs.wheel.offsetTop,
       ];
       const gt = [currentPosition, this.lastPosition, this.lastSide];
       this.rotate += (getRotate(gt[0], gt[1], gt[2]) * 2) / 3;
