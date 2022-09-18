@@ -4,7 +4,7 @@
       <router-view />
     </div>
     <div class="menu row no-wrap col-1">
-      <q-btn flat to="/app/main/events/create">
+      <q-btn flat to="/app/main/events/create/general">
         <img :src="require('@/assets/images/icons/addEvent.svg')" alt="" />
       </q-btn>
       <q-btn flat to="/app/discover/serach">

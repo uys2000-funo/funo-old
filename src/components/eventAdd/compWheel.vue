@@ -1,5 +1,10 @@
 <template>
-  <comp-wheel :s="['50vw', '50vw']" :r="90" :se="[2, 1]">
+  <comp-wheel
+    :s="['60vw', '60vw']"
+    :r="90"
+    :p="eventAdd.pageBtn"
+    :moveEvent="setPage"
+  >
     <template v-slot:c>
       <img
         :src="require('@/assets/images/logo.svg')"
@@ -11,32 +16,64 @@
       <img :src="require('@/assets/images/dot.svg')" />
     </template>
     <template v-slot:is>
-      <img :src="require('@/assets/images/dot.svg')" />
+      <img :src="require('@/assets/images/dotRed.svg')" />
     </template>
     <template v-slot:iw>
       <img :src="require('@/assets/images/dot.svg')" />
     </template>
     <template v-slot:in>
-      <img :src="require('@/assets/images/dot.svg')" />
+      <img :src="require('@/assets/images/dotRed.svg')" />
+    </template>
+    <template v-slot:ose>
+      <img class="s" :src="require('@/assets/images/dot.svg')" />
+    </template>
+    <template v-slot:osw>
+      <img class="s" :src="require('@/assets/images/dotRed.svg')" />
+    </template>
+    <template v-slot:one>
+      <img class="s" :src="require('@/assets/images/dotRed.svg')" />
+    </template>
+    <template v-slot:onw>
+      <img class="s" :src="require('@/assets/images/dot.svg')" />
     </template>
     <template v-slot:oe>
-      <img :src="require('@/assets/images/eventAdd/info.svg')" />
+      <img class="i" :src="require('@/assets/images/eventAdd/time.svg')" />
     </template>
     <template v-slot:os>
-      <img :src="require('@/assets/images/eventAdd/time.svg')" />
+      <img class="i" :src="require('@/assets/images/eventAdd/info.svg')" />
     </template>
     <template v-slot:ow>
-      <img :src="require('@/assets/images/eventAdd/location.svg')" />
+      <img class="i" :src="require('@/assets/images/eventAdd/img.svg')" />
     </template>
     <template v-slot:on>
-      <img :src="require('@/assets/images/eventAdd/img.svg')" />
+      <img class="i" :src="require('@/assets/images/eventAdd/location.svg')" />
     </template>
   </comp-wheel>
 </template>
 <script>
 import compWheel from "@/components/general/compWheel.vue";
+import { eventAdd } from "@/store/eventAdd";
 export default {
   components: { compWheel },
-  props: ["r", "setR"],
+  data() {
+    return {
+      eventAdd: eventAdd(),
+    };
+  },
+  methods: {
+    setPage: function (value) {
+      this.eventAdd.setPage(value);
+      this.eventAdd.pageBtn = value;
+      console.log(this.eventAdd.page, this.eventAdd.pageBtn);
+    },
+  },
 };
 </script>
+<style scoped>
+.i {
+  width: 9vw;
+}
+.s {
+  width: 3vw;
+}
+</style>
