@@ -33,11 +33,11 @@
         <g-icon src="sandClock.svg" sizeO="15vw" />
         {{ event.price }}
       </div>
-      <div>
+      <div style="min-height: 15vw" class="row no-wrap items-center content-center">
         <g-icon src="location.svg" sisizeOze="15vw" />
-        {{ event.app }}
+        {{ event.app?.text }}
       </div>
-      <div>
+      <div style="min-height: 15vw" class="row no-wrap items-center content-center">
         <g-icon src="tag.svg" sizeO="15vw" />
         {{ event.desc }}
       </div>
