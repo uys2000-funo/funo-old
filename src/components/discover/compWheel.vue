@@ -50,7 +50,7 @@
 </template>
 <script>
 import { getImg } from "@/services/firebase/images";
-import { getImgStorage } from "@/services/firebase/events";
+import { getImgStorage } from "@/services/firebase/event";
 import compWheel from "@/components/general/compWheel.vue";
 import { getLocalValue, setLocalValue } from "@/services/core/local";
 import { user } from "@/store/user";

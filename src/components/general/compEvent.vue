@@ -62,7 +62,7 @@ import {
   getImgStorage,
   joinEvent,
   exitEvent,
-} from "@/services/firebase/events";
+} from "@/services/firebase/event";
 import { chekUserEventJoinStatus } from "@/services/core/main";
 import compParticipantsVue from "./compEvent/compParticipants.vue";
 import { pages } from "@/store/pages";

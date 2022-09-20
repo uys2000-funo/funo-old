@@ -169,7 +169,7 @@
 </template>
 
 <script>
-import { addEventFunction } from "../services/firebase/events";
+import { addEventFunction } from "../services/firebase/event";
 import { user } from "@/store/user";
 export default {
   data() {

@@ -9,6 +9,7 @@ import {
   arrayUnion,
   getDocs,
   arrayRemove,
+  serverTimestamp,
 } from "firebase/firestore";
 import app from "./app";
 const db = getFirestore(app);
@@ -25,6 +26,7 @@ export const getUserFirestore = function (uID) {
 };
 
 export const createEventFirestore = function (data) {
+  data["timestamp"] = serverTimestamp()
   const refCol = collection(db, "E");
   return addDoc(refCol, data);
 };

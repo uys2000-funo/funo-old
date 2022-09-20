@@ -28,7 +28,7 @@
           :loading="onProgress"
         >
           <template v-slot:default>
-            <q-icon name="add" />
+            <q-icon v-if="eventAdd.getPage == 3" name="add" />
             <div>{{ eventAdd.getPage == 3 ? "Etkinlik Ekle" : "Devam" }}</div>
           </template>
           <template v-slot:loading>
@@ -46,7 +46,7 @@ import compWheel from "@/components/eventAdd/compWheel.vue";
 import backButton from "@/components/general/backButton.vue";
 import { eventAdd } from "@/store/eventAdd";
 import { eventCheck } from "@/services/core/main";
-import { addEventFunction } from "@/services/firebase/events";
+import { addEventFunction } from "@/services/firebase/event";
 import { user } from "@/store/user";
 export default {
   components: {

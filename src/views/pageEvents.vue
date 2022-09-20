@@ -1,37 +1,23 @@
 <template>
   <q-scroll-area style="width: 100vw; height: 100%">
-    <div>
-      <span> çevrendeki etkinlikler </span>
-      {{ events.index }}
-    </div>
-    <q-infinite-scroll
-      @load="events.getNextEvents"
-      :offset="0"
-      v-if="events.events.length != 0"
-    >
-      <div v-for="event in events.events" :key="event">
-        <comp-event :event="event" :tags="tags" />
-      </div>
-      <template v-slot:loading>
-        <div class="row justify-center q-my-md">
-          <q-spinner-dots color="primary" size="40px" />
-        </div>
-      </template>
-    </q-infinite-scroll>
+    <comp-popular-events />
+    <comp-events-flow :tags="tags" />
   </q-scroll-area>
   <comp-event-settings />
   <router-view />
 </template>
 
 <script>
-import compEvent from "@/components/general/compEvent.vue";
 import { events } from "@/store/events";
 import { getAllEventsFunction } from "@/services/core/events";
 import compEventSettings from "@/components/general/compEvent/compEventSettings.vue";
+import CompEventsFlow from "@/components/events/compEventsFlow.vue";
+import compPopularEvents from "@/components/events/compPopularEvents.vue";
 export default {
   components: {
-    compEvent,
     compEventSettings,
+    CompEventsFlow,
+    compPopularEvents,
   },
   props: ["tags"],
   data() {
