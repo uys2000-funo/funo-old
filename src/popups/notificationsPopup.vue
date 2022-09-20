@@ -14,7 +14,7 @@
   </q-dialog>
 </template>
 <script>
-import backButtonTopLeft from "../components/general/backButtonTopLeft.vue";
+import backButtonTopLeft from "../components/general/backButton.vue";
 import { pages } from "@/store/pages";
 export default {
   components: { backButtonTopLeft },

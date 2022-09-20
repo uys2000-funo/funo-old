@@ -64,7 +64,6 @@ export default {
     setPage: function (value) {
       this.eventAdd.setPage(value);
       this.eventAdd.pageBtn = value;
-      console.log(this.eventAdd.page, this.eventAdd.pageBtn);
     },
   },
 };

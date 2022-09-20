@@ -67,7 +67,7 @@
 <script>
 import { getEvent, getImgStorage } from "@/services/firebase/events";
 import gImg from "../components/eventPopup/compImg.vue";
-import goBackBtn from "../components/general/backButtonTopLeft.vue";
+import goBackBtn from "../components/general/backButton.vue";
 import gIcon from "../components/gIcon.vue";
 import compParticipantsVue from "../components/general/compEvent/compParticipants.vue";
 export default {

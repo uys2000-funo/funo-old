@@ -4,6 +4,7 @@ export const eventAdd = defineStore("eventAdd", {
   state: () => ({
     page: 0,
     pageBtn: 0,
+    images: [],
     event: {
       name: "",
       desc: "",
@@ -23,6 +24,7 @@ export const eventAdd = defineStore("eventAdd", {
         date: "",
         time: "",
       },
+      ageRange: { min: 0, max: 0 },
       limit: 0,
       apro: false,
       type: false,

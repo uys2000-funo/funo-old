@@ -130,7 +130,6 @@ export default {
       }deg);`;
     },
     p() {
-      console.log("a")
       this.rotate = this.p * this.r;
     },
   },
