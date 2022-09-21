@@ -3,7 +3,16 @@
     <!--Upper Texts and Settings Button-->
     <div class="row no-wrap justify-between items-start content-start">
       <span class="upper-texts">
-        {{ event.ownersNames[0] }}
+        <router-link
+          :to="{
+            path:
+              event.owners[0] == user.ID
+                ? `/app/user/share`
+                : `/app/profile/${event.owners[0]}/share`,
+          }"
+        >
+          {{ event.ownersNames[0] }}
+        </router-link>
       </span>
       <div
         style="width: 50%"
@@ -58,11 +67,7 @@
 </template>
 
 <script>
-import {
-  getImgStorage,
-  joinEvent,
-  exitEvent,
-} from "@/services/firebase/event";
+import { getImgStorage, joinEvent, exitEvent } from "@/services/firebase/event";
 import { chekUserEventJoinStatus } from "@/services/core/main";
 import compParticipantsVue from "./compEvent/compParticipants.vue";
 import { pages } from "@/store/pages";

@@ -9,7 +9,11 @@
       </div>
       <div class="col-8 flex items-center content-center">Hesabı gizle</div>
       <div class="col-2 flex items-center content-center">
-        <q-toggle v-model="hide" />
+        <q-toggle
+          :model-value="user.hidden"
+          @click="setHiddenStatus"
+          :disable="isDisabled"
+        />
       </div>
     </div>
     <div class="row">
@@ -60,11 +64,27 @@
   </div>
 </template>
 <script>
+import { user } from "@/store/user";
+import { updateUser } from "@/services/firebase/core/sFirestore";
 export default {
   data() {
     return {
-      hide: false,
+      user: user(),
+      isDisabled: false,
     };
+  },
+  methods: {
+    setHiddenStatus: function () {
+      this.isDisabled = true;
+      updateUser(this.user.ID, { hidden: !this.user.hidden }).then(() => {
+        this.isDisabled = false;
+        this.user.setHidden(!this.user.hidden);
+      });
+    },
+  },
+
+  watch: {
+    hidden() {},
   },
 };
 </script>

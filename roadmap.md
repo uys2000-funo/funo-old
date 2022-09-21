@@ -77,3 +77,5 @@
 - [ ] After creating event refresh events
 - [x] EventAddLayout and eventAddPopup Should be changed
 - [x] Event Add texts wrong says kaydol instad of create event
+- [x] Event comments not works
+- [ ] Phone number at register page should have number length

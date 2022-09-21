@@ -4,6 +4,7 @@ import { createUserAuth, getUserAuth, getUserAuthGoogle } from "./core/sAuth";
 import { c, f } from "../c";
 
 export const registerFunction = function (uData, uImg = null, tImg = null) {
+  uData["hidden"] = false;
   return f(
     createUserAuth,
     uData.mail,
@@ -65,7 +66,10 @@ const getCheckedData = function (aData, fData) {
       return c("Res: loginFunction", { userAuth: aData[0], userFire: res });
     });
   } else {
-    return c("Res: loginFunction", { userAuth: aData[0], userFire: fData.data() });
+    return c("Res: loginFunction", {
+      userAuth: aData[0],
+      userFire: fData.data(),
+    });
   }
 };
 export const loginFunctionGoogle = function () {

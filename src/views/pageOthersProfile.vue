@@ -1,5 +1,6 @@
 <template>
   <q-carousel
+    v-if="user"
     :model-value="`${page % 5 < 0 ? (page % 5) + 5 : page % 5}`"
     :transition-prev="ani"
     :transition-next="ani"
@@ -13,37 +14,37 @@
       <comp-share />
     </q-carousel-slide>
     <q-carousel-slide name="1" class="column no-wrap flex-center">
-      <comp-edit-pro />
+      <comp-message/>
     </q-carousel-slide>
     <q-carousel-slide name="2" class="column no-wrap flex-center">
       <comp-setting />
     </q-carousel-slide>
     <q-carousel-slide name="3" class="column no-wrap flex-center">
-      <comp-j-events />
+      <comp-j-events :joinEvent="user.joinEvent" />
     </q-carousel-slide>
     <q-carousel-slide name="4" class="column no-wrap flex-center">
-      <comp-events />
+      <comp-events :createdEvents="user.events" />
     </q-carousel-slide>
   </q-carousel>
   <comp-event-settings />
 </template>
 <script>
-import compShare from "@/components/profile/compShare.vue";
-import compEditPro from "@/components/profile/compEditPro.vue";
-import compSetting from "@/components/profile/compSettings.vue";
-import compJEvents from "@/components/profile/compJEvents.vue";
-import compEvents from "@/components/profile/compEvents.vue";
+import compShare from "@/components/othersProfile/compShare.vue";
+import compMessage from "@/components/othersProfile/compMessage.vue";
+import compSetting from "@/components/othersProfile/compSettings.vue";
+import compJEvents from "@/components/othersProfile/compJEvents.vue";
+import compEvents from "@/components/othersProfile/compEvents.vue";
 import compEventSettings from "@/components/general/compEvent/compEventSettings.vue";
 export default {
   components: {
     compShare,
-    compEditPro,
+    compMessage,
     compSetting,
     compJEvents,
     compEvents,
     compEventSettings,
   },
-  props: ["page"],
+  props: ["page", "user"],
   data() {
     return {
       ani: "slide-left",
@@ -54,6 +55,9 @@ export default {
     page(nVal, oVal) {
       if (nVal > oVal) this.ani = "slide-left";
       else if (nVal < oVal) this.ani = "slide-right";
+    },
+    p(nVal, oVal) {
+      console.log(nVal, oVal, this.p);
     },
   },
 };

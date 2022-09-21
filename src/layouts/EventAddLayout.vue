@@ -81,7 +81,7 @@ export default {
             this.user.ID,
             this.eventAdd.event,
             this.eventAdd.images,
-            this.user.name
+            this.user.userName
           ).then((res) => {
             if (res) this.$router.push("/app/main/events/");
             else alert("Some Problems");

@@ -12,6 +12,9 @@ export const user = defineStore("user", {
     setLastUser(user) {
       this.lastUser = user;
     },
+    setHidden(value) {
+      this.user.userFire.hidden = value;
+    },
   },
   getters: {
     fire: (state) => {
@@ -28,6 +31,14 @@ export const user = defineStore("user", {
     },
     name: (state) => {
       if (state.user.userFire) return state.user.userFire.name;
+      else return false;
+    },
+    userName: (state) => {
+      if (state.user.userFire) return state.user.userFire.userName;
+      else return false;
+    },
+    hidden: (state) => {
+      if (state.user.userFire?.hidden) return state.user.userFire.hidden;
       else return false;
     },
     tags: (state) => {
