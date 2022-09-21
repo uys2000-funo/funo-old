@@ -10,6 +10,7 @@ import {
   getDocs,
   arrayRemove,
   serverTimestamp,
+  increment,
 } from "firebase/firestore";
 import app from "./app";
 const db = getFirestore(app);
@@ -26,7 +27,9 @@ export const getUserFirestore = function (uID) {
 };
 
 export const createEventFirestore = function (data) {
-  data["timestamp"] = serverTimestamp()
+  data["timestamp"] = serverTimestamp();
+  data["joinEvent"] = [];
+  data["joinEventCount"] = 0;
   const refCol = collection(db, "E");
   return addDoc(refCol, data);
 };
@@ -49,12 +52,14 @@ export const updateEvent = function (eID, event) {
 export const addUserToEventFirestore = function (uID, eID) {
   const refDoc = doc(db, "E", eID);
   return updateDoc(refDoc, {
+    usersCount: increment(1),
     users: arrayUnion(uID),
   });
 };
 export const removeUserToEventFirestore = function (uID, eID) {
   const refDoc = doc(db, "E", eID);
   return updateDoc(refDoc, {
+    usersCount: increment(-1),
     users: arrayRemove(uID),
   });
 };
@@ -65,12 +70,14 @@ export const updateUser = function (uID, user) {
 export const addEventToUserFirestore = function (uID, eID) {
   const refDoc = doc(db, "U", uID);
   return updateDoc(refDoc, {
+    joinEventCount: increment(1),
     joinEvent: arrayUnion(eID),
   });
 };
 export const removeEventToUserFirestore = function (uID, eID) {
   const refDoc = doc(db, "U", uID);
   return updateDoc(refDoc, {
+    joinEventCount: increment(-1),
     joinEvent: arrayRemove(eID),
   });
 };

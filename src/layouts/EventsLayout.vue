@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="q-mt-sm">
-        <q-scroll-area style="height: 50px; width: calc(100vw - 10px)">
+        <q-scroll-area style="height: 50px; width: 100vw">
           <div class="row no-wrap">
             <div v-for="n in tags" :key="n">
               <q-btn
@@ -62,7 +62,7 @@ import { location } from "@/store/location";
 import { pages } from "@/store/pages";
 import compNotifications from "@/popups/notificationsPopup.vue";
 import compMessages from "@/popups/messagesPopup.vue";
-import {user} from "@/store/user"
+import { user } from "@/store/user";
 export default {
   components: { compNotifications, compMessages },
   data() {

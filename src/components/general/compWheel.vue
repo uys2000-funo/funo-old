@@ -79,7 +79,7 @@ import {
   getLastRotate,
 } from "@/services/core/animations/wheel";
 export default {
-  props: ["s", "r", "p", "moveEvent"],
+  props: ["s", "r", "p", "moveEndEvent","moveEvent"],
   data() {
     return {
       rotate: 0,
@@ -114,11 +114,12 @@ export default {
       const gt = [currentPosition, this.lastPosition, this.lastSide];
       this.rotate += (getRotate(gt[0], gt[1], gt[2]) * 2) / 3;
       [this.lastPosition, this.lastSide] = getLastValues(currentPosition, size);
+      if (this.moveEvent) this.moveEvent(Math.floor(this.rotate / this.r));
     },
     dragEnd: function () {
       this.transition = true;
       this.rotate = getLastRotate(this.rotate, this.r);
-      if (this.moveEvent) this.moveEvent(Math.floor(this.rotate / this.r));
+      if (this.moveEndEvent) this.moveEndEvent(Math.floor(this.rotate / this.r));
     },
   },
   watch: {

@@ -3,7 +3,7 @@
     <comp-wheel
       :s="['80vw', '80vw']"
       :r="45"
-      :se="[1, 0.3]"
+      :moveEndEvent="moveEndEvent"
       :moveEvent="moveEvent"
     >
       <template v-slot:c>
@@ -89,7 +89,7 @@ export default {
       this.p.w = this.run;
       this.p.nw = this.settings;
     },
-    moveEvent: function (res) {
+    moveFunction: function (res) {
       let i = res % 8;
       if (i < 0) i += 8;
       if (this.r != res && this.r < res)
@@ -111,6 +111,12 @@ export default {
         else if (i == 1) this.p.sw = this.p.n;
         else this.p.w = this.p.ne;
       }
+    },
+    moveEvent: function (res) {
+      this.moveFunction(res);
+    },
+    moveEndEvent: function (res) {
+      this.moveFunction(res);
       if (this.setR) this.setR(res);
     },
   },

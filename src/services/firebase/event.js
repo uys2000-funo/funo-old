@@ -5,8 +5,6 @@ import {
   getEventFirestore,
   addUserToEventFirestore,
   addEventToUserFirestore,
-  updateUser,
-  updateEvent,
   removeEventToUserFirestore,
   removeUserToEventFirestore,
 } from "./core/sFirestore";
@@ -34,19 +32,13 @@ export const getImgStorage = function (iPath) {
 export const getEvent = function (eID) {
   return f(getEventFirestore, eID);
 };
-export const joinEvent = function (uID, eID, user, event) {
-  return f(addEventToUserFirestore, uID, eID)
-    .then(() =>
-      f(addUserToEventFirestore, uID, eID).catch(() => f(updateUser, uID, user))
-    )
-    .catch(() => f(updateEvent, eID, event));
+export const joinEvent = function (uID, eID) {
+  return f(addEventToUserFirestore, uID, eID).then(() =>
+    f(addUserToEventFirestore, uID, eID)
+  );
 };
-export const exitEvent = function (uID, eID, user, event) {
-  return f(removeEventToUserFirestore, uID, eID)
-    .then(() =>
-      f(removeUserToEventFirestore, uID, eID).catch(() =>
-        f(updateUser, uID, user)
-      )
-    )
-    .catch(() => f(updateEvent, eID, event));
+export const exitEvent = function (uID, eID) {
+  return f(removeEventToUserFirestore, uID, eID).then(() =>
+    f(removeUserToEventFirestore, uID, eID)
+  );
 };

@@ -3,8 +3,8 @@
     <comp-wheel
       :s="['80vw', '80vw']"
       :r="45"
-      :se="[1, 0.3]"
       :moveEvent="moveEvent"
+      :moveEndEvent="moveEndEvent"
     >
       <template v-slot:c>
         <img :src="img" style="width: 100%" alt="No Profile Photo" />
@@ -62,9 +62,9 @@ export default {
     return {
       u: user(),
       img: "",
-      usersFY: require("@/assets/images/discover/people.svg"),//usersFY
-      eventsFY: require("@/assets/images/discover/party.svg"),//eventsFY
-      search: require("@/assets/images/discover/search.svg"),//search
+      usersFY: require("@/assets/images/discover/people.svg"), //usersFY
+      eventsFY: require("@/assets/images/discover/party.svg"), //eventsFY
+      search: require("@/assets/images/discover/search.svg"), //search
       followed: require("@/assets/images/discover/user.svg"), //followed
       atmospher: require("@/assets/images/discover/img.svg"), //atmospher
       p: {
@@ -89,7 +89,7 @@ export default {
       this.p.w = this.atmospher;
       this.p.nw = this.usersFY;
     },
-    moveEvent: function (res) {
+    moveFunction: function (res) {
       let i = res % 8;
       if (i < 0) i += 8;
       if (this.r != res && this.r < res)
@@ -111,6 +111,12 @@ export default {
         else if (i == 1) this.p.sw = this.p.n;
         else this.p.w = this.p.ne;
       }
+    },
+    moveEvent: function (res) {
+      this.moveFunction(res);
+    },
+    moveEndEvent: function (res) {
+      this.moveFunction(res);
       if (this.setR) this.setR(res);
     },
   },

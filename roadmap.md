@@ -72,8 +72,8 @@
 - [ ] Events Re-Load Optimization
 - [x] Main Page Button Filter ( Not shows crossed events )
 - [ ] Fixing layout and page documentation
-- [ ] Register with Google
-- [ ] Event Add multiple image Control
+- [x] Register with Google
+- [x] Event Add multiple image Control
 - [ ] After creating event refresh events
-- [ ] EventAddLayout and eventAddPopup Should be changed
-- [ ] Event Add texts wrong says kaydol instad of create event
+- [x] EventAddLayout and eventAddPopup Should be changed
+- [x] Event Add texts wrong says kaydol instad of create event
