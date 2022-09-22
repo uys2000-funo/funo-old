@@ -63,12 +63,12 @@ export default setDebugRouter([
               {
                 path: "event",
                 name: "Event",
-                component: () => import("../layouts/AppLayout.vue"),
+                component: () => import("../layouts/EventLayout.vue"),
                 children: [
                   {
                     path: ":id",
                     name: "Event",
-                    component: () => import("../popups/eventPopup.vue"),
+                    component: () => import("../views/pageEvent.vue"),
                   },
                 ],
               },

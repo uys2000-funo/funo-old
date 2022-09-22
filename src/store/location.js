@@ -23,8 +23,5 @@ export const location = defineStore("location", {
     getPosition: (state) => {
       return [state.position.latitude, state.position.longitude];
     },
-    getPosition2: (state) => {
-      return [state.position.latitude + 10, state.position.longitude + 10];
-    },
   },
 });

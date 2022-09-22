@@ -40,8 +40,9 @@
                   <span
                     class="q-ml-sm"
                     :style="`color:${tagsColor[n] ? 'white' : 'black'}`"
-                    >{{ buttons[n] }}</span
                   >
+                    {{ buttons[n] }}
+                  </span>
                 </div>
               </q-btn>
             </div>

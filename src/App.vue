@@ -20,7 +20,7 @@ import settings from "@/services/settings";
 import { App as CapacitorApp } from "@capacitor/app";
 import { location } from "@/store/location";
 import { user } from "@/store/user";
-//import { getLocation } from "@/services/openWeather/geocode";
+import { getLocationShow } from "./services/geoCode/geocode";
 export default {
   name: "LayoutDefault",
   components: {},
@@ -46,10 +46,11 @@ export default {
       navigator.geolocation.getCurrentPosition((position) => {
         const location = [position.coords.latitude, position.coords.longitude];
         this.location.setPosition(location[0], location[1]);
-        //getLocation(location[0], location[1]).then((res) => {
-        //  console.log(res);
-        //  this.location.setLocation(res);
-        //});
+        getLocationShow(location[0], location[1]).then((res) =>
+          this.location.setLocation(
+            res.Components.find((val) => val.kind == "area").name
+          )
+        );
       });
     },
     autoLogin() {
