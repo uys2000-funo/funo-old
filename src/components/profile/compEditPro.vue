@@ -15,11 +15,7 @@
         <template v-slot:control>{{ user?.mail }} </template>
       </q-field>
       <div class="col-2 flex justify-center items-center content-center">
-        <img
-          class="z"
-          :src="require('@/assets/images/profile/editPro/tick.svg')"
-          alt=""
-        />
+        <q-icon class="text-primary"  size="md" name="done" />
       </div>
     </div>
     <div class="flex justify-center items-center content-center">

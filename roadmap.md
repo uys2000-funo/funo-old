@@ -79,3 +79,4 @@
 - [x] Event Add texts wrong says kaydol instad of create event
 - [x] Event comments not works
 - [ ] Phone number at register page should have number length
+- [ ] Map Does not open users current location

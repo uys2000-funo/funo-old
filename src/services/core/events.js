@@ -17,3 +17,6 @@ export const getAllEventsFunction = function (
     loadFunction();
   });
 };
+export const checkOwner = function (eventId = "", events = []) {
+  return events.some((val) => val == eventId);
+};

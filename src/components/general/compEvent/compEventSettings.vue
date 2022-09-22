@@ -50,7 +50,7 @@
             </div>
           </q-btn>
         </div>
-        <div class="row justify-center">
+        <div class="row justify-center" v-if="isEditable">
           <!--Delete-->
           <q-btn flat>
             <div>
@@ -78,10 +78,13 @@
 </template>
 <script>
 import { pages } from "@/store/pages";
+import { checkOwner } from "@/services/core/events";
+import { user } from "@/store/user";
 export default {
   data() {
     return {
       pages: pages(),
+      user: user(),
     };
   },
   methods: {
@@ -100,6 +103,11 @@ export default {
           `https://gogol-test-app.web.app/app/main/events/event/${this.pages.event.id}`
         );
       }
+    },
+  },
+  computed: {
+    isEditable: function () {
+      return checkOwner(this.pages.event.id, this.user.fire.events);
     },
   },
 };
