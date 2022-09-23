@@ -12,6 +12,9 @@ export const comments = defineStore("comments", {
       if (this.comments[id]) this.comments[id].push(comment);
       else this.comments[id] = [comment];
     },
+    remComment(id, comment) {
+      this.comments[id] = this.comments[id].filter((val) => val != comment);
+    },
     getComments(id) {
       return this.comments[id];
     },

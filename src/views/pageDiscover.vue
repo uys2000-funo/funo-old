@@ -9,7 +9,7 @@
     class="bg-secondary fit"
     keep-alive
   >
-    <q-carousel-slide name="0" class="column no-wrap flex-center">
+    <q-carousel-slide name="0" class="column no-wrap">
       <comp-search />
     </q-carousel-slide>
     <q-carousel-slide name="1" class="column no-wrap flex-center">

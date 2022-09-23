@@ -113,6 +113,10 @@ export const addCommentFirestore = function (eID, comment) {
     return setDoc(refDoc, { comments: [comment] });
   });
 };
+export const remCommentFirestore = function (eID, comment) {
+  const refDoc = doc(db, "C", eID);
+  return updateDoc(refDoc, { comments: arrayRemove(comment) });
+};
 export const getCommentFirestore = function (eID) {
   const refDoc = doc(db, "C", eID);
   return getDoc(refDoc);
