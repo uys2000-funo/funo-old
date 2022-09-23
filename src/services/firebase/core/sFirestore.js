@@ -11,6 +11,7 @@ import {
   arrayRemove,
   serverTimestamp,
   increment,
+  deleteDoc,
 } from "firebase/firestore";
 import app from "./app";
 const db = getFirestore(app);
@@ -36,6 +37,10 @@ export const createEventFirestore = function (data) {
 export const createEventFirestoreUser = function (uID, eID) {
   const refCol = doc(db, "U", uID);
   return updateDoc(refCol, { events: arrayUnion(eID) });
+};
+export const deleteEventFirestoreUser = function (uID, eID) {
+  const refCol = doc(db, "U", uID);
+  return updateDoc(refCol, { events: arrayRemove(eID) });
 };
 export const getAllEvetntsFirestore = function () {
   const refCol = collection(db, "E");
@@ -84,4 +89,9 @@ export const removeEventToUserFirestore = function (uID, eID) {
 export const getDocument = function (collection, document) {
   const refDoc = doc(db, collection, document);
   return getDoc(refDoc);
+};
+
+export const deleteEventFirestore = function (eID) {
+  const refDoc = doc(db, "E", eID);
+  return deleteDoc(refDoc)
 };

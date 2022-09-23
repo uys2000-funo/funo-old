@@ -52,7 +52,7 @@
         </div>
         <div class="row justify-center" v-if="isEditable">
           <!--Delete-->
-          <q-btn flat>
+          <q-btn flat @click="deleteEvent">
             <div>
               <div>
                 <img
@@ -80,6 +80,7 @@
 import { pages } from "@/store/pages";
 import { checkOwner } from "@/services/core/events";
 import { user } from "@/store/user";
+import { deleteEvent } from "@/services/firebase/event";
 export default {
   data() {
     return {
@@ -103,6 +104,14 @@ export default {
           `https://gogol-test-app.web.app/app/main/events/event/${this.pages.event.id}`
         );
       }
+    },
+    deleteEvent: function () {
+      // we are using user id because only user can delete its own event
+      deleteEvent(
+        this.pages.event.id,
+        this.user.ID,
+        this.pages.event.users
+      ).then((res) => console.log(res));
     },
   },
   computed: {
