@@ -3,7 +3,7 @@
     :s="['60vw', '60vw']"
     :r="90"
     :p="eventAdd.pageBtn"
-    :moveEvent="setPage"
+    :moveEndEvent="setPage"
   >
     <template v-slot:c>
       <img
