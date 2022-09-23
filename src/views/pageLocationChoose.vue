@@ -25,6 +25,7 @@
 <script>
 import { yandexMap, ymapMarker } from "vue-yandex-maps";
 import { getLocation } from "@/services/geoCode/geocode";
+import { location } from "@/store/location";
 export default {
   name: "LoacitonChooseTest",
   components: { yandexMap, ymapMarker },
@@ -33,6 +34,7 @@ export default {
   data() {
     return {
       dialog: true,
+      location: location(),
       settings: {
         apiKey: "cdbd6f55-bb30-4404-a6bb-215a26c76d72",
         lang: "tr_TR",
@@ -47,7 +49,7 @@ export default {
         imageOffset: [-20, -30],
         contentOffset: [0, 0],
       },
-      coords__: [54.82896654088406, 39.831893822753904],
+      coords__: this.location.getPosition,
     };
   },
   methods: {
@@ -64,7 +66,7 @@ export default {
   },
   mounted() {
     if (this.coords) this.coords__ = this.coords;
-    console.log(this.$refs.ymap);
+    else this.coords__ = this.location.getPosition;
   },
 };
 </script>

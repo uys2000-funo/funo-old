@@ -24,6 +24,7 @@
 </template>
 <script>
 import { yandexMap, ymapMarker } from "vue-yandex-maps";
+import { location } from "@/store/location";
 export default {
   name: "LoacitonChooseTest",
   components: { yandexMap, ymapMarker },
@@ -32,6 +33,7 @@ export default {
   data() {
     return {
       dialog: true,
+      location: location(),
       settings: {
         apiKey: "cdbd6f55-bb30-4404-a6bb-215a26c76d72",
         lang: "tr_TR",
@@ -63,6 +65,7 @@ export default {
   },
   mounted() {
     if (this.coords) this.coords__ = this.coords;
+    else this.coords__ = this.location.getPosition;
   },
 };
 </script>

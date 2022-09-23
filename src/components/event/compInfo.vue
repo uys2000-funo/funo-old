@@ -16,16 +16,20 @@
     <q-btn>Takip Et</q-btn>
   </div>
   <div>
-    <g-icon src="clock.svg" size="10vw" />
+    <g-icon src="clock.svg" sizeO="15vw" />
     {{ event.startDate?.time }}-{{ event.endDate?.time }}
-    <g-icon src="calendar.svg" size="10vw" />
+    <g-icon src="calendar.svg" sizeO="15vw" />
     {{ event.startDate?.date }}
   </div>
   <div>
-    <g-icon src="sandClock.svg" size="10vw" />
-    {{ event.ageRange?.min }}-{{ event.ageRange?.max }}
-    <g-icon src="sandClock.svg" size="10vw" />
-    {{ event.price }}
+    <template v-if="event.ageRange?.min != 0 && event.ageRange?.max != 0">
+      <g-icon src="sandClock.svg" sizeO="15vw" />
+      {{ event.ageRange?.min }}-{{ event.ageRange?.max }}
+    </template>
+    <template v-if="event.price != 0">
+      <g-icon src="ticket.svg" sizeO="15vw" />
+      {{ event.price }}
+    </template>
   </div>
   <div style="min-height: 15vw" class="row no-wrap items-center content-center">
     <g-icon src="location.svg" sizeO="15vw" />

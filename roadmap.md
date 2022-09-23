@@ -14,7 +14,7 @@
   - [x] Layout for Register (RegisterLayout)
 - [ ] General Purpose Comps
   - [x] Wheel (wheelComp)
-  - [ ] Event (eventComp)
+  - [x] Event (eventComp)
 - [ ] Other Comps
   - [ ] Event Settings
   - [ ] Event Filter

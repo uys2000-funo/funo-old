@@ -3,14 +3,15 @@
     ref="ymap"
     class="fit"
     :settings="settings"
-    :coords="cords[0]"
+    :coords="coords__"
     zoom="10.6"
+    v-if="events.eventsShow.length > 0"
   >
     <ymap-marker
-      v-for="cord in cords"
-      :key="cord"
+      v-for="event in events.eventsShow"
+      :key="event"
       marker-id="1"
-      :coords="cord"
+      :coords="event.app?.coord"
       :marker-events="['click']"
     />
   </yandex-map>
@@ -19,12 +20,15 @@
 <script>
 import { yandexMap, ymapMarker } from "vue-yandex-maps";
 import { location } from "@/store/location";
+import { events } from "@/store/events";
 export default {
   name: "MapComponent",
   components: { yandexMap, ymapMarker },
   data() {
     return {
       location: location(),
+      coords__: [],
+      events: events(),
       settings: {
         apiKey: "cdbd6f55-bb30-4404-a6bb-215a26c76d72",
         lang: "tr_TR",
@@ -43,7 +47,9 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$refs.ymap);
+    this.coords__ = this.location.getPosition;
+    console.log(this.events.eventsShow);
+    console.log(this.events.eventsShow);
   },
 };
 </script>
