@@ -17,12 +17,12 @@ export const eventAdd = defineStore("eventAdd", {
         part: false,
       },
       startDate: {
-        date: "",
-        time: "",
+        date: `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`,
+        time: `${new Date().getHours()}:${new Date().getMinutes()}`,
       },
       endDate: {
-        date: "",
-        time: "",
+        date: `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`,
+        time: `${new Date().getHours()}:${new Date().getMinutes()}`,
       },
       ageRange: { min: 0, max: 0 },
       limit: 0,
@@ -36,6 +36,50 @@ export const eventAdd = defineStore("eventAdd", {
   actions: {
     setPage(value) {
       this.page = value;
+    },
+    cleanEvent() {
+      this.event = {
+        name: "",
+        desc: "",
+        tags: {
+          spor: false,
+          artt: false,
+          educ: false,
+          musi: false,
+          meet: false,
+          part: false,
+        },
+        startDate: {
+          date: "",
+          time: "",
+        },
+        endDate: {
+          date: "",
+          time: "",
+        },
+        ageRange: { min: 0, max: 0 },
+        limit: 0,
+        apro: false,
+        type: false,
+        app: { text: "", coord: [0, 0] },
+        url: "",
+        price: 0,
+      };
+    },
+    setTime() {
+      const d = new Date();
+      const f = function (val) {
+        if (val < 10) return `0${val}`;
+        else return val;
+      };
+      this.event.startDate = {
+        date: `${f(d.getDate())}/${f(d.getMonth())}/${d.getFullYear()}`,
+        time: `${f(d.getHours())}:${f(d.getMinutes())}`,
+      };
+      this.event.endDate = {
+        date: `${f(d.getDate())}/${f(d.getMonth())}/${d.getFullYear()}`,
+        time: `${f(d.getHours())}:${f(d.getMinutes())}`,
+      };
     },
   },
   getters: {

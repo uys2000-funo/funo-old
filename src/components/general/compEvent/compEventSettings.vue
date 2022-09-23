@@ -52,7 +52,7 @@
         </div>
         <div class="row justify-center" v-if="isEditable">
           <!--Delete-->
-          <q-btn flat @click="deleteEvent">
+          <q-btn flat :disable="isDisabled" @click="deleteEvent">
             <div>
               <div>
                 <img
@@ -86,6 +86,7 @@ export default {
     return {
       pages: pages(),
       user: user(),
+      isDisabled: false,
     };
   },
   methods: {
@@ -107,11 +108,14 @@ export default {
     },
     deleteEvent: function () {
       // we are using user id because only user can delete its own event
+      this.isDisabled = true;
       deleteEvent(
         this.pages.event.id,
         this.user.ID,
         this.pages.event.users
-      ).then((res) => console.log(res));
+      ).then(() => {
+        this.isDisabled = false;
+      });
     },
   },
   computed: {

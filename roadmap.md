@@ -80,3 +80,33 @@
 - [x] Event comments not works
 - [ ] Phone number at register page should have number length
 - [ ] Map Does not open users current location
+- [ ] Delete Comment
+
+## Logic of suggestion User
+
+Only look to percantage of its looked events
+
+  spor: 0
+  art:  5
+  edu:  2
+  meet: 3
+  party:0
+  music:1
+
+  spor: 0%
+  art:  45%
+  edu:  18%
+  meet: 27%
+  party:0%
+  music:1%
+
+## Logic of suggestion Event
+
+I did not think about that
+
+  I can use this parameters for that
+
+  Event Logi
+  Event Start Hour
+  Event Tags
+  

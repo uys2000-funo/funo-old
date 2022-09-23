@@ -162,5 +162,8 @@ export default {
       range: false,
     };
   },
+  mounted() {
+    this.eventAdd.setTime();
+  },
 };
 </script>

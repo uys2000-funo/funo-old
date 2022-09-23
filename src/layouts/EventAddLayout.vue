@@ -83,8 +83,10 @@ export default {
             this.eventAdd.images,
             this.user.userName
           ).then((res) => {
-            if (res) this.$router.push("/app/main/events/");
-            else alert("Some Problems");
+            if (res) {
+              this.eventAdd.cleanEvent();
+              this.$router.push("/app/main/events/");
+            } else alert("Some Problems");
             this.onProgress = false;
           });
         else this.onProgress = false;

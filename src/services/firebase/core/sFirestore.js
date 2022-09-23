@@ -12,6 +12,7 @@ import {
   serverTimestamp,
   increment,
   deleteDoc,
+  Timestamp,
 } from "firebase/firestore";
 import app from "./app";
 const db = getFirestore(app);
@@ -26,11 +27,20 @@ export const getUserFirestore = function (uID) {
   const refDoc = doc(db, "U", uID);
   return getDoc(refDoc);
 };
-
-export const createEventFirestore = function (data) {
+const dateUpdate = function (data) {
   data["timestamp"] = serverTimestamp();
-  data["joinEvent"] = [];
-  data["joinEventCount"] = 0;
+  const sDate = data.startDate.date.split("/");
+  const sTime = data.startDate.time.split(":");
+  const s = new Date(sDate[2], sDate[1], sDate[0], sTime[0], sTime[1]);
+  const eDate = data.endDate.date.split("/");
+  const eTime = data.endDate.time.split(":");
+  const e = new Date(eDate[2], eDate[1], eDate[0], eTime[0], eTime[1]);
+  data.startDate["timestamp"] = Timestamp.fromDate(s);
+  data.endDate["timestamp"] = Timestamp.fromDate(e);
+  return data;
+};
+export const createEventFirestore = function (data) {
+  data = dateUpdate(data);
   const refCol = collection(db, "E");
   return addDoc(refCol, data);
 };
@@ -93,5 +103,17 @@ export const getDocument = function (collection, document) {
 
 export const deleteEventFirestore = function (eID) {
   const refDoc = doc(db, "E", eID);
-  return deleteDoc(refDoc)
+  return deleteDoc(refDoc);
+};
+
+export const addCommentFirestore = function (eID, comment) {
+  const refDoc = doc(db, "C", eID);
+  return updateDoc(refDoc, { comments: arrayUnion(comment) }).catch((err) => {
+    console.log(err);
+    return setDoc(refDoc, { comments: [comment] });
+  });
+};
+export const getCommentFirestore = function (eID) {
+  const refDoc = doc(db, "C", eID);
+  return getDoc(refDoc);
 };
