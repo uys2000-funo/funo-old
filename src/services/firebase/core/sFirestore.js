@@ -44,6 +44,11 @@ export const createEventFirestore = function (data) {
   const refCol = collection(db, "E");
   return addDoc(refCol, data);
 };
+export const updateEventFirestore = function (data, eID) {
+  data = dateUpdate(data);
+  const refDoc = doc(db, "E", eID);
+  return updateDoc(refDoc, data);
+};
 export const createEventFirestoreUser = function (uID, eID) {
   const refCol = doc(db, "U", uID);
   return updateDoc(refCol, { events: arrayUnion(eID) });

@@ -9,6 +9,7 @@ import {
   removeUserToEventFirestore,
   deleteEventFirestoreUser,
   deleteEventFirestore,
+  updateEventFirestore,
 } from "./core/sFirestore";
 import { createEventImgsStorage, getImage } from "./core/sStorage";
 import { f } from "../c";
@@ -22,6 +23,9 @@ export const addEventFunction = function (uID, data, eImgs, uName) {
       return f(createEventImgsStorage, res.id, eImgs);
     });
   });
+};
+export const updateEventFunction = function (data, eID) {
+  return f(updateEventFirestore, data, eID);
 };
 export const getAllEvents = function () {
   return f(getAllEvetntsFirestore);

@@ -67,8 +67,20 @@ export default setDebugRouter([
                 children: [
                   {
                     path: ":id",
-                    name: "Event",
+                    name: "EventID",
                     component: () => import("../views/pageEvent.vue"),
+                  },
+                ],
+              },
+              {
+                path: "edit",
+                name: "EventEdit",
+                component: () => import("../layouts/EventEditLayout.vue"),
+                children: [
+                  {
+                    path: ":id",
+                    name: "EventEditID",
+                    component: () => import("../views/pageEventEdit.vue"),
                   },
                 ],
               },

@@ -66,6 +66,9 @@ export const eventAdd = defineStore("eventAdd", {
         price: 0,
       };
     },
+    setEvent(event) {
+      this.event = event;
+    },
     setTime() {
       const d = new Date();
       const f = function (val) {

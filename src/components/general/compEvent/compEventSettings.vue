@@ -63,7 +63,10 @@
             </div>
           </q-btn>
           <!--Edit-->
-          <q-btn flat>
+          <q-btn
+            flat
+            @click="$router.push(`/app/main/events/edit/${pages.event.id}`)"
+          >
             <div>
               <div>
                 <img :src="require('@/assets/images/eventSettings/edit.svg')" />

@@ -42,7 +42,6 @@ export default {
         console.log(res);
         this.imgs[this.slide] = res;
       });
-      return;
     },
   },
   mounted() {
