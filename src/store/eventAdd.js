@@ -38,6 +38,7 @@ export const eventAdd = defineStore("eventAdd", {
       this.page = value;
     },
     cleanEvent() {
+      this.images = [];
       this.event = {
         name: "",
         desc: "",

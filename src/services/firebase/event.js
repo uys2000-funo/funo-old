@@ -10,10 +10,14 @@ import {
   deleteEventFirestoreUser,
   deleteEventFirestore,
   updateEventFirestore,
+  getEventsFirestore,
 } from "./core/sFirestore";
 import { createEventImgsStorage, getImage } from "./core/sStorage";
 import { f } from "../c";
 
+export const getEventsFirebase = function (startPoint, length) {
+  return f(getEventsFirestore, startPoint, length);
+};
 export const addEventFunction = function (uID, data, eImgs, uName) {
   data["owners"] = [uID];
   data["ownersNames"] = [uName];

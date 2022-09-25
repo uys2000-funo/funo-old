@@ -58,7 +58,7 @@
         @click="joinCheck ? exitEvent(event) : joinEvent(event)"
       />
       <span class="col-4 text-right">
-        <router-link :to="{ path: `/app/main/events/event/${event.id}` }">
+        <router-link :to="{ path: `/app/main/events/event/${event.eID}` }">
           Dahası
         </router-link>
       </span>
@@ -110,15 +110,15 @@ export default {
       });
     },
     getImg: function () {
-      getImgStorage(`E/${this.event.id}/imgs/img0`).then((res) => {
+      getImgStorage(`E/${this.event.eID}/imgs/img0`).then((res) => {
         console.log(res);
         this.imgPath = `background-image: url("${res}"); `;
       });
     },
-    updateUser: function (eId) {
+    updateUser: function (eID) {
       if (this.user.user.userFire.joinEvent == undefined)
         this.user.user.userFire.joinEvent = [];
-      this.user.user.userFire.joinEvent.push(eId);
+      this.user.user.userFire.joinEvent.push(eID);
       user().setUser(this.user.user);
       return [this.user.user, this.user.ID];
     },
@@ -127,9 +127,9 @@ export default {
       event.users.push(uID);
       return event;
     },
-    updateUserExit: function (eId) {
+    updateUserExit: function (eID) {
       const events = this.user.jEvents;
-      this.user.user.userFire.joinEvent = this.filtering(events, eId);
+      this.user.user.userFire.joinEvent = this.filtering(events, eID);
       user().setUser(this.user.user);
       return [this.user.user, this.user.ID];
     },
@@ -139,19 +139,19 @@ export default {
       return event;
     },
     checkEvent: function () {
-      return chekUserEventJoinStatus(this.user.user, this.event.id);
+      return chekUserEventJoinStatus(this.user.user, this.event.eID);
     },
     joinEvent: function (event) {
-      const [user, uID] = this.updateUser(event.id);
+      const [user, uID] = this.updateUser(event.eID);
       event = this.updateEvent(event, uID);
       this.joinCheck = this.checkEvent();
-      joinEvent(uID, event.id, user.userFire, event);
+      joinEvent(uID, event.eID, user.userFire, event);
     },
     exitEvent: function (event) {
-      const [user, uID] = this.updateUserExit(event.id);
+      const [user, uID] = this.updateUserExit(event.eID);
       event = this.updateEventExit(event, uID);
       this.joinCheck = this.checkEvent();
-      exitEvent(uID, event.id, user.userFire, event);
+      exitEvent(uID, event.eID, user.userFire, event);
     },
     getUserImages: function () {},
   },

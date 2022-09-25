@@ -13,10 +13,26 @@ import {
   increment,
   deleteDoc,
   Timestamp,
+  where,
+  limit,
+  orderBy,
+  query,
+  startAfter,
 } from "firebase/firestore";
 import app from "./app";
 const db = getFirestore(app);
 
+export const getEventsFirestore = function (statPoint, length) {
+  const refCol = collection(db, "E");
+  const q = query(
+    refCol,
+    orderBy("endDate.timestamp"),
+    where("endDate.timestamp", ">", Timestamp.fromDate(new Date())),
+    startAfter(statPoint),
+    limit(length)
+  );
+  return getDocs(q);
+};
 export const createUserFirestore = function (uID, data) {
   data["events"] = [];
   data["joinEvent"] = [];

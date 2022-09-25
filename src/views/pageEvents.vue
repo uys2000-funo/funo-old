@@ -9,7 +9,6 @@
 
 <script>
 import { events } from "@/store/events";
-import { getAllEventsFunction } from "@/services/core/events";
 import compEventSettings from "@/components/general/compEvent/compEventSettings.vue";
 import CompEventsFlow from "@/components/events/compEventsFlow.vue";
 import compPopularEvents from "@/components/events/compPopularEvents.vue";
@@ -25,9 +24,5 @@ export default {
       events: events(),
     };
   },
-  mounted() {
-    getAllEventsFunction(this.events.setEvents, this.events.getNextEvents);
-  },
-  watch: {},
 };
 </script>

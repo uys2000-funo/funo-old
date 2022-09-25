@@ -1,12 +1,12 @@
 <template>
   <div class="text-h5">çevrendeki etkinlikler</div>
   <q-infinite-scroll
-    @load="events.getNextEvents"
+    @load="getEvents"
     :offset="0"
-    v-if="events.events.length != 0"
+    v-if="events.eventFlowList.length != 0"
   >
-    <div v-for="event in events.events" :key="event">
-      <comp-event :event="event" :tags="tags" />
+    <div v-for="eID in events.eventFlowList" :key="eID">
+      <comp-event :event="events.eventDict[eID]" :tags="tags" />
     </div>
     <template v-slot:loading>
       <div class="row justify-center q-my-md">
@@ -17,6 +17,7 @@
 </template>
 <script>
 import compEvent from "@/components/general/compEvent.vue";
+import { getEvents } from "@/services/core/events";
 import { events } from "@/store/events";
 export default {
   components: {
@@ -28,6 +29,17 @@ export default {
       events: events(),
     };
   },
-  watch: {},
+  methods: {
+    getEvents: function (i, done) {
+      getEvents(this.events.lastFlowEventDate).then((res) => {
+        this.events.addEventsWithFlowList(res);
+        if (res.length == 0) done(true);
+        else i, done();
+      });
+    },
+  },
+  mounted() {
+    getEvents().then((res) => this.events.addEventsWithFlowList(res));
+  },
 };
 </script>

@@ -1,5 +1,6 @@
 import { getAllEvents } from "../firebase/event";
-
+import { getEventsFirebase } from "@/services/firebase/event";
+import settings from "../settings.json";
 const f = () => "";
 
 export const getAllEventsFunction = function (
@@ -19,4 +20,13 @@ export const getAllEventsFunction = function (
 };
 export const checkOwner = function (eventId = "", events = []) {
   return events.some((val) => val == eventId);
+};
+
+export const getEvents = function (startPoint = 0) {
+  return getEventsFirebase(startPoint, settings.eventFlowRequestLimit).then(
+    (res) =>
+      res.docs.map((i) => {
+        return { eID: i.id, ...i.data() };
+      })
+  );
 };

@@ -2,5 +2,6 @@
   "developer": true,
   "openBeta": false,
   "debug": true,
-  "autoLogin": true
+  "autoLogin": true,
+  "eventFlowRequestLimit": 2
 }
