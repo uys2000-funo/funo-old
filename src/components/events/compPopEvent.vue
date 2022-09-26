@@ -11,7 +11,7 @@
         background-position: center;
         border-radius: 10px;
       "
-      :style="`background-image: url('${require('@/assets/images/loading.gif')}'); ${bgImg}`"
+      :style="`background-image: url('${require('@/assets/images/loading.gif')}'); ${image}`"
     ></div>
     <div class="text-center">{{ event.name }} - {{ event.usersCount }}</div>
   </div>
@@ -22,21 +22,19 @@ export default {
   props: ["event"],
   data() {
     return {
-      imgPath: "",
+      imageUrl: "",
     };
   },
   computed: {
-    bgImg: function () {
-      this.getImg();
-      return this.imgPath;
+    image: function () {
+      return `background-image: url("${this.imageUrl}");`;
     },
   },
-  methods: {
-    getImg: function () {
-      getImgStorage(`E/${this.event.id}/imgs/img0`).then((res) => {
-        this.imgPath = `background-image: url("${res}"); `;
-      });
-    },
+  methods: {},
+  mounted() {
+    getImgStorage(`E/${this.event.eID}/imgs/img0`).then(
+      (imageUrl) => (this.imageUrl = imageUrl)
+    );
   },
 };
 </script>

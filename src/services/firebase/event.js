@@ -13,6 +13,7 @@ import {
   getEventsFirestore,
   setPopEventFirestore,
   remPopEventFirestore,
+  getEventsWtihTagFirestore,
 } from "./core/sFirestore";
 import { createEventImgsStorage, getImage } from "./core/sStorage";
 import { f } from "../c";
@@ -20,6 +21,9 @@ import { exitEventDB } from "../core/events";
 
 export const getEventsFirebase = function (startPoint, length) {
   return f(getEventsFirestore, startPoint, length);
+};
+export const getEventsWtihTagFirebase = function (tag, statPoint, length) {
+  return f(getEventsWtihTagFirestore, tag, statPoint, length);
 };
 export const getEventFirebase = function (eID) {
   return f(getEventFirestore, eID);

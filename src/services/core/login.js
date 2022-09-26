@@ -1,20 +1,18 @@
+import { loginFunction } from "@/services/firebase/login";
 import { getLastUser } from "./main";
 
-export const autoLogin = function (user) {
+export const autoLogin = function (user, loginPopup, route, router) {
   user.setLastUser(getLastUser());
-  if (
-    user.lastUser?.userFire?.mail &&
-    user.lastUser?.userFire?.pass
-  ) {
-    this.inf = true;
-    autoLogin(user.lastUser?.userFire).then((res) => {
-      if (res) {
-        this.inf = false;
-        user.setUser(res);
-        const path = this.$route.path;
-        if (path == "/" || path == "/login")
-          this.$router.push("/app/main/events");
-      }
-    });
+  if (user.isUsableLastUser) {
+    loginFunction(user.lastUser?.userFire)
+      .then((res) => {
+        if (res) {
+          user.setUser(res);
+          loginPopup = false;
+          if (route.path == "/" || route.path == "/login")
+            router.push("/app/main/events");
+        }
+      })
+      .catch(() => (loginPopup = false));
   }
 };

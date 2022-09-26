@@ -3,11 +3,9 @@
   <div>Şimdilik En çok katılımcısı olan Etkinlikler</div>
   <q-scroll-area style="width: 100vw; height: 125px">
     <div class="row no-wrap">
-      <comp-pop-event
-        v-for="event in orderedEvents"
-        :key="event"
-        :event="event"
-      />
+      <template v-for="eID in events.eventPopularList" :key="eID">
+        <comp-pop-event v-if="eventDict[eID]" :event="eventDict[eID]" />
+      </template>
     </div>
   </q-scroll-area>
 </template>
@@ -19,28 +17,9 @@ export default {
   data() {
     return {
       events: events(),
-      orderedEvents: [],
+      eventDict: events().eventDict,
+      eventPopularList: events().eventPopularList,
     };
-  },
-  methods: {
-    orderEvents: function () {
-      const order = (a, b) => b.usersCount - a.usersCount;
-      this.orderedEvents = [...this.events.events].sort(order);
-      console.log(
-        "---------",
-        [...this.orderedEvents].map((val) => val.usersCount)
-      );
-    },
-  },
-  computed: {
-    eventsAll: function () {
-      return this.events.eventsAll;
-    },
-  },
-  watch: {
-    eventsAll() {
-      this.orderEvents();
-    },
   },
 };
 </script>

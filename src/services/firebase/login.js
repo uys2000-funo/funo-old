@@ -79,7 +79,3 @@ export const loginFunctionGoogle = function () {
     });
   });
 };
-
-export const autoLogin = function (user) {
-  return f(loginFunction, user);
-};

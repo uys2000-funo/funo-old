@@ -23,8 +23,38 @@
   </div>
 </template>
 <script>
+import { getPopEvents } from "@/services/core/events";
+import { events } from "@/store/events";
+import { getEvent } from "@/services/core/events";
 export default {
   name: "AppLayout",
+  //After Login Genral Fetchs
+  data() {
+    return {
+      eventDict: events().eventDict,
+      eventPopularList: events().eventPopularList,
+    };
+  },
+  methods: {
+    getPopEvents: getPopEvents,
+    addPopEvent: events().addEventWithPopList,
+    getEvent: getEvent,
+  },
+  mounted() {
+    if (this.eventPopularList.length == 0)
+      this.getPopEvents().then((popEvents) => {
+        popEvents.forEach((popEvent) => {
+          if (this.eventDict[popEvent.eID]) {
+            this.addPopEvent(this.eventDict[popEvent.eID]);
+          } else {
+            this.getEvent(popEvent.eID).then((event) => {
+              console.log(event);
+              this.addPopEvent(event);
+            });
+          }
+        });
+      });
+  },
 };
 </script>
 <style scoped>

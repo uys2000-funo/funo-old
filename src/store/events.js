@@ -6,7 +6,7 @@ export const events = defineStore("events", {
     eventDict: {},
     eventFlowList: [],
     eventPopularList: [],
-
+    eventSuggestList: [],
     lastEvent: null,
   }),
   actions: {
@@ -29,8 +29,9 @@ export const events = defineStore("events", {
     updatePopEvent(eID) {
       const eNew = this.eventDict[eID];
       if (this.eventPopularList.length < 2) {
+        console.log(!this.eventPopularList.some((i) => i == eID));
         if (!this.eventPopularList.some((i) => i == eID)) {
-          this.addEventsWithPopList([eNew]);
+          this.addEventWithPopList(eNew);
           return [{ eID: eID, usersCount: eNew.usersCount }, false];
         } else return [false, false];
       } else return this.changePopEvent(eNew);
@@ -47,11 +48,9 @@ export const events = defineStore("events", {
         ];
       } else return [false, false];
     },
-    addEventsWithPopList(events) {
-      events.map((event) => {
-        this.eventDict[event.eID] = event;
-        this.eventPopularList.push(event.eID);
-      });
+    addEventWithPopList(event) {
+      this.eventDict[event.eID] = event;
+      this.eventPopularList.push(event.eID);
       this.updateOrderOfPopEvents();
     },
     shortWithEndTime(events) {

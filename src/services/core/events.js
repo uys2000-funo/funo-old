@@ -2,6 +2,7 @@ import {
   addEventToUserFirebase,
   addUserToEventFirebase,
   getEventFirebase,
+  getEventsWtihTagFirebase,
   getPopEventsFirebase,
   removeEventFromUserFirebase,
   removeUserFromEventFirebase,
@@ -19,14 +20,21 @@ const addEventID = function (rawEvent) {
 };
 export const getEvents = function (startPoint = 0) {
   return getEventsFirebase(startPoint, settings.eventFlowRequestLimit).then(
-    (res) => res.docs.map((rawEvent) => addEventID(rawEvent))
+    (rawEvents) => rawEvents.docs.map((rawEvent) => addEventID(rawEvent))
+  );
+};
+export const getEventsWtihTag = function (tag, statPoint, length) {
+  return getEventsWtihTagFirebase(tag, statPoint, length).then((rawEvents) =>
+    rawEvents.docs.map((rawEvent) => addEventID(rawEvent))
   );
 };
 export const getEvent = function (eID) {
   return getEventFirebase(eID).then((rawEvent) => addEventID(rawEvent));
 };
 export const getPopEvents = function () {
-  return getPopEventsFirebase();
+  return getPopEventsFirebase().then((rawEvents) =>
+    rawEvents.docs.map((rawEvent) => rawEvent.data())
+  );
 };
 export const updatePopEventDB = function (eventNew, eventOld) {
   return setPopEventFirebase(eventNew.eID, eventNew.usersCount).then(() => {

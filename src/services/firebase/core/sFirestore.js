@@ -33,6 +33,18 @@ export const getEventsFirestore = function (statPoint, length) {
   );
   return getDocs(q);
 };
+export const getEventsWtihTagFirestore = function (tag, statPoint, length) {
+  const refCol = collection(db, "E");
+  const q = query(
+    refCol,
+    where("tags." + tag, "==", true),
+    where("endDate.timestamp", ">", Timestamp.fromDate(new Date())),
+    orderBy("endDate.timestamp"),
+    startAfter(statPoint),
+    limit(length)
+  );
+  return getDocs(q);
+};
 export const getPopEventsFirestore = function () {
   const refCol = collection(db, "PE");
   return getDocs(refCol);
@@ -48,6 +60,7 @@ export const remPopEventFirestore = function (eID) {
 export const createUserFirestore = function (uID, data) {
   data["events"] = [];
   data["joinEvent"] = [];
+  data["timestamp"] = serverTimestamp();
   const refDoc = doc(db, "U", uID);
   return setDoc(refDoc, data);
 };

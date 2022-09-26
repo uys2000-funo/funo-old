@@ -1,7 +1,7 @@
 <template>
-  <router-view v-if="!inf" />
+  <router-view v-if="!loginPopup" />
 
-  <q-dialog v-model="inf">
+  <q-dialog v-model="loginPopup">
     <q-card style="width: 50vw">
       <q-card-section>
         <div class="text-h6">Info</div>
@@ -14,9 +14,8 @@
 
 <script>
 import { setBackButton } from "./services/app/main";
-import { autoLogin } from "./services/firebase/login";
 import settings from "@/services/settings";
-
+import { autoLogin } from "./services/core/login";
 import { location } from "@/store/location";
 import { user } from "@/store/user";
 import { getLocationShow } from "./services/geoCode/geocode";
@@ -26,7 +25,7 @@ export default {
   components: {},
   data() {
     return {
-      inf: false,
+      loginPopup: true,
       position: [],
       user: user(),
       location: location(),
@@ -50,7 +49,9 @@ export default {
   mounted() {
     this.setBackButton();
     this.checkLocationAccesWeb();
-    if (settings.autoLogin) this.autoLogin();
+    if (settings.autoLogin) {
+      this.autoLogin(this.user, this.loginPopup, this.$route, this.$roter);
+    } else this.loginPopup = false;
   },
 };
 </script>
