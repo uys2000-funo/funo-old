@@ -32,11 +32,6 @@ export default {
   mounted() {
     this.getUser();
   },
-  watch: {
-    user() {
-      console.log(this.user);
-    },
-  },
 };
 </script>
 <style scoped>

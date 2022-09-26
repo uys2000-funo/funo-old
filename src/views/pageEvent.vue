@@ -43,8 +43,8 @@
 import compImgShow from "../components/event/compImgShow.vue";
 import compInfo from "@/components/event/compInfo.vue";
 import compComments from "@/components/event/compComments.vue";
-import { exitEvent, joinEvent } from "@/services/firebase/event";
 import { chekUserEventJoinStatus } from "@/services/core/main";
+import { exitEventDB, joinEventDB } from "@/services/core/events";
 export default {
   components: {
     compImgShow,
@@ -67,13 +67,13 @@ export default {
       const [user, uID] = this.updateUser(event.id);
       event = this.updateEvent(event, uID);
       this.joinCheck = this.checkEvent();
-      joinEvent(uID, event.id, user.userFire, event);
+      joinEventDB(uID, event.id, user.userFire, event);
     },
     exitEvent: function (event) {
       const [user, uID] = this.updateUserExit(event.id);
       event = this.updateEventExit(event, uID);
       this.joinCheck = this.checkEvent();
-      exitEvent(uID, event.id, user.userFire, event);
+      exitEventDB(uID, event.id, user.userFire, event);
     },
   },
 };

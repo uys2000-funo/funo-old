@@ -1,24 +1,15 @@
+import { filterFunction } from "@/services/core/main";
 import { defineStore } from "pinia";
 
 export const events = defineStore("events", {
   state: () => ({
     eventDict: {},
-    eventDictForTag: {},
-    eventFlowListCache: [],
     eventFlowList: [],
-    index: 0,
-    count: 5,
+    eventPopularList: [],
+
+    lastEvent: null,
   }),
   actions: {
-    setIndex(index) {
-      this.index = index;
-    },
-    setCount(count) {
-      this.count = count;
-    },
-    setEvents(events) {
-      this.eventsAll = events;
-    },
     addEvent(event) {
       this.eventDict[event.eID] = event;
     },
@@ -28,36 +19,64 @@ export const events = defineStore("events", {
       });
     },
     addEventsWithFlowList(events) {
+      this.lastEvent = events[events.length - 1].eID;
+      events = this.shortWithEndTime(events);
       events.map((event) => {
         this.eventDict[event.eID] = event;
-        this.eventFlowListCache.push(event.eID);
-        this.eventFlowShort();
+        this.eventFlowList.push(event.eID);
       });
     },
-    eventFlowShort() {
-      // This is for minimize sorting problem
-      // because firebase does not accept this
-      // orderBy("startDate.timestamp"),
-      // where("endDate.timestamp", ">", Timestamp.fromDate(new Date()))
-      let eventList = this.eventFlowListCache.map((i) => this.eventDict[i]);
+    updatePopEvent(eID) {
+      const eNew = this.eventDict[eID];
+      if (this.eventPopularList.length < 2) {
+        if (!this.eventPopularList.some((i) => i == eID)) {
+          this.addEventsWithPopList([eNew]);
+          return [{ eID: eID, usersCount: eNew.usersCount }, false];
+        } else return [false, false];
+      } else return this.changePopEvent(eNew);
+    },
+    changePopEvent(eNew) {
+      const eOld = this.eventDict[this.eventPopularList[0]];
+      if (eOld.usersCount < eNew.usersCount) {
+        this.eventPopularList.splice(0, 1);
+        this.eventPopularList.push(eNew.eID);
+        this.updateOrderOfPopEvents();
+        return [
+          { eID: eNew.eID, usersCount: eNew.usersCount },
+          { eID: eOld.eID, usersCount: eOld.usersCount },
+        ];
+      } else return [false, false];
+    },
+    addEventsWithPopList(events) {
+      events.map((event) => {
+        this.eventDict[event.eID] = event;
+        this.eventPopularList.push(event.eID);
+      });
+      this.updateOrderOfPopEvents();
+    },
+    shortWithEndTime(events) {
       const f = (a, b) =>
         a.startDate.timestamp.seconds - b.startDate.timestamp.seconds;
-      this.eventFlowList = eventList.sort(f).map((i) => i.eID);
+      return events.sort(f);
     },
-    getNextEvents(i, f = () => "") {
-      const events = this.eventsAll.slice(this.index, this.index + this.count);
-      this.index += events.length;
-      this.eventsShow = this.eventsShow.concat(events);
-      f();
+    updateOrderOfPopEvents() {
+      const eventsList = this.eventPopularList.map((i) => this.eventDict[i]);
+      const f = (a, b) => a.usersCount - b.usersCount;
+      this.eventPopularList = eventsList.sort(f).map((i) => i.eID);
     },
-    setEventsJoined(events) {
-      this.eventsJoined = events;
+    addUserToEvent(eID, uID) {
+      if (!this.eventDict[eID].users) {
+        this.eventDict[eID].users = [];
+      }
+      this.eventDict[eID].users.push(uID);
+      this.eventDict[eID].usersCount += 1;
     },
-    setEventsCreated(events) {
-      this.eventsCreated = events;
-    },
-    addEventsCreated(events) {
-      this.eventsCreated = this.eventsCreated.concat(events);
+    removeUserFromEvent(eID, uID) {
+      this.eventDict[eID].users = filterFunction(
+        this.eventDict[eID].users,
+        uID
+      );
+      this.eventDict[eID].usersCount -= 1;
     },
   },
   getters: {
@@ -65,9 +84,9 @@ export const events = defineStore("events", {
       return state.eventsShow;
     },
     lastFlowEventDate: (state) => {
-      return state.eventDict[
-        state.eventFlowListCache[state.eventFlowListCache.length - 1]
-      ].endDate.timestamp;
+      if (state.eventDict[state.lastEvent])
+        return state.eventDict[state.lastEvent].endDate?.timestamp;
+      else return null;
     },
   },
 });

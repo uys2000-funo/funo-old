@@ -32,14 +32,14 @@ export default {
   methods: {
     getEvents: function (i, done) {
       getEvents(this.events.lastFlowEventDate).then((res) => {
-        this.events.addEventsWithFlowList(res);
-        if (res.length == 0) done(true);
-        else i, done();
+        if (res.length == 0) i, done(true);
+        else this.events.addEventsWithFlowList(res), done();
       });
     },
   },
   mounted() {
-    getEvents().then((res) => this.events.addEventsWithFlowList(res));
+    if (this.events.eventFlowList.length == 0)
+      getEvents().then((res) => this.events.addEventsWithFlowList(res));
   },
 };
 </script>

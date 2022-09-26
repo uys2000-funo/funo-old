@@ -140,3 +140,9 @@ const checkEvent = function (event) {
 export const eventCheck = function (event) {
   return f(checkEvent, event);
 };
+
+export const filterFunction = function (array, item) {
+  return array.filter(function (value) {
+    return value != item;
+  });
+}

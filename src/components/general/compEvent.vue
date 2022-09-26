@@ -33,7 +33,7 @@
     <!--Image-->
     <div
       class="img"
-      :style="`background-image: url('${require('@/assets/images/loading.gif')}'); ${bgImg}`"
+      :style="`background-image: url('${require('@/assets/images/loading.gif')}'); ${eventImage}`"
     ></div>
     <!--Bottom Informations-->
     <!--First Line-->
@@ -53,9 +53,9 @@
       </span>
       <q-btn
         class="col-4 text-center bg-primary"
-        :label="joinCheck ? 'Vazgeç' : 'katıl'"
+        :label="checkEvent ? 'Vazgeç' : 'katıl'"
         dense
-        @click="joinCheck ? exitEvent(event) : joinEvent(event)"
+        @click="checkEvent ? exitEvent(event) : joinEvent(event)"
       />
       <span class="col-4 text-right">
         <router-link :to="{ path: `/app/main/events/event/${event.eID}` }">
@@ -67,11 +67,17 @@
 </template>
 
 <script>
-import { getImgStorage, joinEvent, exitEvent } from "@/services/firebase/event";
+import { getImgStorage } from "@/services/firebase/event";
 import { chekUserEventJoinStatus } from "@/services/core/main";
 import compParticipantsVue from "./compEvent/compParticipants.vue";
 import { pages } from "@/store/pages";
 import { user } from "@/store/user";
+import { events } from "@/store/events";
+import {
+  exitEventDB,
+  joinEventDB,
+  updatePopEventDB,
+} from "@/services/core/events";
 export default {
   props: ["event", "tags"],
   components: {
@@ -80,83 +86,55 @@ export default {
   data() {
     return {
       pages: pages(),
-      imgPath: "",
-      joinCheck: false,
+      eventImageUrl: "",
       user: user(),
-      images: [],
     };
   },
   computed: {
-    bgImg: function () {
-      this.getImg();
-      return this.imgPath;
+    eventImage: function () {
+      return `background-image: url("${this.eventImageUrl}"); `;
     },
     checkTags: function () {
       const tl = this.tags.length;
       if (tl != 0) {
         let c = 0;
-        this.tags.forEach((element) => {
-          if (this.event.tags[element]) c += 1;
-        });
+        this.tags.forEach((i) => (this.event.tags[i] ? (c += 1) : 0));
         if (c == tl) return true;
         else return false;
       } else return true;
     },
-  },
-  methods: {
-    filtering: function (array, item) {
-      return array.filter(function (value) {
-        return value != item;
-      });
-    },
-    getImg: function () {
-      getImgStorage(`E/${this.event.eID}/imgs/img0`).then((res) => {
-        console.log(res);
-        this.imgPath = `background-image: url("${res}"); `;
-      });
-    },
-    updateUser: function (eID) {
-      if (this.user.user.userFire.joinEvent == undefined)
-        this.user.user.userFire.joinEvent = [];
-      this.user.user.userFire.joinEvent.push(eID);
-      user().setUser(this.user.user);
-      return [this.user.user, this.user.ID];
-    },
-    updateEvent: function (event, uID) {
-      if (event.users == undefined) event.users = [];
-      event.users.push(uID);
-      return event;
-    },
-    updateUserExit: function (eID) {
-      const events = this.user.jEvents;
-      this.user.user.userFire.joinEvent = this.filtering(events, eID);
-      user().setUser(this.user.user);
-      return [this.user.user, this.user.ID];
-    },
-    updateEventExit: function (event, uID) {
-      if (event.users == undefined) event.users = [];
-      event.users = this.filtering(event.users, uID);
-      return event;
-    },
     checkEvent: function () {
       return chekUserEventJoinStatus(this.user.user, this.event.eID);
     },
+  },
+  methods: {
+    addEventToUser: user().addEventToUser,
+    addUserToEvent: events().addUserToEvent,
+    removeEventFromUser: user().removeEventFromUser,
+    removeUserFromEvent: events().removeUserFromEvent,
+    joinEventDB: joinEventDB,
+    exitEventDB: exitEventDB,
+    updatePopEvent: events().updatePopEvent,
+    updatePopEventDB: updatePopEventDB,
+    getImg: function () {},
     joinEvent: function (event) {
-      const [user, uID] = this.updateUser(event.eID);
-      event = this.updateEvent(event, uID);
-      this.joinCheck = this.checkEvent();
-      joinEvent(uID, event.eID, user.userFire, event);
+      this.addEventToUser(event.eID);
+      this.addUserToEvent(event.eID, this.user.ID);
+      this.joinEventDB(event.eID, this.user.ID);
+      const [eNew, eOld] = this.updatePopEvent(event.eID);
+      console.log([eNew, eOld]);
+      if (eNew) this.updatePopEventDB(eNew, eOld);
     },
     exitEvent: function (event) {
-      const [user, uID] = this.updateUserExit(event.eID);
-      event = this.updateEventExit(event, uID);
-      this.joinCheck = this.checkEvent();
-      exitEvent(uID, event.eID, user.userFire, event);
+      this.removeEventFromUser(event.eID);
+      this.removeUserFromEvent(event.eID, this.user.ID);
+      this.exitEventDB(event.eID, this.user.ID);
     },
-    getUserImages: function () {},
   },
   mounted() {
-    this.joinCheck = this.checkEvent();
+    getImgStorage(`E/${this.event.eID}/imgs/img0`).then((res) => {
+      this.eventImageUrl = res;
+    });
   },
 };
 </script>

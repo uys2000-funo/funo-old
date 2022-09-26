@@ -152,11 +152,6 @@ export default setDebugRouter([
     component: () => import("../views/pageUpdateSetting.vue"),
   },
   {
-    path: "/eventsAllTest",
-    name: "eventsAllTest",
-    component: () => import("../testViews/eventFlowTest.vue"),
-  },
-  {
     path: "/locationChooseTest",
     name: "locationChooseTest",
     component: () => import("../views/pageLocationChoose.vue"),

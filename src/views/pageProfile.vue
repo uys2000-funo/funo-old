@@ -19,10 +19,10 @@
       <comp-setting />
     </q-carousel-slide>
     <q-carousel-slide name="3" class="column no-wrap flex-center">
-      <comp-j-events />
+      <comp-events :eventList="jEvents" />
     </q-carousel-slide>
     <q-carousel-slide name="4" class="column no-wrap flex-center">
-      <comp-events />
+      <comp-events :eventList="cEvents" />
     </q-carousel-slide>
   </q-carousel>
   <comp-event-settings />
@@ -31,15 +31,14 @@
 import compShare from "@/components/profile/compShare.vue";
 import compEditPro from "@/components/profile/compEditPro.vue";
 import compSetting from "@/components/profile/compSettings.vue";
-import compJEvents from "@/components/profile/compJEvents.vue";
 import compEvents from "@/components/profile/compEvents.vue";
 import compEventSettings from "@/components/general/compEvent/compEventSettings.vue";
+import { user } from "@/store/user";
 export default {
   components: {
     compShare,
     compEditPro,
     compSetting,
-    compJEvents,
     compEvents,
     compEventSettings,
   },
@@ -48,6 +47,9 @@ export default {
     return {
       ani: "slide-left",
       p: this.$route.params.p,
+      user: user(),
+      jEvents: user().jEvents,
+      cEvents: user().cEvents,
     };
   },
   watch: {

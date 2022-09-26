@@ -13,16 +13,16 @@
 </template>
 
 <script>
-import { getLastUser } from "./services/core/main";
+import { setBackButton } from "./services/app/main";
 import { autoLogin } from "./services/firebase/login";
 import settings from "@/services/settings";
 
-import { App as CapacitorApp } from "@capacitor/app";
 import { location } from "@/store/location";
 import { user } from "@/store/user";
 import { getLocationShow } from "./services/geoCode/geocode";
 export default {
   name: "LayoutDefault",
+  // Fetch events will be in here
   components: {},
   data() {
     return {
@@ -33,15 +33,8 @@ export default {
     };
   },
   methods: {
-    setBackButton: function () {
-      CapacitorApp.addListener("backButton", ({ canGoBack }) => {
-        if (!canGoBack) {
-          alert("asd");
-        } else {
-          window.history.back();
-        }
-      });
-    },
+    setBackButton: setBackButton,
+    autoLogin: autoLogin,
     checkLocationAccesWeb: function () {
       navigator.geolocation.getCurrentPosition((position) => {
         const location = [position.coords.latitude, position.coords.longitude];
@@ -52,24 +45,6 @@ export default {
           )
         );
       });
-    },
-    autoLogin() {
-      this.user.setLastUser(getLastUser());
-      if (
-        this.user.lastUser?.userFire?.mail &&
-        this.user.lastUser?.userFire?.pass
-      ) {
-        this.inf = true;
-        autoLogin(this.user.lastUser?.userFire).then((res) => {
-          if (res) {
-            this.inf = false;
-            this.user.setUser(res);
-            const path = this.$route.path;
-            if (path == "/" || path == "/login")
-              this.$router.push("/app/main/events");
-          }
-        });
-      }
     },
   },
   mounted() {

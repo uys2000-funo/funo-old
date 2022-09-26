@@ -3,10 +3,10 @@
     <q-infinite-scroll
       @load="() => ''"
       :offset="0"
-      v-if="events.eventsCreated.length != 0"
+      v-if="eventList.length != 0"
     >
-      <div v-for="event in events.eventsCreated" :key="event">
-        <comp-event :event="event" :tags="[]" />
+      <div v-for="eID in eventList" :key="eID">
+        <comp-event v-if="eventDict[eID]" :event="eventDict[eID]" :tags="[]" />
       </div>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">
@@ -17,32 +17,29 @@
   </q-scroll-area>
 </template>
 <script>
-import { getEventsCreated } from "@/services/core/createdEvents";
-import { events } from "@/store/events";
-import { user } from "@/store/user";
 import compEvent from "../general/compEvent.vue";
+import { events } from "@/store/events";
+import { getEvent } from "@/services/core/events";
 export default {
   components: { compEvent },
+  props: ["eventList"],
   data() {
     return {
       events: events(),
-      user: user(),
-      eventsCreated: events().eventsCreated,
-      userEvents: user().fire?.events,
+      eventDict: events().eventDict,
     };
   },
   methods: {
-    setEventsCreated: events().setEventsCreated,
-    getEvents: function (i, f = () => "") {
-      i;
-      getEventsCreated(this.user.fire?.events).then((res) => {
-        if (this.events.eventsCreated.length == 0) this.setEventsCreated(res);
-        f();
-      });
+    addEvent: events().addEvent,
+    getEvents: function (eID) {
+      if (!this.eventDict[eID])
+        getEvent(eID).then((event) => this.addEvent(event));
     },
   },
   mounted() {
-    if (this.eventsCreated.length == 0) this.getEvents();
+    this.eventList.forEach((eID) => {
+      this.getEvents(eID);
+    });
   },
 };
 </script>

@@ -33,6 +33,18 @@ export const getEventsFirestore = function (statPoint, length) {
   );
   return getDocs(q);
 };
+export const getPopEventsFirestore = function () {
+  const refCol = collection(db, "PE");
+  return getDocs(refCol);
+};
+export const setPopEventFirestore = function (eID, usersCount) {
+  const refDoc = doc(db, "PE", eID);
+  return setDoc(refDoc, { eID: eID, usersCount: usersCount });
+};
+export const remPopEventFirestore = function (eID) {
+  const refDoc = doc(db, "PE", eID);
+  return deleteDoc(refDoc);
+};
 export const createUserFirestore = function (uID, data) {
   data["events"] = [];
   data["joinEvent"] = [];
@@ -85,32 +97,33 @@ export const updateEvent = function (eID, event) {
   const refDoc = doc(db, "E", eID);
   return updateDoc(refDoc, event);
 };
-export const addUserToEventFirestore = function (uID, eID) {
+export const updateUser = function (uID, user) {
+  const refDoc = doc(db, "U", uID);
+  return updateDoc(refDoc, user);
+};
+
+export const addUserToEventFirestore = function (eID, uID) {
   const refDoc = doc(db, "E", eID);
   return updateDoc(refDoc, {
     usersCount: increment(1),
     users: arrayUnion(uID),
   });
 };
-export const removeUserToEventFirestore = function (uID, eID) {
+export const removeUserFromEventFirestore = function (eID, uID) {
   const refDoc = doc(db, "E", eID);
   return updateDoc(refDoc, {
     usersCount: increment(-1),
     users: arrayRemove(uID),
   });
 };
-export const updateUser = function (uID, user) {
-  const refDoc = doc(db, "U", uID);
-  return updateDoc(refDoc, user);
-};
-export const addEventToUserFirestore = function (uID, eID) {
+export const addEventToUserFirestore = function (eID, uID) {
   const refDoc = doc(db, "U", uID);
   return updateDoc(refDoc, {
     joinEventCount: increment(1),
     joinEvent: arrayUnion(eID),
   });
 };
-export const removeEventToUserFirestore = function (uID, eID) {
+export const removeEventFromUserFirestore = function (eID, uID) {
   const refDoc = doc(db, "U", uID);
   return updateDoc(refDoc, {
     joinEventCount: increment(-1),

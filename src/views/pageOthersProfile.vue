@@ -20,10 +20,10 @@
       <comp-setting />
     </q-carousel-slide>
     <q-carousel-slide name="3" class="column no-wrap flex-center">
-      <comp-j-events :joinEvent="user.joinEvent" />
+      <comp-events :eventList="user.joinEvent" />
     </q-carousel-slide>
     <q-carousel-slide name="4" class="column no-wrap flex-center">
-      <comp-events :createdEvents="user.events" />
+      <comp-events :eventList="user.events" />
     </q-carousel-slide>
   </q-carousel>
   <comp-event-settings />
@@ -32,7 +32,6 @@
 import compShare from "@/components/othersProfile/compShare.vue";
 import compMessage from "@/components/othersProfile/compMessage.vue";
 import compSetting from "@/components/othersProfile/compSettings.vue";
-import compJEvents from "@/components/othersProfile/compJEvents.vue";
 import compEvents from "@/components/othersProfile/compEvents.vue";
 import compEventSettings from "@/components/general/compEvent/compEventSettings.vue";
 export default {
@@ -40,7 +39,6 @@ export default {
     compShare,
     compMessage,
     compSetting,
-    compJEvents,
     compEvents,
     compEventSettings,
   },

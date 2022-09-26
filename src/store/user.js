@@ -1,3 +1,4 @@
+import { filterFunction } from "@/services/core/main";
 import { defineStore } from "pinia";
 
 export const user = defineStore("user", {
@@ -14,6 +15,17 @@ export const user = defineStore("user", {
     },
     setHidden(value) {
       this.user.userFire.hidden = value;
+    },
+    addEventToUser(eID) {
+      this.user.userFire.joinEvent.push(eID);
+      this.user.userFire.joinEventCount += 1;
+    },
+    removeEventFromUser(eID) {
+      this.user.userFire.joinEvent = filterFunction(
+        this.user.userFire.joinEvent,
+        eID
+      );
+      this.user.userFire.joinEventCount -= 1;
     },
   },
   getters: {
@@ -47,6 +59,10 @@ export const user = defineStore("user", {
     },
     jEvents: (state) => {
       if (state.user.userFire?.joinEvent) return state.user.userFire?.joinEvent;
+      else return null;
+    },
+    cEvents: (state) => {
+      if (state.user.userFire?.events) return state.user.userFire?.events;
       else return null;
     },
     addJEvents: (state) => {
