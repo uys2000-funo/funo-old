@@ -7,6 +7,7 @@ export const events = defineStore("events", {
     eventFlowList: [],
     eventPopularList: [],
     eventSuggestList: [],
+    eventFollowedList: [],
     lastEvent: null,
   }),
   actions: {
@@ -20,7 +21,7 @@ export const events = defineStore("events", {
     },
     addEventsWithFlowList(events) {
       this.lastEvent = events[events.length - 1].eID;
-      events = this.shortWithEndTime(events);
+      events = this.shortWithStartTime(events);
       events.map((event) => {
         this.eventDict[event.eID] = event;
         this.eventFlowList.push(event.eID);
@@ -53,7 +54,7 @@ export const events = defineStore("events", {
       this.eventPopularList.push(event.eID);
       this.updateOrderOfPopEvents();
     },
-    shortWithEndTime(events) {
+    shortWithStartTime(events) {
       const f = (a, b) =>
         a.startDate.timestamp.seconds - b.startDate.timestamp.seconds;
       return events.sort(f);
@@ -69,6 +70,20 @@ export const events = defineStore("events", {
       }
       this.eventDict[eID].users.push(uID);
       this.eventDict[eID].usersCount += 1;
+    },
+    addEventsWithSuggestionList(events) {
+      events = this.shortWithStartTime(events);
+      events.map((event) => {
+        this.eventDict[event.eID] = event;
+        this.eventSuggestList.push(event.eID);
+      });
+    },
+    addEventsWithFollowedList(events) {
+      events = this.shortWithStartTime(events);
+      events.map((event) => {
+        this.eventDict[event.eID] = event;
+        this.eventFollowedList.push(event.eID);
+      });
     },
     removeUserFromEvent(eID, uID) {
       this.eventDict[eID].users = filterFunction(

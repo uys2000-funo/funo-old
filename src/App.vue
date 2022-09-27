@@ -50,7 +50,7 @@ export default {
     this.setBackButton();
     this.checkLocationAccesWeb();
     if (settings.autoLogin) {
-      this.autoLogin(this.user, this.loginPopup, this.$route, this.$roter);
+      this.autoLogin(this.user, this.loginPopup, this.$route, this.$router);
     } else this.loginPopup = false;
   },
 };

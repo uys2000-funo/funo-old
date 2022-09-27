@@ -32,7 +32,7 @@ const uploadWithOrder = function (eID, eImgs, i = 0) {
     return f(uploadImage, eImgs[i], `E/${eID}/imgs/img${i}`).then(() => {
       return uploadWithOrder(eID, eImgs, i + 1);
     });
-  else fr(true);
+  else return fr([true, eID]);
 };
 export const createEventImgsStorage = function (eID, eImgs) {
   c("Run: createEventImgsStorage", [eID, eImgs]);

@@ -38,8 +38,23 @@ export const getEventsWtihTagFirestore = function (tag, statPoint, length) {
   const q = query(
     refCol,
     where("tags." + tag, "==", true),
-    where("endDate.timestamp", ">", Timestamp.fromDate(new Date())),
+    where("startDate.timestamp", ">", Timestamp.fromDate(new Date())),
+    orderBy("startDate.timestamp"),
+    startAfter(statPoint),
+    limit(length)
+  );
+  return getDocs(q);
+};
+const fuIDSWhere = function (fuIDs = []) {
+  return fuIDs.map((fuID) => where("owner", "==", fuID));
+};
+export const getEventsFollowedFirestore = function (fuIDs, statPoint, length) {
+  const refCol = collection(db, "E");
+  const q = query(
+    refCol,
     orderBy("endDate.timestamp"),
+    where("endDate.timestamp", ">", Timestamp.fromDate(new Date())),
+    ...fuIDSWhere(fuIDs),
     startAfter(statPoint),
     limit(length)
   );

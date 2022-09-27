@@ -14,6 +14,7 @@ import {
   setPopEventFirestore,
   remPopEventFirestore,
   getEventsWtihTagFirestore,
+  getEventsFollowedFirestore,
 } from "./core/sFirestore";
 import { createEventImgsStorage, getImage } from "./core/sStorage";
 import { f } from "../c";
@@ -37,9 +38,12 @@ export const setPopEventFirebase = function (eID, usersCount) {
 export const remPopEventFirebase = function (eID) {
   return f(remPopEventFirestore, eID);
 };
+export const getEventsFollowedFirebase = function (fuIDs, statPoint, length) {
+  return f(getEventsFollowedFirestore, fuIDs, statPoint, length);
+};
 export const addEventFunction = function (uID, data, eImgs, uName) {
-  data["owners"] = [uID];
-  data["ownersNames"] = [uName];
+  data["owner"] = uID;
+  data["ownerName"] = uName;
   data["imgCount"] = eImgs.length;
   return f(createEventFirestore, data).then((res) => {
     return f(createEventFirestoreUser, uID, res.id).then(() => {

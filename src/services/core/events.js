@@ -2,6 +2,7 @@ import {
   addEventToUserFirebase,
   addUserToEventFirebase,
   getEventFirebase,
+  getEventsFollowedFirebase,
   getEventsWtihTagFirebase,
   getPopEventsFirebase,
   removeEventFromUserFirebase,
@@ -33,6 +34,11 @@ export const getEvent = function (eID) {
 };
 export const getPopEvents = function () {
   return getPopEventsFirebase().then((rawEvents) =>
+    rawEvents.docs.map((rawEvent) => rawEvent.data())
+  );
+};
+export const getEventsFollowed = function (fuIDs, statPoint, length) {
+  return getEventsFollowedFirebase(fuIDs, statPoint, length).then((rawEvents) =>
     rawEvents.docs.map((rawEvent) => rawEvent.data())
   );
 };

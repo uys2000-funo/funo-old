@@ -17,7 +17,7 @@
       <comp-message/>
     </q-carousel-slide>
     <q-carousel-slide name="2" class="column no-wrap flex-center">
-      <comp-setting />
+      <comp-follow />
     </q-carousel-slide>
     <q-carousel-slide name="3" class="column no-wrap flex-center">
       <comp-events :eventList="user.joinEvent" />
@@ -31,14 +31,14 @@
 <script>
 import compShare from "@/components/othersProfile/compShare.vue";
 import compMessage from "@/components/othersProfile/compMessage.vue";
-import compSetting from "@/components/othersProfile/compSettings.vue";
+import compFollow from "@/components/othersProfile/compFollow.vue";
 import compEvents from "@/components/othersProfile/compEvents.vue";
 import compEventSettings from "@/components/general/compEvent/compEventSettings.vue";
 export default {
   components: {
     compShare,
     compMessage,
-    compSetting,
+    compFollow,
     compEvents,
     compEventSettings,
   },

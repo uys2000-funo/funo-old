@@ -6,12 +6,12 @@
         <router-link
           :to="{
             path:
-              event.owners[0] == user.ID
+              event.owner == user.ID
                 ? `/app/user/share`
-                : `/app/profile/${event.owners[0]}/share`,
+                : `/app/profile/${event.owner}/share`,
           }"
         >
-          {{ event.ownersNames[0] }}
+          {{ event.ownerName }}
         </router-link>
       </span>
       <div

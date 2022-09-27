@@ -27,6 +27,18 @@ export const user = defineStore("user", {
       );
       this.user.userFire.joinEventCount -= 1;
     },
+    addFollower(fID) {
+      this.user.userFire.fUsers.push(fID);
+    },
+    removeFollower(fID) {
+      this.user.userFire.fUsers = filterFunction(
+        this.user.userFire.fUsers,
+        fID
+      );
+    },
+    checkFollowedUser(fID) {
+      return this.user.userFire.fUsers.indexOf(fID);
+    },
   },
   getters: {
     fire: (state) => {

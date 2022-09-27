@@ -2,9 +2,12 @@ import { createUserFirestore, getUserFirestore } from "./core/sFirestore";
 import { createUserImgsStorage } from "./core/sStorage";
 import { createUserAuth, getUserAuth, getUserAuthGoogle } from "./core/sAuth";
 import { c, f } from "../c";
+import { serverTimestamp } from "@firebase/firestore";
 
 export const registerFunction = function (uData, uImg = null, tImg = null) {
   uData["hidden"] = false;
+  uData["fEvents"] = [];
+  uData["fUsers"] = [];
   return f(
     createUserAuth,
     uData.mail,
@@ -18,7 +21,7 @@ export const registerFunction = function (uData, uImg = null, tImg = null) {
   });
 };
 export const loginFunction = function (uData) {
-  return getUserAuth(uData?.mail, uData?.pass).then((res) => {
+  return f(getUserAuth, uData?.mail, uData?.pass).then((res) => {
     return f(getUserFirestore, res.user.uid).then((re) => {
       return c("Res: loginFunction", { userAuth: res, userFire: re.data() });
     });
@@ -27,17 +30,20 @@ export const loginFunction = function (uData) {
 const getEditedData = function (gData, aData) {
   return c("Res: getEditedData", {
     name: aData.user.displayName,
-    birth: `${gData.birthdays[0].date.day}/${gData.birthdays[0].date.month}/${gData.birthdays[0].date.year}`,
+    birthdate: `${gData.birthdays[0].date.day}/${gData.birthdays[0].date.month}/${gData.birthdays[0].date.year}`,
     sex: gData.genders[0].value == "male",
+    hidden: false,
     nick: null,
     phoneNumber: null,
     mail: aData.user.email,
     pass: null,
-    birthdate: "04/09/2000",
     events: [],
     joinEvent: [],
+    fEvents: [],
+    fUsers: [],
     tImg: null,
     userName: aData.user.uid,
+    timestamp: serverTimestamp(),
   });
 };
 const getUserDataFromGoogle = function (id, accessToken, aData) {

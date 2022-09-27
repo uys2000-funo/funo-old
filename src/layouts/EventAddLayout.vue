@@ -48,6 +48,7 @@ import { eventAdd } from "@/store/eventAdd";
 import { eventCheck } from "@/services/core/main";
 import { addEventFunction } from "@/services/firebase/event";
 import { user } from "@/store/user";
+import { events } from "@/store/events";
 export default {
   components: {
     compWheel,
@@ -62,6 +63,7 @@ export default {
     };
   },
   methods: {
+    addEventsWithFlowList: events().addEventsWithFlowList,
     setPage: function () {
       const p = this.$route.params.id;
       if (p == "time") this.eventAdd.setPage(1);
@@ -72,6 +74,13 @@ export default {
     changePage: function () {
       this.eventAdd.page = this.eventAdd.page + 1;
       this.eventAdd.pageBtn = this.eventAdd.page;
+    },
+    eventUpdateToUplaod: function (eID, data) {
+      data["eID"] = eID;
+      data["owner"] = this.user.ID;
+      data["ownerName"] = this.user.userName;
+      data["imgCount"] = this.eventAdd.images.length;
+      return data;
     },
     createEvent: function () {
       this.onProgress = true;
@@ -84,6 +93,11 @@ export default {
             this.user.userName
           ).then((res) => {
             if (res) {
+              this.eventAdd.event = this.eventUpdateToUplaod(
+                res[1],
+                this.eventAdd.event
+              );
+              this.addEventsWithFlowList([this.eventAdd.event]);
               this.eventAdd.cleanEvent();
               this.$router.push("/app/main/events/");
             } else alert("Some Problems");
