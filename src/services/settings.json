@@ -1,6 +1,6 @@
 {
   "developer": true,
-  "openBeta": false,
+  "openBeta": true,
   "debug": true,
   "autoLogin": true,
   "eventFlowRequestLimit": 2

@@ -1,6 +1,6 @@
 {
-  "appId": "com.gogal.evento",
-  "appName": "evento",
+  "appId": "com.funo.funo",
+  "appName": "funo",
   "webDir": "dist",
   "bundledWebRuntime": false
 }
