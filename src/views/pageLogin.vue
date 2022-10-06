@@ -11,7 +11,7 @@
           :src="require('@/assets/images/logo.svg')"
           alt="logoImage"
         />
-        <b><p class="col-4 logo text-primary">evento</p></b>
+        <b><p class="col-4 logo text-primary">funo</p></b>
       </div>
       <div
         class="col-6 column no-wrap justify-around items-center content-center"

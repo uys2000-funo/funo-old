@@ -45,6 +45,16 @@ export const getEventsWtihTagFirestore = function (tag, statPoint, length) {
   );
   return getDocs(q);
 };
+export const getNewUsersNotHiddenFirestore = function (length) {
+  const refCol = collection(db, "U");
+  const q = query(
+    refCol,
+    where("hidden", "==", false),
+    orderBy("timestamp"),
+    limit(length)
+  );
+  return getDocs(q);
+};
 const fuIDSWhere = function (fuIDs = []) {
   return fuIDs.map((fuID) => where("owner", "==", fuID));
 };

@@ -1,11 +1,6 @@
 <template>
   <div style="margin-top: -30%">
-    <comp-wheel
-      :s="['80vw', '80vw']"
-      :r="45"
-      :moveEndEvent="moveEndEvent"
-      :moveEvent="moveEvent"
-    >
+    <comp-wheel :s="['80vw', '80vw']" :r="45" :moveEvent="moveEvent" :moveEndEvent="moveEndEvent">
       <template v-slot:c>
         <img :src="img" style="width: 100%" alt="No Profile Photo" />
       </template>
@@ -116,7 +111,8 @@ export default {
       this.moveFunction(res);
     },
     moveEndEvent: function (res) {
-      this.setR(res);
+      this.moveFunction(res);
+      if (this.setR) this.setR(res);
     },
   },
   mounted() {

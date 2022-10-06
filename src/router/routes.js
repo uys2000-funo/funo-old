@@ -48,7 +48,7 @@ export default setDebugRouter([
             component: () => import("../views/pageEvents.vue"),
             children: [
               /// Popup pages will be in events page to contiune show event list at background
-              {
+              { //Event Create
                 path: "create",
                 name: "CreateEvent",
                 component: () => import("../layouts/EventAddLayout.vue"),
@@ -60,7 +60,7 @@ export default setDebugRouter([
                   },
                 ],
               },
-              {
+              { //Event
                 path: "event",
                 name: "Event",
                 component: () => import("../layouts/EventLayout.vue"),
@@ -72,10 +72,22 @@ export default setDebugRouter([
                   },
                 ],
               },
-              {
+              { //Event Edit
                 path: "edit",
                 name: "EventEdit",
                 component: () => import("../layouts/EventEditLayout.vue"),
+                children: [
+                  {
+                    path: ":id",
+                    name: "EventEditID",
+                    component: () => import("../views/pageEventEdit.vue"),
+                  },
+                ],
+              },
+              { //Messages
+                path: "messages",
+                name: "Messages",
+                component: () => import("../layouts/MessagesLayout.vue"),
                 children: [
                   {
                     path: ":id",

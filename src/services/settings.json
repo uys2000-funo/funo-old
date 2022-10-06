@@ -1,7 +1,8 @@
 {
   "developer": true,
-  "openBeta": true,
+  "openBeta": false,
   "debug": true,
   "autoLogin": true,
-  "eventFlowRequestLimit": 2
+  "eventFlowRequestLimit": 2,
+  "userDiscoverLimit": 2
 }

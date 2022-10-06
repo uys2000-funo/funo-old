@@ -1,19 +1,9 @@
 <template>
-  <yandex-map
-    ref="ymap"
-    class="fit"
-    :settings="settings"
-    :coords="coords__"
-    zoom="10.6"
-    v-if="events.eventsShow.length > 0"
-  >
-    <ymap-marker
-      v-for="event in events.eventsShow"
-      :key="event"
-      marker-id="1"
-      :coords="event.app?.coord"
-      :marker-events="['click']"
-    />
+  <yandex-map ref="ymap" class="fit" :settings="settings" :coords="coords__" zoom="10.6"
+    v-if="events.eventFlowList.length > 0">
+    <template v-for="eID in events.eventFlowList" :key="eID">
+      <ymap-marker v-if="eventDict[eID]" marker-id="1" :coords="eventDict[eID].app?.coord" @click="clickEvent(eID)" />
+    </template>
   </yandex-map>
 </template>
 
@@ -29,6 +19,8 @@ export default {
       location: location(),
       coords__: [],
       events: events(),
+      eventDict: events().eventDict,
+      eventFlowList: events().eventFlowList,
       settings: {
         apiKey: "cdbd6f55-bb30-4404-a6bb-215a26c76d72",
         lang: "tr_TR",
@@ -36,20 +28,14 @@ export default {
         enterprise: false,
         version: "2.1",
       },
-      cords: [
-        [54.82896654088406, 39.831893822753904],
-        [55.76, 37.56],
-        [55.8, 37.3],
-        [55.8, 37.4],
-        [55.7, 37.3],
-        [55.7, 37.4],
-      ],
     };
+  }, methods: {
+    clickEvent: function (eID) {
+      this.$router.push({ path: `/app/main/events/event/${eID}` })
+    }
   },
   mounted() {
     this.coords__ = this.location.getPosition;
-    console.log(this.events.eventsShow);
-    console.log(this.events.eventsShow);
   },
 };
 </script>
