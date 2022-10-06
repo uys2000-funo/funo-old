@@ -9,38 +9,21 @@
           <p style="margin: auto">{{ location.location }}</p>
         </div>
         <div class="col-4 text-right">
-          <img
-            :src="require('@/assets/images/icons/message.svg')"
-            alt=""
-            @click="pages.setMessagesDialog(true)"
-          />
-          <img
-            :src="require('@/assets/images/icons/notification.svg')"
-            alt=""
-            @click="pages.setNotificationDialog(true)"
-          />
+          <img :src="require('@/assets/images/icons/message.svg')" alt="" @click="$router.push({name:'Messages'})" />
+          <img :src="require('@/assets/images/icons/notification.svg')" alt=""
+            @click="pages.setNotificationDialog(true)" />
         </div>
       </div>
       <div class="q-mt-sm">
         <q-scroll-area style="height: 50px; width: 100vw">
           <div class="row no-wrap">
             <div v-for="n in tags" :key="n">
-              <q-btn
-                class="q-mx-xs"
-                :class="{ bgWhite: tagsColor[n] }"
-                @click="updateTags(n)"
-              >
+              <q-btn class="q-mx-xs" :class="{ bgWhite: tagsColor[n] }" @click="updateTags(n)">
                 <div class="row no-wrap">
                   <q-icon>
-                    <img
-                      :src="require(`@/assets/images/icons/${n}.svg`)"
-                      alt=""
-                    />
+                    <img :src="require(`@/assets/images/icons/${n}.svg`)" alt="" />
                   </q-icon>
-                  <span
-                    class="q-ml-sm"
-                    :style="`color:${tagsColor[n] ? 'white' : 'black'}`"
-                  >
+                  <span class="q-ml-sm" :style="`color:${tagsColor[n] ? 'white' : 'black'}`">
                     {{ buttons[n] }}
                   </span>
                 </div>
@@ -113,6 +96,7 @@ export default {
   background: #ffffff;
   border-radius: 15px;
 }
+
 .bgWhite {
   background: #ff7f00;
 }

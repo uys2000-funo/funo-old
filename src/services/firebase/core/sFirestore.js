@@ -1,3 +1,4 @@
+import { f } from "@/services/c";
 import {
   getFirestore,
   doc,
@@ -81,6 +82,13 @@ export const setPopEventFirestore = function (eID, usersCount) {
 export const remPopEventFirestore = function (eID) {
   const refDoc = doc(db, "PE", eID);
   return deleteDoc(refDoc);
+};
+export const __sendMessageFirestore = function (mID, message) {
+  const refDoc = doc(db, "MU", mID);
+  return updateDoc(refDoc, { messages: arrayUnion(message) });
+};
+export const sendMessageFirestore = function (mID, message) {
+  return f(__sendMessageFirestore, mID, message);
 };
 export const createUserFirestore = function (uID, data) {
   data["events"] = [];

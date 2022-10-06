@@ -1,29 +1,19 @@
 <template>
   <div class="fit a">
-    <div>Message Page Will be Developed</div>
+    <comp-message :uID="user.ID"/>
   </div>
 </template>
 <script>
+import compMessage from "../general/compMessage.vue";
 import { user } from "@/store/user";
 export default {
+  components: { compMessage },
   data() {
     return {
-      user: user().user.userFire,
-      text: "",
+      user: user(),
     };
   },
   mounted() {
-    console.log(this.user);
   },
 };
 </script>
-<style scoped>
-.a > div {
-  height: 7vh;
-  min-height: 75px;
-}
-.z {
-  max-width: 100%;
-  max-height: 100%;
-}
-</style>
