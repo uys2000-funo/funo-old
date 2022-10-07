@@ -19,8 +19,8 @@ export const events = defineStore("events", {
         this.eventDict[event.eID] = event;
       });
     },
-    addEventsWithFlowList(events) {
-      this.lastEvent = events[events.length - 1].eID;
+    addEventsWithFlowList(events, lastUpdate = true) {
+      if (lastUpdate) this.lastEvent = events[events.length - 1].eID;
       events = this.shortWithStartTime(events);
       events.map((event) => {
         this.eventDict[event.eID] = event;

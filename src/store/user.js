@@ -77,15 +77,15 @@ export const user = defineStore("user", {
       if (state.user.userFire?.events) return state.user.userFire?.events;
       else return null;
     },
-    addJEvents: (state) => {
-      if (state.user.userFire?.joinEvent) return state.user.userFire?.joinEvent;
-      else return null;
-    },
     isUsableLastUser: (state) => {
       const mail = state.lastUser?.userFire?.mail;
       const pass = state.lastUser?.userFire?.pass;
       if (mail && pass) return true;
       else return false;
+    },
+    uMsgList: (state) => {
+      if (state.user.userFire?.uMsgList) return state.user.userFire?.uMsgList;
+      else return [];
     },
   },
 });

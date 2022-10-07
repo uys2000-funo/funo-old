@@ -3,7 +3,7 @@
     <div class="rounded">
       <q-input outlined rounded v-model="msg" placeholder="Mesaj Gönder">
         <template v-slot:append>
-          <q-btn flat dense round icon="send" @click="mesageSend" />
+          <q-btn flat dense round icon="send" @click="sendMessage" />
         </template>
       </q-input>
     </div>
@@ -20,17 +20,54 @@
   </div>
 </template>
 <script>
+import { getMsgs, sendMessage, updateUsersMsgList } from '@/services/core/message';
 import compMessageGetted from './compMessage/compMessageGetted.vue';
 import compMessageSended from './compMessage/compMessageSended.vue';
+import { user } from '@/store/user';
+import { messages } from "@/store/messages"
 export default {
   components: { compMessageGetted, compMessageSended },
   data() {
-    return { msg: "" }
+    return {
+      msg: "",
+      user: user(),
+      uMsgList: user().uMsgList,
+      messages: messages()
+    }
   },
   methods: {
-    mesageSend: {
+    addMsg: messages().addMsg,
+    sendMessageCore: function (uID, rID, mID) {
+      this.addMsg(mID, this.msg)
+      this.msg = ""
+    },
+    sendMessageDB: function (uID, rID, mID, msg, isFirstTime) {
+      if (isFirstTime)
+        updateUsersMsgList(uID, rID)
+      sendMessage(mID, uID, msg)
+    },
+    sendMessage: function () {
+      if (this.msg != "") {
+        const uID = this.user.ID
+        const rID = this.$route.params.id
+        const mID = [uID, rID].sort().join("");
+        const isFirstTime = !this.uMsgList.some((val => val == rID))
+        this.sendMessageCore(uID, rID, mID, this.msg, isFirstTime)
+        this.sendMessageDB(uID, rID, mID, this.msg, isFirstTime)
+      }
 
+    },
+    getMessages: function () {
+      const uID = this.user.ID;
+      const rID = this.$route.params.id;
+      const mID = [uID, rID].sort().join("");
+      getMsgs(mID).then((data) => {
+        console.log(data)
+        this.addMsg(mID, data)
+      })
     }
+  }, mounted() {
+    this.getMessages()
   }
 }
 </script>

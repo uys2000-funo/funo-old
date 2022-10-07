@@ -18,7 +18,7 @@ const iC = function (function_name, data, err) {
   return data;
 };
 export const fr = function (ret) {
-  console.log("Debug : Done", ret);
+  console.log("Debug : Artificial Promise", ret);
   return new Promise((resolve, refect) => {
     if (ret) resolve(ret);
     else refect(ret);

@@ -97,7 +97,7 @@ export default {
                 res[1],
                 this.eventAdd.event
               );
-              this.addEventsWithFlowList([this.eventAdd.event]);
+              this.addEventsWithFlowList([this.eventAdd.event], false);
               this.eventAdd.cleanEvent();
               this.$router.push("/app/main/events/");
             } else alert("Some Problems");

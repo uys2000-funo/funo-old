@@ -83,12 +83,40 @@ export const remPopEventFirestore = function (eID) {
   const refDoc = doc(db, "PE", eID);
   return deleteDoc(refDoc);
 };
-export const __sendMessageFirestore = function (mID, message) {
+const __sendMsgFirestore = function (mID, message) {
   const refDoc = doc(db, "MU", mID);
   return updateDoc(refDoc, { messages: arrayUnion(message) });
 };
-export const sendMessageFirestore = function (mID, message) {
-  return f(__sendMessageFirestore, mID, message);
+export const sendMsgFirestore = function (mID, message) {
+  return f(__sendMsgFirestore, mID, message);
+};
+const __setMsgFirestore = function (mID, message) {
+  const refDoc = doc(db, "MU", mID);
+  return setDoc(refDoc, { messages: message });
+};
+export const setMsgFirestore = function (mID, message) {
+  return f(__setMsgFirestore, mID, message);
+};
+const __updateUserMsgFirestore = function (uID, mID) {
+  const refDoc = doc(db, "U", uID);
+  return updateDoc(refDoc, { messages: arrayUnion(mID) });
+};
+export const updateUserMsgFirestore = function (uID, mID) {
+  return f(__updateUserMsgFirestore, uID, mID);
+};
+const __setUserMsgFirestore = function (uID, mID) {
+  const refDoc = doc(db, "U", uID);
+  return setDoc(refDoc, { messages: [mID] });
+};
+export const setUserMsgFirestore = function (uID, mID) {
+  return f(__setUserMsgFirestore, uID, mID);
+};
+const __getMsgsFirestore = function (mID) {
+  const refDoc = doc(db, "mID", mID);
+  return getDoc(refDoc);
+};
+export const getMsgsFirestore = function (mID) {
+  return f(__getMsgsFirestore, mID);
 };
 export const createUserFirestore = function (uID, data) {
   data["events"] = [];
