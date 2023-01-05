@@ -1,4 +1,4 @@
-package com.gogal.evento;
+package com.funo.funo;
 
 import com.getcapacitor.BridgeActivity;
 

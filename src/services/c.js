@@ -7,14 +7,18 @@ const argToArray = function (args) {
   }
   return f;
 };
+const s = (data) => JSON.stringify(data);
 export const c = function (function_name, data, err) {
   if (settings.debug)
-    console.log("Debug :", function_name, data, err ? err : "");
+    console.log(`Debug: ${function_name} ${s(data)} ${err ? s(err) : ""}`);
   return data;
 };
-
-const iC = function (function_name, data, err) {
-  console.log("Debug :", function_name, data, err ? err : "");
+const iCL = function (function_name, data, err) {
+  console.log("Debug :", function_name, s(data), err ? s(err) : "");
+  return data;
+};
+const iCE = function (function_name, data, err) {
+  console.error("Debug :", function_name, s(data), err ? s(err) : "");
   return data;
 };
 export const fr = function (ret) {
@@ -26,15 +30,15 @@ export const fr = function (ret) {
 };
 
 const innerF = function (fFunc, fArgs, resolve, reject) {
-  iC(`Run : ${fFunc.name}`, fArgs);
+  iCL(`Run : ${fFunc.name}`, fArgs);
   fFunc
     .apply(null, fArgs)
     .then((res) => {
-      resolve(iC(`Res: ${fFunc.name}`, res == undefined ? true : res));
+      resolve(iCL(`Res: ${fFunc.name}`, res == undefined ? true : res));
     })
     .catch((err) => {
       reject(
-        iC(`Err: ${fArgs} - ${fFunc.name}`, err == undefined ? false : err)
+        iCE(`Err: ${fFunc.name} - ${s(fArgs)} `, err == undefined ? false : err)
       );
     });
 };

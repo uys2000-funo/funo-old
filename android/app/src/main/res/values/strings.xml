@@ -1,7 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">evento</string>
-    <string name="title_activity_main">evento</string>
-    <string name="package_name">com.gogal.evento</string>
-    <string name="custom_url_scheme">com.gogal.evento</string>
+    <string name="app_name">funo</string>
+    <string name="title_activity_main">funo</string>
+    <string name="package_name">com.funo.funo</string>
+    <string name="custom_url_scheme">com.funo.funo</string>
+
+    <string name="facebook_app_id">1996085340581000</string>
+    <string name="fb_login_protocol_scheme">fb1996085340581000</string>
+    <string name="facebook_client_token">43939cde43a23e342e8d9d06c7478ef8</string>
 </resources>

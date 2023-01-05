@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "760415249045",
+    "project_id": "gogol-test-app",
+    "storage_bucket": "gogol-test-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760415249045:android:780d5efbfd1a176293719c",
+        "android_client_info": {
+          "package_name": "com.funo.funo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760415249045-2r43hnieh12dlh5o6o9jotd1f4cvn9ug.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.funo.funo",
+            "certificate_hash": "c0fbeea20ace5b2c831e619b2e58011d9a56dbed"
+          }
+        },
+        {
+          "client_id": "760415249045-5e4cpcu7qeiqqvsej3qganjcs77u0f9g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.funo.funo",
+            "certificate_hash": "5e6d00798df58a0e79176d988a6bc7171c048fcf"
+          }
+        },
+        {
+          "client_id": "760415249045-cne4ksljsbfehigvamunfeu9k8q7la6m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmsgA97SzB3Esmes5hW7yVY42wgG6LvXk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "760415249045-2886nd606c1jrs0118mlbr9c670qip1u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "760415249045-1oc1jf1i3ev2fd6de3a4h9t87de2c5ps.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.funo.funo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
