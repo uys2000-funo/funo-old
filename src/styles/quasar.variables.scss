@@ -13,3 +13,7 @@ $info: #31ccec;
 $warning: #f2c037;
 
 @import "~quasar-variables-styl";
+
+.fill-primary{
+    fill: $primary;
+}

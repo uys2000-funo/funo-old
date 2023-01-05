@@ -20,6 +20,7 @@
     "@capacitor/ios": "^4.3.0",
     "@capacitor/local-notifications": "^4.1.4",
     "@capacitor/network": "^4.1.0",
+    "@capacitor/preferences": "^4.0.2",
     "@capacitor/share": "^4.1.0",
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.8.3",
