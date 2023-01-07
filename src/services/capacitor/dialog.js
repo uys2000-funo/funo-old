@@ -1,4 +1,4 @@
-import { Dialog } from "@capacitor/dialog";
+import { Dialog } from '@capacitor/dialog';
 
 export const showAlert = function (
   title = "",

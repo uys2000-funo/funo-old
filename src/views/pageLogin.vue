@@ -27,7 +27,7 @@
               <span style="font-size:8pt" @click="slide = 'forgot'">Şifremi Unuttum</span>
             </div>
             <div class="column m-auto r" style="width:50vw">
-              <q-btn rounded class="bg-primary text-secondary" style="width:100%">Giriş</q-btn>
+              <q-btn rounded class="bg-primary text-secondary" style="width:100%" @click="login">Giriş</q-btn>
             </div>
           </div>
         </q-carousel-slide>
@@ -39,7 +39,7 @@
                 placeholder="E-Mail" />
             </div>
             <div class="column m-auto r" style="width:50vw">
-              <q-btn rounded class="bg-primary text-secondary" style="width:100%">Gönder</q-btn>
+              <q-btn rounded class="bg-primary text-secondary" style="width:100%" @click="sendMail">Gönder</q-btn>
             </div>
           </div>
         </q-carousel-slide>
@@ -61,8 +61,9 @@
     <div class="grow column no-wrap justify-around items-center content-center">
       <div class="grow" style="min-width:50vw">
         <div class="row justify-around">
-          <q-btn rounded text-color="secondary" class="m-auto" color="grey-9" label="Google" />
-          <q-btn rounded text-color="secondary" class="m-auto" color="indigo-9" label="Facebook" />
+          <q-btn rounded text-color="secondary" class="m-auto" color="grey-9" label="Google" @click="loginGoogle" />
+          <q-btn rounded text-color="secondary" class="m-auto" color="indigo-9" label="Facebook"
+            @click="loginFacebook" />
         </div>
       </div>
       <div class="grow">
@@ -75,19 +76,67 @@
   </div>
 </template>
 <script>
+import { user } from '@/store/user';
+import { sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "@/services/app/auth.js"
+import { getFirestoreUser, setLocalUserData } from '@/services/app/user.js';
+import { signInWithGoogle, signInWithFacebook } from "@/services/app/auth"
 export default {
   data() {
     return {
       height: window.innerHeight,
+      user: user(),
       slide: "login",
       email: "",
       password: ""
     }
   },
-  methods:{
-    login(){
-      
+  methods: {
+    sendMail() {
+      console.log(this.email)
+      sendPasswordResetEmail(this.email)
+        .then(() => this.slide = "login")
+        .catch(() => {
+          alert("Hata \n\nKüçük bir hata var, Mail yanlış olabilir veya internet bağlantında sorun olabilir.")
+          this.slide = "login"
+        })
+    },
+    loginSucces() {
+      this.$router.push({ name: "EventsAll" })
+    },
+    getUserSucces(user, rawUserFire) {
+      user.userFire = rawUserFire.data()
+      this.user.setUser(user)
+      return setLocalUserData(user)
+    },
+    signInSucces(user, userAuth) {
+      user.userAuth = userAuth.user
+      return getFirestoreUser(userAuth.user.uid)
+        .then(rawUserFire => this.getUserSucces(user, rawUserFire))
+    },
+    login() {
+      let user = { userFire: {}, userAuth: {} }
+      signInWithEmailAndPassword(this.email, this.password)
+        .then((userAuth) => this.signInSucces(user, userAuth))
+        .then(() => this.loginSucces())
+        .catch(() => signOut())
+    },
+    loginGoogle() {
+      let user = { userFire: {}, userAuth: {} }
+      signInWithGoogle()
+        .then((userAuth) => this.signInSucces(user, userAuth))
+        .then(() => this.loginSucces())
+        .catch(() => signOut())
+    },
+    loginFacebook() {
+      let user = { userFire: {}, userAuth: {} }
+      signInWithFacebook()
+        .then((userAuth) => this.signInSucces(user, userAuth))
+        .then(() => this.loginSucces())
+        .catch(() => signOut())
+
     }
+  }, mounted() {
+
   }
 }
 </script>

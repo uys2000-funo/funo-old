@@ -50,7 +50,7 @@ export const user = defineStore("user", {
       else return false;
     },
     ID: (state) => {
-      if (state.user.userAuth) return state.user.userAuth.user.uid;
+      if (state.user.userAuth) return state.user.userAuth.uid;
       else return false;
     },
     name: (state) => {

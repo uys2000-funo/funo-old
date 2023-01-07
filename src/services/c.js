@@ -14,11 +14,11 @@ export const c = function (function_name, data, err) {
   return data;
 };
 const iCL = function (function_name, data, err) {
-  console.log("Debug :", function_name, s(data), err ? s(err) : "");
+  console.log(`Debug : ${function_name}, ${s(data)}, ${err ? s(err) : ""}`);
   return data;
 };
 const iCE = function (function_name, data, err) {
-  console.error("Debug :", function_name, s(data), err ? s(err) : "");
+  console.error(`Debug : ${function_name}, ${s(data)}, ${err ? s(err) : ""}`);
   return data;
 };
 export const fr = function (ret) {
