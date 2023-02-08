@@ -78,7 +78,7 @@
 <script>
 import { user } from '@/store/user';
 import { sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "@/services/app/auth.js"
-import { getFirestoreUser, setLocalUserData } from '@/services/app/user.js';
+import { getFirestoreUser, getLocalUserData, setLocalUserData } from '@/services/app/user.js';
 import { signInWithGoogle, signInWithFacebook } from "@/services/app/auth"
 export default {
   data() {
@@ -103,15 +103,19 @@ export default {
     loginSucces() {
       this.$router.push({ name: "EventsAll" })
     },
-    getUserSucces(user, rawUserFire) {
-      user.userFire = rawUserFire.data()
+    getUserSucces(user, userFire) {
+      user.userFire = userFire;
       this.user.setUser(user)
-      return setLocalUserData(user)
+      return setLocalUserData(user).then(()=>{
+        getLocalUserData().then(data=>{
+          console.log(JSON.stringify(data));
+        })
+      })
     },
     signInSucces(user, userAuth) {
       user.userAuth = userAuth.user
       return getFirestoreUser(userAuth.user.uid)
-        .then(rawUserFire => this.getUserSucces(user, rawUserFire))
+        .then(userFire => this.getUserSucces(user, userFire))
     },
     login() {
       let user = { userFire: {}, userAuth: {} }

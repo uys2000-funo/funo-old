@@ -9,6 +9,9 @@ export const user = defineStore("user", {
     setUser(user) {
       this.user = user;
     },
+    setUserAuth(userAuth) {
+      this.user.userAuth = userAuth;
+    },
     setUserFire(userFire) {
       this.user.userFire = userFire;
     },
