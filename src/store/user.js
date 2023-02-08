@@ -4,14 +4,13 @@ import { defineStore } from "pinia";
 export const user = defineStore("user", {
   state: () => ({
     user: {},
-    lastUser: {},
   }),
   actions: {
     setUser(user) {
       this.user = user;
     },
-    setLastUser(user) {
-      this.lastUser = user;
+    setUserFire(userFire) {
+      this.user.userFire = userFire;
     },
     setHidden(value) {
       this.user.userFire.hidden = value;

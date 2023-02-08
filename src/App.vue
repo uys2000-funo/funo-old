@@ -14,11 +14,12 @@
 
 <script>
 import { setBackButton } from "./services/app/main";
-import settings from "@/services/settings";
-import { autoLogin } from "./services/core/login";
+import { checkAuth } from "@/services/app/auth.js"
 import { location } from "@/store/location";
 import { user } from "@/store/user";
 import { getLocationShow } from "./services/geoCode/geocode";
+import { getLocalObject } from "./services/capacitor/preferences";
+import { getFirestoreUser } from "./services/app/user";
 export default {
   name: "LayoutDefault",
   // Fetch events will be in here
@@ -33,7 +34,22 @@ export default {
   },
   methods: {
     setBackButton: setBackButton,
-    autoLogin: autoLogin,
+    autoLogin: function () {
+      checkAuth().then((user) => {
+        console.log("------------------------------------")
+        console.log(JSON.stringify(user))
+        getLocalObject("user").then(({ value: localUser }) => {
+          console.log(localUser);
+          getFirestoreUser(user.uid).then(userFire => {
+            this.user.setUserFire(userFire)
+          })
+          this.loginPopup = false
+          this.$router.push({ name: "EventsAll" })
+        })
+      }).catch(() => {
+        this.loginPopup = false
+      })
+    },
     checkLocationAccesWeb: function () {
       navigator.geolocation.getCurrentPosition((position) => {
         const location = [position.coords.latitude, position.coords.longitude];
@@ -49,14 +65,17 @@ export default {
   mounted() {
     this.setBackButton();
     this.checkLocationAccesWeb();
-    if (settings.autoLogin) {
-      this.autoLogin(this.user, this.loginPopup, this.$route, this.$router);
-    } else this.loginPopup = false;
+    getLocalObject("user").then(({ value: localUser }) => {
+      if (localUser)
+        this.user.setUser(localUser)
+      this.autoLogin();
+    })
+
   },
 };
 </script>
 <style>
-#app > div > div:not([class="a"]) {
+#app>div>div:not([class="a"]) {
   width: 100vw;
   height: 100vh;
 }

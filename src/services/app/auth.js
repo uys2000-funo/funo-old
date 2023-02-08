@@ -1,4 +1,5 @@
 import {
+  getCapacitorCurrentUser,
   sendCapacitorPasswordResetEmail,
   signInCapacitorWithApple,
   signInCapacitorWithEmailAndPassword,
@@ -7,13 +8,14 @@ import {
   signOutCapacitor,
 } from "@/services/capacitor/firebaseAuthentication.js";
 import {
+  getFirebaseCurrentUser,
   signInFirebaseWithAppleToken,
   signInFirebaseWithEmailAndPassword,
   signInFirebaseWithFacebookToken,
   signInFirebaseWithGoogleToken,
   signOutFirebase,
 } from "@/services/firebase/core/authentication.js";
-import { f } from "../c";
+import { c, f } from "../c";
 
 export const sendPasswordResetEmail = function (email) {
   return f(sendCapacitorPasswordResetEmail, email);
@@ -42,4 +44,29 @@ export const signOut = function () {
   return f(signOutCapacitor)
     .catch(() => f(signOutFirebase))
     .then(() => f(signOutFirebase));
+};
+
+export const checkAuth = function () {
+  return new Promise((resolve, reject) => {
+    const rejectFunction = function () {
+      signOut().then(() => reject(false));
+    };
+    f(getCapacitorCurrentUser)
+      .then(() => {
+        let counter = 0;
+        var interval = setInterval(function () {
+          c("checkAuthInterval", counter);
+          counter = counter + 100;
+          const user = getFirebaseCurrentUser();
+          if (user) {
+            clearInterval(interval);
+            resolve(user);
+          } else if (counter >= 5000) {
+            clearInterval(interval);
+            rejectFunction();
+          }
+        }, 100);
+      })
+      .catch(rejectFunction);
+  });
 };

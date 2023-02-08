@@ -1,7 +1,7 @@
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 
 export const getCapacitorCurrentUser = function () {
-  return FirebaseAuthentication.getCurrentUser();
+  return FirebaseAuthentication.getCurrentUser()
 };
 
 export const sendCapacitorEmailVerification = function () {

@@ -12,6 +12,10 @@ import app from "./app";
 import { c } from "@/services/c";
 
 const auth = getAuth(app);
+
+export const getFirebaseCurrentUser = function(){
+  return auth.currentUser;
+}
 //signIn functions
 export const signInFirebaseWithAppleToken = function (cAppleAuth) {
   const provider = new OAuthProvider("apple.com");
