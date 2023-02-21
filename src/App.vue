@@ -18,7 +18,9 @@ import { checkAuth } from "@/services/app/auth.js"
 import { location } from "@/store/location";
 import { user } from "@/store/user";
 import { getLocationShow } from "./services/geoCode/geocode";
-import { getFirestoreUser,getLocalUserData } from "./services/app/user";
+import { getFirestoreUser, getLocalUserData } from "./services/app/user";
+import { getMessageIDs } from "./services/app/message";
+import { messages } from "./store/messages";
 export default {
   name: "LayoutDefault",
   // Fetch events will be in here
@@ -28,19 +30,26 @@ export default {
       loginPopup: true,
       position: [],
       user: user(),
+      messages: messages(),
       location: location(),
     };
   },
   methods: {
     setBackButton: setBackButton,
+    getMessages: function () {
+      getMessageIDs(this.user.ID).then(messageIDs => {
+        this.messages.msgIDList = messageIDs
+      })
+    },
     autoLogin: function () {
       checkAuth().then((user) => {
         this.user.setUserAuth(user);
-          getFirestoreUser(user.uid).then(userFire => {
-            this.user.setUserFire(userFire)
-            this.loginPopup = false
-            this.$router.push({ name: "EventsAll" })
-          })
+        getFirestoreUser(user.uid).then(userFire => {
+          this.user.setUserFire(userFire)
+          this.loginPopup = false
+          this.getMessages();
+          this.$router.push({ name: "EventsAll" })
+        })
       }).catch(() => {
         this.loginPopup = false
       })
@@ -61,7 +70,7 @@ export default {
     this.setBackButton();
     this.checkLocationAccesWeb();
     getLocalUserData().then(({ value: localUser }) => {
-      if (localUser != null){
+      if (localUser != null) {
         this.user.setUser(localUser)
         this.autoLogin();
       } else this.loginPopup = false;

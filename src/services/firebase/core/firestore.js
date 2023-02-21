@@ -3,6 +3,7 @@ import {
   getDoc,
   getDocs,
   doc,
+  addDoc,
   collection,
   query,
   where,
@@ -10,40 +11,61 @@ import {
   limit,
   serverTimestamp,
   setDoc,
+  onSnapshot,
+  Timestamp,
 } from "firebase/firestore";
 import app from "./app";
 
 const db = getFirestore(app);
 
-export const setDocument = function (table, c, data) {
+export const setDocument = function (table, column, data) {
   data["timestamp"] = serverTimestamp();
-  const docRef = doc(db, table, c);
+  const docRef = doc(db, table, column);
   return setDoc(docRef, data);
 };
 export const addDocument = function (table, data) {
   data["timestamp"] = serverTimestamp();
   const colRef = collection(db, table);
-  return setDoc(colRef, data);
+  return addDoc(colRef, data);
 };
-export const updateDocument = function (table, c, data) {
+export const updateDocument = function (table, column, data) {
   data["utimestamp"] = serverTimestamp();
-  const docRef = doc(db, table, c);
+  const docRef = doc(db, table, column);
   return setDoc(docRef, data);
 };
-
-export const getDocument = function (tabe, c) {
-  const docRef = doc(db, tabe, c);
+export const getDocument = function (tabe, column) {
+  const docRef = doc(db, tabe, column);
   return getDoc(docRef);
 };
 export const getCollection = function (table) {
   const colRef = collection(db, table);
   return getDocs(colRef);
 };
+export const watchCollection = function (table, runFunc = (doc) => doc) {
+  const colRef = collection(db, table);
+  return onSnapshot(colRef, (rawCollection) =>
+    runFunc(rawCollection.docChanges())
+  );
+};
+export const getCollectionWithW = function (
+  table,
+  column,
+  columnCondition = "==",
+  columnEquality = "",
+  l = 5000
+) {
+  const queryRef = query(
+    collection(db, table),
+    where(column, columnCondition, columnEquality),
+    limit(l)
+  );
+  return getDocs(queryRef);
+};
 export const getCollectionWithTO = function (
   table,
   cType = "desc",
   cCon = "<",
-  tEqu = serverTimestamp(),
+  tEqu = Timestamp.fromDate(new Date()),
   l = 5000
 ) {
   const queryRef = query(
@@ -56,34 +78,34 @@ export const getCollectionWithTO = function (
 };
 export const getCollectionWithCO = function (
   table,
-  c,
+  column,
   cType = "desc",
   cCon = "==",
   cEqu = true
 ) {
   const queryRef = query(
     collection(db, table),
-    orderBy(c, cType),
-    where(c, cCon, cEqu)
+    orderBy(column, cType),
+    where(column, cCon, cEqu)
   );
   return getDocs(queryRef);
 };
 export const getCollectionWithTOCO = function (
   table,
-  c,
+  column,
   cOrder,
   cType,
   cEqu,
   tType,
   tCon,
-  tEqu = serverTimestamp()
+  tEqu = Timestamp.fromDate(new Date())
 ) {
   const queryRef = query(
     collection(db, table),
     orderBy("timestamp", tType),
     where("timestamp", tCon, tEqu),
-    orderBy(c, cOrder),
-    where(c, cType, cEqu)
+    orderBy(column, cOrder),
+    where(column, cType, cEqu)
   );
   return getDocs(queryRef);
 };
