@@ -9,9 +9,9 @@
           <p style="margin: auto">{{ location.location }}</p>
         </div>
         <div class="col-4 text-right">
-          <img :src="require('@/assets/images/icons/message.svg')" alt="" @click="$router.push({name:'Messages'})" />
+          <img :src="require('@/assets/images/icons/message.svg')" alt="" @click="$router.push({ name: 'messages' })" />
           <img :src="require('@/assets/images/icons/notification.svg')" alt=""
-            @click="pages.setNotificationDialog(true)" />
+            @click="$router.push({ name: 'notificationsPage', params: { id: 'all' } })" />
         </div>
       </div>
       <div class="q-mt-sm">
@@ -37,18 +37,13 @@
       <router-view :tags="cTags" />
     </div>
   </div>
-  <comp-notifications />
-  <comp-messages />
 </template>
 
 <script>
 import { location } from "@/store/location";
 import { pages } from "@/store/pages";
-import compNotifications from "@/popups/notificationsPopup.vue";
-import compMessages from "@/popups/messagesPopup.vue";
 import { user } from "@/store/user";
 export default {
-  components: { compNotifications, compMessages },
   data() {
     return {
       location: location(),

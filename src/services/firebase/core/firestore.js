@@ -47,6 +47,17 @@ export const watchCollection = function (table, runFunc = (doc) => doc) {
     runFunc(rawCollection.docChanges())
   );
 };
+export const watchCollectionWithTO = function (table, runFunc = (doc) => doc) {
+  const queryRef = query(
+    collection(db, table),
+    orderBy("timestamp", "asc"),
+    where("timestamp", ">", Timestamp.now()),
+    limit(1000)
+  );
+  return onSnapshot(queryRef, (rawCollection) =>
+    runFunc(rawCollection.docChanges())
+  );
+};
 export const getCollectionWithW = function (
   table,
   column,

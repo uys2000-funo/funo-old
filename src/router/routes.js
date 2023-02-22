@@ -48,7 +48,8 @@ export default setDebugRouter([
             component: () => import("../views/pageEvents.vue"),
             children: [
               /// Popup pages will be in events page to contiune show event list at background
-              { //Event Create
+              {
+                //Event Create
                 path: "create",
                 name: "CreateEvent",
                 component: () => import("../layouts/EventAddLayout.vue"),
@@ -60,7 +61,8 @@ export default setDebugRouter([
                   },
                 ],
               },
-              { //Event
+              {
+                //Event
                 path: "event",
                 name: "Event",
                 component: () => import("../layouts/EventLayout.vue"),
@@ -72,7 +74,8 @@ export default setDebugRouter([
                   },
                 ],
               },
-              { //Event Edit
+              {
+                //Event Edit
                 path: "edit",
                 name: "EventEdit",
                 component: () => import("../layouts/EventEditLayout.vue"),
@@ -84,7 +87,8 @@ export default setDebugRouter([
                   },
                 ],
               },
-              { //Messages
+              {
+                //Messages
                 path: "messages",
                 name: "Messages",
                 component: () => import("../layouts/MessagesLayout.vue"),
@@ -138,6 +142,35 @@ export default setDebugRouter([
             path: ":id",
             name: "discoverPage",
             component: () => import("../views/pageDiscover.vue"),
+          },
+        ],
+      },
+      {
+        path: "notifications",
+        name: "notifications",
+        component: () => import("../layouts/NotificationLayout.vue"),
+        children: [
+          {
+            path: ":id",
+            name: "notificationsPage",
+            component: () => import("../views/pageNotification.vue"),
+          },
+        ],
+      },
+      {
+        path: "messages",
+        name: "messages",
+        component: () => import("../layouts/NotificationLayout.vue"),
+        children: [
+          {
+            path: "",
+            name: "messagesPage",
+            component: () => import("../views/pageNotification.vue"),
+          },
+          {
+            path: ":id",
+            name: "messagesPage",
+            component: () => import("../views/pageNotification.vue"),
           },
         ],
       },
