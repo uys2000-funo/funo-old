@@ -11,12 +11,13 @@
                 <div>
                     <q-tabs v-model="page" class="bg-primary text-white q-mb-sm">
                         <q-tab name="notifications" label="Bildirimler" :ripple="false" />
-                        <q-tab name="announcement" label="Duyurular" :ripple="false"/>
+                        <q-tab name="aprovals" label="Onaylar" :ripple="false"/>
+                        <q-tab name="announcements" label="Duyurular" :ripple="false"/>
                     </q-tabs>
                 </div>
             </div>
-            <div class="fit bg-secondary not">
-                <q-scroll-area class="fit">
+            <div class="fit flex bg-secondary not">
+                <q-scroll-area class="fit" style="border-radius: 15px;">
                     <router-view :page="page"/>
                 </q-scroll-area>
             </div>

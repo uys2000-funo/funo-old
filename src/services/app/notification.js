@@ -5,29 +5,38 @@ import {
   watchCollectionWithTO,
 } from "../firebase/core/firestore";
 import { f, c } from "../c";
+import { getFile } from "../firebase/core/storage";
 
 export const shortNotifications = function (notifications) {
   return notifications.sort(
     (a, b) => b.timestamp.seconds - a.timestamp.seconds
   );
 };
-export const sendNotification = function (uID, type, data) {
+export const sendNotification = function (uID, type, innerType, data) {
   c("sendNotification", arguments);
-  return f(addDocument,`NH-${uID}`, { type: type, data: data });
+  return f(addDocument, `NH-${uID}`, {
+    type: type,
+    innerType: innerType,
+    data: data,
+  }).then((rawDoc) => rawDoc.id);
 };
-export const getNotifications = function (target) {
+export const getNotifications = function (uID) {
   c("getNotifications", arguments);
-  return f(getCollectionWithTO, target, "asc").then((rowMsgs) =>
+  return f(getCollectionWithTO, `NH-${uID}`, "asc").then((rowMsgs) =>
     rowMsgs.docs.map((doc) => doc.data())
   );
 };
-export const getNotification= function (target, runFunc) {
-  c("getNotification", arguments);
-  return watchCollectionWithTO(target, runFunc);
+export const watchNotifications = function (uID, runFunc) {
+  c("watchNotifications", arguments);
+  return watchCollectionWithTO(`NH-${uID}`, runFunc);
 };
 export const getNotificationIDs = function (uID) {
   c("getNotificationIDs", arguments);
-  return f(getCollection, `MU-${uID}`).then((rawCollection) =>
+  return f(getCollection, `NH-${uID}`).then((rawCollection) =>
     rawCollection.docs.map((rawDocument) => rawDocument.data().user)
   );
+};
+export const getNotificationImage = function (eID, oID) {
+  return getFile(`E/${eID}/imgs/img0`)
+    .catch(() => getFile(`U/${oID}/imgs/uImg`))
 };

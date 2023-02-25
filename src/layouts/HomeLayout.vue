@@ -26,26 +26,36 @@
 import { getPopEvents } from "@/services/core/events";
 import { events } from "@/store/events";
 import { getEvent } from "@/services/core/events";
+import { watchNotifications } from "@/services/app/notification";
+import { user } from "@/store/user";
+import { notifications } from "@/store/notifications";
 export default {
   name: "AppLayout",
   //After Login Genral Fetchs
   data() {
     return {
-      eventDict: events().eventDict,
-      eventPopularList: events().eventPopularList,
+      user: user(),
+      notifications: notifications(),
+      notificationListener: null,
     };
   },
   methods: {
     getPopEvents: getPopEvents,
     addPopEvent: events().addEventWithPopList,
     getEvent: getEvent,
+    addNotifications: function (changes) {
+      changes.forEach((change) => {
+        const doc = change.doc.data();
+        this.notifications.add(doc)
+      })
+    }
   },
   mounted() {
-    if (this.eventPopularList.length == 0)
+    if (events().eventPopularList.length == 0)
       this.getPopEvents().then((popEvents) => {
         popEvents.forEach((popEvent) => {
-          if (this.eventDict[popEvent.eID]) {
-            this.addPopEvent(this.eventDict[popEvent.eID]);
+          if (events().eventDict[popEvent.eID]) {
+            this.addPopEvent(events().eventDict[popEvent.eID]);
           } else {
             this.getEvent(popEvent.eID).then((event) => {
               console.log(event);
@@ -54,23 +64,30 @@ export default {
           }
         });
       });
+    this.notificationsListener = watchNotifications(this.user.ID, this.addNotifications);
   },
+  beforeUnmount() {
+    if (this.notificationsListener) this.notificationsListener()
+  }
 };
 </script>
 <style scoped>
 .asd {
   height: 100vh;
 }
+
 .menu {
   bottom: 0px;
   left: 0px;
   width: 100%;
 }
-.menu > .q-btn {
+
+.menu>.q-btn {
   margin: auto;
   height: 75%;
   margin-bottom: 0px;
 }
+
 .q-btn {
   border-radius: 50%;
   width: 20%;

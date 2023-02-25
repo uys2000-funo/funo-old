@@ -10,7 +10,7 @@ const argToArray = function (args) {
 const s = (data) => JSON.stringify(data);
 export const c = function (function_name, data, err) {
   if (settings.debug)
-    console.log(`Debug: ${function_name} ${s(data)} ${err ? s(err) : ""}`);
+    console.log(`Debug : ${function_name} ${s(data)} ${err ? s(err) : ""}`);
   return data;
 };
 const iCL = function (function_name, data, err) {
@@ -34,11 +34,11 @@ const innerF = function (fFunc, fArgs, resolve, reject) {
   fFunc
     .apply(null, fArgs)
     .then((res) => {
-      resolve(iCL(`Res: ${fFunc.name}`, res == undefined ? true : res));
+      resolve(iCL(`Res : ${fFunc.name}`, res == undefined ? true : res));
     })
     .catch((err) => {
       reject(
-        iCE(`Err: ${fFunc.name} - ${s(fArgs)} `, err == undefined ? false : err)
+        iCE(`Err : ${fFunc.name} - ${s(fArgs)} `, err == undefined ? false : err)
       );
     });
 };

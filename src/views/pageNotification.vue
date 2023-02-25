@@ -1,14 +1,23 @@
 <template>
     <div>
         <q-carousel :model-value="page" transition-prev="scale" transition-next="scale" swipeable animated
-            control-color="white" navigation padding arrows height="300px" class="bg-secondary"
-            style="border-radius: 50px;">
+            control-color="white" navigation padding arrows class="bg-secondary fit " style="border-radius: 50px;">
             <q-carousel-slide name="notifications" class="column no-wrap flex-center">
-                <q-infinite-scroll @load="onLoad" :offset="250">
-                    <div v-for="(item, index) in items" :key="index" class="caption">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
-                            eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut,
-                            natus minima, porro labore.</p>
+                    <q-list separator style="min-height: 100%;">
+                        <div v-for="notification in notifications.notifications" :key="notification">
+                            <comp-notification :notification="notification" />
+                        </div>
+                    </q-list>
+                    <template v-slot:loading>
+                        <div class="row justify-center q-my-md">
+                            <q-spinner-dots color="primary" size="40px" />
+                        </div>
+                    </template>
+            </q-carousel-slide>
+            <q-carousel-slide name="aprovals" class="column no-wrap flex-center">
+                <q-infinite-scroll @load="onLoad" style="width:100%">
+                    <div>
+                        {{ notifications.aprovals }}
                     </div>
                     <template v-slot:loading>
                         <div class="row justify-center q-my-md">
@@ -17,30 +26,36 @@
                     </template>
                 </q-infinite-scroll>
             </q-carousel-slide>
-            <q-carousel-slide name="announcement" class="column no-wrap flex-center">
-                <div class="q-mt-md text-center">
-                    asd
-                </div>
-            </q-carousel-slide>
-            <q-carousel-slide name="notification" class="column no-wrap flex-center">
-                <div class="q-mt-md text-center">
-                    ads
-                </div>
+            <q-carousel-slide name="announcements" class="column no-wrap flex-center">
+                <q-infinite-scroll @load="onLoad" style="width:100%">
+                    <div>
+                        {{ notifications.announcements }}
+                    </div>
+                    <template v-slot:loading>
+                        <div class="row justify-center q-my-md">
+                            <q-spinner-dots color="primary" size="40px" />
+                        </div>
+                    </template>
+                </q-infinite-scroll>
             </q-carousel-slide>
         </q-carousel>
     </div>
 </template>
 <script>
+import { notifications } from '@/store/notifications';
+import compNotification from '@/components/notifications/compNotification.vue';
 export default {
+    components: { compNotification },
     props: ["page"],
     data() {
         return {
-            notifications: []
+            notifications: notifications(),
         }
     },
     methods: {
-        onload() {
-
+        onLoad: function (index, done) {
+            index
+            done(true)
         }
     }
 }

@@ -75,8 +75,10 @@ export default {
         this.autoLogin();
       } else this.loginPopup = false;
     })
-
   },
+  beforeUnmount() {
+    if (this.notificationsListener) this.notificationsListener()
+  }
 };
 </script>
 <style>

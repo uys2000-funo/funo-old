@@ -41,7 +41,7 @@ export default {
       uID: "",
       sID: "",
       msg: "",
-      msgs:[],
+      msgs: [],
       target: "",
       user: user(),
       messages: messages(),
@@ -73,8 +73,8 @@ export default {
           console.log(change.type);
           if (change.type == "added")
             this.messages.addMsg(this.sID, change.doc.data())
-          })
-          this.messages.msgDict[this.sID] = shortMessages(this.messages.msgDict[this.sID])
+        })
+        this.messages.msgDict[this.sID] = shortMessages(this.messages.msgDict[this.sID])
       })
     },
     sendMessageFirstTime() {
