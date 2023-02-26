@@ -61,8 +61,9 @@ import {
   joinEventDB,
   updatePopEventDB,
 } from "@/services/core/events";
-import { sendNotification } from "@/services/app/notification";
+import { disableNotification, sendNotification } from "@/services/app/notification";
 import { scheduleNotification } from "@/services/app/localNotifications";
+import { notifications } from "@/store/notifications";
 export default {
   props: ["event", "tags"],
   components: {
@@ -73,6 +74,7 @@ export default {
       pages: pages(),
       eventImageUrl: "",
       user: user(),
+      notifications: notifications(),
     };
   },
   computed: {
@@ -103,7 +105,10 @@ export default {
         )
     },
     removeNotification(event) {
-      event
+      const notifications = this.notifications.notifications.filter(notification => notification.data.eID == event.eID && notification.isActive == true)
+      notifications.forEach(notification => {
+        disableNotification(this.user.ID, notification)
+      })
     },
     scheduleNotifications(event, notificationIds) {
       const nearNotificationArguments = {
@@ -124,9 +129,9 @@ export default {
         seconds: event.endDate.timestamp.seconds,
         extra: { url: `app/notification/${notificationIds[2]}` }
       }
-      return scheduleNotification(...nearNotificationArguments)
-        .then(() => scheduleNotification(...startNotificationArguments)
-          .then(() => scheduleNotification(...endNotificationArguments))
+      return scheduleNotification(nearNotificationArguments)
+        .then(() => scheduleNotification(startNotificationArguments)
+          .then(() => scheduleNotification(endNotificationArguments))
         )
     },
     joinEvent: function (event) {
@@ -142,12 +147,14 @@ export default {
       user().removeEventFromUser(event.eID);
       events().removeUserFromEvent(event.eID, this.user.ID);
       exitEventDB(event.eID, this.user.ID);
+      this.removeNotification(event)
     },
   },
   mounted() {
-    getImgStorage(`E/${this.event.eID}/imgs/img0`).then((res) => {
-      this.eventImageUrl = res;
-    });
+    if (this.event.imgCount > 0)
+      getImgStorage(`E/${this.event.eID}/imgs/img0`).then((res) => {
+        this.eventImageUrl = res;
+      }).catch(() => "")
   },
 };
 </script>

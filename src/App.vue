@@ -1,7 +1,7 @@
 <template>
-  <router-view v-if="!loginPopup" />
+  <router-view v-if="pageLoad" />
 
-  <q-dialog v-model="loginPopup">
+  <q-dialog v-model="showPopup">
     <q-card style="width: 50vw">
       <q-card-section>
         <div class="text-h6">Info</div>
@@ -21,13 +21,15 @@ import { getLocationShow } from "./services/geoCode/geocode";
 import { getFirestoreUser, getLocalUserData } from "./services/app/user";
 import { getMessageIDs } from "./services/app/message";
 import { messages } from "./store/messages";
+import { w } from "./services/c";
 export default {
   name: "LayoutDefault",
   // Fetch events will be in here
   components: {},
   data() {
     return {
-      loginPopup: true,
+      pageLoad: false,
+      showPopup: true,
       position: [],
       user: user(),
       messages: messages(),
@@ -46,12 +48,15 @@ export default {
         this.user.setUserAuth(user);
         getFirestoreUser(user.uid).then(userFire => {
           this.user.setUserFire(userFire)
-          this.loginPopup = false
+          this.showPopup = false
+          this.pageLoad = true;
+          w("USER DATA AUTOMATICALLY PULLED", user.uid)
           this.getMessages();
           this.$router.push({ name: "EventsAll" })
         })
       }).catch(() => {
-        this.loginPopup = false
+        this.showPopup = false
+        this.pageLoad = true;
       })
     },
     checkLocationAccesWeb: function () {
@@ -73,11 +78,11 @@ export default {
       if (localUser != null) {
         this.user.setUser(localUser)
         this.autoLogin();
-      } else this.loginPopup = false;
+      } else {
+        this.showPopup = false;
+        this.pageLoad = true;
+      }
     })
-  },
-  beforeUnmount() {
-    if (this.notificationsListener) this.notificationsListener()
   }
 };
 </script>

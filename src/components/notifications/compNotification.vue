@@ -1,5 +1,5 @@
 <template>
-    <q-item clickable v-ripple>
+    <q-item clickable v-ripple v-if="notification.isActive">
         <q-item-section avatar>
             <q-avatar rounded>
                 <img :src="src">
@@ -28,9 +28,10 @@ export default {
         }
     },
     mounted() {
-        getNotificationImage(this.notification.data.eID, this.notification.data.oID)
-            .then(response => this.src = response)
-            .catch(() => this.src = "https://cdn.quasar.dev/img/boy-avatar.png")
+        if (this.notification.isActive)
+            getNotificationImage(this.notification.data.eID, this.notification.data.oID)
+                .then(response => this.src = response)
+                .catch(() => this.src = "https://cdn.quasar.dev/img/boy-avatar.png")
     }
 }
 </script>

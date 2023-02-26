@@ -13,6 +13,11 @@ export const c = function (function_name, data, err) {
     console.log(`Debug : ${function_name} ${s(data)} ${err ? s(err) : ""}`);
   return data;
 };
+export const w = function (function_name, data, err) {
+  if (settings.debug)
+    console.warn(`Debug : ${function_name} ${s(data)} ${err ? s(err) : ""}`);
+  return data;
+};
 const iCL = function (function_name, data, err) {
   console.log(`Debug : ${function_name}, ${s(data)}, ${err ? s(err) : ""}`);
   return data;

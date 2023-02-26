@@ -19,6 +19,8 @@ export const user = defineStore("user", {
       this.user.userFire.hidden = value;
     },
     addEventToUser(eID) {
+      if (!this.user.userFire.joinEvent) this.user.userFire.joinEvent = [];
+      console.log(this.user.userFire.joinEvent)
       this.user.userFire.joinEvent.push(eID);
       this.user.userFire.joinEventCount += 1;
     },

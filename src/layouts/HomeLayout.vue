@@ -26,9 +26,10 @@
 import { getPopEvents } from "@/services/core/events";
 import { events } from "@/store/events";
 import { getEvent } from "@/services/core/events";
-import { watchNotifications } from "@/services/app/notification";
+import { getNotifications, watchNotifications } from "@/services/app/notification";
 import { user } from "@/store/user";
 import { notifications } from "@/store/notifications";
+import { w } from "@/services/c";
 export default {
   name: "AppLayout",
   //After Login Genral Fetchs
@@ -43,12 +44,6 @@ export default {
     getPopEvents: getPopEvents,
     addPopEvent: events().addEventWithPopList,
     getEvent: getEvent,
-    addNotifications: function (changes) {
-      changes.forEach((change) => {
-        const doc = change.doc.data();
-        this.notifications.add(doc)
-      })
-    }
   },
   mounted() {
     if (events().eventPopularList.length == 0)
@@ -58,17 +53,38 @@ export default {
             this.addPopEvent(events().eventDict[popEvent.eID]);
           } else {
             this.getEvent(popEvent.eID).then((event) => {
-              console.log(event);
               this.addPopEvent(event);
             });
           }
         });
       });
-    this.notificationsListener = watchNotifications(this.user.ID, this.addNotifications);
+    let interval = setInterval(() => {
+      if (!this.user.ID) w("USER DOES NOT IMPLEMENTED YET", this.user.ID)
+      else {
+        w("NOTIFICATIONS STARTED TO GETTING", this.user.ID)
+        getNotifications(this.user.ID).then((notifications) => {
+          notifications.forEach(notification => {
+            this.notifications.add(notification)
+          })
+          w("NOTIFICATIONS STARTED TO LISTENNING", this.user.ID)
+          this.notificationsListener = watchNotifications(
+            this.user.ID,
+            this.notifications.add,
+            this.notifications.remove,
+            this.notifications.update
+          );
+        })
+        clearInterval(interval)
+      }
+    }, 200)
+
   },
   beforeUnmount() {
-    if (this.notificationsListener) this.notificationsListener()
-  }
+    if (this.notificationsListener) {
+      w("notificationsListener UNMOUNTED", this.user.ID)
+      this.notificationsListener()
+    }
+  },
 };
 </script>
 <style scoped>

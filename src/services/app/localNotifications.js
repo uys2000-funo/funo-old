@@ -29,7 +29,7 @@ export const setupLocalNotifications = function () {
   });
 };
 
-export const scheduleNotification = function (title, body, seconds, extra) {
+export const scheduleNotification = function ({ title, body, seconds, extra }) {
   c("scheduleNotification", arguments);
   seconds = seconds * 100;
   if (isTimestampPast(seconds)) seconds = Timestamp.now();

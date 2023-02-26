@@ -26,7 +26,7 @@ export const setDocument = function (table, column, data) {
 export const addDocument = function (table, data) {
   data["timestamp"] = serverTimestamp();
   const colRef = collection(db, table);
-  return addDoc(colRef, data)
+  return addDoc(colRef, data);
 };
 export const updateDocument = function (table, column, data) {
   data["utimestamp"] = serverTimestamp();
@@ -51,7 +51,24 @@ export const watchCollectionWithTO = function (table, runFunc = (doc) => doc) {
   const queryRef = query(
     collection(db, table),
     orderBy("timestamp", "asc"),
+    where("timestamp", ">", Timestamp.now()),
+    limit(1000)
+  );
+  return onSnapshot(queryRef, (rawCollection) =>
+    runFunc(rawCollection.docChanges())
+  );
+};
+export const watchCollectionWithTOW = function (
+  table,
+  column,
+  value,
+  runFunc = (doc) => doc
+) {
+  const queryRef = query(
+    collection(db, table),
+    orderBy("timestamp", "asc"),
     where("timestamp", "<", Timestamp.now()),
+    where(column, "==", value),
     limit(1000)
   );
   return onSnapshot(queryRef, (rawCollection) =>
