@@ -1,47 +1,38 @@
 <template>
-  <div class="column fit no-wrap justify-around items-center content-center">
-    <p class="col-4 column no-wrap justify-around items-center content-center">
-      Please Choose Your user Type
-    </p>
-    <div class="col-8">
-      <div>
-        <q-btn to="/register/p" @click="setPage(-1)">
-          <div class="btnText">Bireysel</div>
-        </q-btn>
-      </div>
-      <div>
-        <q-btn to="/register/c" @click="setPage(1)">
-          <div class="btnText">İşletme</div>
-        </q-btn>
-      </div>
-    </div>
-  </div>
+    <q-carousel :model-value="pageNumber" @update:model-value="setPageNumber" transition-prev="scale"
+        transition-next="scale" swipeable animated control-color="white" padding
+        class="fit bg-secondary text-black rounded-borders">
+        <q-carousel-slide :name="0">
+            <comp-choose style="overflow-y: auto;" :pageNumber="pageNumber" :setPageNumber="setPageNumber" />
+        </q-carousel-slide>
+        <q-carousel-slide :name="1">
+            <comp-personnel-general v-if="register.user.type" style="overflow-y: auto;" :pageNumber="pageNumber"
+                :setPageNumber="setPageNumber" />
+            <comp-company-general v-else style="overflow-y: auto;" :pageNumber="pageNumber"
+                :setPageNumber="setPageNumber" />
+        </q-carousel-slide>
+        <q-carousel-slide :name="2">
+            <comp-account style="overflow-y: auto;" :pageNumber="pageNumber" :setPageNumber="setPageNumber" />
+        </q-carousel-slide>
+        <q-carousel-slide :name="3">
+            <comp-profile style="overflow-y: auto;" :pageNumber="pageNumber" :setPageNumber="setPageNumber" />
+        </q-carousel-slide>
+    </q-carousel>
 </template>
-
 <script>
+import { register } from '@/store/register';
+import compPersonnelGeneral from '@/components/register/compPersonnelGeneral.vue';
+import compCompanyGeneral from '@/components/register/compCompanyGeneral.vue';
+import compAccount from '@/components/register/compAccount.vue';
+import compProfile from '@/components/register/compProfile.vue';
+import compChoose from '@/components/register/compChoose.vue';
 export default {
-  inject: ["setPage"],
-};
+    components: { compPersonnelGeneral, compCompanyGeneral, compAccount, compProfile, compChoose },
+    props: ["pageNumber", "setPageNumber"],
+    data() {
+        return {
+            register: register(),
+        }
+    },
+}
 </script>
-<style scoped>
-p {
-  font-size: 3vh;
-}
-.q-btn {
-  width: 70vw;
-  height: 7vh;
-  margin: 1vh;
-  background: #ff7f00;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-}
-.btnText {
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 900;
-  font-size: 2vh;
-  line-height: 100%;
-
-  color: #ffffff;
-}
-</style>

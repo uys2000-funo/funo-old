@@ -5,7 +5,7 @@ export const showAlert = function (
   message = "",
   buttonTitle = "Tamam"
 ) {
-  return Dialog.showAlert({
+  return Dialog.alert({
     title: title,
     message: message,
     buttonTitle: buttonTitle,
@@ -17,7 +17,7 @@ export const showConfirm = function (
   okButtonTitle = "Tamam",
   cancelButtonTitle = "Iptal"
 ) {
-  return Dialog.showConfirm({
+  return Dialog.confirm({
     title: title,
     message: message,
     okButtonTitle: okButtonTitle,
@@ -32,7 +32,7 @@ export const showPrompt = function (
   inputPlaceholder = "",
   inputText = ""
 ) {
-  return Dialog.showPrompt({
+  return Dialog.prompt({
     title: title,
     message: message,
     okButtonTitle: okButtonTitle,

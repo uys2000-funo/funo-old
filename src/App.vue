@@ -52,7 +52,7 @@ export default {
           this.pageLoad = true;
           w("USER DATA AUTOMATICALLY PULLED", user.uid)
           this.getMessages();
-          this.$router.push({ name: "EventsAll" })
+          //this.$router.push({ name: "EventsAll" })
         })
       }).catch(() => {
         this.showPopup = false
@@ -90,5 +90,9 @@ export default {
 #app>div>div:not([class="a"]) {
   width: 100vw;
   height: 100vh;
+}
+
+.t {
+  transition: .5s;
 }
 </style>

@@ -7,15 +7,20 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import app from "./app";
 import { c } from "@/services/c";
 
 const auth = getAuth(app);
 
-export const getFirebaseCurrentUser = function(){
+export const createUserAuth = function (mail, pass) {
+  return createUserWithEmailAndPassword(auth, mail, pass)
+};
+
+export const getFirebaseCurrentUser = function () {
   return auth.currentUser;
-}
+};
 //signIn functions
 export const signInFirebaseWithAppleToken = function (cAppleAuth) {
   const provider = new OAuthProvider("apple.com");

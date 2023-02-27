@@ -2,7 +2,26 @@ import { defineStore } from "pinia";
 
 export const register = defineStore("register", {
   state: () => ({
-    user: {},
+    agreement: false,
+    pass: "",
+    profileImage: "",
+    user: {
+      type: true,
+      name: "",
+      phoneNumber: "",
+      userName: "",
+      mail: "",
+      imgType: "",
+      imgLocation: "",
+    },
+    userPerson: {
+      birthdate: null,
+      sex: true,
+    },
+    userCompany: {
+      taxnumber: "",
+      companyAdress: "",
+    },
   }),
   actions: {
     setUser(user) {

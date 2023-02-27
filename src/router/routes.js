@@ -17,6 +17,24 @@ export default setDebugRouter([
     children: [
       {
         path: "",
+        name: "RegisterDefaul",
+        component: () => import("../views/pageRegister.vue"),
+      },
+      {
+        path: ":pageType",
+        name: "RegisterChoosed",
+        component: () => import("../views/pageRegister.vue"),
+      },
+    ],
+  },
+  /*
+  {
+    path: "/register",
+    name: "Register",
+    component: () => import("../layouts/RegisterLayout.vue"),
+    children: [
+      {
+        path: "",
         name: "RegisterIndex",
         component: () => import("../views/pageRegister.vue"),
       },
@@ -32,6 +50,7 @@ export default setDebugRouter([
       },
     ],
   },
+  */
   {
     path: "/app",
     name: "App",
