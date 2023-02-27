@@ -68,7 +68,7 @@
       </div>
       <div class="grow">
         <div>
-          <span>Hesabın yok mu?</span> <span class="text-blue-6">Kaydol</span>
+          <span>Hesabın yok mu?</span> <router-link to="/register"><span class="text-blue-6">Kaydol</span></router-link>
         </div>
       </div>
     </div>

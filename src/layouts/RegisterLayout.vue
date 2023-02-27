@@ -78,7 +78,6 @@ export default {
       else this.imgs.push(val);
     },
     setImage: function (img) {
-      console.log(img);
       this.img = img;
     },
     abs: function (val) {

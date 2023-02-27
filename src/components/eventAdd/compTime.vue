@@ -130,7 +130,7 @@
   </div>
   <div class="full-width">
     <div class="row no-wrap justify-between">
-      <span class="text-h6"> Katılımcı Limiti </span>
+      <span class="text-h6"> Yaş Aralığı </span>
       <q-toggle color="bg-primary" v-model="range" />
     </div>
     <q-slide-transition>

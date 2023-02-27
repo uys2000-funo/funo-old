@@ -37,7 +37,6 @@ export const watchNotifications = function (
   return watchCollectionWithTO(`NH-${uID}`, (changes) => {
     changes.forEach((change) => {
       const doc = { nID: change.doc.id, ...change.doc.data() };
-      console.warn("watchCollectionWithTO forEach", [change.type, change, doc]);
       if (change.type == "added") addFunc(doc);
       else if (change.type == "removed") removeFunc(doc);
       else if (change.type == "modified") updateFunc(change.oldIndex, doc);

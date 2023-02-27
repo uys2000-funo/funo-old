@@ -23,12 +23,11 @@
   </div>
 </template>
 <script>
-import { getPopEvents } from "@/services/core/events";
-import { events } from "@/store/events";
-import { getEvent } from "@/services/core/events";
-import { getNotifications, watchNotifications } from "@/services/app/notification";
 import { user } from "@/store/user";
+import { events } from "@/store/events";
 import { notifications } from "@/store/notifications";
+import { watchNotifications } from "@/services/app/notification";
+import { watchPopularEvents } from "@/services/app/event";
 import { w } from "@/services/c";
 export default {
   name: "AppLayout",
@@ -36,53 +35,47 @@ export default {
   data() {
     return {
       user: user(),
-      notifications: notifications(),
-      notificationListener: null,
+      notificationsListener: null,
+      popularEventListener: null,
     };
   },
   methods: {
-    getPopEvents: getPopEvents,
-    addPopEvent: events().addEventWithPopList,
-    getEvent: getEvent,
+    listenNotifications() {
+      w("NOTIFICATIONS STARTED TO LISTENNING", this.user.ID)
+      this.notificationsListener = watchNotifications(
+        this.user.ID,
+        notifications().add,
+        notifications().remove,
+        notifications().update
+      );
+    },
+    listenPopularEvents() {
+      w("POPULAR EVENTS STARTED TO LISTENNING", "")
+      this.popularEventListener = watchPopularEvents(
+        events().addPopularEvent,
+        events().removePopularEvent,
+        events().updatePopularEvent
+      );
+    }
   },
   mounted() {
-    if (events().eventPopularList.length == 0)
-      this.getPopEvents().then((popEvents) => {
-        popEvents.forEach((popEvent) => {
-          if (events().eventDict[popEvent.eID]) {
-            this.addPopEvent(events().eventDict[popEvent.eID]);
-          } else {
-            this.getEvent(popEvent.eID).then((event) => {
-              this.addPopEvent(event);
-            });
-          }
-        });
-      });
     let interval = setInterval(() => {
-      if (!this.user.ID) w("USER DOES NOT IMPLEMENTED YET", this.user.ID)
-      else {
-        w("NOTIFICATIONS STARTED TO GETTING", this.user.ID)
-        getNotifications(this.user.ID).then((notifications) => {
-          notifications.forEach(notification => {
-            this.notifications.add(notification)
-          })
-          w("NOTIFICATIONS STARTED TO LISTENNING", this.user.ID)
-          this.notificationsListener = watchNotifications(
-            this.user.ID,
-            this.notifications.add,
-            this.notifications.remove,
-            this.notifications.update
-          );
-        })
+      if (user().ID) {
+        this.listenNotifications();
+        this.listenPopularEvents()
         clearInterval(interval)
       }
-    }, 200)
+    }, 200);
 
   },
   beforeUnmount() {
     if (this.notificationsListener) {
       w("notificationsListener UNMOUNTED", this.user.ID)
       this.notificationsListener()
+    }
+    if (this.popularEventListener) {
+      w("popularEventListener UNMOUNTED", this.user.ID)
+      this.popularEventListener()
     }
   },
 };

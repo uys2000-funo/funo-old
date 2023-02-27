@@ -5,7 +5,7 @@ export const events = defineStore("events", {
   state: () => ({
     eventDict: {},
     eventFlowList: [],
-    eventPopularList: [],
+    popularEventList: [],
     eventSuggestList: [],
     eventFollowedList: [],
     lastEvent: null,
@@ -27,42 +27,10 @@ export const events = defineStore("events", {
         this.eventFlowList.push(event.eID);
       });
     },
-    updatePopEvent(eID) {
-      const eNew = this.eventDict[eID];
-      if (this.eventPopularList.length < 2) {
-        console.log(!this.eventPopularList.some((i) => i == eID));
-        if (!this.eventPopularList.some((i) => i == eID)) {
-          this.addEventWithPopList(eNew);
-          return [{ eID: eID, usersCount: eNew.usersCount }, false];
-        } else return [false, false];
-      } else return this.changePopEvent(eNew);
-    },
-    changePopEvent(eNew) {
-      const eOld = this.eventDict[this.eventPopularList[0]];
-      if (eOld.usersCount < eNew.usersCount) {
-        this.eventPopularList.splice(0, 1);
-        this.eventPopularList.push(eNew.eID);
-        this.updateOrderOfPopEvents();
-        return [
-          { eID: eNew.eID, usersCount: eNew.usersCount },
-          { eID: eOld.eID, usersCount: eOld.usersCount },
-        ];
-      } else return [false, false];
-    },
-    addEventWithPopList(event) {
-      this.eventDict[event.eID] = event;
-      this.eventPopularList.push(event.eID);
-      this.updateOrderOfPopEvents();
-    },
     shortWithStartTime(events) {
       const f = (a, b) =>
         a.startDate.timestamp.seconds - b.startDate.timestamp.seconds;
       return events.sort(f);
-    },
-    updateOrderOfPopEvents() {
-      const eventsList = this.eventPopularList.map((i) => this.eventDict[i]);
-      const f = (a, b) => a.usersCount - b.usersCount;
-      this.eventPopularList = eventsList.sort(f).map((i) => i.eID);
     },
     addUserToEvent(eID, uID) {
       if (!this.eventDict[eID].users) {
@@ -91,6 +59,15 @@ export const events = defineStore("events", {
         uID
       );
       this.eventDict[eID].usersCount -= 1;
+    },
+    addPopularEvent(document) {
+      console.warn(document);
+    },
+    removePopularEvent(document) {
+      console.warn(document);
+    },
+    updatePopularEvent(document) {
+      console.warn(document);
     },
   },
   getters: {
