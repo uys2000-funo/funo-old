@@ -2,7 +2,7 @@
   <div>
     <comp-wheel :s="['60vw', '60vw']" :p="pageNumber" :r="90" :moveEndEvent="moveEndEvent">
       <template v-slot:c>
-        <img :src="require('@/assets/images/Logo.svg')" style="width: 100%" alt="No Profile Photo" />
+        <img :src="require('@/assets/images/logo.svg')" style="width: 100%" alt="No Profile Photo" />
       </template>
       <template v-slot:ie>
         <icon-dot class="fill-negative" />
@@ -45,11 +45,11 @@
 </template>
 <script>
 import compWheel from "@/components/general/compWheel.vue";
-import iconPerson from "@/Icons/register/iconPerson.vue"
-import iconTemp from "@/Icons/register/iconTemp.vue"
-import iconApps from "@/Icons/register/iconApps.vue"
-import iconImage from "@/Icons/register/iconImage.vue"
-import iconDot from "@/Icons/iconDot.vue"
+import iconPerson from "@/icons/register/iconPerson.vue"
+import iconTemp from "@/icons/register/iconTemp.vue"
+import iconApps from "@/icons/register/iconApps.vue"
+import iconImage from "@/icons/register/iconImage.vue"
+import iconDot from "@/icons/iconDot.vue"
 export default {
   components: { compWheel, iconPerson, iconTemp, iconApps, iconImage, iconDot },
   props: ["r", "setR", "pageNumber"],

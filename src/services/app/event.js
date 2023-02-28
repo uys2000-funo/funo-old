@@ -1,5 +1,7 @@
 import {
   addDocument,
+  getCollectionWithCOLS,
+  timestamp,
   updateDocument,
   watchCollectionWithTO,
 } from "../firebase/core/firestore";
@@ -15,6 +17,23 @@ export const createEvent = function (uID, event, eImgs) {
     }).then(() => uploadFiles(`Events/${rawDoc.id}`, "-eImg", eImgs))
   );
 };
+export const getEvents = function (city, startDocument = null, length = 50) {
+  return getCollectionWithCOLS(
+    "-Events",
+    "date.end.timestamp",
+    "desc",
+    "<",
+    timestamp,
+    startDocument,
+    length
+  ).then((docs) =>
+    docs.map((doc) => ({
+      eID: doc.id,
+      ...doc.data(),
+    }))
+  );
+};
+
 export const watchPopularEvents = function (addFunc, removeFunc, updateFunc) {
   c("watchPopularEvents", arguments);
   return watchCollectionWithTO(`-PopularEvents`, (changes) => {

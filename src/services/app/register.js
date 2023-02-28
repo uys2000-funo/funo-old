@@ -1,6 +1,7 @@
 import { c } from "../c";
 import { createUserAuth } from "../firebase/core/authentication";
 import { setDocument } from "../firebase/core/firestore";
+import { uploadFile } from "../firebase/core/storage";
 
 export const isValidUser = function (user = {}) {
   return new Promise((resolve, reject) => {
@@ -16,6 +17,10 @@ export const isValidUser = function (user = {}) {
 
 export const registerUser = function (user = {}, password = "") {
   return createUserAuth(user.mail, password).then((u) =>
-    setDocument("-Users", u.user.uid, user)
+    setDocument("-Users", u.user.uid, user).then(() => u.user.uid)
   );
+};
+
+export const uploadProfileImage = function (uID, file) {
+  uploadFile(`-Users/${uID}/uImg`, file);
 };

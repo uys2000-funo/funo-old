@@ -14,13 +14,9 @@
 
 <script>
 import { setBackButton } from "./services/app/main";
-import { checkAuth } from "@/services/app/auth.js"
-import { location } from "@/store/location";
-import { user } from "@/store/user";
-import { getLocationShow } from "./services/geoCode/geocode";
 import { getFirestoreUser, getLocalUserData } from "./services/app/user";
-import { getMessageIDs } from "./services/app/message";
-import { messages } from "./store/messages";
+import { checkAuth } from "@/services/app/auth.js"
+import { user } from "@/store/user";
 import { w } from "./services/c";
 export default {
   name: "LayoutDefault",
@@ -32,17 +28,9 @@ export default {
       showPopup: true,
       position: [],
       user: user(),
-      messages: messages(),
-      location: location(),
     };
   },
   methods: {
-    setBackButton: setBackButton,
-    getMessages: function () {
-      getMessageIDs(this.user.ID).then(messageIDs => {
-        this.messages.msgIDList = messageIDs
-      })
-    },
     autoLogin: function () {
       checkAuth().then((user) => {
         this.user.setUserAuth(user);
@@ -51,34 +39,23 @@ export default {
           this.showPopup = false
           this.pageLoad = true;
           w("USER DATA AUTOMATICALLY PULLED", user.uid)
-          this.getMessages();
-          //this.$router.push({ name: "EventsAll" })
+          this.$router.push({ name: "EventsAll" })
         })
       }).catch(() => {
+        this.$router.push({ name: "Login" })
         this.showPopup = false
         this.pageLoad = true;
       })
     },
-    checkLocationAccesWeb: function () {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const location = [position.coords.latitude, position.coords.longitude];
-        this.location.setPosition(location[0], location[1]);
-        getLocationShow(location[0], location[1]).then((res) =>
-          this.location.setLocation(
-            res.Components.find((val) => val.kind == "area").name
-          )
-        );
-      });
-    },
   },
   mounted() {
-    this.setBackButton();
-    this.checkLocationAccesWeb();
+    setBackButton();
     getLocalUserData().then(({ value: localUser }) => {
       if (localUser != null) {
         this.user.setUser(localUser)
         this.autoLogin();
       } else {
+        this.$router.push({ name: "Entrance" })
         this.showPopup = false;
         this.pageLoad = true;
       }

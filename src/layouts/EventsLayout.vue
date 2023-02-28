@@ -3,7 +3,7 @@
     <div class="col-2">
       <div class="row wrap justify-center items-center content-center q-mt-xs">
         <div class="col-4">
-          <img :src="require('@/assets/images/logoText.svg')" alt="" />
+          <icon-logo-text style="width:75%" />
         </div>
         <div class="col-4 text-center">
           <p style="margin: auto">{{ location.location }}</p>
@@ -43,7 +43,9 @@
 import { location } from "@/store/location";
 import { pages } from "@/store/pages";
 import { user } from "@/store/user";
+import iconLogoText from "@/Icons/general/iconLogoText.vue";
 export default {
+  components: { iconLogoText },
   data() {
     return {
       location: location(),
@@ -82,7 +84,7 @@ export default {
     checkTags: function (val) {
       return this.tags.some((i) => i == val);
     },
-  },
+  }
 };
 </script>
 

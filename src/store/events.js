@@ -1,64 +1,32 @@
-import { filterFunction } from "@/services/core/main";
 import { defineStore } from "pinia";
 
 export const events = defineStore("events", {
   state: () => ({
+    event:{},
     eventDict: {},
+    eventList: [],
     eventFlowList: [],
-    popularEventList: [],
-    eventSuggestList: [],
-    eventFollowedList: [],
     lastEvent: null,
   }),
   actions: {
-    addEvent(event) {
-      this.eventDict[event.eID] = event;
+    addEvent(document = { eID: "" }) {
+      this.eventDict[document.eID] = document;
+      if (!this.eventList.includes(document.eID))
+        this.eventList.push(document.eID);
     },
-    addEvents(events) {
-      events.map((event) => {
-        this.eventDict[event.eID] = event;
+    addEvents(documents = [{ eID: "" }]) {
+      documents.forEach((document) => {
+        this.addEvent(document);
       });
     },
-    addEventsWithFlowList(events, lastUpdate = true) {
-      if (lastUpdate) this.lastEvent = events[events.length - 1].eID;
-      events = this.shortWithStartTime(events);
-      events.map((event) => {
-        this.eventDict[event.eID] = event;
-        this.eventFlowList.push(event.eID);
+    addEventsForFlow(documents = [{ eID: "" }]) {
+      documents.forEach((document) => {
+        this.addEvent(document);
+        if (!this.eventFlowList.includes(document.eID))
+          this.eventFlowList.push(document.eID);
       });
     },
-    shortWithStartTime(events) {
-      const f = (a, b) =>
-        a.startDate.timestamp.seconds - b.startDate.timestamp.seconds;
-      return events.sort(f);
-    },
-    addUserToEvent(eID, uID) {
-      if (!this.eventDict[eID].users) {
-        this.eventDict[eID].users = [];
-      }
-      this.eventDict[eID].users.push(uID);
-      this.eventDict[eID].usersCount += 1;
-    },
-    addEventsWithSuggestionList(events) {
-      events = this.shortWithStartTime(events);
-      events.map((event) => {
-        this.eventDict[event.eID] = event;
-        this.eventSuggestList.push(event.eID);
-      });
-    },
-    addEventsWithFollowedList(events) {
-      events = this.shortWithStartTime(events);
-      events.map((event) => {
-        this.eventDict[event.eID] = event;
-        this.eventFollowedList.push(event.eID);
-      });
-    },
-    removeUserFromEvent(eID, uID) {
-      this.eventDict[eID].users = filterFunction(
-        this.eventDict[eID].users,
-        uID
-      );
-      this.eventDict[eID].usersCount -= 1;
+    updateEventFlowOrder(){
     },
     addPopularEvent(document) {
       console.warn(document);
@@ -71,13 +39,12 @@ export const events = defineStore("events", {
     },
   },
   getters: {
-    events: (state) => {
-      return state.eventsShow;
+    flowEvents: (state) => {
+      return state.eventFlowList.map((eID) => state.eventDict[eID]);
     },
-    lastFlowEventDate: (state) => {
-      if (state.eventDict[state.lastEvent])
-        return state.eventDict[state.lastEvent].endDate?.timestamp;
-      else return null;
+    flowEventsSorted: (state) => {
+      const sort = (a, b) => a.date.start.timestamp - b.date.start.timestamp;
+      return state.flowEvents.sort(sort);
     },
   },
 });

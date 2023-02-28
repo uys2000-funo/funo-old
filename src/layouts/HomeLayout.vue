@@ -10,8 +10,10 @@
       <q-btn flat to="/app/discover/serach">
         <img :src="require('@/assets/images/icons/compas.svg')" alt="" />
       </q-btn>
-      <q-btn flat to="/app/main/events">
-        <img :src="require('@/assets/images/logo.svg')" alt="" />
+      <q-btn flat to="/app/main/events" style="padding-bottom: 40px;">
+        <div>
+          <icon-logo style="width: 100%; height: 100%;" class="fill-secondary" />
+        </div>
       </q-btn>
       <q-btn flat to="/app/main/map">
         <img :src="require('@/assets/images/icons/world.svg')" alt="" />
@@ -29,8 +31,10 @@ import { notifications } from "@/store/notifications";
 import { watchNotifications } from "@/services/app/notification";
 import { watchPopularEvents } from "@/services/app/event";
 import { w } from "@/services/c";
+import iconLogo from "@/Icons/general/iconLogo.vue";
 export default {
   name: "AppLayout",
+  components: { iconLogo },
   //After Login Genral Fetchs
   data() {
     return {

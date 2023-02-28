@@ -3,7 +3,7 @@ import { setLocalObject, getLocalObject } from "../capacitor/preferences";
 import { getDocument } from "../firebase/core/firestore";
 
 export const getFirestoreUser = function (uID) {
-  return f(getDocument, "U", uID).then(rawUser=>rawUser.data());
+  return f(getDocument, "-Users", uID).then(rawUser=>rawUser.data());
 };
 export const setLocalUserData = function (user) {
   return f(setLocalObject, "user", user);

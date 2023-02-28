@@ -1,7 +1,6 @@
 <template>
   <div class="text-h5">çevrendeki etkinlikler</div>
   <q-infinite-scroll
-    @load="getEvents"
     :offset="0"
     v-if="events.eventFlowList.length != 0"
   >
@@ -17,7 +16,7 @@
 </template>
 <script>
 import compEvent from "@/components/general/compEvent.vue";
-import { getEvents } from "@/services/core/events";
+import { getEvents } from "@/services/app/event";
 import { events } from "@/store/events";
 export default {
   components: {
@@ -36,10 +35,6 @@ export default {
         else this.events.addEventsWithFlowList(res), done();
       });
     },
-  },
-  mounted() {
-    if (this.events.eventFlowList.length == 0)
-      getEvents().then((res) => this.events.addEventsWithFlowList(res));
   },
 };
 </script>

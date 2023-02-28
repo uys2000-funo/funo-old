@@ -16,7 +16,7 @@
 </template>
 <script>
 import compWheel from '@/components/register/compWheel.vue';
-import { isValidUser, registerUser } from "@/services/app/register"
+import { isValidUser, registerUser, uploadProfileImage } from "@/services/app/register"
 import { showAlert } from '@/services/capacitor/dialog';
 import { register } from '@/store/register';
 export default {
@@ -50,9 +50,10 @@ export default {
               if (err.code == "auth/weak-password") showAlert("Hata", "Zayıf Şifre")
               if (err.code == "auth/email-already-in-use") showAlert("Hata", "Eposta Adresi Kullanımda")
               else console.log(err.code)
-            }).then(() => {
-
-            })
+            }).then((uID) => {
+              if (this.register.profileImage) uploadProfileImage(uID, this.register.profileImage)
+            }).then(() => showAlert("Başarılı", "Hesap Oluşturuldu Artık giriş Yapabilirsiniz"))
+            .then(() => this.$router.push({ name: "Login" }))
         })
     }
   },

@@ -13,10 +13,12 @@ import {
   setDoc,
   onSnapshot,
   Timestamp,
+  startAfter,
 } from "firebase/firestore";
 import app from "./app";
 
 const db = getFirestore(app);
+export const timestamp = Timestamp.now();
 
 export const setDocument = function (table, column, data) {
   data["timestamp"] = serverTimestamp();
@@ -134,6 +136,25 @@ export const getCollectionWithTOCO = function (
     where("timestamp", tCon, tEqu),
     orderBy(column, cOrder),
     where(column, cType, cEqu)
+  );
+  return getDocs(queryRef);
+};
+export const getCollectionWithCOLS = function (
+  table,
+  orderColumn,
+  orderType = "desc",
+  columnCondition = "==",
+  columnEquality = true,
+  startDocument = null,
+  length = 50
+) {
+  const colRef = collection(db, table);
+  const queryRef = query(
+    colRef,
+    orderBy(orderColumn, orderType),
+    where(orderColumn, columnCondition, columnEquality),
+    startAfter(startDocument),
+    limit(length)
   );
   return getDocs(queryRef);
 };
