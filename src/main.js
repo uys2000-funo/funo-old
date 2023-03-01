@@ -13,4 +13,4 @@ createApp(App)
   .use(router)
   .use(pinia)
   .use(Quasar, quasarUserOptions)
-  .mount("#app");
+  .mount("body");

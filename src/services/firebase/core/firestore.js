@@ -18,19 +18,30 @@ import {
 import app from "./app";
 
 const db = getFirestore(app);
-export const timestamp = Timestamp.now();
+
+export const timestamp = () => Timestamp.now();
+
+export const timestampFromDate = (date = new Date()) =>
+  Timestamp.fromDate(date);
+
+export const timestampFromMillis = (timestamp = new Date()) =>
+  Timestamp.fromMillis(timestamp);
+
+const returnId = (rawDoc) => ({ id: rawDoc.id });
+const returnDoc = (rawDoc) => ({ id: rawDoc.id, data: rawDoc.data() });
+const returnDocs = (rawCollection) => rawCollection.docs.map(returnDoc);
 
 export const setDocument = function (table, column, data) {
   data["timestamp"] = serverTimestamp();
   data["utimestamp"] = serverTimestamp();
   const docRef = doc(db, table, column);
-  return setDoc(docRef, data)
+  return setDoc(docRef, data);
 };
 export const addDocument = function (table, data) {
   data["timestamp"] = serverTimestamp();
   data["utimestamp"] = serverTimestamp();
   const colRef = collection(db, table);
-  return addDoc(colRef, data);
+  return addDoc(colRef, data).then(returnId);
 };
 export const updateDocument = function (table, column, data) {
   data["utimestamp"] = serverTimestamp();
@@ -39,11 +50,11 @@ export const updateDocument = function (table, column, data) {
 };
 export const getDocument = function (tabe, column) {
   const docRef = doc(db, tabe, column);
-  return getDoc(docRef);
+  return getDoc(docRef).then(returnDoc);
 };
 export const getCollection = function (table) {
   const colRef = collection(db, table);
-  return getDocs(colRef);
+  return getDocs(colRef).then(returnDocs);
 };
 export const watchCollection = function (table, runFunc = (doc) => doc) {
   const colRef = collection(db, table);
@@ -91,7 +102,7 @@ export const getCollectionWithW = function (
     where(column, columnCondition, columnEquality),
     limit(l)
   );
-  return getDocs(queryRef);
+  return getDocs(queryRef).then(returnDocs);
 };
 export const getCollectionWithTO = function (
   table,
@@ -106,7 +117,7 @@ export const getCollectionWithTO = function (
     where("timestamp", cCon, tEqu),
     limit(l)
   );
-  return getDocs(queryRef);
+  return getDocs(queryRef).then(returnDocs);
 };
 export const getCollectionWithCO = function (
   table,
@@ -120,7 +131,7 @@ export const getCollectionWithCO = function (
     orderBy(column, cType),
     where(column, cCon, cEqu)
   );
-  return getDocs(queryRef);
+  return getDocs(queryRef).then(returnDocs);
 };
 export const getCollectionWithTOCO = function (
   table,
@@ -139,7 +150,7 @@ export const getCollectionWithTOCO = function (
     orderBy(column, cOrder),
     where(column, cType, cEqu)
   );
-  return getDocs(queryRef);
+  return getDocs(queryRef).then(returnDocs);
 };
 export const getCollectionWithCOLS = function (
   table,
@@ -151,6 +162,7 @@ export const getCollectionWithCOLS = function (
   length = 50
 ) {
   const colRef = collection(db, table);
+  startDocument;
   const queryRef = query(
     colRef,
     orderBy(orderColumn, orderType),
@@ -158,5 +170,5 @@ export const getCollectionWithCOLS = function (
     startAfter(startDocument),
     limit(length)
   );
-  return getDocs(queryRef);
+  return getDocs(queryRef).then(returnDocs);
 };

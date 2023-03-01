@@ -1,27 +1,10 @@
 <template>
-  <div
-    @mousemove="moveEvent"
-    @touchmove="moveEvent"
-    @mouseup="isMove = false"
-    @touchend="isMove = false"
-    style="min-height: 100vh"
-  >
+  <div @mousemove="moveEvent" @touchmove="moveEvent" @mouseup="isMove = false" @touchend="isMove = false" class="fit">
     <router-view />
-    <div
-      class="a"
-      :style="position"
-      @mousedown="isMove = true"
-      @touchstart="isMove = true"
-    >
+    <div class="a" :style="position" @mousedown="isMove = true" @touchstart="isMove = true">
       <q-expansion-item label="Pages">
         <q-scroll-area class="b">
-          <q-btn
-            style="width: 100%"
-            v-for="item in routes"
-            :key="item"
-            :label="item.name"
-            :to="item.path"
-          />
+          <q-btn style="width: 100%" v-for="item in routes" :key="item" :label="item.name" :to="item.path" />
         </q-scroll-area>
       </q-expansion-item>
     </div>
@@ -59,6 +42,7 @@ export default {
   width: 200px;
   background-color: wheat;
 }
+
 .b {
   width: 200px;
   height: 200px;

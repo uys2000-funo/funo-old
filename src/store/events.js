@@ -7,6 +7,8 @@ export const event = defineStore("event", {
         name: "",
         description: "",
         imageCounter: 0,
+        oName: "",
+        oID: "",
       },
       conditions: {
         age: { min: 0, max: 0 },
@@ -54,7 +56,6 @@ export const events = defineStore("events", {
     eventDict: {},
     eventList: [],
     eventFlowList: [],
-    lastEvent: null,
   }),
   actions: {
     addEvent(document = { eID: "" }) {
@@ -86,6 +87,10 @@ export const events = defineStore("events", {
     },
   },
   getters: {
+    flowLastTime: (state) => {
+      const eID = state.eventFlowList[state.eventFlowList.length - 1];
+      return state.eventDict[eID].date.end;
+    },
     flowEvents: (state) => {
       return state.eventFlowList.map((eID) => state.eventDict[eID]);
     },

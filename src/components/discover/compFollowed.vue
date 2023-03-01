@@ -17,7 +17,7 @@
   </q-scroll-area>
 </template>
 <script>
-import compEvent from "../general/compEvent.vue";
+import compEvent from "../general/compEvent.";
 import { events } from "@/store/events";
 import { getEvent, getEventsFollowed } from "@/services/core/events";
 import { user } from "@/store/user";

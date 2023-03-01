@@ -1,6 +1,6 @@
 <template>
-  <div class="column no-wrap justify-end items-start content-start">
-    <div class="full-width" style="flex-grow: 1;">
+  <div class="fit column no-wrap overflow-hidden">
+    <div class="fit overflow-auto">
       <router-view />
     </div>
     <div class="full-width row no-wrap justify-around" style="height: 15vw;">
@@ -10,7 +10,7 @@
       <q-btn flat>
         <icon-compass class="fill-accent" />
       </q-btn>
-      <q-btn flat :to="{ name: 'Events' }">
+      <q-btn flat :to="{ name: 'EventsPage' }">
         <icon-logo />
       </q-btn>
       <q-btn flat>

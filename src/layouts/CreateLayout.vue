@@ -51,31 +51,27 @@ export default {
     setPageNumber(pageNumber) {
       this.pageNumber = pageNumber
     },
-    addImage(image) {
-      this.images.push(image)
-    },
-    removeImage(index) {
-      this.images.splice(index, 1);
-    },
     goNextPage() {
       if (this.pageNumber < 3)
         this.pageNumber = this.pageNumber + 1
       else createEvent(this.user.uID, this.event.event, this.images)
         .then(() => {
-          this.$router.push({ name: "Events" })
+          this.$router.push({ name: "EventsPage" })
           this.event.clearEvent()
         })
     },
   },
   provide() {
     return {
-      removeImage: this.removeImage,
-      addImage: this.addImage
+      removeImage: (index) => this.images.splice(index, 1),
+      addImage: (image) => this.images.push(image)
     }
   },
   mounted() {
     const pID = this.$route.params.pID
     if (isNumeric(pID)) this.pageNumber = parseFloat(pID)
+    this.event.event.general.oName = this.user.userName
+    this.event.event.general.oID = this.user.uID
   }
 }
 </script>

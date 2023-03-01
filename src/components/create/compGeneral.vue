@@ -17,29 +17,43 @@
             <span class="text-h6">Etkinlik Kategorilerini</span>
             <div>
                 <div class="row justify-around">
-                    <comp-button class="btn" bg="#e44" color="#222" value="art" text="Sanat" />
-                    <comp-button class="btn" bg="#4ee" color="#fff" value="education" text="Eğitim" />
-                    <comp-button class="btn" bg="#e4e" color="#222" value="meeting" text="Buluşma" />
-                    <comp-button class="btn" bg="#44e" color="#fff" value="music" text="Müzik" />
-                    <comp-button class="btn" bg="#4e4" color="#222" value="party" text="Parti" />
-                    <comp-button class="btn" bg="#444" color="#fff" value="sport" text="Spor" />
+                    <comp-tag class="btn" bg="#e44" color="#222" value="art" text="Sanat" />
+                    <comp-tag class="btn" bg="#4ee" color="#fff" value="education" text="Eğitim" />
+                    <comp-tag class="btn" bg="#e4e" color="#222" value="meeting" text="Buluşma" />
+                    <comp-tag class="btn" bg="#44e" color="#fff" value="music" text="Müzik" />
+                    <comp-tag class="btn" bg="#4e4" color="#222" value="party" text="Parti" />
+                    <comp-tag class="btn" bg="#444" color="#fff" value="sport" text="Spor" />
                 </div>
             </div>
         </div>
         <div v-if="false">
-            Kendi Kategorin :)
+            <span class="text-h6">Daha Fazla Kategori :)</span>
+            <div class="row no-wrap">
+                <div style="width: 50%">
+                    <q-input v-model="tag" dense outlined prefix="#" placeholder="Kategori">
+                        <template v-slot:append>
+                            <q-btn flat>Ekle</q-btn>
+                        </template>
+                    </q-input>
+                </div>
+                <div style="width: 50%">
+
+                </div>
+
+            </div>
         </div>
     </div>
 </template>
 <script>
 import { event } from "@/store/events";
-import compButton from "@/components/create/buttons/compTag.vue";
+import compTag from "@/components/create/buttons/compTag.vue";
 export default {
-    components: { compButton },
+    components: { compTag },
     props: ["pageNumber", "setPage"],
     data() {
         return {
             event: event(),
+            tag: "",
         };
     },
     mounted() {

@@ -94,6 +94,7 @@ export default {
       this.event.event.date.start = new Date(date[2], date[1] - 1, date[0] - 1, time[0], time[1]).getTime()
     },
     updateEndDate() {
+      if (!this.endDate || !this.endTime) return;
       const date = this.endDate.split(".");
       const time = this.endTime.split(":");
       this.event.event.date.end = new Date(date[2], date[1] - 1, date[0] - 1, time[0], time[1]).getTime()

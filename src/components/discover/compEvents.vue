@@ -20,7 +20,7 @@
 import { events } from "@/store/events";
 import { getEventsWtihTag } from "@/services/core/events";
 import { user } from "@/store/user";
-import compEvent from "../general/compEvent.vue";
+import compEvent from "../general/compEvent.";
 export default {
   components: { compEvent },
   data() {

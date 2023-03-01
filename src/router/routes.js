@@ -31,6 +31,13 @@ export default setDebugRouter([
         path: "events",
         name: "Events",
         component: () => import("../layouts/EventsLayout.vue"),
+        children: [
+          {
+            path: "",
+            name: "EventsPage",
+            component: () => import("../views/pageEvents.vue"),
+          },
+        ],
       },
       {
         path: "create",
@@ -50,5 +57,5 @@ export default setDebugRouter([
         ],
       },
     ],
-  }
+  },
 ]);

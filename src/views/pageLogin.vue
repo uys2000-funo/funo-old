@@ -101,7 +101,7 @@ export default {
         })
     },
     loginSucces() {
-      this.$router.push({ name: "Events" })
+      this.$router.push({ name: "EventsPage" })
     },
     getUserSucces(user, userFire) {
       user.userFire = userFire;
