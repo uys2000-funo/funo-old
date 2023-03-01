@@ -43,7 +43,7 @@
 import { location } from "@/store/location";
 import { pages } from "@/store/pages";
 import { user } from "@/store/user";
-import iconLogoText from "@/Icons/general/iconLogoText.vue";
+import iconLogoText from "@/icons/general/iconLogoText.vue";
 export default {
   components: { iconLogoText },
   data() {

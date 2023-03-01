@@ -39,10 +39,10 @@ export default {
           this.showPopup = false
           this.pageLoad = true;
           w("USER DATA AUTOMATICALLY PULLED", user.uid)
-          this.$router.push({ name: "EventsAll" })
+          //this.$router.push({ name: "Events" })
         })
       }).catch(() => {
-        this.$router.push({ name: "Login" })
+        //this.$router.push({ name: "Login" })
         this.showPopup = false
         this.pageLoad = true;
       })
@@ -55,7 +55,7 @@ export default {
         this.user.setUser(localUser)
         this.autoLogin();
       } else {
-        this.$router.push({ name: "Entrance" })
+        //this.$router.push({ name: "Entrance" })
         this.showPopup = false;
         this.pageLoad = true;
       }

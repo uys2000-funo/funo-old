@@ -40,7 +40,7 @@
 </template>
 <script>
 import { eventAdd } from "@/store/eventAdd";
-import compButtonCheck from "./compButtonCheck.vue";
+import compButtonCheck from "../create/compButtonCheck.vue";
 export default {
   components: { compButtonCheck },
   data() {

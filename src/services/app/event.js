@@ -1,37 +1,16 @@
 import {
   addDocument,
-  getCollectionWithCOLS,
-  timestamp,
-  updateDocument,
+  setDocument,
   watchCollectionWithTO,
 } from "../firebase/core/firestore";
-import { c } from "../c";
-import { arrayUnion, increment } from "firebase/firestore";
+import { c, f } from "../c";
 import { uploadFiles } from "../firebase/core/storage";
 
 export const createEvent = function (uID, event, eImgs) {
-  return addDocument("-Events", event).then((rawDoc) =>
-    updateDocument("-Users", uID, {
-      cEventsCount: increment(1),
-      cEvents: arrayUnion(rawDoc.id),
-    }).then(() => uploadFiles(`Events/${rawDoc.id}`, "-eImg", eImgs))
-  );
-};
-export const getEvents = function (city, startDocument = null, length = 50) {
-  return getCollectionWithCOLS(
-    "-Events",
-    "date.end.timestamp",
-    "desc",
-    "<",
-    timestamp,
-    startDocument,
-    length
-  ).then((docs) =>
-    docs.map((doc) => ({
-      eID: doc.id,
-      ...doc.data(),
-    }))
-  );
+  const e = { isDeleted: false };
+  return f(addDocument, "-Events", event)
+    .then(({ id: eID }) => f(setDocument, `CE-${uID}`, eID, e).then(() => eID))
+    .then((eID) => f(uploadFiles, `-Events/${eID}`, "-eImg", eImgs));
 };
 
 export const watchPopularEvents = function (addFunc, removeFunc, updateFunc) {

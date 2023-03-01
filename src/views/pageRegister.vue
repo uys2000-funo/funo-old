@@ -1,7 +1,6 @@
 <template>
-    <q-carousel :model-value="pageNumber" @update:model-value="setPageNumber" transition-prev="scale"
-        transition-next="scale" swipeable animated control-color="white" padding
-        class="fit bg-secondary text-black rounded-borders">
+    <q-carousel :model-value="pageNumber" @update:model-value="setPageNumber" :transition-prev="animation"
+        :transition-next="animation" swipeable animated class="fit bg-secondary text-black rounded-borders">
         <q-carousel-slide :name="0">
             <comp-choose style="overflow-y: auto;" :pageNumber="pageNumber" :setPageNumber="setPageNumber" />
         </q-carousel-slide>
@@ -32,7 +31,14 @@ export default {
     data() {
         return {
             register: register(),
+            animation: "slide-left",
         }
+    },
+    watch: {
+        pageNumber(nVal, oVal) {
+            if (nVal > oVal) this.animation = "slide-left";
+            else if (nVal < oVal) this.animation = "slide-right";
+        },
     },
 }
 </script>

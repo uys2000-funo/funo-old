@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="popup" :maximized="fullscreen ?? false">
-    <div :class="`${bg? 'bg-'+bg : 'bg-secondary'}`">
+    <div :class="`${bg ? 'bg-' + bg : 'bg-secondary'}`">
       <slot />
     </div>
   </q-dialog>
@@ -13,5 +13,10 @@ export default {
       popup: true,
     };
   },
+  mounted() {
+    setTimeout(() => {
+      this.popup = true;
+    }, 500);
+  }
 };
 </script>

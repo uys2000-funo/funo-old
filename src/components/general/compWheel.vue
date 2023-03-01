@@ -32,42 +32,42 @@
       </div>
     </div>
     <div>
-      <div class="bg-secondary rounded-borders" :style="styleInner">
+      <div class="bg-secondary round" :style="styleInner">
         <slot name="oe" />
       </div>
     </div>
     <div>
-      <div class="bg-secondary rounded-borders" :style="styleInner">
+      <div class="bg-secondary round" :style="styleInner">
         <slot name="os" />
       </div>
     </div>
     <div>
-      <div class="bg-secondary rounded-borders" :style="styleInner">
+      <div class="bg-secondary round" :style="styleInner">
         <slot name="ow" />
       </div>
     </div>
     <div>
-      <div class="bg-secondary rounded-borders" :style="styleInner">
+      <div class="bg-secondary round" :style="styleInner">
         <slot name="on" />
       </div>
     </div>
     <div>
-      <div class="bg-secondary rounded-borders" :style="styleInnerException">
+      <div class="bg-secondary round" :style="styleInnerException">
         <slot name="ose" />
       </div>
     </div>
     <div>
-      <div class="bg-secondary rounded-borders" :style="styleInnerException">
+      <div class="bg-secondary round" :style="styleInnerException">
         <slot name="osw" />
       </div>
     </div>
     <div>
-      <div class="bg-secondary rounded-borders" :style="styleInnerException">
+      <div class="bg-secondary round" :style="styleInnerException">
         <slot name="onw" />
       </div>
     </div>
     <div>
-      <div class="bg-secondary rounded-borders" :style="styleInnerException">
+      <div class="bg-secondary round" :style="styleInnerException">
         <slot name="one" />
       </div>
     </div>
@@ -139,6 +139,10 @@ export default {
 };
 </script>
 <style lang="scss">
+.round {
+  border-radius: 50%;
+}
+
 .transition {
   transition: 1s;
 
@@ -163,8 +167,8 @@ export default {
 
   //wheel
   &>div:nth-child(1) {
-    width: 50%;
-    height: 50%;
+    width: 51%;
+    height: 51%;
     border-radius: 50%;
     border: 2px dashed #00000050;
   }
@@ -179,8 +183,6 @@ export default {
 
   //center
   &>div:nth-child(3) {
-    width: 25%;
-    height: 25%;
     border-radius: 50%;
     display: flex;
     flex-wrap: nowrap;
@@ -261,5 +263,4 @@ export default {
     }
   }
 }
-
 </style>

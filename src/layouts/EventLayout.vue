@@ -8,7 +8,7 @@
 </template>
 <script>
 import { getEvent } from "@/services/firebase/event";
-import popupComp from "@/components/general/popupComp.vue";
+import popupComp from "@/components/general/compPopup.vue.js";
 import backButton from "@/components/general/backButton.vue";
 import { events } from "@/store/events";
 export default {

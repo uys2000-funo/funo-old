@@ -22,11 +22,13 @@ export const timestamp = Timestamp.now();
 
 export const setDocument = function (table, column, data) {
   data["timestamp"] = serverTimestamp();
+  data["utimestamp"] = serverTimestamp();
   const docRef = doc(db, table, column);
-  return setDoc(docRef, data);
+  return setDoc(docRef, data)
 };
 export const addDocument = function (table, data) {
   data["timestamp"] = serverTimestamp();
+  data["utimestamp"] = serverTimestamp();
   const colRef = collection(db, table);
   return addDoc(colRef, data);
 };

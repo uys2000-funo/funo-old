@@ -28,10 +28,12 @@ export default {
         },
         setPersonnel() {
             this.register.user.type = true
+            this.$router.push("/register/personnel")
             this.goNextPage()
         },
         setCompany() {
             this.register.user.type = false
+            this.$router.push("/register/company")
             this.goNextPage()
         },
     },

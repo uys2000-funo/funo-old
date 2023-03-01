@@ -60,7 +60,7 @@
   </popup-comp>
 </template>
 <script>
-import popupComp from "@/components/general/popupComp.vue";
+import popupComp from "@/components/general/compPopup.vue.js";
 import backButton from "@/components/general/backButton.vue";
 import { eventAdd } from "@/store/eventAdd";
 import compWheel from "@/components/eventAdd/compWheel.vue";

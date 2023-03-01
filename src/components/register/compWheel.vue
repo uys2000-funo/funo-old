@@ -5,51 +5,75 @@
         <img :src="require('@/assets/images/logo.svg')" style="width: 100%" alt="No Profile Photo" />
       </template>
       <template v-slot:ie>
-        <icon-dot class="fill-negative" />
+        <div class="inner-dot">
+          <icon-dot class="fill-negative" />
+        </div>
       </template>
       <template v-slot:is>
-        <icon-dot class="fill-primary" />
+        <div class="inner-dot">
+          <icon-dot class="fill-primary" />
+        </div>
       </template>
       <template v-slot:iw>
-        <icon-dot class="fill-negative" />
+        <div class="inner-dot">
+          <icon-dot class="fill-negative" />
+        </div>
       </template>
       <template v-slot:in>
-        <icon-dot class="fill-primary" />
+        <div class="inner-dot">
+          <icon-dot class="fill-primary" />
+        </div>
       </template>
       <template v-slot:oe>
-        <icon-person class="fill-primary" />
+        <div class="outter-icon">
+          <icon-person class="fill-primary" />
+        </div>
       </template>
       <template v-slot:ose>
-        <icon-dot class="fill-primary" />
+        <div class="outter-dot">
+          <icon-dot class="fill-primary" />
+        </div>
       </template>
       <template v-slot:os>
-        <icon-temp class="fill-negative" />
+        <div class="outter-icon">
+          <icon-temp class="fill-negative" />
+        </div>
       </template>
       <template v-slot:osw>
-        <icon-dot class="fill-negative" />
+        <div class="outter-dot">
+          <icon-dot class="fill-negative" />
+        </div>
       </template>
       <template v-slot:ow>
-        <icon-image class="fill-primary" />
+        <div class="outter-icon">
+          <icon-image class="fill-primary" />
+        </div>
       </template>
       <template v-slot:onw>
-        <icon-dot class="fill-primary" />
+        <div class="outter-dot">
+          <icon-dot class="fill-primary" />
+        </div>
       </template>
       <template v-slot:on>
-        <icon-apps class="fill-negative" />
+        <div class="outter-icon">
+          <icon-apps class="fill-negative" />
+        </div>
       </template>
       <template v-slot:one>
-        <icon-dot class="fill-negative" />
+        <div class="outter-dot">
+          <icon-dot class="fill-negative" />
+        </div>
       </template>
     </comp-wheel>
   </div>
 </template>
 <script>
 import compWheel from "@/components/general/compWheel.vue";
-import iconPerson from "@/icons/register/iconPerson.vue"
-import iconTemp from "@/icons/register/iconTemp.vue"
-import iconApps from "@/icons/register/iconApps.vue"
-import iconImage from "@/icons/register/iconImage.vue"
-import iconDot from "@/icons/iconDot.vue"
+import iconPerson from "@/icons/general/iconPerson.vue";
+import iconTemp from "@/icons/register/iconTemp.vue";
+import iconApps from "@/icons/register/iconApps.vue";
+import iconImage from "@/icons/general/iconImage.vue";
+import iconDot from "@/icons/general/iconDot.vue";
 export default {
   components: { compWheel, iconPerson, iconTemp, iconApps, iconImage, iconDot },
   props: ["r", "setR", "pageNumber"],
@@ -59,6 +83,28 @@ export default {
       const r = res % 4
       this.setR(r < 0 ? r + 4 : r);
     },
+    mounted() {
+      this.moveEndEvent(this.pageNumber);
+    }
   }
 };
 </script>
+<style scoped>
+.inner-dot {
+  display: flex;
+  width: 2vw;
+  height: 2vw;
+}
+
+.outter-dot {
+  display: flex;
+  width: 5vw;
+  height: 5vw;
+}
+
+.outter-icon {
+  display: flex;
+  width: 10vw;
+  height: 10vw;
+}
+</style>

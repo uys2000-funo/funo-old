@@ -30,7 +30,7 @@
 
 
 <script>
-import popupComp from '@/components/general/popupComp.vue';
+import popupComp from '@/components/general/compPopup.vue.js';
 import backButton from '@/components/general/backButton.vue';
 export default {
   components: { popupComp, backButton }

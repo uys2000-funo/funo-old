@@ -3,15 +3,15 @@
     <div class="column justify-center" style="height:70vw; max-height:40vh;flex-shrink: 0;">
       <compWheel :setR="setPageNumber" :pageNumber="pageNumber" />
     </div>
-    <div class="full-width" style="flex-grow: 10; overflow: hidden; ">
+    <div class="full-width" style="flex-grow: 1; overflow: auto; ">
       <router-view :pageNumber="pageNumber" :setPageNumber="setPageNumber" />
     </div>
-    <div class="full-width flex flex-center" style="height:max-content">
-      <div class="q-pb-md" style="width:75%; flex-shrink: 0;">
-        <q-btn class="fit bg-primary rounded" rounded @click="goNextPage">
-          {{ this.pageNumber < 3 ? "Devam" : "Kaydol" }} </q-btn>
-      </div>
-    </div>
+    <div class="full-width flex justify-center q-pb-md q-pt-xs">
+          <div style="width:75%">
+            <q-btn class="fit bg-primary rounded" rounded @click="goNextPage">
+              {{ this.pageNumber < 3 ? "Devam" : "Kaydol" }} </q-btn>
+          </div>
+        </div>
   </div>
 </template>
 <script>
@@ -58,7 +58,9 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.params.pageType == "company") this.register.user.type = false
+    if (this.$route.params.pID == "company")
+      this.register.user.type = false
+    else this.$router.push("/register/personnel")
   }
 }
 </script>
