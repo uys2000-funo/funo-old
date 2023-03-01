@@ -2,7 +2,7 @@
     <div class="row justify-around" style="height:35vw">
         <div class="btn">
             <q-btn rounded class="fit">
-                <q-icon size="lg" name="share" color="primary" />
+                <q-icon size="lg" name="share" color="primary" @click="shareEvent" />
                 <div class="full-width text-caption">
                     Paylaş
                 </div>
@@ -28,7 +28,7 @@
         </template>
         <template v-else>
             <div class="btn">
-                <q-btn rounded class="fit">
+                <q-btn rounded class="fit" @click="openReport">
                     <q-icon size="lg" name="error" />
                     <div class="text-caption">
                         Şikayet Et
@@ -48,13 +48,19 @@
     </div>
 </template>
 <script>
+import { shareEvent } from '@/services/app/event';
 import { user } from '@/store/user';
 
 export default {
-    props: ["event"],
+    props: ["event", "openReport"],
     data() {
         return {
             user: user()
+        }
+    },
+    methods: {
+        shareEvent() {
+            shareEvent(this.event.eID)
         }
     }
 }

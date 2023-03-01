@@ -1,14 +1,17 @@
 import {
   addDocument,
   getCollectionWithCOLS,
+  getDocument,
   setDocument,
   timestamp,
   timestampFromMillis,
+  updateDocument,
   watchCollectionWithTO,
 } from "../firebase/core/firestore";
 import { c, f } from "../c";
 import { getFile, uploadFiles } from "../firebase/core/storage";
-
+import { increment } from "firebase/firestore";
+import { share } from "@/services/capacitor/share";
 export const getEvents = function (startDocument, length) {
   c("getEvents", arguments);
   return f(
@@ -51,4 +54,23 @@ export const watchPopularEvents = function (addFunc, removeFunc, updateFunc) {
 export const getEventImage = function (eID) {
   c("getEventImage", arguments);
   return f(getFile, `-Events/${eID}/0-eImg`);
+};
+export const reportEvent = function (eID, report) {
+  return getDocument("-Reports", eID).then((doc) => {
+    return f(addDocument, `ER-${eID}`, report).then(() => {
+      if (!doc.data?.reportCounter)
+        return f(setDocument, "-Reports", eID, { reportCounter: 1});
+      return f(updateDocument, "-Reports", eID, {
+        reportCounter: increment(1),
+      });
+    });
+  });
+};
+export const shareEvent = function (eID) {
+  return f(
+    share,
+    "Muhteşem Bir Etkiblik",
+    "Yüce Bir etkinlik katılamyı düşünmelisin :)",
+    `funo.funo/e-${eID}`
+  );
 };

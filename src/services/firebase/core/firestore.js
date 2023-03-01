@@ -14,6 +14,7 @@ import {
   onSnapshot,
   Timestamp,
   startAfter,
+  updateDoc,
 } from "firebase/firestore";
 import app from "./app";
 
@@ -46,7 +47,7 @@ export const addDocument = function (table, data) {
 export const updateDocument = function (table, column, data) {
   data["utimestamp"] = serverTimestamp();
   const docRef = doc(db, table, column);
-  return setDoc(docRef, data);
+  return updateDoc(docRef, data);
 };
 export const getDocument = function (tabe, column) {
   const docRef = doc(db, tabe, column);

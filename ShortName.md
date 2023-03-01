@@ -11,3 +11,5 @@ MU : Message Users
 NH : Notification History
 
 CR : Created Events
+
+ER : Event Reports

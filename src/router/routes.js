@@ -56,6 +56,18 @@ export default setDebugRouter([
           },
         ],
       },
+      {
+        path: "edit",
+        name: "Edit",
+        component: () => import("../layouts/EditLayout.vue"),
+        children: [
+          {
+            path: ":eID",
+            name: "EditPageID",
+            component: () => import("../views/pageEdit.vue"),
+          },
+        ],
+      },
     ],
   },
 ]);
