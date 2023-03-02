@@ -9,9 +9,18 @@ import {
   watchCollectionWithTO,
 } from "../firebase/core/firestore";
 import { c, f } from "../c";
-import { getFile, uploadFiles } from "../firebase/core/storage";
+import { getFile, getFiles, uploadFiles } from "../firebase/core/storage";
 import { increment } from "firebase/firestore";
 import { share } from "@/services/capacitor/share";
+
+export const getEvent = function (eID) {
+  c("getEvent", arguments);
+  return f(getDocument, "-Events", eID).then((document) => ({
+    ...document.data,
+    eID: document.id,
+  }));
+};
+
 export const getEvents = function (startDocument, length) {
   c("getEvents", arguments);
   return f(
@@ -30,6 +39,17 @@ export const getEvents = function (startDocument, length) {
     }))
   );
 };
+
+export const getEventImage = function (eID) {
+  c("getEventImage", arguments);
+  return f(getFile, `-Events/${eID}/0-eImg`);
+};
+
+export const getEventImages = function (eID, amount) {
+  c("getEventImages", arguments);
+  return f(getFiles, `-Events/${eID}`, "-eImg", amount);
+};
+
 export const createEvent = function (uID, event, eImgs) {
   c("createEvent", arguments);
   let Event = event;
@@ -39,6 +59,18 @@ export const createEvent = function (uID, event, eImgs) {
   return f(addDocument, "-Events", Event)
     .then(({ id: eID }) => f(setDocument, `CE-${uID}`, eID, e).then(() => eID))
     .then((eID) => f(uploadFiles, `-Events/${eID}`, "-eImg", eImgs));
+};
+export const updateEvent = function (uID, event, eImgs) {
+  c("updateEvent", arguments);
+  let Event = event;
+  const eID = event.eID;
+  Event.date.start = timestampFromMillis(event.date.start);
+  Event.date.end = timestampFromMillis(event.date.end);
+  delete Event.eID;
+  const e = { isDeleted: false };
+  return f(updateDocument, "-Events", eID, Event)
+    .then(() => f(updateDocument, `CE-${uID}`, eID, e))
+    .then(() => f(uploadFiles, `-Events/${eID}`, "-eImg", eImgs));
 };
 export const watchPopularEvents = function (addFunc, removeFunc, updateFunc) {
   c("watchPopularEvents", arguments);
@@ -51,15 +83,11 @@ export const watchPopularEvents = function (addFunc, removeFunc, updateFunc) {
     });
   });
 };
-export const getEventImage = function (eID) {
-  c("getEventImage", arguments);
-  return f(getFile, `-Events/${eID}/0-eImg`);
-};
 export const reportEvent = function (eID, report) {
   return getDocument("-Reports", eID).then((doc) => {
     return f(addDocument, `ER-${eID}`, report).then(() => {
       if (!doc.data?.reportCounter)
-        return f(setDocument, "-Reports", eID, { reportCounter: 1});
+        return f(setDocument, "-Reports", eID, { reportCounter: 1 });
       return f(updateDocument, "-Reports", eID, {
         reportCounter: increment(1),
       });

@@ -88,6 +88,14 @@ export default {
     };
   },
   methods: {
+    loadDate() {
+      if (this.event.event.date.start) {
+        this.startDate = new Date(this.event.event.date.start.seconds * 1000).toLocaleDateString("tr-TR");
+        this.startTime = new Date(this.event.event.date.start.seconds * 1000).toLocaleTimeString("tr-TR");
+        this.endDate = new Date(this.event.event.date.start.seconds * 1000).toLocaleDateString("tr-TR");
+        this.endTime = new Date(this.event.event.date.start.seconds * 1000).toLocaleTimeString("tr-TR");
+      }
+    },
     updateStartDate() {
       const date = this.startDate.split(".");
       const time = this.startTime.split(":");
@@ -102,6 +110,7 @@ export default {
   },
   mounted() {
     if (this.page == 0 && this.setPage) this.setPage(1);
+    this.loadDate();
     this.updateStartDate()
     this.updateEndDate()
   },

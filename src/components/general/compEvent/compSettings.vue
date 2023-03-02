@@ -10,7 +10,7 @@
         </div>
         <template v-if="user.uID == event?.general?.oID">
             <div class="btn">
-                <q-btn rounded class="fit">
+                <q-btn rounded class="fit" :to="`/app/edit/${event.eID}/`">
                     <q-icon size="lg" name="edit_note" />
                     <div class="full-width text-caption">
                         Düzenle

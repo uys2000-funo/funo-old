@@ -23,6 +23,10 @@ export default {
             this.state = !this.state;
         }
     },
+    mounted() {
+        if (this.event.event.tags.main.includes(this.value))
+            this.state = true;
+    },
     computed: {
         style() {
             const bg = `background-color: ${this.bg};`

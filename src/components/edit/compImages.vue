@@ -19,6 +19,7 @@
     </div>
 </template>
 <script>
+import { getEventImages } from "@/services/app/event";
 import { event } from "@/store/events";
 export default {
     props: ["pageNumber", "setPage", "images"],
@@ -53,11 +54,18 @@ export default {
             this.localImages.splice(index, 1);
             this.removeImage(index)
             this.updateImageCount();
+        },
+        loadImages() {
+            getEventImages
+            getEventImages(this.$route.params.eID, this.event.event.general.imageCounter)
+            .then(result => this.localImages = result.files)
         }
     },
     mounted() {
         if (this.page == 0 && this.setPage) this.setPage(0);
-    }
+        this.loadImages();
+    },
+
 };
 </script>
 <style scoped>
