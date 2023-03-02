@@ -2,7 +2,9 @@
   <div>
     <comp-wheel :s="['60vw', '60vw']" :p="pageNumber" :r="90" :moveEndEvent="moveEndEvent">
       <template v-slot:c>
-        <img :src="require('@/assets/images/logo.svg')" style="width: 100%" alt="No Profile Photo" />
+        <div class="center">
+          <img :src="require('@/assets/images/logo.svg')" style="width: 100%" alt="No Profile Photo" />
+        </div>
       </template>
       <template v-slot:ie>
         <div class="inner-dot">
@@ -90,6 +92,12 @@ export default {
 };
 </script>
 <style scoped>
+.center {
+  display: flex;
+  width: 20vw;
+  height: 20vw;
+}
+
 .inner-dot {
   display: flex;
   width: 2vw;

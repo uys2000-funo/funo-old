@@ -20,6 +20,7 @@
 </template>
 <script>
 import { getEventImages } from "@/services/app/event";
+import { showToast } from "@/services/capacitor/toast";
 import { event } from "@/store/events";
 export default {
     props: ["pageNumber", "setPage", "images"],
@@ -64,6 +65,7 @@ export default {
     mounted() {
         if (this.page == 0 && this.setPage) this.setPage(0);
         this.loadImages();
+        showToast("Sayfa içersinde sorun bulunmaktadır. En doğru güncelleme için tüm resimleri kaldırıp tekrar ekleyin :)")
     },
 
 };

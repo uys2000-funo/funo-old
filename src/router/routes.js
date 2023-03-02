@@ -1,15 +1,18 @@
 import { setDebugRouter } from "../services/core/main";
 export default setDebugRouter([
+  // Entrance Page
   {
     path: "/",
     name: "Enterance",
     component: () => import("../views/pageEnter.vue"),
   },
+  // Login Page
   {
     path: "/login",
     name: "Login",
     component: () => import("../views/pageLogin.vue"),
   },
+  // Register Page
   {
     path: "/register",
     name: "Register",
@@ -22,23 +25,13 @@ export default setDebugRouter([
       },
     ],
   },
+  // App Page
   {
     path: "/app",
     name: "App",
     component: () => import("../layouts/HomeLayout.vue"),
     children: [
-      {
-        path: "events",
-        name: "Events",
-        component: () => import("../layouts/EventsLayout.vue"),
-        children: [
-          {
-            path: "",
-            name: "EventsPage",
-            component: () => import("../views/pageEvents.vue"),
-          },
-        ],
-      },
+      // Event Create
       {
         path: "create",
         name: "Create",
@@ -56,6 +49,7 @@ export default setDebugRouter([
           },
         ],
       },
+      // Event Edit
       {
         path: "edit",
         name: "Edit",
@@ -65,6 +59,59 @@ export default setDebugRouter([
             path: ":eID",
             name: "EditPageID",
             component: () => import("../views/pageEdit.vue"),
+          },
+        ],
+      },
+      // Search onDevelop
+      {
+        path: "serach",
+        name: "Search",
+        children: [
+          {
+            path: "",
+            name: "SearchPage",
+          },
+        ],
+      },
+      // Map onDevelop
+      {
+        path: "serach",
+        name: "Search",
+        children: [
+          {
+            path: "",
+            name: "SearchPage",
+          },
+        ],
+      },
+      // User onDevelop
+      {
+        path: "user",
+        name: "User",
+        component: () => import("../layouts/UserLayout.vue"),
+        children: [
+          {
+            path: "",
+            name: "UserPage",
+            component: () => import("../views/pageUser.vue"),
+          },
+          {
+            path: ":uID",
+            name: "UserPageID",
+            component: () => import("../views/pageUser.vue"),
+          },
+        ],
+      },
+      // Events Page
+      {
+        path: "events",
+        name: "Events",
+        component: () => import("../layouts/EventsLayout.vue"),
+        children: [
+          {
+            path: "",
+            name: "EventsPage",
+            component: () => import("../views/pageEvents.vue"),
           },
         ],
       },

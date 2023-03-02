@@ -28,24 +28,37 @@
                 </template>
             </div>
             <div class="w row no-wrap items-center justify-end">
-                <div class="text-caption text-right">
-                    kullanıcılar :)
+                <div class="text-right row items-center">
+                    <div class="">
+                        Katılımcılar
+                    </div>
+                    <q-avatar size="md" class="bg-white q-ml-sm">
+                        <q-icon size="md" name="person" color="accent" />
+                    </q-avatar>
                 </div>
             </div>
         </div>
         <div class="full-width row no-wrap">
             <div class="w row no-wrap items-center q-pr-sm">
-                <q-icon size="md" name="location_on" color="accent"/>
+                <q-icon size="md" name="location_on" color="accent" />
                 <div class="text-caption t">
                     {{ location }}
-                    <q-tooltip :hide-delay="5000">
-                        {{ event.location.text }}
-                    </q-tooltip>
                 </div>
+                <q-tooltip :hide-delay="5000">
+                    <div>
+                        <div>
+                            {{ event.location.text }}
+                        </div>
+                        <div>
+                            {{ event.location.description }}
+
+                        </div>
+                    </div>
+                </q-tooltip>
             </div>
-            <q-btn rounded class="bg-primary text-white" style="flex-grow: 1;">
+            <q-btn rounded class="bg-primary text-white" style="flex-grow: 1;" @click="buttonEvent">
                 <span class="text-weight-bolder text-bold">
-                    Katıl
+                    {{ state ? "Vazgeç" : "Katıl" }}
                 </span>
             </q-btn>
             <div class="w row no-wrap items-center justify-end">
@@ -57,9 +70,34 @@
     </div>
 </template>
 <script>
+import { exitEvent, joinEvent } from '@/services/app/event';
+import { events } from '@/store/events';
+import { user } from '@/store/user';
+
 export default {
     props: ["event"],
+    data() {
+        return {
+            user: user(),
+            events: events(),
+        }
+    },
+    methods: {
+        buttonEvent() {
+            if (this.state) this.exitEvent()
+            else this.joinEvent()
+        },
+        joinEvent() {
+            joinEvent(this.event.eID, this.user.uID)
+        },
+        exitEvent() {
+            exitEvent(this.event.eID, this.user.uID)
+        },
+    },
     computed: {
+        state() {
+            return this.events.joinedEvents[this.event.eID]
+        },
         startDate() {
             const date = new Date(this.event.date.start.seconds * 1000);
             return date.toLocaleDateString("tr-TR")
@@ -77,6 +115,7 @@ export default {
             return date.toLocaleTimeString("tr-TR").split(":").splice(0, 2).join(":")
         },
         location() {
+            if (this.event.location.isOnline) return this.event.location.text
             const location = this.event.location.text.split(",")
             const end = location.length - 1
             const start = Math.round(end / 2)

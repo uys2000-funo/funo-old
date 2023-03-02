@@ -1049,6 +1049,11 @@
   resolved "https://registry.yarnpkg.com/@capacitor/share/-/share-4.1.0.tgz#00e2b9dcd86a7a9691fc758ffbffe65b884b3253"
   integrity sha512-Gh/cgy7Ee+9fkhw+Q4+9s2S4HiC34/eLoaohqRg1ahtpqvTQ3qdInoEJ23FdILq5cLj2ZPpx2VuEXjpLKX1Z5A==
 
+"@capacitor/toast@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/toast/-/toast-4.1.0.tgz#1710163aa128f8640d2237587cfb49ad4ee880c5"
+  integrity sha512-hU3GoA1dT+dsMuDOlEeiaU2mdd4VCLvIzgbp7Vk0Mqy9tbg++W4t7hcewlawzJGs6FxH59rIekf2lz7m4ir33w==
+
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.3.tgz#9e42981ef035beb3dd49add17acb96e8ff6f394c"

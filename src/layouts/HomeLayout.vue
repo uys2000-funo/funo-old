@@ -16,7 +16,7 @@
       <q-btn flat>
         <icon-world class="fill-accent" />
       </q-btn>
-      <q-btn flat>
+      <q-btn flat :to="{ name: 'UserPage' }">
         <icon-person class="fill-accent" />
       </q-btn>
     </div>
@@ -27,7 +27,7 @@ import { user } from "@/store/user";
 import { events } from "@/store/events";
 import { notifications } from "@/store/notifications";
 import { watchNotifications } from "@/services/app/notification";
-import { watchPopularEvents } from "@/services/app/event";
+import { watchJoinedEvents, watchPopularEvents } from "@/services/app/event";
 import { w } from "@/services/c";
 import iconPlus from "@/icons/home/iconPlus.vue";
 import iconCompass from "@/icons/home/iconCompass.vue"
@@ -43,13 +43,14 @@ export default {
       user: user(),
       notificationsListener: null,
       popularEventListener: null,
+      joinedEventListener: null,
     };
   },
   methods: {
     listenNotifications() {
       w("NOTIFICATIONS STARTED TO LISTENNING", this.user.ID)
       this.notificationsListener = watchNotifications(
-        this.user.ID,
+        this.user.uID,
         notifications().add,
         notifications().remove,
         notifications().update
@@ -62,13 +63,23 @@ export default {
         events().removePopularEvent,
         events().updatePopularEvent
       );
+    },
+    listenJoinedEvents() {
+      w("JOINED EVENTS STARTED TO LISTENNING", "")
+      this.joinedEventListener = watchJoinedEvents(
+        this.user.uID,
+        events().addJoinedEvent,
+        events().removeJoinedEvent,
+        events().updateJoinedEvent
+      );
     }
   },
   mounted() {
     let interval = setInterval(() => {
-      if (user().ID) {
+      if (this.user.uID) {
         this.listenNotifications();
         this.listenPopularEvents()
+        this.listenJoinedEvents()
         clearInterval(interval)
       }
     }, 200);
@@ -82,6 +93,10 @@ export default {
     if (this.popularEventListener) {
       w("popularEventListener UNMOUNTED", this.user.ID)
       this.popularEventListener()
+    }
+    if (this.joinedEventListener) {
+      w("joinedEventListener UNMOUNTED", this.user.ID)
+      this.joinedEventListener()
     }
   },
 };

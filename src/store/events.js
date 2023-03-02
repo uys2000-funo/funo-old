@@ -10,6 +10,17 @@ export const event = defineStore("event", {
         oName: "",
         oID: "",
       },
+      counters: {
+        joinedUser: 0,
+        joinedUserTrue: 0,
+        followerUser: 0,
+        reporterUser: 0,
+
+        image: 0,
+        comment: 0,
+        like: 0,
+      },
+      countersTotal: {},
       conditions: {
         age: { min: 0, max: 0 },
         approval: false,
@@ -54,6 +65,7 @@ export const event = defineStore("event", {
 export const events = defineStore("events", {
   state: () => ({
     eventDict: {},
+    joinedEvents: {},
     eventList: [],
     eventFlowList: [],
   }),
@@ -75,15 +87,19 @@ export const events = defineStore("events", {
           this.eventFlowList.push(document.eID);
       });
     },
-    updateEventFlowOrder() {},
-    addPopularEvent(document) {
-      console.warn(document);
+    removeEvent(eID) {
+      this.eventList = this.eventList.filter((e) => e !== eID);
+      this.eventFlowList = this.eventFlowList.filter((e) => e !== eID);
+      delete this.eventDict[eID];
     },
-    removePopularEvent(document) {
-      console.warn(document);
+    addJoinedEvent(document) {
+      this.joinedEvents[document.eID] = document.isActive;
     },
-    updatePopularEvent(document) {
-      console.warn(document);
+    removeJoinedEvent(document) {
+      console.log(document);
+    },
+    updateJoinedEvent(document) {
+      console.log(document);
     },
   },
   getters: {

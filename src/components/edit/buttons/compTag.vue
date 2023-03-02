@@ -23,7 +23,6 @@ export default {
             this.state = !this.state;
         },
         checkTag() {
-            console.log(this.event.event.tags.main)
             if (this.event.event.tags.main.includes(this.value))
                 this.state = true;
         }

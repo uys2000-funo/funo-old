@@ -31,6 +31,25 @@ export const user = defineStore("user", {
         },
         type: true,
         userName: "",
+        counters: {
+          point: 0,
+
+          createdEvent: 0,
+          joinedEvent: 0,
+          joinedEventTrue: 0,
+
+          followedEvent: 0,
+          followedUser: 0,
+          followerUser: 0,
+
+          reporterUser: 0,
+          reportedUser: 0,
+          reportedEvent: 0,
+          image: 0,
+          comment: 0,
+          like: 0,
+        },
+        countersTotal: {},
       },
     },
   }),

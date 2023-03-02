@@ -15,8 +15,11 @@ import {
   Timestamp,
   startAfter,
   updateDoc,
+  deleteDoc,
+  increment,
 } from "firebase/firestore";
 import app from "./app";
+import { c } from "@/services/c";
 
 const db = getFirestore(app);
 
@@ -49,13 +52,31 @@ export const updateDocument = function (table, column, data) {
   const docRef = doc(db, table, column);
   return updateDoc(docRef, data);
 };
-export const getDocument = function (tabe, column) {
-  const docRef = doc(db, tabe, column);
+export const updateCounters = function (
+  table,
+  column,
+  data,
+  counters = [""],
+  values = [0]
+) {
+  counters.forEach((element, index) => {
+    data[`counters.${element}`] = increment(values[index]);
+    if (values[index] > 0)
+      data[`countersTotal.${element}`] = increment(values[index]);
+  });
+  return updateDocument(table, column, data);
+};
+export const getDocument = function (table, column) {
+  const docRef = doc(db, table, column);
   return getDoc(docRef).then(returnDoc);
 };
 export const getCollection = function (table) {
   const colRef = collection(db, table);
   return getDocs(colRef).then(returnDocs);
+};
+export const deleteDocument = function (table, column) {
+  const docRef = doc(db, table, column);
+  return deleteDoc(docRef);
 };
 export const watchCollection = function (table, runFunc = (doc) => doc) {
   const colRef = collection(db, table);
@@ -63,16 +84,24 @@ export const watchCollection = function (table, runFunc = (doc) => doc) {
     runFunc(rawCollection.docChanges())
   );
 };
-export const watchCollectionWithTO = function (table, runFunc = (doc) => doc) {
+export const watchCollectionWithTO = function (
+  table,
+  order,
+  condition,
+  runFunc
+) {
+  c("watchCollectionWithTO", arguments);
   const queryRef = query(
     collection(db, table),
-    orderBy("timestamp", "asc"),
-    where("timestamp", ">", Timestamp.now()),
+    orderBy("timestamp", order),
+    where("timestamp", condition, Timestamp.now()),
     limit(1000)
   );
-  return onSnapshot(queryRef, (rawCollection) =>
-    runFunc(rawCollection.docChanges())
-  );
+  return onSnapshot(queryRef, (changes) => {
+    changes.forEach((change) => {
+      runFunc({ dID: change.id, ...change.data() });
+    });
+  });
 };
 export const watchCollectionWithTOW = function (
   table,

@@ -42,7 +42,7 @@ export default {
     },
     methods: {
         getImage() {
-            if (this.event.general.imageCounter != 0)
+            if (this.event.counters.image != 0)
                 getEventImage(this.event.eID)
                     .then(srcImg => this.srcImg = srcImg)
         }

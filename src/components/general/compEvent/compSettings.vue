@@ -19,7 +19,7 @@
             </div>
             <div class="btn">
                 <q-btn rounded class="fit">
-                    <q-icon size="lg" name="delete" color="negative" />
+                    <q-icon size="lg" name="delete" color="negative" @click="deleteEvent" />
                     <div class="full-width text-caption">
                         Sil
                     </div>
@@ -48,19 +48,25 @@
     </div>
 </template>
 <script>
-import { shareEvent } from '@/services/app/event';
+import { deleteEvent, shareEvent } from '@/services/app/event';
+import { events } from '@/store/events';
 import { user } from '@/store/user';
 
 export default {
     props: ["event", "openReport"],
     data() {
         return {
-            user: user()
+            user: user(),
+            events: events()
         }
     },
     methods: {
         shareEvent() {
             shareEvent(this.event.eID)
+        },
+        deleteEvent() {
+            deleteEvent(this.event.eID, this.user.uID)
+            this.events.removeEvent(this.event.eID)
         }
     }
 }

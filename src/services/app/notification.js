@@ -34,14 +34,14 @@ export const watchNotifications = function (
   updateFunc
 ) {
   c("watchNotifications", arguments);
-  return watchCollectionWithTO(`NH-${uID}`, (changes) => {
-    changes.forEach((change) => {
-      const doc = { nID: change.doc.id, ...change.doc.data() };
-      if (change.type == "added") addFunc(doc);
-      else if (change.type == "removed") removeFunc(doc);
-      else if (change.type == "modified") updateFunc(change.oldIndex, doc);
-    });
-  });
+  return watchCollectionWithTO(
+    `NH-${uID}`,
+    "desc",
+    "<",
+    addFunc,
+    removeFunc,
+    updateFunc
+  );
 };
 export const getNotificationImage = function (eID, oID) {
   return getFile(`E/${eID}/imgs/img0`).catch(() =>
