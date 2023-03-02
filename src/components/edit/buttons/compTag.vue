@@ -1,5 +1,5 @@
 <template>
-    <q-btn no-caps round :style="style" @click="clickEvent" class="t">
+    <q-btn no-caps round :style="style" @click="clickEvent" class="t shadow-3">
         <div class="text-center">
             {{ text }}
         </div>
@@ -21,11 +21,15 @@ export default {
             if (!this.state) this.event.event.tags.main.push(this.value)
             else this.event.event.tags.main = this.event.event.tags.main.filter(i => i != this.value)
             this.state = !this.state;
+        },
+        checkTag() {
+            console.log(this.event.event.tags.main)
+            if (this.event.event.tags.main.includes(this.value))
+                this.state = true;
         }
     },
     mounted() {
-        if (this.event.event.tags.main.includes(this.value))
-            this.state = true;
+        this.checkTag()
     },
     computed: {
         style() {
@@ -33,6 +37,11 @@ export default {
             const text = `color: ${this.color};`
             const text2 = `color: ${this.bg};`
             return this.state ? bg + text : text2
+        },
+    },
+    watch: {
+        event() {
+            console.log("--------------------")
         }
     }
 }

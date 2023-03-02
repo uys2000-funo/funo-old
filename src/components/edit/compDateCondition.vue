@@ -71,8 +71,8 @@
 </template>
 <script>
 import { event } from "@/store/events";
-import compDate from "@/components/create/buttons/compDate.vue";
-import compTime from "@/components/create/buttons/compTime.vue";
+import compDate from "@/components/edit/buttons/compDate.vue";
+import compTime from "@/components/edit/buttons/compTime.vue";
 export default {
   components: { compDate, compTime },
   props: ["pageNumber", "setPage"],

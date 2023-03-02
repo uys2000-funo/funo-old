@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="full-width row no-wrap">
-            <div class="w row no-wrap items-center">
+            <div class="w row no-wrap items-center q-pr-sm">
                 <q-icon size="md" name="location_on" color="accent"/>
                 <div class="text-caption t">
                     {{ location }}
@@ -43,8 +43,10 @@
                     </q-tooltip>
                 </div>
             </div>
-            <q-btn rounded class="bg-primary" style="flex-grow: 1;">
-                Katıl
+            <q-btn rounded class="bg-primary text-white" style="flex-grow: 1;">
+                <span class="text-weight-bolder text-bold">
+                    Katıl
+                </span>
             </q-btn>
             <div class="w row no-wrap items-center justify-end">
                 <div class="text-caption t">

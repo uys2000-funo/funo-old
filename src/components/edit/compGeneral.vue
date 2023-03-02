@@ -46,7 +46,7 @@
 </template>
 <script>
 import { event } from "@/store/events";
-import compTag from "@/components/create/buttons/compTag.vue";
+import compTag from "@/components/edit/buttons/compTag.vue";
 export default {
     components: { compTag },
     props: ["pageNumber", "setPage"],

@@ -1,6 +1,6 @@
 <template>
   <router-view v-slot="{ Component }">
-    <comp-popup fullscreen>
+    <comp-popup fullscreen v-if="show">
       <back-button />
       <div class="fit column no-wrap justify-center items-center content-center" style="overflow: hidden;">
         <div>
@@ -44,7 +44,8 @@ export default {
       event: event(),
       images: [],
       pageName: "",
-      pageNumber: 0
+      pageNumber: 0,
+      show: false,
     }
   },
   methods: {
@@ -72,12 +73,18 @@ export default {
       else this.createEvent();
 
     },
+    checkLoad() {
+      if (this.$route.params.eID) {
+        this.loadEvent()
+      } else this.show = true
+    },
     loadEvent() {
       getEvent(this.$route.params.eID)
         .then(event => {
           this.event.event = event
           for (let i = 0; i < event.general.imageCounter; i++)
             this.images.push(false)
+          this.show = true
         })
     }
   },

@@ -42,7 +42,7 @@ export default {
     },
     computed: {
         icon() {
-            return this.slide == "event" ? "more_vert" : "celebration"
+            return this.slide == "settings" ? "celebration" : "more_vert"
         }
     }
 }

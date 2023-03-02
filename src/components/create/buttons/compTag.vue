@@ -1,5 +1,5 @@
 <template>
-    <q-btn no-caps round :style="style" @click="clickEvent" class="t">
+    <q-btn no-caps round :style="style" @click="clickEvent" class="t shadow-3">
         <div class="text-center">
             {{ text }}
         </div>
