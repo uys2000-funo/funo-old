@@ -5,7 +5,11 @@ import {
 } from "../capacitor/firebaseAuthentication";
 import { signInWithEmailAndPassword } from "@/services/app/auth";
 import { signOutFirebase } from "@/services/firebase/authentication";
-import { increaseDocument, setDocument } from "@/services/firebase/firestore";
+import {
+  getDocument,
+  increaseDocument,
+  setDocument,
+} from "@/services/firebase/firestore";
 import { updateDocument } from "@/services/firebase/firestore";
 import { getFile, uploadFile } from "../firebase/storage";
 
@@ -30,14 +34,26 @@ export const updateUserData = function (uID, data) {
     f(increaseDocument, ["User", uID, "updateUserData", 1])
   );
 };
-
-export const updateUserPhoto = function (uID, image) {
-  l("Run - updateUserPhoto", arguments);
-  return f(uploadFile, [`User/${uID}`, "image", image]).then(() =>
-    f(increaseDocument, ["User", uID, "updateUserPhoto", 1])
+export const updateCompanyData = function (uID, data) {
+  l("Run - updateCompanyData", arguments);
+  return f(updateDocument, ["Company", uID, data]).then(() =>
+    f(increaseDocument, ["User", uID, "updateCompanyData", 1])
   );
 };
 
+export const updateUserPhoto = function (uID, image) {
+  l("Run - updateUserPhoto", arguments);
+  return f(uploadFile, [`User/${uID}`, "image", image])
+    .then(() => f(getFile, [`User/${uID}/image`]))
+    .then((url) =>
+      f(updateDocument, ["User", uID, { "account.photoURL": url }])
+    )
+    .then(() => f(increaseDocument, ["User", uID, "updateUserPhoto", 1]));
+};
+export const getUserData = function (uID) {
+  l("Run - getUserData", arguments);
+  return f(getDocument, ["User", uID]);
+};
 export const getUserPhoto = function (uID) {
   l("Run - getUserPhoto", arguments);
   return f(getFile, [`User/${uID}/image`]);

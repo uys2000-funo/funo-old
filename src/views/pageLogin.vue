@@ -77,7 +77,8 @@
 <script>
 import { useUser } from '@/store/user';
 import { sendPasswordResetEmail, signInWithEmailAndPassword, signInWithGoogle, signInWithFacebook, signOut } from "@/services/app/auth.js"
-import { getFirestoreUser, getLocalUserData, setLocalUserData } from '@/services/app/user.js';
+import { getUserData } from '@/services/app/user.js';
+import { setLocalObject } from '@/services/capacitor/preferences';
 export default {
   data() {
     return {
@@ -98,22 +99,17 @@ export default {
         })
     },
     loginSucces() {
-      if (this.user.user.userFire?.userName)
-        this.$router.push({ name: "EventsPage" })
+      this.$router.push({ name: "EventsPage" })
 
     },
     getUserSucces(user, userFire) {
       user.userFire = userFire;
       this.user.setUser(user)
-      return setLocalUserData(user).then(() => {
-        getLocalUserData().then(data => {
-          console.log(JSON.stringify(data));
-        })
-      })
+      setLocalObject("user", user).then(() => this.loginSucces())
     },
     signInSucces(user, userAuth) {
       user.userAuth = userAuth.user
-      return getFirestoreUser(userAuth.user.uid)
+      getUserData(userAuth.user.uid)
         .then(userFire => this.getUserSucces(user, userFire))
     },
     login() {
@@ -122,20 +118,19 @@ export default {
         .then((userAuth) => this.signInSucces(user, userAuth))
         .then(() => this.loginSucces())
         .catch(() => signOut())
+
     },
     loginGoogle() {
       let user = { userFire: {}, userAuth: {} }
       signInWithGoogle()
         .then((userAuth) => this.signInSucces(user, userAuth))
-        .then(() => this.loginSucces())
-        .catch(() => signOut())
+
     },
     loginFacebook() {
       let user = { userFire: {}, userAuth: {} }
       signInWithFacebook()
         .then((userAuth) => this.signInSucces(user, userAuth))
-        .then(() => this.loginSucces())
-        .catch(() => signOut())
+
 
     }
   }, mounted() {
