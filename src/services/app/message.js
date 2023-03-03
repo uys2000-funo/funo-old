@@ -4,7 +4,7 @@ import {
   getCollectionWithTO,
   watchCollection,
 } from "../firebase/firestore";
-import { f, c } from "../c";
+import { f, c } from "@/services/debug.js";
 
 export const shortMessages= function(messages){
   return messages.sort((a,b)=> b.timestamp.seconds - a.timestamp.seconds)

@@ -126,7 +126,7 @@ export default [
   // Test Page
   {
     name: "TestPage",
-    route: "/test",
+    path: "/test",
     component: () => import("../views/pageTest.vue"),
   },
 ];

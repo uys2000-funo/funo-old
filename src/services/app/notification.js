@@ -4,7 +4,7 @@ import {
   updateDocument,
   watchCollectionWithTO,
 } from "../firebase/firestore";
-import { f, c } from "../c";
+import { f, c } from "@/services/debug.js";
 import { getFile } from "../firebase/storage";
 
 export const shortNotifications = function (notifications) {

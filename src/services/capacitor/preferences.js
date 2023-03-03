@@ -1,5 +1,5 @@
 import { Preferences } from "@capacitor/preferences";
-import { c } from "../c";
+import { c } from "@/services/debug.js";
 
 export const setLocalObject = function (key, value) {
   c("setLocalObject", key, value);

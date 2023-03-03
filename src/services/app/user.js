@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from "@/services/app/auth";
-import { f } from "../c";
+import { f } from "@/services/debug.js";
 import {
   signOutCapacitor,
   updateCapacitorPassword,

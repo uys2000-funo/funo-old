@@ -1,24 +1,17 @@
 import { App } from "@capacitor/app";
-import { c } from "../c";
 
-export const runAtAppStateChange = function (
-  f = ({ isActive }) => c("appStateChanged", isActive)
-) {
-  return App.addListener("appStateChange", f);
+export const runAtAppStateChange = function (runFunc = () => {}) {
+  return App.addListener("appStateChange", runFunc);
 };
 
-export const runAtAppUrlOpen = function (
-  f = ({ data }) => c("appUrlOpend", data)
-) {
-  return App.addListener("appUrlOpen", f);
+export const runAtAppUrlOpen = function (runFunc = () => {}) {
+  return App.addListener("appUrlOpen", runFunc);
 };
 
-export const runAtAppRestored = function (
-  f = ({ data }) => c("appUrlOpend", data)
-) {
-  return App.addListener("appRestoredResult", f);
+export const runAtAppRestored = function (runFunc = () => {}) {
+  return App.addListener("appRestoredResult", runFunc);
 };
 
-export const getAppLaunchURL = async function () {
+export const getAppLaunchURL = function () {
   return App.getLaunchUrl();
-};  
+};

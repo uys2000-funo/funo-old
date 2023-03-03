@@ -10,7 +10,6 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import app from "./app";
-import { c } from "@/services/c";
 
 const auth = getAuth(app);
 
@@ -54,7 +53,7 @@ export const signOutFirebase = function () {
 };
 
 export const listenAuthState = function (
-  runFunc = (user) => c("AuthStateChanged", user)
+  runFunc = (user) => console.log("AuthStateChanged", user)
 ) {
   return onAuthStateChanged(auth, runFunc);
 };

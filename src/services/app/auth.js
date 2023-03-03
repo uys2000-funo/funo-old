@@ -15,7 +15,7 @@ import {
   signInFirebaseWithGoogleToken,
   signOutFirebase,
 } from "@/services/firebase/authentication.js";
-import { c, f } from "../c";
+import { c, f } from "@/services/debug.js";
 
 export const sendPasswordResetEmail = function (email) {
   return f(sendCapacitorPasswordResetEmail, email);

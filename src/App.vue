@@ -13,11 +13,9 @@
 </template>
 
 <script>
-import { setBackButton } from "./services/app/main";
 import { getFirestoreUser, getLocalUserData } from "./services/app/user";
 import { checkAuth } from "@/services/app/auth.js"
 import { user } from "@/store/user";
-import { w } from "./services/c";
 export default {
   name: "LayoutDefault",
   // Fetch events will be in here
@@ -38,7 +36,6 @@ export default {
           this.user.setUserFire(userFire)
           this.showPopup = false
           this.pageLoad = true;
-          w("USER DATA AUTOMATICALLY PULLED", user.uid)
           //this.$router.push({ name: "Events" })
         })
       }).catch(() => {
@@ -49,7 +46,6 @@ export default {
     },
   },
   mounted() {
-    setBackButton();
     getLocalUserData().then(({ value: localUser }) => {
       if (localUser != null) {
         this.user.setUser(localUser)

@@ -4,7 +4,7 @@ import {
   requestLocalNotificationsPermission,
   scheduleLocalNotification,
 } from "../capacitor/localNotifications";
-import { c, f } from "../c";
+import { c, f } from "@/services/debug.js";
 import { Timestamp } from "firebase/firestore";
 
 const earlierMultipler = 50;

@@ -9,7 +9,6 @@ import {
   setDoc,
   Timestamp,
   updateDoc,
-  deleteDoc,
   increment,
 } from "firebase/firestore";
 import app from "./app";
@@ -18,14 +17,13 @@ const db = getFirestore(app);
 
 export const timestamp = () => Timestamp.now();
 
-export const timestampFromDate = (date = new Date()) =>
-  Timestamp.fromDate(date);
+export const timestampDate = (date = new Date()) => Timestamp.fromDate(date);
 
-export const timestampFromMillis = (timestamp = new Date()) =>
+export const timestampMillis = (timestamp = new Date()) =>
   Timestamp.fromMillis(timestamp);
 
-const returnId = (rawDoc) => ({ id: rawDoc.id });
-const returnDoc = (rawDoc) => ({ id: rawDoc.id, data: rawDoc.data() });
+const returnId = (rawDoc) => ({ dID: rawDoc.id });
+const returnDoc = (rawDoc) => ({ dID: rawDoc.id, data: rawDoc.data() });
 const returnDocs = (rawCollection) => rawCollection.docs.map(returnDoc);
 
 export const setDocument = function (table, column, data) {
@@ -45,20 +43,21 @@ export const updateDocument = function (table, column, data) {
   const docRef = doc(db, table, column);
   return updateDoc(docRef, data);
 };
-export const updateCounters = function (
-  table,
-  column,
-  data,
-  counters = [""],
-  values = [0]
-) {
-  counters.forEach((element, index) => {
-    data[`counters.${element}`] = increment(values[index]);
-    if (values[index] > 0)
-      data[`countersTotal.${element}`] = increment(values[index]);
-  });
-  return updateDocument(table, column, data);
+export const increaseDocument = function (table, column, key, count) {
+  let data = {};
+  data["utimestamp"] = serverTimestamp();
+  data[key] = increment(count);
+  const docRef = doc(db, table, column);
+  return updateDoc(docRef, data);
 };
+export const increaseDocumentMultiple = function (table, column, keys, counts) {
+  let data = {};
+  data["utimestamp"] = serverTimestamp();
+  keys.forEach((key, index) => (data[key] = increment(counts[index])));
+  const docRef = doc(db, table, column);
+  return updateDoc(docRef, data);
+};
+
 export const getDocument = function (table, column) {
   const docRef = doc(db, table, column);
   return getDoc(docRef).then(returnDoc);
@@ -68,6 +67,7 @@ export const getCollection = function (table) {
   return getDocs(colRef).then(returnDocs);
 };
 export const deleteDocument = function (table, column) {
+  const data = { isDeleted: false, dtimestamp: serverTimestamp() };
   const docRef = doc(db, table, column);
-  return deleteDoc(docRef);
+  return updateDoc(docRef, data);
 };

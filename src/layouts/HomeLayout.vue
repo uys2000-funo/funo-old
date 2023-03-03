@@ -24,11 +24,6 @@
 </template>
 <script>
 import { user } from "@/store/user";
-import { events } from "@/store/events";
-import { notifications } from "@/store/notifications";
-import { watchNotifications } from "@/services/app/notification";
-import { watchJoinedEvents, watchPopularEvents } from "@/services/app/event";
-import { w } from "@/services/c";
 import iconPlus from "@/icons/home/iconPlus.vue";
 import iconCompass from "@/icons/home/iconCompass.vue"
 import iconLogo from "@/icons/general/iconLogo.vue";
@@ -48,30 +43,13 @@ export default {
   },
   methods: {
     listenNotifications() {
-      w("NOTIFICATIONS STARTED TO LISTENNING", this.user.ID)
-      this.notificationsListener = watchNotifications(
-        this.user.uID,
-        notifications().add,
-        notifications().remove,
-        notifications().update
-      );
+
     },
     listenPopularEvents() {
-      w("POPULAR EVENTS STARTED TO LISTENNING", "")
-      this.popularEventListener = watchPopularEvents(
-        events().addPopularEvent,
-        events().removePopularEvent,
-        events().updatePopularEvent
-      );
+
     },
     listenJoinedEvents() {
-      w("JOINED EVENTS STARTED TO LISTENNING", "")
-      this.joinedEventListener = watchJoinedEvents(
-        this.user.uID,
-        events().addJoinedEvent,
-        events().removeJoinedEvent,
-        events().updateJoinedEvent
-      );
+
     }
   },
   mounted() {
@@ -87,15 +65,12 @@ export default {
   },
   beforeUnmount() {
     if (this.notificationsListener) {
-      w("notificationsListener UNMOUNTED", this.user.ID)
       this.notificationsListener()
     }
     if (this.popularEventListener) {
-      w("popularEventListener UNMOUNTED", this.user.ID)
       this.popularEventListener()
     }
     if (this.joinedEventListener) {
-      w("joinedEventListener UNMOUNTED", this.user.ID)
       this.joinedEventListener()
     }
   },

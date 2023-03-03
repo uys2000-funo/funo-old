@@ -1,4 +1,4 @@
-import { c } from "../c";
+import { c } from "@/services/debug.js";
 import { createUserAuth } from "../firebase/authentication";
 import { setDocument } from "../firebase/firestore";
 import { getFile, uploadFile } from "../firebase/storage";

@@ -5,9 +5,13 @@
 </template>
 
 <script>
+import { p, f } from "@/services/debug"
 export default {
-    mounted(){
-
+    mounted() {
+        setTimeout(() => {
+            console.log("---------")
+            f(p, ["result", true]).catch()
+        }, 2000)
     }
 }
 </script>

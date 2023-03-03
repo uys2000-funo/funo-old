@@ -12,7 +12,7 @@ import {
   updateDocument,
   watchCollectionWithTO,
 } from "../firebase/firestore";
-import { c, f } from "../c";
+import { c, f } from "@/services/debug.js";
 import { getFile, getFiles, uploadFiles } from "../firebase/storage";
 import { share } from "@/services/capacitor/share";
 
