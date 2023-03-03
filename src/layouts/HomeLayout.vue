@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-import { user } from "@/store/user";
+import { useUser } from "@/store/user";
 import iconPlus from "@/icons/home/iconPlus.vue";
 import iconCompass from "@/icons/home/iconCompass.vue"
 import iconLogo from "@/icons/general/iconLogo.vue";
@@ -35,7 +35,7 @@ export default {
   //After Login Genral Fetchs
   data() {
     return {
-      user: user(),
+      userStore: useUser(),
       notificationsListener: null,
       popularEventListener: null,
       joinedEventListener: null,
@@ -54,7 +54,7 @@ export default {
   },
   mounted() {
     let interval = setInterval(() => {
-      if (this.user.uID) {
+      if (this.userStore.uID) {
         this.listenNotifications();
         this.listenPopularEvents()
         this.listenJoinedEvents()

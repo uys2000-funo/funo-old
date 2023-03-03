@@ -5,8 +5,11 @@ const event = {
     name: "",
     description: "",
     imageCounter: 0,
-    oName: "",
-    oID: "",
+  },
+  owner: {
+    Name: "",
+    uID: "",
+    isPerson: false,
   },
   conditions: {
     age: { min: 0, max: 0 },
@@ -26,6 +29,13 @@ const event = {
     user: [],
   },
 };
+const filter = {
+  ownerType: "all",
+  hasApprovall: "all",
+  hasUserLimit: "all",
+  isOnline: "all",
+  hasPrice: "all",
+};
 export const useEvent = defineStore("event", {
   state: () => ({
     event: event,
@@ -39,11 +49,10 @@ export const useEvent = defineStore("event", {
 
 export const useEvents = defineStore("events", {
   state: () => ({
+    filter: filter,
     eventDict: {},
-    joinedEvents: {},
-    eventList: [],
-    eventFlowList: [],
-    eventUserCreatedList: [],
+    eventsList: [],
+    eventsFlowList: [],
   }),
   actions: {
     addEvent(document = { eID: "" }) {

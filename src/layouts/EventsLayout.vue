@@ -1,7 +1,7 @@
 <template>
   <div class="relative fit column no-wrap ">
     <div class="full-width">
-      <comp-header class="shadow-box"/>
+      <comp-header class="shadow-box" />
     </div>
     <router-view />
   </div>

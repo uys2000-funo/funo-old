@@ -1,5 +1,6 @@
 import {
   getCapacitorCurrentUser,
+  sendCapacitorPasswordResetEmail,
   signInCapacitorWithApple,
   signInCapacitorWithEmailAndPassword,
   signInCapacitorWithFacebook,
@@ -38,6 +39,9 @@ export const signInWithApple = function () {
   return f(signInCapacitorWithApple).then((cAppleAuth) =>
     f(signInFirebaseWithAppleToken, [cAppleAuth])
   );
+};
+export const sendPasswordResetEmail = function (mail) {
+  return f(sendCapacitorPasswordResetEmail, [mail]);
 };
 
 export const signOut = function () {
