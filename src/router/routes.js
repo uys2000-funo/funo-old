@@ -9,7 +9,7 @@ export default setDebugRouter([
   // Login Page
   {
     path: "/login",
-    name: "Login",
+    name: "LoginPage",
     component: () => import("../views/pageLogin.vue"),
   },
   // Register Page
@@ -22,6 +22,13 @@ export default setDebugRouter([
         path: ":pID",
         name: "RegisterPage",
         component: () => import("../views/pageRegister.vue"),
+        children: [
+          {
+            path: ":uID",
+            name: "RegisterPageID",
+            component: () => import("../components/compNull.vue"),
+          },
+        ],
       },
     ],
   },

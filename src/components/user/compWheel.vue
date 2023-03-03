@@ -1,9 +1,9 @@
 <template>
-  <div style="margin-top: -35%;">
+  <div style="margin-top: -30%;">
     <comp-wheel :s="['80vw', '80vw']" :p="pageNumber" :r="45" :moveEndEvent="moveEndEvent" :moveEvent="moveEvent">
       <template v-slot:c>
         <div class="center">
-          <img :src="require('@/assets/images/logo.svg')" style="width: 100%" alt="No Profile Photo" />
+          <img :src="photoURL" style="width: 100%" alt="No Profile Photo" />
         </div>
       </template>
       <template v-slot:ie>
@@ -74,8 +74,9 @@
 import compWheel from "@/components/general/compWheel.vue";
 import iconDot from "@/icons/general/iconDot.vue";
 
-import iconNull from "@/icons/general/iconNull.vue";
+import iconNull from "@/components/compNull.vue";
 import iconAccount from "@/icons/user/iconAccount.vue";
+import iconSettings from "@/icons/user/iconSettings.vue";
 import iconEdit from "@/icons/user/iconEdit.vue";
 import iconEvent from "@/icons/user/iconEvent.vue";
 import iconMail from "@/icons/user/iconMail.vue";
@@ -85,9 +86,9 @@ import iconTick from "@/icons/user/iconTick.vue";
 export default {
   components: {
     compWheel, iconDot, iconNull,
-    iconAccount, iconEdit, iconEvent, iconMail, iconRun, iconTick
+    iconSettings, iconAccount, iconEdit, iconEvent, iconMail, iconRun, iconTick
   },
-  props: ["r", "setR", "pageNumber",],
+  props: ["r", "setR", "pageNumber", "photoURL", "type"],
   data() {
     return {
       components: [
@@ -95,7 +96,7 @@ export default {
         "iconRun",
         "iconEvent",
         "iconEdit",
-        "iconAccount",
+        "iconSettings",
       ],
       west: "iconNull",
       southWest: "iconNull",
@@ -131,7 +132,6 @@ export default {
         getPosition(1, 1, res),
         getPosition(0, 2, res),
       ]
-      console.log(res, items)
       this.west = this.components[items[0]];
       this.southWest = this.components[items[1]];
       this.south = this.components[items[2]];
@@ -140,7 +140,6 @@ export default {
       this.northEast = this.components[items[5]];
       this.north = this.components[items[6]];
       this.northWest = this.components[items[7]];
-
     },
     moveEvent(res) {
       this.updateIcons(res)
@@ -152,6 +151,10 @@ export default {
     }
   },
   mounted() {
+    if (this.type){
+      this.components[3] = "iconMail"
+      this.components[4] = "iconAccount"
+    }
     this.updateIcons(0)
     this.moveEndEvent(this.pageNumber);
   }

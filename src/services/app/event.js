@@ -2,6 +2,8 @@ import {
   addDocument,
   deleteDocument,
   getCollectionWithCOLS,
+  getCollectionWithCOLSW,
+  getCollectionWithTO,
   getDocument,
   setDocument,
   timestamp,
@@ -22,8 +24,8 @@ export const getEvent = function (eID) {
   }));
 };
 
-export const getEvents = function (startDocument, length) {
-  c("getEvents", arguments);
+export const getEventsForFlow = function (startDocument, length) {
+  c("getEventsForFlow", arguments);
   return f(
     getCollectionWithCOLS,
     "-Events",
@@ -39,6 +41,31 @@ export const getEvents = function (startDocument, length) {
       eID: document.id,
     }))
   );
+};
+
+export const getEventsForUserCreated = function (uID, startDocument, length) {
+  c("getEventsForUserCreated", arguments);
+  return f(
+    getCollectionWithCOLSW,
+    "-Events",
+    "timestamp",
+    "general.oID",
+    "asc",
+    "<",
+    timestamp(),
+    uID,
+    startDocument,
+    length
+  ).then((docs) =>
+    docs.map((document) => ({
+      ...document.data,
+      eID: document.id,
+    }))
+  );
+};
+
+export const getEventsJoinedIDs = function (uID) {
+  return getCollectionWithTO(`UCE-${uID}`);
 };
 
 export const getEventImage = function (eID) {

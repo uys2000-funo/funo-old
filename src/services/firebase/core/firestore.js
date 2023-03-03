@@ -202,3 +202,26 @@ export const getCollectionWithCOLS = function (
   );
   return getDocs(queryRef).then(returnDocs);
 };
+export const getCollectionWithCOLSW = function (
+  table,
+  orderColumn,
+  whereColumn,
+  orderType = "desc",
+  columnCondition = "==",
+  columnEquality = true,
+  whereEquality = true,
+  startDocument = null,
+  length = 50
+) {
+  const colRef = collection(db, table);
+  startDocument;
+  const queryRef = query(
+    colRef,
+    orderBy(orderColumn, orderType),
+    where(orderColumn, columnCondition, columnEquality),
+    where(whereColumn, "==", whereEquality),
+    startAfter(startDocument),
+    limit(length)
+  );
+  return getDocs(queryRef).then(returnDocs);
+};

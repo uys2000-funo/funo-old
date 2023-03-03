@@ -62,8 +62,7 @@
       <div class="grow" style="min-width:50vw">
         <div class="row justify-around">
           <q-btn rounded text-color="secondary" class="m-auto" color="grey-9" label="Google" @click="loginGoogle" />
-          <q-btn rounded text-color="secondary" class="m-auto" color="indigo-9" label="Facebook"
-            @click="loginFacebook" />
+          <q-btn rounded text-color="secondary" class="m-auto" color="indigo-9" label="Facebook" @click="loginFacebook" />
         </div>
       </div>
       <div class="grow">
@@ -101,13 +100,15 @@ export default {
         })
     },
     loginSucces() {
-      this.$router.push({ name: "EventsPage" })
+      if (this.user.user.userFire?.userName)
+        this.$router.push({ name: "EventsPage" })
+
     },
     getUserSucces(user, userFire) {
       user.userFire = userFire;
       this.user.setUser(user)
-      return setLocalUserData(user).then(()=>{
-        getLocalUserData().then(data=>{
+      return setLocalUserData(user).then(() => {
+        getLocalUserData().then(data => {
           console.log(JSON.stringify(data));
         })
       })

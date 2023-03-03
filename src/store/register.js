@@ -11,8 +11,8 @@ export const register = defineStore("register", {
       phoneNumber: "",
       userName: "",
       mail: "",
-      imgType: "",
-      imgLocation: "",
+      photoURL: "willBeSetAfterImageUpload",
+      isHidden: false,
       counters: {
         point: 0,
 

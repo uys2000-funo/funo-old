@@ -19,12 +19,12 @@ export const user = defineStore("user", {
       },
       userFire: {
         birthdate: "",
-        imgLocation: "",
-        imgType: "",
+        photoURL: "",
         mail: "",
         name: "",
         phoneNumber: "",
         sex: true,
+        isHidden: false,
         timestamp: {
           nanoseconds: 0,
           seconds: 0,
