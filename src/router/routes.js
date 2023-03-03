@@ -1,5 +1,4 @@
-import { setDebugRouter } from "@/services/app/router";
-export default setDebugRouter([
+export default [
   // Entrance Page
   {
     path: "/",
@@ -124,4 +123,10 @@ export default setDebugRouter([
       },
     ],
   },
-]);
+  // Test Page
+  {
+    name: "TestPage",
+    route: "/test",
+    component: () => import("../views/pageTest.vue"),
+  },
+];
