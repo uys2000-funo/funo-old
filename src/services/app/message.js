@@ -3,7 +3,7 @@ import {
   getCollection,
   getCollectionWithTO,
   watchCollection,
-} from "../firebase/core/firestore";
+} from "../firebase/firestore";
 import { f, c } from "../c";
 
 export const shortMessages= function(messages){

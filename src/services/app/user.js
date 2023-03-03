@@ -5,8 +5,8 @@ import {
   updateCapacitorPassword,
 } from "../capacitor/firebaseAuthentication";
 import { setLocalObject, getLocalObject } from "../capacitor/preferences";
-import { signOutFirebase } from "../firebase/core/authentication";
-import { getDocument, updateDocument } from "../firebase/core/firestore";
+import { signOutFirebase } from "../firebase/authentication";
+import { getDocument, updateDocument } from "../firebase/firestore";
 
 export const updateUser = function (uID, data) {
   return f(updateDocument, "-Users", uID, data);

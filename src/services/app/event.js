@@ -11,9 +11,9 @@ import {
   updateCounters,
   updateDocument,
   watchCollectionWithTO,
-} from "../firebase/core/firestore";
+} from "../firebase/firestore";
 import { c, f } from "../c";
-import { getFile, getFiles, uploadFiles } from "../firebase/core/storage";
+import { getFile, getFiles, uploadFiles } from "../firebase/storage";
 import { share } from "@/services/capacitor/share";
 
 export const getEvent = function (eID) {

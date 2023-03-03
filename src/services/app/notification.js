@@ -3,9 +3,9 @@ import {
   getCollectionWithTO,
   updateDocument,
   watchCollectionWithTO,
-} from "../firebase/core/firestore";
+} from "../firebase/firestore";
 import { f, c } from "../c";
-import { getFile } from "../firebase/core/storage";
+import { getFile } from "../firebase/storage";
 
 export const shortNotifications = function (notifications) {
   return notifications.sort(

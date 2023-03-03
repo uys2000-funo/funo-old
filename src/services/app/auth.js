@@ -14,7 +14,7 @@ import {
   signInFirebaseWithFacebookToken,
   signInFirebaseWithGoogleToken,
   signOutFirebase,
-} from "@/services/firebase/core/authentication.js";
+} from "@/services/firebase/authentication.js";
 import { c, f } from "../c";
 
 export const sendPasswordResetEmail = function (email) {

@@ -1,8 +1,7 @@
 import { c } from "../c";
-import { showAlert } from "../capacitor/dialog";
-import { createUserAuth } from "../firebase/core/authentication";
-import { setDocument } from "../firebase/core/firestore";
-import { getFile, uploadFile } from "../firebase/core/storage";
+import { createUserAuth } from "../firebase/authentication";
+import { setDocument } from "../firebase/firestore";
+import { getFile, uploadFile } from "../firebase/storage";
 
 export const isValidUser = function (user = {}) {
   return new Promise((resolve, reject) => {
@@ -16,20 +15,9 @@ export const isValidUser = function (user = {}) {
   });
 };
 
-const errCatch = (err) => {
-  if (err.code == "auth/invalid-email")
-    showAlert("Hata", "Geçersiz Eposta Adresi");
-  if (err.code == "auth/weak-password")
-    showAlert("Hata", "Şifre en az 6 karakterden oluşmalı");
-  if (err.code == "auth/email-already-in-use")
-    showAlert("Hata", "Eposta Adresi Kullanımda");
-  else console.log(err.code);
-};
-
 export const registerUser = function (user = {}, password = "", image = null) {
   image;
   return createUserAuth(user.mail, password)
-    .catch(errCatch)
     .then((userAuth) =>
       uploadProfilePhoto(userAuth.user.uid, image).then(() =>
         getProfilePhoto(userAuth.user.uid).then((p) =>

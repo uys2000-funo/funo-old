@@ -1,4 +1,4 @@
-import { setDebugRouter } from "../services/core/main";
+import { setDebugRouter } from "@/services/app/router";
 export default setDebugRouter([
   // Entrance Page
   {

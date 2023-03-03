@@ -6,7 +6,7 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import app from "./app";
-import { f } from "../../c";
+import { f } from "@/services/c.js";
 
 const storage = getStorage(app);
 

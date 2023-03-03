@@ -80,7 +80,7 @@ import {
   getRotate,
   getLastValues,
   getLastRotate,
-} from "@/services/core/animations/wheel";
+} from "@/services/animations/wheel";
 export default {
   props: ["s", "r", "p", "moveEndEvent", "moveEvent"],
   data() {
