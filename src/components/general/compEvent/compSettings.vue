@@ -49,7 +49,7 @@
 </template>
 <script>
 import { deleteEvent, shareEvent } from '@/services/app/event';
-import { events } from '@/store/events';
+import { events } from '@/store/event.js';
 import { user } from '@/store/user';
 
 export default {

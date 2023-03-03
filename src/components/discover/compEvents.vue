@@ -17,7 +17,7 @@
   </q-scroll-area>
 </template>
 <script>
-import { events } from "@/store/events";
+import { events } from "@/store/event";
 import { getEventsWtihTag } from "@/services/core/events";
 import { user } from "@/store/user";
 import compEvent from "../general/compEvent.";

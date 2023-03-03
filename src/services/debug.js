@@ -32,7 +32,7 @@ let lW = function (text, paramaters, error) {
 const fNoDebug = function (
   promise = () => new Promise(),
   paramaters = [],
-  result = {}
+  result = undefined
 ) {
   return new Promise((resolve, reject) => {
     promise
@@ -41,12 +41,17 @@ const fNoDebug = function (
       .catch((e) => reject(e));
   });
 };
-let f = function (promise = () => new Promise(), paramaters = [], result = {}) {
+let f = function (
+  promise = () => new Promise(),
+  paramaters = [],
+  result = undefined
+) {
   l(`Run : ${promise.name}`, paramaters, result);
+  const res = (res) => (result != undefined ? result : res);
   return new Promise((resolve, reject) => {
     promise
       .apply(null, paramaters)
-      .then((r) => l(`Res : ${promise.name}`, paramaters, result ? result : r))
+      .then((r) => l(`Res : ${promise.name}`, paramaters, res(r)))
       .then((r) => resolve(r))
       .catch((e) => lE(`Err : ${promise.name}`, paramaters, e))
       .then((e) => reject(e));

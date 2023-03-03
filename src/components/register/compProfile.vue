@@ -2,9 +2,9 @@
     <div>
         <p>Profil Fotoğrafı</p>
         <q-img :src="
-            img == null ?
+            userStore.photoUrl == '' ?
                 require('@/assets/images/registerUpload.svg') :
-                img" @click="openImageChooser">
+                userStore.photoUrl" @click="openImageChooser">
             <div class="absolute-full text-subtitle2 flex flex-center bg">
                 Profil fotoğrafı yüklemek için dokunun
             </div>
@@ -15,14 +15,13 @@
     </div>
 </template>
 <script>
-import { register } from '@/store/register';
+import { useUserRegister } from '@/store/user';
 
 export default {
     props: ["page", "setPage"],
     data() {
         return {
-            register: register(),
-            img: null
+            userStore: useUserRegister(),
         }
     },
     methods: {
@@ -30,16 +29,14 @@ export default {
             this.$refs.imgPicker.click();
         },
         setImage(val) {
-            this.img = val.target.result;
+            this.userStore.photoUrl = val.target.result;
         },
         setImageEvent: function (val) {
             const img = val.target.files[0];
             const reader = new FileReader();
             reader.addEventListener("load", this.setImage, false);
             reader.readAsDataURL(img);
-            this.register.profileImage = img;
-            this.register.user.imgType = "default";
-            this.register.user.imgLocation = "default";
+            this.userStore.photo = img
         },
     },
     mounted() {

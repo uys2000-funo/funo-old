@@ -1,196 +1,83 @@
 import {
   addDocument,
   deleteDocument,
-  getCollectionWithCOLS,
-  getCollectionWithCOLSW,
-  getCollectionWithTO,
+  getCollectionCWCW,
   getDocument,
+  increaseDocument,
   setDocument,
-  timestamp,
-  timestampFromMillis,
-  updateCounters,
+  timestampMillis,
   updateDocument,
-  watchCollectionWithTO,
 } from "../firebase/firestore";
-import { c, f } from "@/services/debug.js";
-import { getFile, getFiles, uploadFiles } from "../firebase/storage";
-import { share } from "@/services/capacitor/share";
+import { f, l } from "@/services/debug.js";
+import { uploadFiles } from "../firebase/storage";
 
+const getEventDoc = (doc) => ({ eID: doc.id, data: doc.data });
+
+const getLocalEvent = function (event) {
+  let localEvent = { ...event };
+  localEvent.date.start = timestampMillis(event.date.start);
+  localEvent.date.end = timestampMillis(event.date.end);
+  delete localEvent.eID;
+  return localEvent;
+};
 export const getEvent = function (eID) {
-  c("getEvent", arguments);
-  return f(getDocument, "-Events", eID).then((document) => ({
-    ...document.data,
-    eID: document.id,
-  }));
+  l("Run - getEvent", arguments);
+  return f(getDocument, ["Events", eID]).then(getEventDoc);
 };
 
-export const getEventsForFlow = function (startDocument, length) {
-  c("getEventsForFlow", arguments);
-  return f(
-    getCollectionWithCOLS,
-    "-Events",
-    "date.end",
-    "asc",
-    ">",
-    timestamp(),
-    startDocument,
-    length
-  ).then((docs) =>
-    docs.map((document) => ({
-      ...document.data,
-      eID: document.id,
-    }))
-  );
-};
-
-export const getEventsForUserCreated = function (uID, startDocument, length) {
-  c("getEventsForUserCreated", arguments);
-  return f(
-    getCollectionWithCOLSW,
-    "-Events",
-    "timestamp",
-    "general.oID",
-    "asc",
-    "<",
-    timestamp(),
-    uID,
-    startDocument,
-    length
-  ).then((docs) =>
-    docs.map((document) => ({
-      ...document.data,
-      eID: document.id,
-    }))
-  );
-};
-
-export const getEventsJoinedIDs = function (uID) {
-  return getCollectionWithTO(`UCE-${uID}`);
-};
-
-export const getEventImage = function (eID) {
-  c("getEventImage", arguments);
-  return f(getFile, `-Events/${eID}/0-eImg`);
-};
-
-export const getEventImages = function (eID, amount) {
-  c("getEventImages", arguments);
-  return f(getFiles, `-Events/${eID}`, "-eImg", amount);
-};
-
-export const createEvent = function (uID, event, eImgs) {
-  c("createEvent", arguments);
-  let Event = event;
-  Event.date.start = timestampFromMillis(event.date.start);
-  Event.date.end = timestampFromMillis(event.date.end);
-  const e = { isDeleted: false };
-  return f(addDocument, "-Events", Event).then(({ id: eID }) =>
-    f(setDocument, `UCE-${uID}`, eID, e).then((eID) =>
-      f(uploadFiles, `-Events/${eID}`, "-eImg", eImgs).then(() =>
-        f(updateCounters, "-Users", uID, {}, ["createdEvent"], [1])
-      )
-    )
-  );
-};
-
-export const updateEvent = function (uID, event, eImgs) {
-  c("updateEvent", arguments);
-  let Event = event;
-  const eID = event.eID;
-  Event.date.start = timestampFromMillis(event.date.start);
-  Event.date.end = timestampFromMillis(event.date.end);
-  delete Event.eID;
-  const e = { isDeleted: false };
-  return f(updateDocument, "-Events", eID, Event)
-    .then(() => f(updateDocument, `UCE-${uID}`, eID, e))
-    .then(() => f(uploadFiles, `-Events/${eID}`, "-eImg", eImgs));
-};
-
-export const watchPopularEvents = function (addFunc, removeFunc, updateFunc) {
-  c("watchPopularEvents", arguments);
-  return watchCollectionWithTO(
-    `-PopularEvents`,
-    "desc",
-    "<",
-    addFunc,
-    removeFunc,
-    updateFunc
-  );
-};
-
-export const watchJoinedEvents = function (
-  uID,
-  addFunc,
-  removeFunc,
-  updateFunc
-) {
-  c("watchJoinedEvents", arguments);
-  return watchCollectionWithTO(
-    `UJE-${uID}`,
-    "desc",
-    "<",
-    addFunc,
-    removeFunc,
-    updateFunc
-  );
-};
-
-export const reportEvent = function (eID, report) {
-  c("reportEvent", arguments);
-  return getDocument("-Reports", eID).then((doc) => {
-    return f(addDocument, `ER-${eID}`, report).then(() => {
-      if (!doc.data?.reportCounter)
-        return f(setDocument, "-Reports", eID, { reportCounter: 1 });
-      return f(updateCounters, "-Reports", eID, {}, ["reportCounter"], [1]);
-    });
+export const createEvent = function (uID, event, images) {
+  l("Run - createEvent", arguments);
+  const localEvent = getLocalEvent({ eID: "", ...event });
+  return f(addDocument, ["Event", localEvent]).then(({ dID: eID }) => {
+    const e = { eID: eID, uID: uID, isDeleted: false };
+    return f(setDocument, ["UserCreatedEvent", eID, e])
+      .then(() => f(increaseDocument, ["User", uID, "createEvent", 1]))
+      .then(() => f(uploadFiles, [`Event/${eID}`, "image", images]));
   });
 };
 
-export const shareEvent = function (eID) {
-  c("shareEvent", arguments);
-  return f(
-    share,
-    "Muhteşem Bir Etkiblik",
-    "Yüce Bir etkinlik katılamyı düşünmelisin :)",
-    `funo.funo/e-${eID}`
-  );
+export const updateEvent = function (uID, event, images) {
+  l("Run - updateEvent", arguments);
+  const localEvent = getLocalEvent(event);
+  return f(updateDocument, ["Event", event.eID, localEvent])
+    .then(() => f(increaseDocument, ["User", uID, "updateEvent", 1]))
+    .then(() => f(increaseDocument, ["Event", event.eID, "updateEvent", 1]))
+    .then(() => f(uploadFiles, [`Event/${event.eID}`, "image", images]));
+};
+export const deleteEvent = function (uID, eID) {
+  l("Run - deleteEvent", arguments);
+  return f(deleteDocument, ["Event", eID])
+    .then(() => f(deleteDocument, ["UserCreatedEvent", eID]))
+    .then(() => f(increaseDocument, ["User", uID, "deleteEvent", 1]));
 };
 
-export const deleteEvent = function (eID, uID) {
-  c("deleteEvent", arguments);
-  return f(getDocument, `-Events`, eID).then((doc) => {
-    return f(deleteDocument, `-Events`, eID).then(() => {
-      return f(updateDocument, `UCE-${uID}`, eID, {
-        ...doc.data,
-        isDeleted: true,
-      });
-    });
-  });
+export const reportEvent = function (uID, eID, report) {
+  l("Run - reportEvent", arguments);
+  const r = { uID: uID, eID: eID, data: report, isChecked: false };
+  return f(addDocument, ["ReportEvent", r])
+    .then(() => f(increaseDocument, ["User", uID, "reportEvent", 1]))
+    .then(() => f(increaseDocument, ["Event", eID, "reportEvent", 1]));
 };
 
-export const joinEvent = function (eID, uID) {
-  c("joinEvent", arguments);
-  const user = { uID: uID, isActive: true };
-  const event = { eID: eID, isActive: true };
-  return getDocument(`UJE-${uID}`, eID, event).then((document) => {
-    let doDocument = setDocument;
-    if (document.data?.isActive == false) doDocument = updateDocument;
-    else if (document.data?.isActive == true) return true;
-    return f(doDocument, `EU-${eID}`, uID, user)
-      .then(() => f(doDocument, `UJE-${uID}`, eID, event))
-      .then(() => f(updateCounters, "-Events", eID, {}, ["joinedUser"], [1]))
-      .then(() => f(updateCounters, "-Users", uID, {}, ["joinedEvent"], [1]));
-  });
+export const joinEvent = function (uID, eID) {
+  l("Run - joinEvent", arguments);
+  const event = { uID: uID, eID: eID, isJoined: true };
+  const arg = ["UserJoinedEvent", "uID", "eID", "==", "==", uID, eID];
+  return f(getCollectionCWCW, arg)
+    .then(([{ dID }]) => {
+      if (dID) return f(updateDocument, ["UserJoinedEvent", dID, event]);
+      else return f(addDocument, ["UserJoinedEvent", event]);
+    })
+    .then(() => f(increaseDocument, ["User", uID, "joinEvent", 1]))
+    .then(() => f(increaseDocument, ["Event", eID, "joinEvent", 1]));
 };
-export const exitEvent = function (eID, uID) {
-  c("joinEvent", arguments);
-  const user = { isActive: false };
-  const event = { isActive: false };
-  return getDocument(`UJE-${uID}`, eID, event).then((document) => {
-    if (!document.data) return false;
-    return f(updateDocument, `EU-${eID}`, uID, user)
-      .then(() => f(updateDocument, `UJE-${uID}`, eID, event))
-      .then(() => f(updateCounters, "-Events", eID, {}, ["joinedUser"], [-1]))
-      .then(() => f(updateCounters, "-Users", uID, {}, ["joinedEvent"], [-1]));
-  });
+
+export const exitEvent = function (uID, eID) {
+  l("Run - exitEvent", arguments);
+  const event = { isJoined: false };
+  const arg = ["UserJoinedEvent", "uID", "eID", "==", "==", uID, eID];
+  return f(getCollectionCWCW, arg)
+    .then(([{ dID }]) => f(updateDocument, ["UserJoinedEvent", dID, event]))
+    .then(() => f(increaseDocument, ["User", uID, "joinEvent", -1]))
+    .then(() => f(increaseDocument, ["Event", eID, "joinEvent", -1]));
 };

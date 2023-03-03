@@ -1,22 +1,24 @@
 <template>
     <div class="fit row no-wrap text-h5 t">
         <div class="full-width column justify-center content-center r"
-            :class="{ 'bg-primary': register.user.type, 'text-secondary': register.user.type }" @click="setPersonnel">
+            :class="{ 'bg-primary': userStore.user.account.isPerson, 'text-secondary': userStore.user.account.isPerson }"
+            @click="setPersonnel">
             Bireysel
         </div>
         <div class="full-width column justify-center content-center r"
-            :class="{ 'bg-primary': !register.user.type, 'text-secondary': !register.user.type }" @click="setCompany">
+            :class="{ 'bg-primary': !userStore.user.account.isPerson, 'text-secondary': !userStore.user.account.isPerson }"
+            @click="setCompany">
             İşletme
         </div>
     </div>
 </template>
 <script>
-import { register } from '@/store/register';
+import { useUserRegister } from '@/store/user';
 export default {
     props: ["pageNumber", "setPageNumber"],
     data() {
         return {
-            register: register()
+            userStore: useUserRegister()
         }
     },
     methods: {
@@ -27,18 +29,17 @@ export default {
             }, 200)
         },
         setPersonnel() {
-            this.register.user.type = true
-            this.$router.push("/register/personnel")
+            this.userStore.user.account.isPerson = true
+            this.$router.replace("/register/personnel")
             this.goNextPage()
         },
         setCompany() {
-            this.register.user.type = false
-            this.$router.push("/register/company")
+            this.userStore.user.account.isPerson = false
+            this.$router.replace("/register/company")
             this.goNextPage()
         },
     },
     mounted() {
-        if (this.page == 0 && this.setPageNumber) this.setPageNumber(0);
     }
 }
 </script>

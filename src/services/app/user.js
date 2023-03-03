@@ -1,30 +1,55 @@
-import { signInWithEmailAndPassword } from "@/services/app/auth";
-import { f } from "@/services/debug.js";
+import { l, f } from "@/services/debug.js";
 import {
   signOutCapacitor,
   updateCapacitorPassword,
 } from "../capacitor/firebaseAuthentication";
-import { setLocalObject, getLocalObject } from "../capacitor/preferences";
-import { signOutFirebase } from "../firebase/authentication";
-import { getDocument, updateDocument } from "../firebase/firestore";
+import { signInWithEmailAndPassword } from "@/services/app/auth";
+import { signOutFirebase } from "@/services/firebase/authentication";
+import { increaseDocument, setDocument } from "@/services/firebase/firestore";
+import { updateDocument } from "@/services/firebase/firestore";
+import { getFile, uploadFile } from "../firebase/storage";
 
-export const updateUser = function (uID, data) {
-  return f(updateDocument, "-Users", uID, data);
+export const createUser = function (uID, data, image) {
+  l("Run - createUser", arguments);
+  return f(uploadFile, [`User/${uID}`, "image", image])
+    .then(() => f(getFile, [`User/${uID}/image`]))
+    .then((url) => {
+      data["uID"] = uID;
+      data["account"]["photoURL"] = url;
+      return f(setDocument, ["User", uID, data]);
+    });
 };
-export const updatePassword = function (mail, oldPassword, newPassword) {
-  return f(signInWithEmailAndPassword, mail, oldPassword).then(() =>
-    f(updateCapacitorPassword, newPassword)
+export const createCompany = function (uID, data) {
+  l("Run - createCompany", arguments);
+  return f(setDocument, ["Company", uID, { uID: uID, data }]);
+};
+
+export const updateUserData = function (uID, data) {
+  l("Run - updateUserData", arguments);
+  return f(updateDocument, ["User", uID, data]).then(() =>
+    f(increaseDocument, ["User", uID, "updateUserData", 1])
   );
 };
-export const setLocalUserData = function (user) {
-  return f(setLocalObject, "user", user);
+
+export const updateUserPhoto = function (uID, image) {
+  l("Run - updateUserPhoto", arguments);
+  return f(uploadFile, [`User/${uID}`, "image", image]).then(() =>
+    f(increaseDocument, ["User", uID, "updateUserPhoto", 1])
+  );
 };
-export const getLocalUserData = function () {
-  return f(getLocalObject, "user");
+
+export const getUserPhoto = function (uID) {
+  l("Run - getUserPhoto", arguments);
+  return f(getFile, [`User/${uID}/image`]);
 };
-export const getFirestoreUser = function (uID) {
-  return f(getDocument, "-Users", uID).then((rawUser) => rawUser.data);
+export const updatePassword = function (mail, oldPassword, newPassword) {
+  l("Run - updatePassword", arguments);
+  return f(signInWithEmailAndPassword, [mail, oldPassword]).then(() =>
+    f(updateCapacitorPassword, [newPassword])
+  );
 };
+
 export const signOut = function () {
+  l("Run - signOut", arguments);
   return signOutFirebase().then(() => signOutCapacitor());
 };

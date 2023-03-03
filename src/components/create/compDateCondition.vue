@@ -70,7 +70,7 @@
   </div>
 </template>
 <script>
-import { event } from "@/store/events";
+import { event } from "@/store/event.js";
 import compDate from "@/components/create/buttons/compDate.vue";
 import compTime from "@/components/create/buttons/compTime.vue";
 export default {

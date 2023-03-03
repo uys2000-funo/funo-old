@@ -21,7 +21,7 @@
 <script>
 import { getEventImages } from "@/services/app/event";
 import { showToast } from "@/services/capacitor/toast";
-import { event } from "@/store/events";
+import { event } from "@/store/event.js";
 export default {
     props: ["pageNumber", "setPage", "images"],
     inject: ["removeImage", "addImage"],

@@ -45,7 +45,7 @@
     </div>
 </template>
 <script>
-import { event } from "@/store/events";
+import { event } from "@/store/event.js";
 import compTag from "@/components/edit/buttons/compTag.vue";
 export default {
     components: { compTag },

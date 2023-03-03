@@ -8,7 +8,7 @@
     </div>
     <div class="full-width flex justify-center q-pb-md q-pt-xs">
       <div style="width:75%">
-        <q-btn class="fit bg-primary rounded" rounded @click="goNextPage">
+        <q-btn :disable="onProgress" class="fit bg-primary rounded" rounded @click="goNextPage">
           {{ this.pageNumber < 3 ? "Devam" : "Kaydol" }} </q-btn>
       </div>
     </div>
@@ -16,25 +16,20 @@
 </template>
 <script>
 import compWheel from '@/components/register/compWheel.vue';
-import { isValidUser, registerUser } from "@/services/app/register"
+import { createUser, createCompany, signOut } from '@/services/app/user';
 import { showAlert } from '@/services/capacitor/dialog';
-import { register } from '@/store/register';
-import { user } from '@/store/user';
+import { createUserAuth } from '@/services/firebase/authentication';
+import { useUserRegister } from '@/store/user';
 export default {
   components: { compWheel },
   data() {
     return {
       pageNumber: 0,
-      register: register(),
-      user: user(),
+      userStore: useUserRegister(),
+      onProgress: false
     }
   },
   methods: {
-    loadUser() {
-      const data = this.user.user.userAuth.providerData[0]
-      this.register.user.name = data.displayName
-      this.register.user.mail = data.email
-    },
     setPageNumber(pageNumber) {
       this.pageNumber = pageNumber
     },
@@ -43,22 +38,71 @@ export default {
         this.pageNumber = this.pageNumber + 1
       else this.registerUser()
     },
+    checkPerson() {
+      if (this.userStore.user.general.birthdate.seconds < -631245600) {
+        showAlert("Uyarı", "Lütfen geçerli bir doğum tarihi girin")
+        return false
+      }
+      return true
+    },
+    checkCompany() {
+      if (this.userStore.company.general.taxID.length < 3) {
+        showAlert("Uyarı", "Lütfen vergi numaranızı girin")
+        return false
+      } else if (this.userStore.company.general.address.length < 3) {
+        showAlert("Uyarı", "Lütfen bir adress girin")
+        return false
+      }
+      return true
+
+    },
+    checkUser() {
+      if (this.userStore.user.general.name.length < 3) {
+        showAlert("Uyarı", "Lütfen isminizi girin")
+        return false
+      } else if (this.userStore.user.account.phoneNumber.length != 10) {
+        showAlert("Uyarı", "Lütfen telefon numaranızı doğru girin")
+        return false
+      } else if (this.userStore.user.general.nickName.length < 3) {
+        showAlert("Uyarı", "Lütfen kullanıcı adı girin")
+        return false
+      } else if (this.userStore.password.length < 6) {
+        showAlert("Uyarı", "Şifre en az 6 karakterden oluşmalı")
+        return false
+      } else if (this.userStore.user.account.mail.length < 3) {
+        showAlert("Uyarı", "Lütfen geçerli bir mail girin")
+        return false
+      } else if (!this.userStore.agreement) {
+        showAlert("Uyarı", "Lütfen kullanıcı sözleşmesini kabul edin")
+        return false
+      }
+      if (this.userStore.user.account.isPerson)
+        return this.checkPerson()
+      return this.checkCompany()
+    },
     registerUser() {
-      let user;
-      if (this.register.user.type) user = { ...this.register.user, ...this.register.userPerson }
-      else user = { ...this.register.user, ...this.register.userCompany }
-      if (!this.register.agreement) showAlert("Hata", "Kullanıcı Sözleşmesini Kabul Etmelisiniz :)")
-      else isValidUser(user)
-        .then(() => registerUser(user, this.register.pass, this.register.profileImage))
-        .then(() => this.$router.push({ name: "Login" }))
+      const isPerson = this.userStore.user.account.isPerson
+      if (this.checkUser()) {
+        this.onProgress = true
+        createUserAuth(this.userStore.user.account.mail, this.userStore.password)
+          .then(({ user: { uid } }) => createUser(uid, this.userStore.user, this.userStore.photo)
+            .then(() => isPerson ? true : createCompany(uid, this.userStore.company)))
+          .then(() => this.succesfull())
+          .catch(() => showAlert("Hata", "Mail adresi muhtemelen kullanımda :)"))
+          .finally(() => this.onProgress = false)
+      }
+    },
+    succesfull() {
+      this.userStore.clear()
+      signOut().catch().finally(() => {
+        this.$router.push({ name: 'LoginPage' })
+      })
     }
   },
   mounted() {
-    if (!this.$route.params.pID)
-      this.$router.replace("/register/profile")
-    else if (this.$route.params.pID == "company")
-      this.register.user.type = false
-    this.loadUser()
+    if (this.$route.params.pID == "company")
+      this.userStore.user.account.isPerson = false
+    else this.$router.replace("/register/personnel")
   }
 }
 </script>

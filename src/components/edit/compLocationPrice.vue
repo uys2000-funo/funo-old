@@ -46,7 +46,7 @@
   </template>
 </template>
 <script>
-import { event } from "@/store/events";
+import { event } from "@/store/event";
 import { getLocation } from "@/services/geoCode/geocode";
 import compLocationChoose from "../general/compLocationChoose.vue";
 export default {

@@ -71,7 +71,7 @@
 </template>
 <script>
 import { exitEvent, joinEvent } from '@/services/app/event';
-import { events } from '@/store/events';
+import { events } from '@/store/event.js';
 import { user } from '@/store/user';
 
 export default {

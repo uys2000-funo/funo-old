@@ -18,7 +18,7 @@
 </template>
 <script>
 import compEvent from "../general/compEvent.";
-import { events } from "@/store/events";
+import { events } from "@/store/event";
 import { getEvent } from "@/services/core/events";
 export default {
   components: { compEvent },

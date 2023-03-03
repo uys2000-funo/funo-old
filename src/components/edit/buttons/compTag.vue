@@ -6,7 +6,7 @@
     </q-btn>
 </template>
 <script>
-import { event } from '@/store/events';
+import { event } from '@/store/event.js';
 
 export default {
     props: ["value", "text", "bg", "color"],

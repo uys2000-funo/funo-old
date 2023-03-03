@@ -1,6 +1,5 @@
 import {
   getCapacitorCurrentUser,
-  sendCapacitorPasswordResetEmail,
   signInCapacitorWithApple,
   signInCapacitorWithEmailAndPassword,
   signInCapacitorWithFacebook,
@@ -15,31 +14,32 @@ import {
   signInFirebaseWithGoogleToken,
   signOutFirebase,
 } from "@/services/firebase/authentication.js";
-import { c, f } from "@/services/debug.js";
+import { f } from "@/services/debug.js";
 
-export const sendPasswordResetEmail = function (email) {
-  return f(sendCapacitorPasswordResetEmail, email);
-};
 export const signInWithEmailAndPassword = function (email, password) {
-  return f(signInCapacitorWithEmailAndPassword, email, password).then(() =>
-    f(signInFirebaseWithEmailAndPassword, email, password)
+  return f(signInCapacitorWithEmailAndPassword, [email, password]).then(() =>
+    f(signInFirebaseWithEmailAndPassword, [email, password])
   );
 };
+
 export const signInWithFacebook = function () {
   return f(signInCapacitorWithFacebook).then((cFacebookAuth) =>
-    f(signInFirebaseWithFacebookToken, cFacebookAuth)
+    f(signInFirebaseWithFacebookToken, [cFacebookAuth])
   );
 };
+
 export const signInWithGoogle = function () {
   return f(signInCapacitorWithGoogle).then((cGoogleAuth) =>
-    f(signInFirebaseWithGoogleToken, cGoogleAuth)
+    f(signInFirebaseWithGoogleToken, [cGoogleAuth])
   );
 };
+
 export const signInWithApple = function () {
   return f(signInCapacitorWithApple).then((cAppleAuth) =>
-    f(signInFirebaseWithAppleToken, cAppleAuth)
+    f(signInFirebaseWithAppleToken, [cAppleAuth])
   );
 };
+
 export const signOut = function () {
   return f(signOutCapacitor)
     .catch(() => f(signOutFirebase))
@@ -48,14 +48,12 @@ export const signOut = function () {
 
 export const checkAuth = function () {
   return new Promise((resolve, reject) => {
-    const rejectFunction = function () {
-      signOut().then(() => reject(false));
-    };
+    const rejectFunction = () => signOut().then(() => reject(false));
+
     f(getCapacitorCurrentUser)
       .then(() => {
         let counter = 0;
         var interval = setInterval(function () {
-          c("checkAuthInterval", counter);
           counter = counter + 100;
           const user = getFirebaseCurrentUser();
           if (user) {

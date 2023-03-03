@@ -33,7 +33,7 @@ import compPopup from '@/components/general/compPopup.vue';
 import backButton from '@/components/general/backButton.vue';
 import compWheel from '@/components/create/compWheel.vue';
 import { isNumeric } from "@/utils/string"
-import { event } from '@/store/events';
+import { event } from '@/store/event.js';
 import { createEvent } from '@/services/app/event';
 import { user } from '@/store/user';
 export default {

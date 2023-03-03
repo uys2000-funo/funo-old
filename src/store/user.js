@@ -1,56 +1,87 @@
 import { defineStore } from "pinia";
 
-export const user = defineStore("user", {
+const user = {
+  uID: "",
+  general: {
+    name: "",
+    nickName: "",
+    birthdate: { nanoseconds: 0, seconds: 0 },
+    gender: false,
+  },
+  account: {
+    isPerson: true,
+    mail: "",
+    phoneNumber: "",
+    photoURL: "",
+  },
+  settings: {
+    isHidden: false,
+    isReceivable: true,
+    theme: "default",
+  },
+  count: {
+    point: 0,
+    follower: 0,
+    followed: 0,
+  },
+};
+
+const company = {
+  uID: "",
+  general: {
+    taxID: "",
+    address: "",
+  },
+  location: {
+    latitude: 0,
+    longitude: 0,
+  },
+  isChecked: false,
+};
+
+const auth = {
+  accessToken: "",
+  languageCode: "",
+  currentUser: {
+    accessToken: "",
+    displayName: "",
+    email: "",
+    emailVerified: false,
+    isAnonymous: false,
+    phoneNumber: "",
+    photoURL: "",
+    uid: "",
+  },
+};
+export const useUserRegister = defineStore("UserRegister", {
+  state: () => ({
+    photo: null,
+    photoUrl: "",
+    password: "",
+    agreement: false,
+
+    user: user,
+    company: company,
+  }),
+  actions: {
+    clear() {
+      this.photo = null;
+      this.photoUrl = "";
+      this.password = "";
+      this.agreement = false;
+
+      this.user = user;
+      this.company = company;
+    },
+  },
+});
+
+export const useUser = defineStore("User", {
   state: () => ({
     user: {
-      userAuth: {
-        accessToken: "",
-        languageCode: "",
-        currentUser: {
-          accessToken: "",
-          displayName: "",
-          email: "",
-          emailVerified: false,
-          isAnonymous: false,
-          phoneNumber: "",
-          photoURL: "",
-          uid: "",
-        },
-      },
-      userFire: {
-        birthdate: "",
-        photoURL: "",
-        mail: "",
-        name: "",
-        phoneNumber: "",
-        sex: true,
-        isHidden: false,
-        timestamp: {
-          nanoseconds: 0,
-          seconds: 0,
-        },
-        type: true,
-        userName: "",
-        counters: {
-          point: 0,
-
-          createdEvent: 0,
-          joinedEvent: 0,
-          joinedEventTrue: 0,
-
-          followedEvent: 0,
-          followedUser: 0,
-          followerUser: 0,
-
-          reporterUser: 0,
-          reportedUser: 0,
-          reportedEvent: 0,
-          image: 0,
-          comment: 0,
-          like: 0,
-        },
-        countersTotal: {},
-      },
+      userAuth: auth,
+      userFire: user,
+      userComp: company,
     },
   }),
   actions: {
@@ -78,4 +109,11 @@ export const user = defineStore("user", {
       else return false;
     },
   },
+});
+
+export const useUsers = defineStore("Users", {
+  state: () => ({
+    userDict: {},
+    userList: [],
+  }),
 });

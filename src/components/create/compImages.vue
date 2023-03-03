@@ -19,7 +19,7 @@
     </div>
 </template>
 <script>
-import { event } from "@/store/events";
+import { event } from "@/store/event.js";
 export default {
     props: ["pageNumber", "setPage", "images"],
     inject: ["removeImage", "addImage"],

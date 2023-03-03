@@ -75,15 +75,14 @@
   </div>
 </template>
 <script>
-import { user } from '@/store/user';
-import { sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "@/services/app/auth.js"
+import { useUser } from '@/store/user';
+import { sendPasswordResetEmail, signInWithEmailAndPassword, signInWithGoogle, signInWithFacebook, signOut } from "@/services/app/auth.js"
 import { getFirestoreUser, getLocalUserData, setLocalUserData } from '@/services/app/user.js';
-import { signInWithGoogle, signInWithFacebook } from "@/services/app/auth"
 export default {
   data() {
     return {
       height: window.innerHeight,
-      user: user(),
+      userStore: useUser(),
       slide: "login",
       email: "",
       password: ""
@@ -91,7 +90,6 @@ export default {
   },
   methods: {
     sendMail() {
-      console.log(this.email)
       sendPasswordResetEmail(this.email)
         .then(() => this.slide = "login")
         .catch(() => {

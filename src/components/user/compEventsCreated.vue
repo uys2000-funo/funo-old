@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { events } from '@/store/events';
+import { events } from '@/store/event';
 import { getEventsForUserCreated } from "@/services/app/event"
 import compEvent from '../general/compEvent.vue';
 import { user } from '@/store/user';

@@ -18,7 +18,7 @@
 </template>
 <script>
 import compEvent from "../general/compEvent.";
-import { events } from "@/store/events";
+import { events } from "@/store/event";
 import { getEvent, getEventsFollowed } from "@/services/core/events";
 import { user } from "@/store/user";
 export default {

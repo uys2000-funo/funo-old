@@ -11,7 +11,7 @@
 <script>
 import { getEventsForFlow } from '@/services/app/event';
 import compEvent from '../general/compEvent.vue';
-import { events } from '@/store/events';
+import { events } from '@/store/event';
 
 export default {
     components: { compEvent },

@@ -13,49 +13,23 @@
 </template>
 
 <script>
-import { getFirestoreUser, getLocalUserData } from "./services/app/user";
-import { checkAuth } from "@/services/app/auth.js"
-import { user } from "@/store/user";
+import { useUser } from "@/store/user";
 export default {
   name: "LayoutDefault",
   // Fetch events will be in here
   components: {},
   data() {
     return {
-      pageLoad: false,
+      pageLoad: true,
       showPopup: true,
-      position: [],
-      user: user(),
+      userStore: useUser(),
     };
   },
   methods: {
-    autoLogin: function () {
-      checkAuth().then((user) => {
-        this.user.setUserAuth(user);
-        getFirestoreUser(user.uid).then(userFire => {
-          this.user.setUserFire(userFire)
-          this.showPopup = false
-          this.pageLoad = true;
-          //this.$router.push({ name: "Events" })
-        })
-      }).catch(() => {
-        //this.$router.push({ name: "Login" })
-        this.showPopup = false
-        this.pageLoad = true;
-      })
-    },
+
   },
   mounted() {
-    getLocalUserData().then(({ value: localUser }) => {
-      if (localUser != null) {
-        this.user.setUser(localUser)
-        this.autoLogin();
-      } else {
-        //this.$router.push({ name: "Entrance" })
-        this.showPopup = false;
-        this.pageLoad = true;
-      }
-    })
+
   }
 };
 </script>
