@@ -66,6 +66,7 @@ export default {
     this.eventStore.event.owner.isPerson = this.userStore.isPerson
     this.eventStore.event.owner.nickName = this.userStore.nickName
     this.eventStore.event.owner.uID = this.userStore.uID
+    this.eventStore.event.owner.photoURL = this.userStore.user.userFire.account.photoURL
   }
 }
 </script>

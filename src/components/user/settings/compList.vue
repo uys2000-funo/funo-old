@@ -7,7 +7,16 @@
                 </q-item-section>
                 <q-item-section>Hesabı gizle</q-item-section>
                 <q-item-section avatar>
-                    <q-toggle @update:model-value="onUpdate" v-model="isHidden" />
+                    <q-toggle @click="onUpdate" v-model="isHidden" />
+                </q-item-section>
+            </q-item>
+            <q-item>
+                <q-item-section avatar>
+                    <q-icon color="primary" name="comment" />
+                </q-item-section>
+                <q-item-section>Mesaj İzni</q-item-section>
+                <q-item-section avatar>
+                    <q-toggle @click="onUpdate" v-model="isReceivable" />
                 </q-item-section>
             </q-item>
             <q-item clickable v-ripple @click="openPassword">
@@ -47,22 +56,29 @@
 </template>
 <script>
 import { signOut } from '@/services/app/auth';
-import { updateUser } from '@/services/app/user';
+import { updateUserData } from '@/services/app/user';
 import { showToast } from '@/services/capacitor/toast';
-import { user } from '@/store/user';
+import { useUser } from '@/store/user';
 
 export default {
     props: ["setPage"],
     data() {
         return {
-            user: user(),
-            isHidden: false
+            userStore: useUser(),
+            isHidden: false,
+            isReceivable: false
         }
     },
     methods: {
         onUpdate() {
-            this.user.user.userFire.isHidden = this.isHidden;
-            updateUser(this.user.uID, { isHidden: !this.isHidden })
+            console.log(
+                this.isHidden,
+                this.isReceivable,
+            )
+            this.userStore.user.userFire.settings.isHidden = this.isHidden;
+            this.userStore.user.userFire.settings.isReceivable = this.isReceivable;
+            updateUserData(this.userStore.uID,
+                { "settings.isHidden": this.isHidden, "settings.isReceivable": this.isReceivable })
                 .then(() => showToast("Başarıyla Güncellendi"))
                 .catch(() => showToast("Bir Şeyler Yanlış Gitii"))
         },
@@ -79,7 +95,8 @@ export default {
             signOut().then(() => this.$router.push({ name: "LoginPage" }))
         }
     }, mounted() {
-        this.isHidden = this.user.user.userFire.isHidden;
+        this.isHidden = this.userStore.user.userFire.settings.isHidden
+        this.isReceivable = this.userStore.user.userFire.settings.isReceivable
     }
 }
 </script>

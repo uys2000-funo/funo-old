@@ -4,12 +4,14 @@ const event = {
   general: {
     name: "",
     description: "",
-    images: [],
+    photoURLs: [],
+    userPhotoURL: [],
   },
   owner: {
-    Name: "",
+    name: "",
     uID: "",
     isPerson: false,
+    photoURL: "",
   },
   conditions: {
     age: { min: 0, max: 0 },
@@ -67,30 +69,68 @@ export const useEvents = defineStore("events", {
     filter: filter,
     filterArgs: filterArgs,
     tags: [],
-    eventDict: {},
-    eventsList: [],
-    eventsFlowList: [],
+    dict: {},
+    listAll: [],
+    listFlow: [],
+    listJoined: [],
+    listCreated: [],
   }),
   actions: {
-    addEvent(document = { eID: "" }) {
-      this.eventDict[document.eID] = document;
-      if (!this.eventList.includes(document.eID))
-        this.eventList.push(document.eID);
+    add(document = { dID: "" }) {
+      this.dict[document.dID] = document.data;
+      if (!this.eventList.includes(document.dID))
+        this.listAll.push(document.dID);
     },
-    addEvents(documents = [{ eID: "" }]) {
+    addTo(key = "", document = { dID: "" }) {
+      this.dict[document.dID] = document.data;
+      if (!this[key].includes(document.dID)) this[key].push(document.dID);
+    },
+    addList(documents = [{ dID: "" }]) {
       documents.forEach((document) => {
         this.addEvent(document);
       });
     },
-    removeEvent(eID) {
-      this.eventList = this.eventList.filter((e) => e !== eID);
-      this.eventFlowList = this.eventFlowList.filter((e) => e !== eID);
+    addListTo(key = "", documents = [{ dID: "" }]) {
+      documents.forEach((document) => {
+        this.addTo(key, document);
+      });
+    },
+    remove(eID = "") {
+      this.listAll = this.listAll.filter((e) => e !== eID);
+      this.listFlow = this.listFlow.filter((e) => e !== eID);
+      this.listJoined = this.listJoined.filter((e) => e !== eID);
+      this.listCreated = this.listCreated.filter((e) => e !== eID);
       delete this.eventDict[eID];
+    },
+    removeFrom(key = "", eID = "") {
+      return this[key] = this[key].filter((e) => e !== eID);
+    },
+    lastItemID() {
+      return this.listAll[this.listAll.length - 1];
+    },
+    lastItem() {
+      return this.dict[this.lastItemID()];
+    },
+    lastItemIDFrom(key = "") {
+      const index = this[key].length - 1;
+      return this[key][index];
+    },
+    lastItemFrom(key = "") {
+      return this.dict[this.lastItemIDFrom(key)];
     },
   },
   getters: {
-    state: (state) => {
-      return state;
+    all: (state) => {
+      return state.listAll.map((eID) => state.dict[eID]);
+    },
+    flow: (state) => {
+      return state.listFlow.map((eID) => state.dict[eID]);
+    },
+    joined: (state) => {
+      return state.listJoined.map((eID) => state.dict[eID]);
+    },
+    created: (state) => {
+      return state.listCreated.map((eID) => state.dict[eID]);
     },
   },
 });

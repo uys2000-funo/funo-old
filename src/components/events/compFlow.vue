@@ -109,7 +109,7 @@ export default {
         },
         onLoad(index, done) {
             this.createMethodArgs();
-            getEvents("Event", 0, this.eventsStore.filterArgs).then((res) => {
+            getEvents(0, this.eventsStore.filterArgs).then((res) => {
                 if (res.length == 0) setTimeout(done, 1000)
             }).catch((err) => {
                 console.log(err)

@@ -6,12 +6,12 @@
                     <q-icon round name="person"></q-icon>
                 </q-avatar>
                 <span>
-                    {{ event.general.oName }}
+                    {{ event.owner?.name }}
                 </span>
             </q-btn>
             <div flat dense no-caps class="row no-wrap items-center justify-end">
                 <span>
-                    {{ event.general.name }}
+                    {{ event.general?.name }}
                 </span>
                 <q-btn flat dense no-caps round class="q-ml-sm" @click="openSettings">
                     <q-avatar size="md">

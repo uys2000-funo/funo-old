@@ -1,6 +1,6 @@
 <template>
     <div class="q-px-sm rounded-borders" style="height:35vw">
-        <div class="image fit rounded-borders relative" :style="`background-image: url(${srcImg});`">
+        <div class="image fit rounded-borders relative" :style="`background-image: url(${event.general.photoURLs[0]});`">
             <div class="full-width row no-wrap justify-end">
                 <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.tags.main.includes('art')">
                     <icon-art />
@@ -48,7 +48,6 @@ export default {
         }
     },
     mounted() {
-        this.getImage()
     }
 }
 </script>

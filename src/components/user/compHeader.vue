@@ -2,7 +2,7 @@
     <div class="full-width row justify-around no-wrap text-h6 q-pt-md">
         <div class="w text-center">
             <div class="text-bold">
-                {{ user.user.userFire.counters.point }}
+                {{ userStore.user.userFire.count.point }}
             </div>
             <div>
                 Puan
@@ -10,7 +10,7 @@
         </div>
         <div class="w text-center">
             <div class="text-bold">
-                {{ user.user.userFire.counters.followedUser }}
+                {{ userStore.user.userFire.count.followed }}
             </div>
             <div>
                 Takip
@@ -18,7 +18,7 @@
         </div>
         <div class="w text-center">
             <div class="text-bold">
-                {{ user.user.userFire.counters.followerUser }}
+                {{ userStore.user.userFire.count.follower }}
             </div>
             <div>
                 Takipçi
@@ -27,8 +27,15 @@
     </div>
 </template>
 <script>
+import { useUser } from '@/store/user';
+
 export default {
-    props: ['user']
+    data() {
+        return {
+            userStore: useUser(),
+        }
+    },
+
 }
 </script>
 <style>

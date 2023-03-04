@@ -1,6 +1,6 @@
 <template>
     <q-infinite-scroll class="full-width" @load="onLoad">
-        <comp-event v-for="(event, index) in events.userCreatedEventsSorted" :key="index" :event="event" />
+        <comp-event v-for="(event, index) in eventsStore.created" :key="index" :event="event" />
         <template v-slot:loading>
             <div class="row justify-center q-my-md">
                 <q-spinner-dots color="primary" size="40px" />
@@ -10,24 +10,48 @@
 </template>
 
 <script>
-import { events } from '@/store/event';
-import { getEventsForUserCreated } from "@/services/app/event"
+import { useEvents } from '@/store/event';
 import compEvent from '../general/compEvent.vue';
-import { user } from '@/store/user';
+import { useUser } from '@/store/user';
+import { getEvents } from '@/services/app/event';
+import { Timestamp } from '@firebase/firestore';
 export default {
     components: { compEvent },
     data() {
         return {
-            user: user(),
-            events: events()
+            userStore: useUser(),
+            eventsStore: useEvents(),
+            eventList: "listCreated"
         }
     },
     methods: {
         onLoad(index, done) {
-            const lastTime = index != 1 ? this.events.userCreatedLastTime : 0
-            getEventsForUserCreated(this.user.uID, lastTime, 1).then((documents) => {
-                this.events.addEventsForUserCreated(documents)
-                done(documents.length == 0 || index == 3 ? true : false)
+            const args = [{
+                column: "timestamp",
+                condition: "",
+                equality: "",
+                orderType: "desc",
+                order: true,
+                where: false,
+                serverTimestamp: true,
+            }, {
+                column: "owner.uID",
+                condition: "==",
+                equality: this.userStore.uID,
+                order: false,
+                where: true,
+                serverTimestamp: false,
+            },]
+            const i = index - 1
+            let startPoint = Timestamp.now()
+            console.log(this.eventsStore.lastItemIDFrom(this.eventList))
+            if (i != 0) {
+                startPoint = this.eventsStore.lastItemFrom(this.eventList).timestamp
+            }
+            getEvents(startPoint, args).then(documents => {
+                if (documents.length == 0) done(true)
+                else this.eventsStore.addListTo(this.eventList, documents)
+                done()
             })
         },
     }

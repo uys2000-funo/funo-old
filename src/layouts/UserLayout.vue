@@ -2,9 +2,9 @@
   <div class="fit column no-wrap items-center">
     <div class="full-width overflow-hidden">
       <div class="row justify-center">
-        <comp-wheel :setR="setPageNumber" :pageNumber="pageNumber" :photoURL="user.user.userFire.photoURL" :type="false"/>
+        <comp-wheel :setR="setPageNumber" :pageNumber="pageNumber" :photoURL="userStore.user.userFire.account.photoURL" :type="false"/>
       </div>
-      <comp-header :user="user" />
+      <comp-header />
     </div>
     <div class="full-width" style="flex-grow: 1; overflow: auto; ">
       <div class="fit" style="overflow: auto;">
@@ -16,12 +16,12 @@
 <script>
 import compWheel from "@/components/user/compWheel.vue";
 import compHeader from "@/components/user/compHeader.vue";
-import { user } from "@/store/user";
+import { useUser } from "@/store/user";
 export default {
   components: { compWheel, compHeader },
   data() {
     return {
-      user: user(),
+      userStore: useUser(),
       pageNumber: 0
     }
   },

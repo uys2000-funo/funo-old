@@ -36,8 +36,8 @@ export const createEvent = function (uID, event, images) {
       .then(() => f(increaseDocument, ["User", uID, "createEvent", 1]))
       .then(() => f(uploadFiles, [`Event/${eID}`, "image", images]))
       .then(() => f(getFiles, [`Event/${eID}/image`, images.length]))
-      .then((urls) =>
-        f(updateDocument, ["Event", eID, { "general.images": urls }])
+      .then(({ urls }) =>
+        f(updateDocument, ["Event", eID, { "general.photoURLs": urls }])
       );
   });
 };
@@ -89,18 +89,18 @@ export const exitEvent = function (uID, eID) {
 };
 
 export const getEvents = function (
-  table,
   start,
   queryArgs = [
     {
       column: "",
       condition: "",
       equality: "",
+      orderType: "desc",
       order: true,
       where: true,
       serverTimestamp: false,
     },
   ]
 ) {
-  return f(getCollectionOWU, [table, start, queryArgs]);
+  return f(getCollectionOWU, ["Event", start, queryArgs]);
 };

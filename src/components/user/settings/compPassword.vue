@@ -16,13 +16,13 @@
 <script>
 import { updatePassword } from '@/services/app/user'
 import { showToast } from '@/services/capacitor/toast'
-import { user } from '@/store/user'
+import { useUser } from '@/store/user'
 
 export default {
     props: ["setPage"],
     data() {
         return {
-            user: user(),
+            userStore: useUser(),
             oldPassword: "",
             newPassword: "",
             newPasswordConfirm: "",
@@ -32,7 +32,7 @@ export default {
         onSubmit() {
             if (this.newPassword == this.newPasswordConfirm)
                 updatePassword(
-                    this.user.user.userAuth.email,
+                    this.userStore.user.userAuth.email,
                     this.oldPassword,
                     this.newPassword)
                     .then(() => showToast("Başarıyla Güncellendi"))

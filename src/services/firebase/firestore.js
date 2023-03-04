@@ -16,6 +16,7 @@ import {
   startAfter,
 } from "firebase/firestore";
 import app from "./app";
+import { l } from "../debug";
 
 const db = getFirestore(app);
 
@@ -90,6 +91,7 @@ export const getCollectionOWU = function (
       column: "",
       condition: "",
       equality: "",
+      orderType: "desc",
       order: true,
       where: true,
       timestamp: false,
@@ -99,14 +101,15 @@ export const getCollectionOWU = function (
   const colRef = collection(db, table);
   let args = [colRef];
   qa.forEach((a) => {
-    if (a.order) args.push(orderBy(a.column, a.order));
+    if (a.order)
+      args.push(orderBy(a.column, a.orderType ? a.orderType : "desc"));
     if (a.where && !a.timestamp)
       args.push(where(a.column, a.condition, a.equality));
     else if (a.where) args.push(where(a.column, a.condition, Timestamp.now()));
   });
-  args.push(where("isDeleted", "==", "false"));
+  args.push(where("isDeleted", "==", false));
   args.push(startAfter(start));
-  console.log(args);
   const q = query(...args);
+  l(`Arg: getCollectionOWU`, args);
   return getDocs(q).then(returnDocs);
 };

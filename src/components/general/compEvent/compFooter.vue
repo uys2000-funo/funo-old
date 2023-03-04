@@ -71,15 +71,15 @@
 </template>
 <script>
 import { exitEvent, joinEvent } from '@/services/app/event';
-import { events } from '@/store/event.js';
-import { user } from '@/store/user';
+import { useEvents } from '@/store/event.js';
+import { useUser } from '@/store/user';
 
 export default {
     props: ["event"],
     data() {
         return {
-            user: user(),
-            events: events(),
+            userStore: useUser(),
+            eventsStore: useEvents(),
         }
     },
     methods: {
@@ -88,15 +88,15 @@ export default {
             else this.joinEvent()
         },
         joinEvent() {
-            joinEvent(this.event.eID, this.user.uID)
+            joinEvent(this.event.eID, this.userStore.uID)
         },
         exitEvent() {
-            exitEvent(this.event.eID, this.user.uID)
+            exitEvent(this.event.eID, this.userStore.uID)
         },
     },
     computed: {
         state() {
-            return this.events.joinedEvents[this.event.eID]
+            return false
         },
         startDate() {
             const date = new Date(this.event.date.start.seconds * 1000);

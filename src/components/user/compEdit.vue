@@ -1,12 +1,11 @@
 <template>
     <q-scroll-area class="fit q-px-xl q-py-md">
         <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-            <q-input filled v-model="edit.userName" label="Kullanıcı Adı" />
-            <q-input filled v-model="edit.name" label="İsim" />
+            <q-input filled v-model="edit['general.nickName']" label="Kullanıcı Adı" />
+            <q-input filled v-model="edit['general.name']" label="İsim" />
 
-            <q-input filled v-model="edit.phoneNumber" label="Telefon Numarası" type="number" />
-            <q-input filled v-model="edit.mail" label="Mail Adresi" />
-            <q-input filled v-model="edit.birthdate" label="Doğum Tarihi" />
+            <q-input filled v-model="edit['account.phoneNumber']" label="Telefon Numarası" type="number" />
+            <q-input filled v-model="edit['account.mail']" label="Mail Adresi" />
 
             <div class=" row no-wrap q-px-sm q-pb-sm">
                 <q-btn class="full-width" label="Kaydet" type="submit" color="primary" />
@@ -17,43 +16,40 @@
 </template>
 
 <script>
-import { updateUser } from '@/services/app/user';
+import { updateUserData } from '@/services/app/user';
 import { showToast } from '@/services/capacitor/toast';
-import { user } from '@/store/user';
+import { useUser } from '@/store/user';
 
 
 export default {
     data() {
         return {
-            user: user(),
+            userStore: useUser(),
             edit: {
-                userName: "",
-                name: "",
-                phoneNumber: "",
-                mail: "",
-                birthdate: "",
+                "general.nickName": "",
+                "general.name": "",
+                "account.phoneNumber": "",
+                "account.mail": "",
             }
         }
     },
     methods: {
         onSubmit() {
-            updateUser(this.user.uID, this.edit)
+            updateUserData(this.userStore.uID, this.edit)
                 .then(() => showToast("Başarıyla Güncellendi"))
                 .then(() => {
-                    this.user.user.userFire.userName = this.edit.userName
-                    this.user.user.userFire.name = this.edit.name
-                    this.user.user.userFire.phoneNumber = this.edit.phoneNumber
-                    this.user.user.userFire.mail = this.edit.mail
-                    this.user.user.userFire.birthdate = this.edit.birthdate
+                    this.userStore.user.userFire.general.nickName = this.edit["general.nickName"]
+                    this.userStore.user.userFire.general.name = this.edit.general["general.name"]
+                    this.userStore.user.userFire.account.phoneNumber = this.edit.account["account.phoneNumber"]
+                    this.userStore.user.userFire.account.mail = this.edit.account["account.mail"]
                 })
                 .catch(() => showToast("Bir Şeyler Yanlış Gitii"))
         },
         onReset() {
-            this.edit.userName = this.user.user.userFire.userName
-            this.edit.name = this.user.user.userFire.name
-            this.edit.phoneNumber = this.user.user.userFire.phoneNumber
-            this.edit.mail = this.user.user.userFire.mail
-            this.edit.birthdate = this.user.user.userFire.birthdate
+            this.edit["general.nickName"] = this.userStore.user.userFire.general.nickName
+            this.edit["general.name"] = this.userStore.user.userFire.general.name
+            this.edit["account.phoneNumber"] = this.userStore.user.userFire.account.phoneNumber
+            this.edit["account.mail"] = this.userStore.user.userFire.account.mail
         }
     },
     mounted() {
