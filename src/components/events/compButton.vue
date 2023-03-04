@@ -1,5 +1,6 @@
 <template>
-  <q-btn no-cap class="q-mx-xs shadow-1" :class="{ 'bg-primary': state, 'text-white': state }" rounded @click="updateTags">
+  <q-btn no-cap class="q-mx-xs shadow-1" :class="{ 'bg-primary': state, 'text-white': state }" rounded
+    @click="updateTags">
     <div class="row no-wrap">
       <q-icon>
         <slot />
@@ -9,18 +10,20 @@
   </q-btn>
 </template>
 <script>
+import { useEvents } from '@/store/event'
+
 export default {
   props: ["text", "value"],
-  inject: ["removeTag", "addTag"],
   data() {
     return {
-      state: false
+      state: false,
+      eventsStore: useEvents(),
     }
   },
   methods: {
     updateTags() {
-      if (this.state) this.removeTag(this.value)
-      else this.addTag(this.value)
+      if (!this.state) this.eventsStore.tags.push(this.value)
+      else this.eventsStore.tags = this.eventsStore.tags.filter(tag => tag != this.value)
       this.state = !this.state
     }
   }

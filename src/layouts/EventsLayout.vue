@@ -10,17 +10,6 @@
 import compHeader from '@/components/events/compHeader.vue';
 export default {
   components: { compHeader },
-  data() {
-    return {
-      tags: []
-    }
-  },
-  provide() {
-    return {
-      removeTag: (tag) => this.tags = this.tags.filter(t => t !== tag),
-      addTag: (tag) => this.tags.push(tag),
-    }
-  }
 }
 </script>
 <style>

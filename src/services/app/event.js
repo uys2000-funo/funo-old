@@ -2,6 +2,7 @@ import {
   addDocument,
   deleteDocument,
   getCollectionCWCW,
+  getCollectionOWU,
   getDocument,
   increaseDocument,
   setDocument,
@@ -85,4 +86,21 @@ export const exitEvent = function (uID, eID) {
     .then(([{ dID }]) => f(updateDocument, ["UserJoinedEvent", dID, event]))
     .then(() => f(increaseDocument, ["User", uID, "joinEvent", -1]))
     .then(() => f(increaseDocument, ["Event", eID, "joinEvent", -1]));
+};
+
+export const getEvents = function (
+  table,
+  start,
+  queryArgs = [
+    {
+      column: "",
+      condition: "",
+      equality: "",
+      order: true,
+      where: true,
+      serverTimestamp: false,
+    },
+  ]
+) {
+  f(getCollectionOWU, [table, start, queryArgs]);
 };

@@ -11,7 +11,7 @@
 <script>
 import compEvent from '../general/compEvent.vue';
 import { useEvents } from '@/store/event';
-
+import { getEvents } from "@/services/app/event"
 export default {
     components: { compEvent },
     data() {
@@ -20,8 +20,87 @@ export default {
         }
     },
     methods: {
+        createMethodArgs() {
+            this.eventsStore.filterArgs = [
+                {
+                    column: "date.end",
+                    condition: "<",
+                    equality: "",
+                    order: true,
+                    where: true,
+                    timestamp: true,
+                },
+            ]
+            if (this.eventsStore.tags.length > 0)
+                this.eventsStore.filterArgs.push({
+                    column: "tags.main",
+                    condition: "array-contains-any",
+                    equality: this.eventsStore.tags,
+                    order: false,
+                    where: true,
+                    serverTimestamp: false,
+                })
+
+            if (this.eventsStore.filter.ownerType != "all")
+                this.eventsStore.filterArgs.push({
+                    column: "owner.isPerson",
+                    condition: "==",
+                    equality: this.eventsStore.filter.ownerType == "true",
+                    order: false,
+                    where: true,
+                    serverTimestamp: false,
+                })
+
+            if (this.eventsStore.filter.hasApproval != "all")
+                this.eventsStore.filterArgs.push({
+                    column: "conditions.approval",
+                    condition: "==",
+                    equality: this.eventsStore.filter.hasApproval == "true",
+                    order: false,
+                    where: true,
+                    serverTimestamp: false,
+                })
+
+            if (this.eventsStore.filter.hasUserLimit != "all")
+                this.eventsStore.filterArgs.push({
+                    column: "conditions.userLimit",
+                    condition: "==",
+                    equality: 0,
+                    order: false,
+                    where: true,
+                    serverTimestamp: false,
+                })
+
+            if (this.eventsStore.filter.hasPrice != "all")
+                this.eventsStore.filterArgs.push({
+                    column: "conditions.price",
+                    condition: "==",
+                    equality: 0,
+                    order: false,
+                    where: true,
+                    serverTimestamp: false,
+                })
+            //if (this.eventsStore.filter.isOnline != "all")
+            //    this.eventsStore.filterArgs.push({
+            //        column: "location.isOnline",
+            //        condition: "==",
+            //        equality: this.eventsStore.filter.isOnline == "true",
+            //        order: true,
+            //        where: true,
+            //        serverTimestamp: false,
+            //    })
+
+        },
         onLoad(index, done) {
-            done(true)
+            if (this.eventsStore.filter.hasPrice != "all") {
+
+                this.createMethodArgs();
+                getEvents("Event", 0, this.eventsStore.filterArgs).then(() => {
+                    done(true)
+
+                })
+            }
+            else done()
         },
     },
 

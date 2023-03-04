@@ -19,11 +19,26 @@
                     <q-tab name="all">
                         Hepsi
                     </q-tab>
-                    <q-tab name="person">
+                    <q-tab name="true">
                         Bireysel
                     </q-tab>
-                    <q-tab name="company">
+                    <q-tab name="false">
                         Firma
+                    </q-tab>
+                </q-tabs>
+                <div class="text-subtitle1 q-mt-md">
+                    Etkinlik Türü
+                </div>
+                <q-tabs no-caps dense v-model="eventsStore.filter.isOnline" class="" indicator-color="primary"
+                    active-color="negative">
+                    <q-tab name="all">
+                        Hepsi
+                    </q-tab>
+                    <q-tab name="true">
+                        Online
+                    </q-tab>
+                    <q-tab name="false">
+                        Yüzyüze
                     </q-tab>
                 </q-tabs>
                 <div class="text-subtitle1 q-mt-md">
@@ -34,10 +49,10 @@
                     <q-tab name="all">
                         Hepsi
                     </q-tab>
-                    <q-tab name="approval">
+                    <q-tab name="true">
                         Onaylı
                     </q-tab>
-                    <q-tab name="company">
+                    <q-tab name="false">
                         Onaysız
                     </q-tab>
                 </q-tabs>
@@ -49,26 +64,8 @@
                     <q-tab name="all">
                         Hepsi
                     </q-tab>
-                    <q-tab name="person">
-                        Sınırlı
-                    </q-tab>
-                    <q-tab name="company">
+                    <q-tab name="false">
                         Sınırsız
-                    </q-tab>
-                </q-tabs>
-                <div class="text-subtitle1 q-mt-md">
-                    Etkinlik Türü
-                </div>
-                <q-tabs no-caps dense v-model="eventsStore.filter.isOnline" class="" indicator-color="primary"
-                    active-color="negative">
-                    <q-tab name="all">
-                        Hepsi
-                    </q-tab>
-                    <q-tab name="person">
-                        Online
-                    </q-tab>
-                    <q-tab name="company">
-                        Yüzyüze
                     </q-tab>
                 </q-tabs>
                 <div class="text-subtitle1 q-mt-md">
@@ -79,10 +76,7 @@
                     <q-tab name="all">
                         Hepsi
                     </q-tab>
-                    <q-tab name="person">
-                        Ücretli
-                    </q-tab>
-                    <q-tab name="company">
+                    <q-tab name="false">
                         Ücretsiz
                     </q-tab>
                 </q-tabs>
@@ -97,7 +91,7 @@ import { useEvents } from '@/store/event';
 export default {
     data() {
         return {
-            isOpen: true,
+            isOpen: false,
             eventsStore: useEvents(),
             tmp: null
         }
@@ -112,8 +106,8 @@ export default {
         },
         updateFilter() {
             this.tmp = this.eventsStore.filter;
-            this.eventsStore.eventsFlowList = []
             this.isOpen = false
+            this.eventsStore.eventsFlowList = []
         },
     },
 

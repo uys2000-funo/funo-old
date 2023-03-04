@@ -37,6 +37,16 @@ const filter = {
   isOnline: "all",
   hasPrice: "all",
 };
+const filterArgs = [
+  {
+    column: "",
+    condition: "",
+    equality: "",
+    order: true,
+    where: true,
+    serverTimestamp: false,
+  },
+];
 export const useEvent = defineStore("event", {
   state: () => ({
     event: event,
@@ -55,6 +65,8 @@ export const useEvent = defineStore("event", {
 export const useEvents = defineStore("events", {
   state: () => ({
     filter: filter,
+    filterArgs: filterArgs,
+    tags: [],
     eventDict: {},
     eventsList: [],
     eventsFlowList: [],

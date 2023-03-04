@@ -13,6 +13,7 @@ import {
   query,
   orderBy,
   where,
+  startAfter,
 } from "firebase/firestore";
 import app from "./app";
 
@@ -81,69 +82,31 @@ export const deleteDocument = function (table, column) {
   return updateDoc(docRef, data);
 };
 
-const order = "desc";
-
-export const getCollectionCW = function (
+export const getCollectionOWU = function (
   table,
-  col1 = "timestamp",
-  con1 = "<",
-  equ1 = timestamp()
+  start,
+  qa = [
+    {
+      column: "",
+      condition: "",
+      equality: "",
+      order: true,
+      where: true,
+      timestamp: false,
+    },
+  ]
 ) {
   const colRef = collection(db, table);
-  const q = query(
-    colRef,
-    orderBy(col1, order),
-    where(col1, con1, equ1),
-    orderBy("isDeleted", order),
-    where("isDeleted", "==", false)
-  );
-  return getDocs(q);
-};
-export const getCollectionCWCW = function (
-  table,
-  col1 = "timestamp",
-  col2 = "uID",
-  con1 = "<",
-  con2 = "==",
-  equ1 = timestamp(),
-  equ2 = "uID"
-) {
-  const colRef = collection(db, table);
-  const q = query(
-    colRef,
-    orderBy(col1, order),
-    where(col1, con1, equ1),
-    orderBy(col2, order),
-    where(col2, con2, equ2),
-    orderBy("isDeleted", order),
-    where("isDeleted", "==", false)
-  );
-  return getDocs(q);
-};
-
-export const getCollectionCWCWCW = function (
-  table,
-  col1 = "timestamp",
-  col2 = "uID",
-  col3 = "eID",
-  con1 = "<",
-  con2 = "==",
-  con3 = "==",
-  equ1 = timestamp(),
-  equ2 = "uID",
-  equ3 = "eID"
-) {
-  const colRef = collection(db, table);
-  const q = query(
-    colRef,
-    orderBy(col1, order),
-    where(col1, con1, equ1),
-    orderBy(col2, order),
-    where(col2, con2, equ2),
-    orderBy(col2, order),
-    where(col3, con3, equ3),
-    orderBy("isDeleted", order),
-    where("isDeleted", "==", false)
-  );
-  return getDocs(q);
+  let args = [colRef];
+  qa.forEach((a) => {
+    if (a.order) args.push(orderBy(a.column, a.order));
+    if (a.where && !a.timestamp)
+      args.push(where(a.column, a.condition, a.equality));
+    else if (a.where) args.push(where(a.column, a.condition, Timestamp.now()));
+  });
+  args.push(where("isDeleted", "==", "false"));
+  args.push(startAfter(start));
+  console.log(args);
+  const q = query(...args);
+  return getDocs(q).then(returnDocs);
 };
