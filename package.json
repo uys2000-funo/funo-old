@@ -16,7 +16,7 @@
     "@capacitor/cli": "^4.3.0",
     "@capacitor/core": "^4.3.0",
     "@capacitor/dialog": "^4.1.0",
-    "@capacitor/geolocation": "^4.0.1",
+    "@capacitor/geolocation": "^4.1.0",
     "@capacitor/ios": "^4.3.0",
     "@capacitor/local-notifications": "^4.1.4",
     "@capacitor/network": "^4.1.0",
