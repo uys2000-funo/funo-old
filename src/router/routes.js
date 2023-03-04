@@ -49,7 +49,7 @@ export default [
             component: () => import("../views/pageCreate.vue"),
           },
           {
-            path: ":pID",
+            path: ":eID",
             name: "CreatePageID",
             component: () => import("../views/pageCreate.vue"),
           },
@@ -59,17 +59,17 @@ export default [
       {
         path: "edit",
         name: "Edit",
-        component: () => import("../layouts/EditLayout.vue"),
+        component: () => import("../layouts/CreateLayout.vue"),
         children: [
           {
             path: "",
             name: "EditPage",
-            component: () => import("../views/pageEdit.vue"),
+            component: () => import("../views/pageCreate.vue"),
           },
           {
             path: ":eID",
             name: "EditPageID",
-            component: () => import("../views/pageEdit.vue"),
+            component: () => import("../views/pageCreate.vue"),
           },
         ],
       },

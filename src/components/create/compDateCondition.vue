@@ -88,6 +88,12 @@ export default {
     };
   },
   methods: {
+    loadDate() {
+      this.startDate = new Date(this.eventStore.event.date.start.seconds * 1000).toLocaleDateString("tr-TR");
+      this.startTime = new Date(this.eventStore.event.date.start.seconds * 1000).toLocaleTimeString("tr-TR");
+      this.endDate = new Date(this.eventStore.event.date.end.seconds * 1000).toLocaleDateString("tr-TR");
+      this.endTime = new Date(this.eventStore.event.date.end.seconds * 1000).toLocaleTimeString("tr-TR");
+    },
     updateStartDate() {
       const date = this.startDate.split(".");
       const time = this.startTime.split(":");
@@ -102,6 +108,8 @@ export default {
   },
   mounted() {
     if (this.page == 0 && this.setPage) this.setPage(1);
+    if (this.$route.params.eID)
+      this.loadDate();
     this.updateStartDate()
     this.updateEndDate()
   },

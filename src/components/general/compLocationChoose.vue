@@ -52,7 +52,7 @@ export default {
     },
   },
   mounted() {
-    if (this.coords) this.coords__ = this.coords;
+    if (this.coords != undefined) this.coords__ = this.coords;
     else this.coords__ = this.locationStore.getCoordinates;
     console.log(this.coords__, this.locationStore.getCoordinates);
   },

@@ -32,10 +32,9 @@
 import compPopup from '@/components/general/compPopup.vue';
 import backButton from '@/components/general/backButton.vue';
 import compWheel from '@/components/create/compWheel.vue';
-import { isNumeric } from "@/utils/string"
 import { useEvent } from '@/store/event.js';
-import { createEvent, getEvent, updateEvent } from '@/services/app/event';
 import { useUser } from '@/store/user';
+import { createEvent, getEvent, updateEvent } from '@/services/app/event';
 export default {
   components: { compPopup, backButton, compWheel },
   data() {
@@ -104,8 +103,6 @@ export default {
     }
   },
   mounted() {
-    const pID = this.$route.params.pID
-    if (isNumeric(pID)) this.pageNumber = parseFloat(pID)
     this.loadEvent()
     this.loadUser()
   },

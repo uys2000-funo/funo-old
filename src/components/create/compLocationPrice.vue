@@ -41,7 +41,7 @@
     </div>
   </div>
   <template v-if="showLocationChooser">
-    <comp-location-choose @set-cord="setLocation" @end-func="this.showLocationChooser = false" />
+    <comp-location-choose @set-cord="setLocation" @end-func="this.showLocationChooser = false" :coords="coords" />
   </template>
 </template>
 <script>
@@ -59,6 +59,7 @@ export default {
       textCache: "",
       showLocationChooser: false,
       descriptionCache: null,
+      coords: [0, 0]
     };
   },
   methods: {
@@ -73,6 +74,7 @@ export default {
         this.eventStore.event.location.coordinates = coordinates
         this.eventStore.event.location.text = result.address
         this.eventStore.event.location.city = result.city
+        this.coords = coordinates
       })
 
     }
@@ -84,6 +86,7 @@ export default {
   },
   mounted() {
     if (this.page == 0 && this.setPage) this.setPage(1);
+    this.coords = this.eventStore.event.location.coordinates
   },
   watch: {
     showPrice() {

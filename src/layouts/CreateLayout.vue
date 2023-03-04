@@ -1,6 +1,6 @@
 <template>
   <router-view v-slot="{ Component }">
-    <comp-popup fullscreen>
+    <comp-popup fullscreen v-if="show">
       <back-button />
       <div class="fit column no-wrap justify-center items-center content-center" style="overflow: hidden;">
         <div>
@@ -21,7 +21,7 @@
         <div class="full-width flex justify-center q-pb-md q-pt-xs">
           <div style="width:75%">
             <q-btn class="fit bg-primary rounded" rounded @click="goNextPage">
-              {{ this.pageNumber < 3 ? "Devam" : "Oluştur" }} </q-btn>
+              {{ this.pageNumber < 3 ? "Devam" : $route.params.eID ? "Güncelle" : "Oluştur" }} </q-btn>
           </div>
         </div>
       </div>
@@ -34,8 +34,7 @@ import backButton from '@/components/general/backButton.vue';
 import compWheel from '@/components/create/compWheel.vue';
 import { useUser } from '@/store/user';
 import { useEvent } from '@/store/event.js';
-import { isNumeric } from "@/utils/string"
-import { createEvent } from '@/services/app/event';
+import { createEvent, getEvent, updateEvent } from '@/services/app/event';
 export default {
   components: { compPopup, backButton, compWheel },
   data() {
@@ -43,12 +42,29 @@ export default {
       userStore: useUser(),
       eventStore: useEvent(),
       pageName: "",
-      pageNumber: 0
+      pageNumber: 0,
+      show: false,
     }
   },
   methods: {
+    isEditPage() {
+      if (this.$route.params.eID) return true
+      else return false
+    },
     setPageNumber(pageNumber) {
       this.pageNumber = pageNumber
+    },
+    goNextPage() {
+      if (this.pageNumber < 3)
+        this.pageNumber = this.pageNumber + 1
+      else this.isEditPage() ? this.updateEvent() : this.createEvent()
+    },
+    updateEvent() {
+      updateEvent(this.userStore.uID, this.eventStore.event, this.eventStore.images)
+        .then(() => {
+          this.$router.push({ name: "EventsPage" })
+          this.eventStore.clear()
+        })
     },
     createEvent() {
       createEvent(this.userStore.uID, this.eventStore.event, this.eventStore.images)
@@ -57,22 +73,28 @@ export default {
           this.eventStore.clear()
         })
     },
+
+    loadEvent() {
+      return getEvent(this.$route.params.eID)
+        .then(({ data: event }) => {
+          this.eventStore.event = { eID: this.$route.params.eID, ...event }
+          this.eventStore.event.general.photoURLs.forEach(url => {
+            this.eventStore.imageURLs.push(url)
+            this.eventStore.images.push(false)
+          });
+          this.show = true
+        })
+    },
     loadUser() {
       this.eventStore.event.owner.isPerson = this.userStore.isPerson
       this.eventStore.event.owner.nickName = this.userStore.nickName
       this.eventStore.event.owner.uID = this.userStore.uID
       this.eventStore.event.owner.photoURL = this.userStore.user.userFire.account.photoURL
     },
-    goNextPage() {
-      if (this.pageNumber < 3)
-        this.pageNumber = this.pageNumber + 1
-      else this.createEvent()
-    },
   },
   mounted() {
-    const pID = this.$route.params.pID
-    if (isNumeric(pID)) this.pageNumber = parseFloat(pID)
-    this.loadUser()
+    if (this.isEditPage()) this.loadEvent().then(() => this.loadUser())
+    else { this.loadUser(); this.show = true }
 
   }
 }
