@@ -49,6 +49,7 @@
 import { useEvent } from "@/store/event";
 import { getLocation } from "@/services/geoCode/geocode";
 import compLocationChoose from "../general/compLocationChoose.vue";
+import { showAlert } from "@/services/capacitor/dialog";
 export default {
   components: { compLocationChoose },
   props: ["pageNumber", "setPage"],
@@ -67,9 +68,13 @@ export default {
     },
     setLocation(value) {
       if (this.isOnline) return;
-      this.eventStore.event.location.cordinates = value
       getLocation(value[0], value[1])
-        .then(text => this.eventStore.event.location.text = text)
+        .then(({ text, locations }) => {
+          if (locations.length < 2) return showAlert("Hata", "Daha uygun bir konum seçin :)");
+          this.eventStore.event.location.text = text
+          this.eventStore.event.location.city = locations[locations.length - 2].GeoObject.name
+          this.eventStore.event.location.cordinates = value
+        })
     }
   },
   computed: {

@@ -23,6 +23,7 @@ const event = {
     text: "", // Location or App Name
     description: "", // Adress Description or URL
     cordinates: null,
+    city: "",
   },
   tags: {
     main: [],

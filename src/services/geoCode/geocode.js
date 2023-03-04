@@ -16,9 +16,12 @@ export const getLocation = function (lon, lat) {
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
   }).then((res) => {
     return res.json().then((re) => {
-      console.log(re.response.GeoObjectCollection.featureMember);
-      return re.response.GeoObjectCollection.featureMember[0].GeoObject
-        .metaDataProperty.GeocoderMetaData.Address.formatted;
+      console.log(re)
+      const text =
+        re.response.GeoObjectCollection.featureMember[0].GeoObject
+          .metaDataProperty.GeocoderMetaData.Address.formatted;
+      const locations = re.response.GeoObjectCollection.featureMember;
+      return { locations, text };
     });
   });
 };
