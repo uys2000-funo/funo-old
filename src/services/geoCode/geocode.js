@@ -3,20 +3,17 @@ let url =
 export const getLocationApi = function (lon, lat) {
   const eUrl = url.replace("{lat}", lat).replace("{lon}", lon);
   return fetch(eUrl, {
-    method: "GET", // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, *cors, same-origin
-    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: "same-origin", // include, *same-origin, omit
+    method: "GET",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "https://positionstack.com",
-      // 'Content-Type': 'application/x-www-form-urlencoded',
+      "Access-Control-Allow-Origin": "https://funo.com",
     },
-    redirect: "follow", // manual, *follow, error
-    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    referrerPolicy: "no-referrer",
   }).then((res) => {
     return res.json().then((re) => {
-      console.log(re)
       const text =
         re.response.GeoObjectCollection.featureMember[0].GeoObject
           .metaDataProperty.GeocoderMetaData.Address.formatted;

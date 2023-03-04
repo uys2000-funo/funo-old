@@ -3,10 +3,10 @@
         <div class="row no-wrap justify-between">
             <q-btn flat dense no-caps class="row no-wrap items-center">
                 <q-avatar size="md" class="shadow-2 q-mr-sm">
-                    <q-icon round name="person"></q-icon>
+                    <img :src="event.owner?.photoURL" alt="">
                 </q-avatar>
                 <span>
-                    {{ event.owner?.name }}
+                    {{ event.owner?.nickName }}
                 </span>
             </q-btn>
             <div flat dense no-caps class="row no-wrap items-center justify-end">

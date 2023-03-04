@@ -8,7 +8,7 @@
                 </div>
             </q-btn>
         </div>
-        <template v-if="user.uID == event?.general?.oID">
+        <template v-if="userStore.uID == event.owner.uID">
             <div class="btn">
                 <q-btn rounded class="fit" :to="`/app/edit/${event.eID}/`">
                     <q-icon size="lg" name="edit_note" />
@@ -49,15 +49,15 @@
 </template>
 <script>
 import { deleteEvent, shareEvent } from '@/services/app/event';
-import { events } from '@/store/event.js';
-import { user } from '@/store/user';
+import { useEvents } from '@/store/event.js';
+import { useUser } from '@/store/user';
 
 export default {
     props: ["event", "openReport"],
     data() {
         return {
-            user: user(),
-            events: events()
+            userStore: useUser(),
+            eventsStore: useEvents()
         }
     },
     methods: {
@@ -66,7 +66,7 @@ export default {
         },
         deleteEvent() {
             deleteEvent(this.event.eID, this.user.uID)
-            this.events.removeEvent(this.event.eID)
+            this.eventsStore.removeEvent(this.event.eID)
         }
     }
 }

@@ -104,7 +104,7 @@ export default {
     },
     getUserSucces(user, userFire) {
       user.userFire = userFire;
-      this.user.setUser(user)
+      this.userStore.setUser(user)
       setLocalObject("user", user).then(() => this.loginSucces())
     },
     signInSucces(user, userAuth) {

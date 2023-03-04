@@ -103,7 +103,7 @@ export const useEvents = defineStore("events", {
       delete this.eventDict[eID];
     },
     removeFrom(key = "", eID = "") {
-      return this[key] = this[key].filter((e) => e !== eID);
+      return (this[key] = this[key].filter((e) => e !== eID));
     },
     lastItemID() {
       return this.listAll[this.listAll.length - 1];
@@ -121,16 +121,16 @@ export const useEvents = defineStore("events", {
   },
   getters: {
     all: (state) => {
-      return state.listAll.map((eID) => state.dict[eID]);
+      return state.listAll.map((eID) => ({ eID, ...state.dict[eID] }));
     },
     flow: (state) => {
-      return state.listFlow.map((eID) => state.dict[eID]);
+      return state.listFlow.map((eID) => ({ eID, ...state.dict[eID] }));
     },
     joined: (state) => {
-      return state.listJoined.map((eID) => state.dict[eID]);
+      return state.listJoined.map((eID) => ({ eID, ...state.dict[eID] }));
     },
     created: (state) => {
-      return state.listCreated.map((eID) => state.dict[eID]);
+      return state.listCreated.map((eID) => ({ eID, ...state.dict[eID] }));
     },
   },
 });

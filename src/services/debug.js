@@ -58,10 +58,9 @@ let f = function (
   });
 };
 
-let p = function (result, isFailed = false) {
-  return new Promise((resolve, reject) => {
-    if (isFailed) reject(result);
-    resolve(reject);
+let p = function () {
+  return new Promise((resolve) => {
+    resolve();
   });
 };
 

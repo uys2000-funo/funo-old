@@ -15,13 +15,13 @@
         </div>
         <div class="full-width" style="flex-grow: 1; overflow: auto; ">
           <div class="fit" style="overflow: auto;">
-            <component :is="Component" :pageNumber="pageNumber" :setPageNumber="setPageNumber" :images="images" />
+            <component :is="Component" :pageNumber="pageNumber" :setPageNumber="setPageNumber" />
           </div>
         </div>
         <div class="full-width flex justify-center q-pb-md q-pt-xs">
           <div style="width:75%">
             <q-btn class="fit bg-primary rounded" rounded @click="goNextPage">
-              {{ this.pageNumber < 3 ? "Devam" : "Oluştur" }} </q-btn>
+              {{ this.pageNumber < 3 ? "Devam" : $route.params.eID ? "Güncelle" : "Oluştur" }} </q-btn>
           </div>
         </div>
       </div>
@@ -33,16 +33,15 @@ import compPopup from '@/components/general/compPopup.vue';
 import backButton from '@/components/general/backButton.vue';
 import compWheel from '@/components/create/compWheel.vue';
 import { isNumeric } from "@/utils/string"
-import { event } from '@/store/event.js';
+import { useEvent } from '@/store/event.js';
 import { createEvent, getEvent, updateEvent } from '@/services/app/event';
-import { user } from '@/store/user';
+import { useUser } from '@/store/user';
 export default {
   components: { compPopup, backButton, compWheel },
   data() {
     return {
-      user: user(),
-      event: event(),
-      images: [],
+      userStore: useUser(),
+      eventStore: useEvent(),
       pageName: "",
       pageNumber: 0,
       show: false,
@@ -53,17 +52,17 @@ export default {
       this.pageNumber = pageNumber
     },
     updateEvent() {
-      updateEvent(this.user.uID, this.event.event, this.images)
+      updateEvent(this.userStore.uID, this.eventStore.event, this.eventStore.images)
         .then(() => {
           this.$router.push({ name: "EventsPage" })
-          this.event.clearEvent()
+          this.eventStore.clear()
         })
     },
     createEvent() {
-      createEvent(this.user.uID, this.event.event, this.images)
+      createEvent(this.userStore.uID, this.eventStore.event, this.eventStore.images)
         .then(() => {
           this.$router.push({ name: "EventsPage" })
-          this.event.clearEvent()
+          this.eventStore.clear()
         })
     },
     goNextPage() {
@@ -78,14 +77,24 @@ export default {
         this.loadEvent()
       } else this.show = true
     },
+    loadUser() {
+      this.eventStore.event.owner.isPerson = this.userStore.isPerson
+      this.eventStore.event.owner.nickName = this.userStore.nickName
+      this.eventStore.event.owner.uID = this.userStore.uID
+      this.eventStore.event.owner.photoURL = this.userStore.user.userFire.account.photoURL
+    },
     loadEvent() {
-      getEvent(this.$route.params.eID)
-        .then(event => {
-          this.event.event = event
-          for (let i = 0; i < event.general.imageCounter; i++)
-            this.images.push(false)
-          this.show = true
-        })
+      if (this.$route.params.eID)
+        getEvent(this.$route.params.eID)
+          .then(({ data: event }) => {
+            this.eventStore.event = { eID: this.$route.params.eID, ...event }
+            this.eventStore.event.general.photoURLs.forEach(url => {
+              this.eventStore.imageURLs.push(url)
+              this.eventStore.images.push(false)
+            });
+            this.show = true
+          })
+      else this.show = true
     }
   },
   provide() {
@@ -97,9 +106,11 @@ export default {
   mounted() {
     const pID = this.$route.params.pID
     if (isNumeric(pID)) this.pageNumber = parseFloat(pID)
-    this.event.event.general.oName = this.user.userName
-    this.event.event.general.oID = this.user.uID
     this.loadEvent()
+    this.loadUser()
+  },
+  beforeUnmount() {
+    this.eventStore.clear()
   }
 }
 </script>

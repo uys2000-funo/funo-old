@@ -23,7 +23,7 @@
     <div class="full-width">
       <div class="row no-wrap justify-between">
         <span class="text-h6"> Onaylı Katılım </span>
-        <q-toggle color="bg-primary" v-model="event.event.conditions.approval" />
+        <q-toggle color="bg-primary" v-model="eventStore.event.conditions.approval" />
       </div>
     </div>
     <div class="full-width">
@@ -33,7 +33,7 @@
       </div>
       <q-slide-transition>
         <div v-show="showLimit">
-          <q-input dense v-model.number="event.event.conditions.userLimit" type="number">
+          <q-input dense v-model.number="eventStore.event.conditions.userLimit" type="number">
             <template v-slot:prepend>
               <span class="text-caption">
                 Limit:
@@ -50,14 +50,14 @@
       </div>
       <q-slide-transition>
         <div v-show="showAge" class="row no-wrap content-center items-center">
-          <q-input dense v-model.number="event.event.conditions.age.min" type="number">
+          <q-input dense v-model.number="eventStore.event.conditions.age.min" type="number">
             <template v-slot:prepend>
               <span class="text-caption">
                 Min:
               </span>
             </template>
           </q-input>
-          <q-input dense v-model.number="event.event.conditions.age.max" type="number">
+          <q-input dense v-model.number="eventStore.event.conditions.age.max" type="number">
             <template v-slot:prepend>
               <span class="text-caption">
                 Max:
@@ -70,7 +70,7 @@
   </div>
 </template>
 <script>
-import { event } from "@/store/event.js";
+import { useEvent } from "@/store/event.js";
 import compDate from "@/components/edit/buttons/compDate.vue";
 import compTime from "@/components/edit/buttons/compTime.vue";
 export default {
@@ -84,45 +84,44 @@ export default {
       endTime: new Date().toLocaleTimeString("tr-TR"),
       showLimit: false,
       showAge: false,
-      event: event(),
+      eventStore: useEvent(),
     };
   },
   methods: {
     loadDate() {
-      if (this.event.event.date.start) {
-        this.startDate = new Date(this.event.event.date.start.seconds * 1000).toLocaleDateString("tr-TR");
-        this.startTime = new Date(this.event.event.date.start.seconds * 1000).toLocaleTimeString("tr-TR");
-        this.endDate = new Date(this.event.event.date.start.seconds * 1000).toLocaleDateString("tr-TR");
-        this.endTime = new Date(this.event.event.date.start.seconds * 1000).toLocaleTimeString("tr-TR");
-      }
+      this.startDate = new Date(this.eventStore.event.date.start.seconds * 1000).toLocaleDateString("tr-TR");
+      this.startTime = new Date(this.eventStore.event.date.start.seconds * 1000).toLocaleTimeString("tr-TR");
+      this.endDate = new Date(this.eventStore.event.date.end.seconds * 1000).toLocaleDateString("tr-TR");
+      this.endTime = new Date(this.eventStore.event.date.end.seconds * 1000).toLocaleTimeString("tr-TR");
     },
     updateStartDate() {
       const date = this.startDate.split(".");
       const time = this.startTime.split(":");
-      this.event.event.date.start = new Date(date[2], date[1] - 1, date[0] - 1, time[0], time[1]).getTime()
+      this.eventStore.event.date.start = new Date(date[2], date[1], date[0], time[0], time[1]).getTime()
     },
     updateEndDate() {
       if (!this.endDate || !this.endTime) return;
       const date = this.endDate.split(".");
       const time = this.endTime.split(":");
-      this.event.event.date.end = new Date(date[2], date[1] - 1, date[0] - 1, time[0], time[1]).getTime()
+      this.eventStore.event.date.end = new Date(date[2], date[1], date[0], time[0], time[1]).getTime()
     },
   },
   mounted() {
     if (this.page == 0 && this.setPage) this.setPage(1);
-    this.loadDate();
+    if (this.$route.params.eID)
+      this.loadDate();
     this.updateStartDate()
     this.updateEndDate()
   },
   watch: {
     showLimit() {
       if (this.showLimit == false)
-        this.event.event.conditions.userLimit = 0
+        this.eventStore.event.conditions.userLimit = 0
     },
     showAge() {
       if (this.showLimit == false) {
-        this.event.event.conditions.age.min = 0
-        this.event.event.conditions.age.max = 0
+        this.eventStore.event.conditions.age.min = 0
+        this.eventStore.event.conditions.age.max = 0
       }
     },
     startDate() {

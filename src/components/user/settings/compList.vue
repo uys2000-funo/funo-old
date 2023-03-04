@@ -92,7 +92,9 @@ export default {
             this.setPage("help")
         },
         exit() {
-            signOut().then(() => this.$router.push({ name: "LoginPage" }))
+            signOut()
+                .then(() => this.userStore.clear())
+                .then(() => this.$router.push({ name: "LoginPage" }))
         }
     }, mounted() {
         this.isHidden = this.userStore.user.userFire.settings.isHidden

@@ -1,13 +1,10 @@
 import { Preferences } from "@capacitor/preferences";
-import { c } from "@/services/debug.js";
 
 export const setLocalObject = function (key, value) {
-  c("setLocalObject", key, value);
   return Preferences.set({ key: key, value: JSON.stringify(value) });
 };
 
 export const getLocalObject = function (key) {
-  c("getLocalObject", key);
   return Preferences.get({ key: key }).then(({value:rawValue}) => ({value : JSON.parse(rawValue)}));
 };
 

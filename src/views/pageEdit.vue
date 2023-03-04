@@ -11,7 +11,7 @@
             <comp-location :page-number="pageNumber" :setPage="setPage" />
         </q-carousel-slide>
         <q-carousel-slide :name="3" class="column no-wrap flex-start">
-            <comp-images :page-number="pageNumber" :setPage="setPage" :images="images" />
+            <comp-images :page-number="pageNumber" :setPage="setPage" />
         </q-carousel-slide>
     </q-carousel>
 </template>
@@ -22,7 +22,7 @@ import compLocation from '@/components/edit/compLocationPrice.vue';
 import compImages from '@/components/edit/compImages.vue';
 export default {
     components: { compGeneral, compDate, compLocation, compImages },
-    props: ["pageNumber", "setPage", "images"],
+    props: ["pageNumber", "setPage"],
     data() {
         return {
             animation: "slide-left",

@@ -62,6 +62,11 @@ export default [
         component: () => import("../layouts/EditLayout.vue"),
         children: [
           {
+            path: "",
+            name: "EditPage",
+            component: () => import("../views/pageEdit.vue"),
+          },
+          {
             path: ":eID",
             name: "EditPageID",
             component: () => import("../views/pageEdit.vue"),

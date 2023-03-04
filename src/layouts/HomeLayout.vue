@@ -35,7 +35,7 @@ import { useLocation } from "@/store/location";
 export default {
   name: "AppLayout",
   components: { iconPlus, iconCompass, iconLogo, iconWorld, iconPerson },
-  //After Login Genral Fetchs
+  //After Login General Fetchs And Listeners
   data() {
     return {
       userStore: useUser(),
@@ -51,6 +51,7 @@ export default {
         if (!locationResult.status) return showToast("Konuma ulaşılamadı");
         this.localStorage.city = locationResult.city;
         this.localStorage.address = locationResult.address;
+        this.localStorage.coordinates = locationResult.coordinates;
       })
     },
     listenNotifications() {
@@ -60,7 +61,6 @@ export default {
 
     },
     listenJoinedEvents() {
-
     }
   },
   mounted() {

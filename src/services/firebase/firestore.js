@@ -14,6 +14,7 @@ import {
   orderBy,
   where,
   startAfter,
+  onSnapshot,
 } from "firebase/firestore";
 import app from "./app";
 import { l } from "../debug";
@@ -112,4 +113,39 @@ export const getCollectionOWU = function (
   const q = query(...args);
   l(`Arg: getCollectionOWU`, args);
   return getDocs(q).then(returnDocs);
+};
+
+export const watchCollectionOWU = function (
+  table,
+  start,
+  qa = [
+    {
+      column: "",
+      condition: "",
+      equality: "",
+      orderType: "desc",
+      order: true,
+      where: true,
+      timestamp: false,
+    },
+  ],
+  addFunc = () => ""
+) {
+  const colRef = collection(db, table);
+  let args = [colRef];
+  qa.forEach((a) => {
+    if (a.order)
+      args.push(orderBy(a.column, a.orderType ? a.orderType : "desc"));
+    if (a.where && !a.timestamp)
+      args.push(where(a.column, a.condition, a.equality));
+    else if (a.where) args.push(where(a.column, a.condition, Timestamp.now()));
+  });
+  args.push(where("isDeleted", "==", false));
+  args.push(startAfter(start));
+  const q = query(...args);
+  l(`Arg: getCollectionOWU`, args);
+  return onSnapshot(q, (querySnapshot) => {
+    console.log(querySnapshot);
+    addFunc;
+  });
 };

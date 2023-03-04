@@ -94,6 +94,11 @@ export const useUser = defineStore("User", {
     setUserFire(userFire) {
       this.user.userFire = userFire;
     },
+    clear() {
+      this.user.userAuth = auth;
+      this.user.userFire = user;
+      this.user.userComp = company;
+    },
   },
   getters: {
     uID: (state) => {

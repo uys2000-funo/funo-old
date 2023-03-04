@@ -50,23 +50,30 @@ export default {
     setPageNumber(pageNumber) {
       this.pageNumber = pageNumber
     },
-    goNextPage() {
-      if (this.pageNumber < 3)
-        this.pageNumber = this.pageNumber + 1
-      else createEvent(this.userStore.uID, this.eventStore.event, this.eventStore.images)
+    createEvent() {
+      createEvent(this.userStore.uID, this.eventStore.event, this.eventStore.images)
         .then(() => {
           this.$router.push({ name: "EventsPage" })
           this.eventStore.clear()
         })
     },
+    loadUser() {
+      this.eventStore.event.owner.isPerson = this.userStore.isPerson
+      this.eventStore.event.owner.nickName = this.userStore.nickName
+      this.eventStore.event.owner.uID = this.userStore.uID
+      this.eventStore.event.owner.photoURL = this.userStore.user.userFire.account.photoURL
+    },
+    goNextPage() {
+      if (this.pageNumber < 3)
+        this.pageNumber = this.pageNumber + 1
+      else this.createEvent()
+    },
   },
   mounted() {
     const pID = this.$route.params.pID
     if (isNumeric(pID)) this.pageNumber = parseFloat(pID)
-    this.eventStore.event.owner.isPerson = this.userStore.isPerson
-    this.eventStore.event.owner.nickName = this.userStore.nickName
-    this.eventStore.event.owner.uID = this.userStore.uID
-    this.eventStore.event.owner.photoURL = this.userStore.user.userFire.account.photoURL
+    this.loadUser()
+
   }
 }
 </script>

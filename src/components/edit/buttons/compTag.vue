@@ -6,24 +6,24 @@
     </q-btn>
 </template>
 <script>
-import { event } from '@/store/event.js';
+import { useEvent } from '@/store/event.js';
 
 export default {
     props: ["value", "text", "bg", "color"],
     data() {
         return {
-            event: event(),
+            eventStore: useEvent(),
             state: false
         }
     },
     methods: {
         clickEvent() {
-            if (!this.state) this.event.event.tags.main.push(this.value)
-            else this.event.event.tags.main = this.event.event.tags.main.filter(i => i != this.value)
+            if (!this.state) this.eventStore.event.tags.main.push(this.value)
+            else this.eventStore.event.tags.main = this.eventStore.event.tags.main.filter(i => i != this.value)
             this.state = !this.state;
         },
         checkTag() {
-            if (this.event.event.tags.main.includes(this.value))
+            if (this.eventStore.event.tags.main.includes(this.value))
                 this.state = true;
         }
     },

@@ -6,7 +6,7 @@
         </div>
         <div class="full-width" style="flex-grow: 1; overflow: auto;">
             <div class="images">
-                <div v-for="(image, index) in localImages" :key="index" :style="`background-image: url(${image});`"
+                <div v-for="(image, index) in eventStore.imageURLs" :key="index" :style="`background-image: url(${image});`"
                     class="image">
                     <q-btn no-caps class="absolute-bottom" style="background-color: #ffffff50" flat
                         @click="removeImageLocal(index)" label="Kaldır" />
@@ -19,55 +19,38 @@
     </div>
 </template>
 <script>
-import { getEventImages } from "@/services/app/event";
-import { showToast } from "@/services/capacitor/toast";
-import { event } from "@/store/event.js";
+import { useEvent } from "@/store/event.js";
 export default {
-    props: ["pageNumber", "setPage", "images"],
-    inject: ["removeImage", "addImage"],
+    props: ["pageNumber", "setPage"],
     data() {
         return {
-            localImages: [],
-            event: event(),
+            eventStore: useEvent(),
         };
     },
     methods: {
-        updateImageCount() {
-            this.event.event.general.imageCounter = this.images.length
-        },
         openInput() {
             this.$refs.refInput.click()
         },
         readImage(image, index) {
             const reader = new FileReader();
-            reader.addEventListener("load", img => this.localImages[index] = img.target.result, false);
+            reader.addEventListener("load", img => this.eventStore.imageURLs[index] = img.target.result, false);
             reader.readAsDataURL(image);
         },
         loadImage(value) {
             const files = value.target.files;
-            for (let i = 0; i < files.length; i++) {
-                this.addImage(files[i]);
-                this.readImage(files[i], this.localImages.length + i);
-                this.updateImageCount();
+            for (let index = 0; index < files.length; index++) {
+                this.eventStore.images[this.eventStore.imageURLs.length + index] = files[index];
+                this.readImage(files[index], this.eventStore.imageURLs.length + index);
             }
         },
         removeImageLocal(index) {
-            this.localImages.splice(index, 1);
-            this.removeImage(index)
-            this.updateImageCount();
-        },
-        loadImages() {
-            getEventImages
-            getEventImages(this.$route.params.eID, this.event.event.general.imageCounter)
-            .then(result => this.localImages = result.files)
+            this.eventStore.imageURLs.splice(index, 1);
+            this.eventStore.images.splice(index, 1);
         }
     },
     mounted() {
         if (this.page == 0 && this.setPage) this.setPage(0);
-        this.loadImages();
-        showToast("Sayfa içersinde sorun bulunmaktadır. En doğru güncelleme için tüm resimleri kaldırıp tekrar ekleyin :)")
-    },
-
+    }
 };
 </script>
 <style scoped>

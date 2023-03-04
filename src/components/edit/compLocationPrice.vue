@@ -2,13 +2,13 @@
   <div>
     <div class="row no-wrap justify-between">
       <span class="text-h6">Etkinlik Türü <span class="text-caption">(Yüz Yüze / Online)</span></span>
-      <q-toggle color="bg-primary" v-model="event.event.location.isOnline" />
+      <q-toggle color="bg-primary" v-model="eventStore.event.location.isOnline" />
     </div>
     <div class="full-width">
       <span class="text-h6">{{ isOnline ? "Platform" : "Konum" }}</span>
       <div>
-        <q-input v-model="event.event.location.text" outlined :placeholder="isOnline ? 'Platform ismi' : 'Konum seçiniz'"
-          @click="clickLocationText">
+        <q-input v-model="eventStore.event.location.text" outlined
+          :placeholder="isOnline ? 'Platform ismi' : 'Konum seçiniz'" @click="clickLocationText">
           <template v-slot:append v-if="!isOnline">
             <q-btn round dense class="bg-primary text-black" @click="showLocationChooser = true">></q-btn>
           </template>
@@ -18,7 +18,7 @@
     <div class="full-width">
       <span class="text-h6">{{ isOnline ? "Link" : "Tarif" }}</span>
       <div>
-        <q-input v-model="event.event.location.description" outlined
+        <q-input v-model="eventStore.event.location.description" outlined
           :placeholder="isOnline ? 'Etkinlik adresi (URL)' : 'Konum tarifi'" />
       </div>
     </div>
@@ -29,7 +29,7 @@
       </div>
       <q-slide-transition>
         <div v-show="showPrice">
-          <q-input dense v-model.number="event.event.conditions.price" type="number">
+          <q-input dense v-model.number="eventStore.event.conditions.price" type="number">
             <template v-slot:prepend>
               <span class="text-caption">
                 Ücret:
@@ -41,20 +41,20 @@
     </div>
   </div>
   <template v-if="showLocationChooser">
-    <comp-location-choose @coord="[54.82896654088406, 39.831893822753904]" @set-cord="setLocation"
-      @end-func="this.showLocationChooser = false" />
+    <comp-location-choose @set-cord="setLocation" @end-func="this.showLocationChooser = false" />
   </template>
 </template>
 <script>
-import { event } from "@/store/event";
-import { getLocation } from "@/services/geoCode/geocode";
+import { useEvent } from "@/store/event";
+import { getLocation } from "@/services/app/location";
 import compLocationChoose from "../general/compLocationChoose.vue";
+import { showAlert } from "@/services/capacitor/dialog";
 export default {
   components: { compLocationChoose },
   props: ["pageNumber", "setPage"],
   data() {
     return {
-      event: event(),
+      eventStore: useEvent(),
       showPrice: false,
       textCache: "",
       showLocationChooser: false,
@@ -63,18 +63,22 @@ export default {
   },
   methods: {
     clickLocationText() {
-      if (this.event.event.location.cordinates == null && this.isOnline == false) this.showLocationChooser = true
+      if (this.eventStore.event.location.cordinates == null && this.isOnline == false) this.showLocationChooser = true
     },
-    setLocation(value) {
+    setLocation(coordinates) {
       if (this.isOnline) return;
-      this.event.event.location.cordinates = value
-      getLocation(value[0], value[1])
-        .then(text => this.event.event.location.text = text)
+      getLocation(coordinates).then(result => {
+        console.log(result)
+        if (!result.status) return showAlert("Hata", "Lütfen Geçerli bi konum seçiniz")
+        this.eventStore.event.location.coordinates = coordinates
+        this.eventStore.event.location.text = result.address
+        this.eventStore.event.location.city = result.city
+      })
     }
   },
   computed: {
     isOnline() {
-      return this.event.event.location.isOnline;
+      return this.eventStore.event.location.isOnline;
     }
   },
   mounted() {
@@ -83,14 +87,14 @@ export default {
   watch: {
     showPrice() {
       if (!this.showPrice) {
-        this.event.event.conditions.price = 0
+        this.eventStore.event.conditions.price = 0
       }
     },
     isOnline() {
-      this.textCache = this.event.event.location.text;
-      this.descriptionCache = this.event.event.location.description;
-      this.event.event.location.text = ""
-      this.event.event.location.description = ""
+      this.textCache = this.eventStore.event.location.text;
+      this.descriptionCache = this.eventStore.event.location.description;
+      this.eventStore.event.location.text = ""
+      this.eventStore.event.location.description = ""
     }
   }
 };

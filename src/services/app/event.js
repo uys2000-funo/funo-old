@@ -1,15 +1,15 @@
 import {
   addDocument,
   deleteDocument,
-  getCollectionCWCW,
   getCollectionOWU,
   getDocument,
   increaseDocument,
   setDocument,
   timestampMillis,
   updateDocument,
+  watchCollectionOWU,
 } from "../firebase/firestore";
-import { f, l } from "@/services/debug.js";
+import { f, l, p } from "@/services/debug.js";
 import { uploadFiles } from "../firebase/storage";
 import { getFiles } from "../firebase/storage";
 
@@ -24,7 +24,7 @@ const getLocalEvent = function (event) {
 };
 export const getEvent = function (eID) {
   l("Run - getEvent", arguments);
-  return f(getDocument, ["Events", eID]).then(getEventDoc);
+  return f(getDocument, ["Event", eID]).then(getEventDoc);
 };
 
 export const createEvent = function (uID, event, images) {
@@ -44,11 +44,16 @@ export const createEvent = function (uID, event, images) {
 
 export const updateEvent = function (uID, event, images) {
   l("Run - updateEvent", arguments);
-  const localEvent = getLocalEvent(event);
-  return f(updateDocument, ["Event", event.eID, localEvent])
+  let localEvent = getLocalEvent(event);
+  return f(uploadFiles, [`Event/${event.eID}`, "image", images])
+    .then(() => f(getFiles, [`Event/${event.eID}/image`, images.length]))
+    .then(({ urls }) => {
+      localEvent.general.photoURLs = urls;
+      return localEvent;
+    })
+    .then(() => f(updateDocument, ["Event", event.eID, localEvent]))
     .then(() => f(increaseDocument, ["User", uID, "updateEvent", 1]))
-    .then(() => f(increaseDocument, ["Event", event.eID, "updateEvent", 1]))
-    .then(() => f(uploadFiles, [`Event/${event.eID}`, "image", images]));
+    .then(() => f(increaseDocument, ["Event", event.eID, "updateEvent", 1]));
 };
 export const deleteEvent = function (uID, eID) {
   l("Run - deleteEvent", arguments);
@@ -66,26 +71,15 @@ export const reportEvent = function (uID, eID, report) {
 };
 
 export const joinEvent = function (uID, eID) {
-  l("Run - joinEvent", arguments);
-  const event = { uID: uID, eID: eID, isJoined: true };
-  const arg = ["UserJoinedEvent", "uID", "eID", "==", "==", uID, eID];
-  return f(getCollectionCWCW, arg)
-    .then(([{ dID }]) => {
-      if (dID) return f(updateDocument, ["UserJoinedEvent", dID, event]);
-      else return f(addDocument, ["UserJoinedEvent", event]);
-    })
-    .then(() => f(increaseDocument, ["User", uID, "joinEvent", 1]))
-    .then(() => f(increaseDocument, ["Event", eID, "joinEvent", 1]));
+  uID, eID;
+  l("Run - exitEvent", arguments);
+  return f(p);
 };
 
 export const exitEvent = function (uID, eID) {
+  uID, eID;
   l("Run - exitEvent", arguments);
-  const event = { isJoined: false };
-  const arg = ["UserJoinedEvent", "uID", "eID", "==", "==", uID, eID];
-  return f(getCollectionCWCW, arg)
-    .then(([{ dID }]) => f(updateDocument, ["UserJoinedEvent", dID, event]))
-    .then(() => f(increaseDocument, ["User", uID, "joinEvent", -1]))
-    .then(() => f(increaseDocument, ["Event", eID, "joinEvent", -1]));
+  return f(p);
 };
 
 export const getEvents = function (
@@ -103,4 +97,38 @@ export const getEvents = function (
   ]
 ) {
   return f(getCollectionOWU, ["Event", start, queryArgs]);
+};
+
+export const watchEvents = function (
+  start,
+  queryArgs = [
+    {
+      column: "",
+      condition: "",
+      equality: "",
+      orderType: "desc",
+      order: true,
+      where: true,
+      serverTimestamp: false,
+    },
+  ]
+) {
+  return f(watchCollectionOWU, ["Event", start, queryArgs]);
+};
+
+export const watchEventsJoined = function (
+  start,
+  queryArgs = [
+    {
+      column: "",
+      condition: "",
+      equality: "",
+      orderType: "desc",
+      order: true,
+      where: true,
+      serverTimestamp: false,
+    },
+  ]
+) {
+  return f(watchCollectionOWU, ["UserJoinedEvent", start, queryArgs]);
 };
