@@ -34,19 +34,21 @@ export const getFile = function (fPath) {
 
 export const getFiles = function (fPath, amount) {
   return new Promise((resolve, reject) => {
-    const response = { url: Array(amount), failed: 0, all: amount };
+    const response = { urls: Array(amount), failed: 0, all: amount };
     for (let index = 0; index < amount; index++) {
       f(getFile, [`${fPath}${index}`])
+        .then((url) => {
+          response.urls[index] = url;
+          if (index == amount - 1) resolve(response);
+        })
         .catch(() => {
           response.failed++;
-          response.url[index] = null;
+          response.urls[index] = null;
         })
         .then(() => {
           if (response.failed == amount) {
             response.status = false;
             reject(response);
-          } else if (index == amount - 1) {
-            resolve(response);
           }
         });
     }

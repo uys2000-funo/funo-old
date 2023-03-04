@@ -4,7 +4,7 @@ const event = {
   general: {
     name: "",
     description: "",
-    imageCounter: 0,
+    images: [],
   },
   owner: {
     Name: "",

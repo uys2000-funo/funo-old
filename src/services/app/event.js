@@ -10,6 +10,7 @@ import {
 } from "../firebase/firestore";
 import { f, l } from "@/services/debug.js";
 import { uploadFiles } from "../firebase/storage";
+import { getFiles } from "../firebase/storage";
 
 const getEventDoc = (doc) => ({ eID: doc.id, data: doc.data });
 
@@ -32,7 +33,11 @@ export const createEvent = function (uID, event, images) {
     const e = { eID: eID, uID: uID, isDeleted: false };
     return f(setDocument, ["UserCreatedEvent", eID, e])
       .then(() => f(increaseDocument, ["User", uID, "createEvent", 1]))
-      .then(() => f(uploadFiles(`Event/${eID}`, "image", images,)));
+      .then(() => f(uploadFiles, [`Event/${eID}`, "image", images]))
+      .then(() => f(getFiles, [`Event/${eID}/image`, images.length]))
+      .then((urls) =>
+        f(updateDocument, ["Event", eID, { "general.images": urls }])
+      );
   });
 };
 
