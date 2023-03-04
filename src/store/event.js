@@ -77,12 +77,12 @@ export const useEvents = defineStore("events", {
   }),
   actions: {
     add(document = { dID: "" }) {
-      this.dict[document.dID] = document.data;
+      this.dict[document.dID] = { eID: document.dID, ...document.data };
       if (!this.eventList.includes(document.dID))
         this.listAll.push(document.dID);
     },
     addTo(key = "", document = { dID: "" }) {
-      this.dict[document.dID] = document.data;
+      this.dict[document.dID] = { eID: document.dID, ...document.data };
       if (!this[key].includes(document.dID)) this[key].push(document.dID);
     },
     addList(documents = [{ dID: "" }]) {
@@ -121,16 +121,16 @@ export const useEvents = defineStore("events", {
   },
   getters: {
     all: (state) => {
-      return state.listAll.map((eID) => ({ eID, ...state.dict[eID] }));
+      return state.listAll.map((eID) => state.dict[eID]);
     },
     flow: (state) => {
-      return state.listFlow.map((eID) => ({ eID, ...state.dict[eID] }));
+      return state.listFlow.map((eID) => state.dict[eID]);
     },
     joined: (state) => {
-      return state.listJoined.map((eID) => ({ eID, ...state.dict[eID] }));
+      return state.listJoined.map((eID) => state.dict[eID]);
     },
     created: (state) => {
-      return state.listCreated.map((eID) => ({ eID, ...state.dict[eID] }));
+      return state.listCreated.map((eID) => state.dict[eID]);
     },
   },
 });

@@ -95,6 +95,7 @@ export default {
       this.endTime = new Date(this.eventStore.event.date.end.seconds * 1000).toLocaleTimeString("tr-TR");
     },
     updateStartDate() {
+      if (!this.startDate || !this.startTime) return;
       const date = this.startDate.split(".");
       const time = this.startTime.split(":");
       this.eventStore.event.date.start = new Date(date[2], date[1], date[0], time[0], time[1]).getTime()

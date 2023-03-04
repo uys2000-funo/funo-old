@@ -21,7 +21,14 @@ export default {
             if (!this.state) this.eventStore.event.tags.main.push(this.value)
             else this.eventStore.event.tags.main = this.eventStore.event.tags.main.filter(i => i != this.value)
             this.state = !this.state;
+        },
+        checkTag() {
+            if (this.eventStore.event.tags.main.includes(this.value))
+                this.state = true;
         }
+    },
+    mounted() {
+        this.checkTag()
     },
     computed: {
         style() {
@@ -29,6 +36,11 @@ export default {
             const text = `color: ${this.color};`
             const text2 = `color: ${this.bg};`
             return this.state ? bg + text : text2
+        },
+    },
+    watch: {
+        event() {
+            console.log("--------------------")
         }
     }
 }
