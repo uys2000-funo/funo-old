@@ -14,22 +14,39 @@
 
 <script>
 import { useUser } from "@/store/user";
+import { checkAuth } from "./services/app/auth";
+import { getUserData } from "./services/app/user";
 export default {
   name: "LayoutDefault",
   // Fetch events will be in here
   components: {},
   data() {
     return {
-      pageLoad: true,
+      pageLoad: false,
       showPopup: true,
       userStore: useUser(),
     };
   },
   methods: {
-
+    autoLogin() {
+      checkAuth()
+        .then(this.userStore.setUserAuth)
+        .then(() => getUserData(this.userStore.uID))
+        .then(({ data }) => data)
+        .then(this.userStore.setUserFire)
+        .then(() => {
+          this.showPopup = false;
+          this.pageLoad = true
+        })
+        .catch(() => {
+          this.showPopup = false;
+          this.$router.push({ name: "LoginPage" });
+          this.pageLoad = true
+        })
+    }
   },
   mounted() {
-
+    this.autoLogin()
   }
 };
 </script>

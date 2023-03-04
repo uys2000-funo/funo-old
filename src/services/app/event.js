@@ -32,7 +32,7 @@ export const createEvent = function (uID, event, images) {
     const e = { eID: eID, uID: uID, isDeleted: false };
     return f(setDocument, ["UserCreatedEvent", eID, e])
       .then(() => f(increaseDocument, ["User", uID, "createEvent", 1]))
-      .then(() => f(uploadFiles, [`Event/${eID}`, "image", images]));
+      .then(() => f(uploadFiles(`Event/${eID}`, "image", images,)));
   });
 };
 

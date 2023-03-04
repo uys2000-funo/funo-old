@@ -101,11 +101,15 @@ export const useUser = defineStore("User", {
       else return false;
     },
     name: (state) => {
-      if (state.user.userFire) return state.user.userFire.name;
+      if (state.user.userFire) return state.user.userFire.general.name;
       else return false;
     },
-    userName: (state) => {
-      if (state.user.userFire) return state.user.userFire.userName;
+    nickName: (state) => {
+      if (state.user.userFire) return state.user.userFire.general.nickName;
+      else return false;
+    },
+    isPerson: (state) => {
+      if (state.user.userFire) return state.user.userFire.account.isPerson;
       else return false;
     },
   },

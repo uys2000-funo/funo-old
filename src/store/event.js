@@ -31,7 +31,7 @@ const event = {
 };
 const filter = {
   ownerType: "all",
-  hasApprovall: "all",
+  hasApproval: "all",
   hasUserLimit: "all",
   isOnline: "all",
   hasPrice: "all",
@@ -39,10 +39,14 @@ const filter = {
 export const useEvent = defineStore("event", {
   state: () => ({
     event: event,
+    images: [],
+    imageURLs: [],
   }),
   actions: {
     clear() {
       this.event = event;
+      this.images = [];
+      this.imageURLs = [];
     },
   },
 });

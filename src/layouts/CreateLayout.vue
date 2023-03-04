@@ -15,7 +15,7 @@
         </div>
         <div class="full-width" style="flex-grow: 1; overflow: auto; ">
           <div class="fit" style="overflow: auto;">
-            <component :is="Component" :pageNumber="pageNumber" :setPageNumber="setPageNumber" :images="images" />
+            <component :is="Component" :pageNumber="pageNumber" :setPageNumber="setPageNumber" />
           </div>
         </div>
         <div class="full-width flex justify-center q-pb-md q-pt-xs">
@@ -32,17 +32,16 @@
 import compPopup from '@/components/general/compPopup.vue';
 import backButton from '@/components/general/backButton.vue';
 import compWheel from '@/components/create/compWheel.vue';
+import { useUser } from '@/store/user';
+import { useEvent } from '@/store/event.js';
 import { isNumeric } from "@/utils/string"
-import { event } from '@/store/event.js';
 import { createEvent } from '@/services/app/event';
-import { user } from '@/store/user';
 export default {
   components: { compPopup, backButton, compWheel },
   data() {
     return {
-      user: user(),
-      event: event(),
-      images: [],
+      userStore: useUser(),
+      eventStore: useEvent(),
       pageName: "",
       pageNumber: 0
     }
@@ -54,24 +53,19 @@ export default {
     goNextPage() {
       if (this.pageNumber < 3)
         this.pageNumber = this.pageNumber + 1
-      else createEvent(this.user.uID, this.event.event, this.images)
+      else createEvent(this.userStore.uID, this.eventStore.event, this.eventStore.images)
         .then(() => {
           this.$router.push({ name: "EventsPage" })
-          this.event.clearEvent()
+          this.eventStore.clear()
         })
     },
-  },
-  provide() {
-    return {
-      removeImage: (index) => this.images.splice(index, 1),
-      addImage: (image) => this.images.push(image)
-    }
   },
   mounted() {
     const pID = this.$route.params.pID
     if (isNumeric(pID)) this.pageNumber = parseFloat(pID)
-    this.event.event.general.oName = this.user.userName
-    this.event.event.general.oID = this.user.uID
+    this.eventStore.event.owner.isPerson = this.userStore.isPerson
+    this.eventStore.event.owner.nickName = this.userStore.nickName
+    this.eventStore.event.owner.uID = this.userStore.uID
   }
 }
 </script>

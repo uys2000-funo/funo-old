@@ -29,7 +29,7 @@
                 <div class="text-subtitle1 q-mt-md">
                     Ön Onay
                 </div>
-                <q-tabs no-caps dense v-model="eventsStore.filter.hasApprovall" class="" indicator-color="primary"
+                <q-tabs no-caps dense v-model="eventsStore.filter.hasApproval" class="" indicator-color="primary"
                     active-color="negative">
                     <q-tab name="all">
                         Hepsi

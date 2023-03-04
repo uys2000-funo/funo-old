@@ -12,7 +12,7 @@ export const uploadFile = function (path, name, file) {
 export const uploadFiles = function (path, name, files) {
   return new Promise((resolve, reject) => {
     const response = { status: true, failed: 0, all: files.length };
-    files.array.forEach((file, index) => {
+    files.forEach((file, index) => {
       f(uploadFile, [path, `${name}${index}`, file])
         .catch(() => response.failed++)
         .then(() => {
