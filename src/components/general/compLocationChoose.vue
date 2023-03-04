@@ -4,20 +4,8 @@
       <div class="absolute-bottom full-width flex justify-center t w">
         <q-btn class="bg-primary text-white" label="seç" @click="setLocation" />
       </div>
-      <yandex-map
-        ref="ymap"
-        class="fit"
-        :settings="settings"
-        :coords="coords__"
-        zoom="10.6"
-        @click="updateLocation"
-      >
-        <ymap-marker
-          marker-id="1"
-          :coords="coords__"
-          :icon="markerIcon"
-          :marker-events="['click']"
-        />
+      <yandex-map ref="ymap" class="fit" :settings="settings" :coords="coords__" zoom="10.6" @click="updateLocation">
+        <ymap-marker marker-id="1" :coords="coords__" :icon="markerIcon" :marker-events="['click']" />
       </yandex-map>
     </div>
   </q-dialog>
@@ -48,7 +36,7 @@ export default {
         imageOffset: [-20, -30],
         contentOffset: [0, 0],
       },
-      coords__: [54.82896654088406, 39.831893822753904],
+      coords__: [0, 0],
     };
   },
   methods: {
@@ -65,7 +53,7 @@ export default {
   },
   mounted() {
     if (this.coords) this.coords__ = this.coords;
-    else this.coords__ = this.locationStore.getPosition;
+    else this.coords__ = this.locationStore.getCoordinates;
   },
 };
 </script>
@@ -74,6 +62,7 @@ export default {
   height: 20vh;
   min-height: 100px;
 }
+
 .w .q-btn {
   z-index: 100;
   width: 50%;

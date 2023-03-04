@@ -2,26 +2,17 @@ import { defineStore } from "pinia";
 
 export const useLocation = defineStore("location", {
   state: () => ({
-    location: "",
-    position: {
-      latitude: 0,
-      longitude: 0,
+    city: "",
+    address: "",
+    coordinates: {
+      latitude: 39.9334,
+      longitude: 32.8597,
     },
   }),
-  actions: {
-    setPosition(latitude, longitude) {
-      this.position = {
-        latitude: latitude,
-        longitude: longitude,
-      };
-    },
-    setLocation(value) {
-      this.location = value;
-    },
-  },
+  actions: {},
   getters: {
-    getPosition: (state) => {
-      return [state.position.latitude, state.position.longitude];
+    getCoordinates: (state) => {
+      return [state.coordinates.latitude, state.coordinates.longitude];
     },
   },
 });

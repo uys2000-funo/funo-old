@@ -102,5 +102,5 @@ export const getEvents = function (
     },
   ]
 ) {
-  f(getCollectionOWU, [table, start, queryArgs]);
+  return f(getCollectionOWU, [table, start, queryArgs]);
 };

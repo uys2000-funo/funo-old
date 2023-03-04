@@ -22,7 +22,7 @@ const event = {
     isOnline: false,
     text: "", // Location or App Name
     description: "", // Adress Description or URL
-    cordinates: null,
+    coordinates: null,
     city: "",
   },
   tags: {
@@ -32,9 +32,9 @@ const event = {
 };
 const filter = {
   ownerType: "all",
+  isOnline: "false",
   hasApproval: "all",
   hasUserLimit: "all",
-  isOnline: "all",
   hasPrice: "all",
 };
 const filterArgs = [

@@ -12,11 +12,14 @@
 import compEvent from '../general/compEvent.vue';
 import { useEvents } from '@/store/event';
 import { getEvents } from "@/services/app/event"
+import { useLocation } from '@/store/location';
+import { showAlert } from '@/services/capacitor/dialog';
 export default {
     components: { compEvent },
     data() {
         return {
             eventsStore: useEvents(),
+            locationStore: useLocation(),
         }
     },
     methods: {
@@ -80,27 +83,43 @@ export default {
                     where: true,
                     serverTimestamp: false,
                 })
-            //if (this.eventsStore.filter.isOnline != "all")
-            //    this.eventsStore.filterArgs.push({
-            //        column: "location.isOnline",
-            //        condition: "==",
-            //        equality: this.eventsStore.filter.isOnline == "true",
-            //        order: true,
-            //        where: true,
-            //        serverTimestamp: false,
-            //    })
+            if (this.eventsStore.filter.isOnline != "all") {
+                if (this.eventsStore.filter.isOnline == "true") {
+                    this.eventsStore.filterArgs.push({
+                        column: "location.isOnline",
+                        condition: "==",
+                        equality: true,
+                        order: false,
+                        where: true,
+                        serverTimestamp: false,
+                    })
+                } else if (this.locationStore.city) {
+                    this.eventsStore.filterArgs.push({
+                        column: "location.city",
+                        condition: "==",
+                        equality: this.locationStore.city,
+                        order: false,
+                        where: true,
+                        serverTimestamp: false,
+                    })
+                } else this.eventsStore.filter.isOnline = "all"
+            }
+
 
         },
         onLoad(index, done) {
-            if (this.eventsStore.filter.hasPrice != "all") {
+            this.createMethodArgs();
+            getEvents("Event", 0, this.eventsStore.filterArgs).then((res) => {
+                if (res.length == 0) setTimeout(done, 1000)
+            }).catch((err) => {
+                console.log(err)
+                showAlert
+                //showAlert("Diakkat", "Bu filtre kombinasyonu optimize edilmemiştir, yetkililere haber veriniz").finally(() => {
+                //    setTimeout(done, 1000)
+                //})
+                setTimeout(done, 1000)
 
-                this.createMethodArgs();
-                getEvents("Event", 0, this.eventsStore.filterArgs).then(() => {
-                    done(true)
-
-                })
-            }
-            else done()
+            })
         },
     },
 

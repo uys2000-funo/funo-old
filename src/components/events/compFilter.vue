@@ -31,9 +31,6 @@
                 </div>
                 <q-tabs no-caps dense v-model="eventsStore.filter.isOnline" class="" indicator-color="primary"
                     active-color="negative">
-                    <q-tab name="all">
-                        Hepsi
-                    </q-tab>
                     <q-tab name="true">
                         Online
                     </q-tab>

@@ -29,6 +29,9 @@ import iconCompass from "@/icons/home/iconCompass.vue"
 import iconLogo from "@/icons/general/iconLogo.vue";
 import iconWorld from "@/icons/home/iconWorld.vue"
 import iconPerson from "@/icons/general/iconPerson.vue";
+import { getCurrentLocation } from "@/services/app/location"
+import { showToast } from "@/services/capacitor/toast";
+import { useLocation } from "@/store/location";
 export default {
   name: "AppLayout",
   components: { iconPlus, iconCompass, iconLogo, iconWorld, iconPerson },
@@ -36,12 +39,20 @@ export default {
   data() {
     return {
       userStore: useUser(),
+      localStorage: useLocation(),
       notificationsListener: null,
       popularEventListener: null,
       joinedEventListener: null,
     };
   },
   methods: {
+    setLocation() {
+      getCurrentLocation().then((locationResult) => {
+        if (!locationResult.status) return showToast("Konuma ulaşılamadı");
+        this.localStorage.city = locationResult.city;
+        this.localStorage.address = locationResult.address;
+      })
+    },
     listenNotifications() {
 
     },
@@ -53,6 +64,7 @@ export default {
     }
   },
   mounted() {
+    this.setLocation()
     let interval = setInterval(() => {
       if (this.userStore.uID) {
         this.listenNotifications();

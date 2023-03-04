@@ -41,14 +41,13 @@
     </div>
   </div>
   <template v-if="showLocationChooser">
-    <comp-location-choose :coord="[54.82896654088406, 39.831893822753904]" @set-cord="setLocation"
-      @end-func="this.showLocationChooser = false" />
+    <comp-location-choose @set-cord="setLocation" @end-func="this.showLocationChooser = false" />
   </template>
 </template>
 <script>
 import { useEvent } from "@/store/event";
-import { getLocation } from "@/services/geoCode/geocode";
 import compLocationChoose from "../general/compLocationChoose.vue";
+import { getLocation } from "@/services/app/location";
 import { showAlert } from "@/services/capacitor/dialog";
 export default {
   components: { compLocationChoose },
@@ -66,15 +65,16 @@ export default {
     clickLocationText() {
       if (this.eventStore.event.location.cordinates == null && this.isOnline == false) this.showLocationChooser = true
     },
-    setLocation(value) {
+    setLocation(coordinates) {
       if (this.isOnline) return;
-      getLocation(value[0], value[1])
-        .then(({ text, locations }) => {
-          if (locations.length < 2) return showAlert("Hata", "Daha uygun bir konum seçin :)");
-          this.eventStore.event.location.text = text
-          this.eventStore.event.location.city = locations[locations.length - 2].GeoObject.name
-          this.eventStore.event.location.cordinates = value
-        })
+      getLocation(coordinates).then(result => {
+        console.log(result)
+        if (!result.status) return showAlert("Hata", "Lütfen Geçerli bi konum seçiniz")
+        this.eventStore.event.location.coordinates = coordinates
+        this.eventStore.event.location.text = result.address
+        this.eventStore.event.location.city = result.city
+      })
+
     }
   },
   computed: {

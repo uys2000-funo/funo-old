@@ -5,7 +5,8 @@
         <icon-logo-text class="s" />
       </div>
       <div class="row items-center justify-center" style="flex-grow: 1;">
-        Konum <span class="q-px-xs" style="transform: rotate(90deg);">></span>
+        {{locationStore.city ? locationStore.city : "Konum Seçin"}}
+        <span class="q-px-xs" style="transform: rotate(90deg);">></span>
       </div>
       <div class="row no-wrap items-center justify-end" style="width:25%; height: 45px;">
         <q-btn round dense size="md" class="bg-white q-mr-xs shadow-3">
@@ -42,8 +43,14 @@ import iconMeeting from "@/icons/tags/iconMeeting.vue";
 import iconMusic from "@/icons/tags/iconMusic.vue";
 import iconParty from "@/icons/tags/iconParty.vue";
 import iconSport from "@/icons/tags/iconSport.vue";
+import { useLocation } from "@/store/location.js";
 export default {
-  components: { iconLogoText, iconMessage, iconNotification, compButton, iconArt, iconEducation, iconMeeting, iconMusic, iconParty, iconSport }
+  components: { iconLogoText, iconMessage, iconNotification, compButton, iconArt, iconEducation, iconMeeting, iconMusic, iconParty, iconSport },
+  data() {
+    return {
+      locationStore: useLocation(),
+    }
+  }
 }
 
 </script>
