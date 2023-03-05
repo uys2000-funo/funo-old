@@ -32,6 +32,10 @@ import iconPerson from "@/icons/general/iconPerson.vue";
 import { getCurrentLocation } from "@/services/app/location"
 import { showToast } from "@/services/capacitor/toast";
 import { useLocation } from "@/store/location";
+import { Timestamp } from "@firebase/firestore";
+import { useEvents } from "@/store/event";
+import { watchEventsJoined } from "@/services/app/event";
+import eventArgs from "@/services/app/event.json";
 export default {
   name: "AppLayout",
   components: { iconPlus, iconCompass, iconLogo, iconWorld, iconPerson },
@@ -39,10 +43,13 @@ export default {
   data() {
     return {
       userStore: useUser(),
+      eventsStore: useEvents(),
       localStorage: useLocation(),
+
       notificationsListener: null,
       popularEventListener: null,
       joinedEventListener: null,
+
     };
   },
   methods: {
@@ -61,6 +68,12 @@ export default {
 
     },
     listenJoinedEvents() {
+      const startPoint = Timestamp.now();
+      eventArgs.watchEventsJoined[2].equality = this.userStore.uID
+      watchEventsJoined(startPoint, eventArgs.watchEventsJoined,
+        (doc) => this.eventsStore.addToAs("joined", "eID", doc),
+        (doc) => this.eventsStore.removeFromAs("joined", "eID", doc),
+      )
     }
   },
   mounted() {

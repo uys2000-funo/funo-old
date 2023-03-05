@@ -1,0 +1,131 @@
+{
+  "watchEventsJoined": [
+    {
+      "column": "dateEnd",
+      "condition": ">",
+      "equality": "",
+      "orderType": "asc",
+      "order": true,
+      "where": true,
+      "timestamp": true
+    },
+    {
+      "column": "isJoining",
+      "condition": "==",
+      "equality": true,
+      "order": false,
+      "where": true
+    },
+    {
+      "column": "uID",
+      "condition": "==",
+      "equality": "-------FillThis-------",
+      "order": false,
+      "where": true
+    }
+  ],
+  "EventFlow": {
+    "default": {
+      "column": "date.end",
+      "condition": ">",
+      "equality": "",
+      "orderType": "asc",
+      "order": true,
+      "where": true,
+      "timestamp": true
+    },
+    "tags": {
+      "column": "tags.main",
+      "condition": "array-contains-any",
+      "equality": "-------FillThis-------",
+      "order": false,
+      "where": true,
+      "serverTimestamp": false
+    },
+    "ownerType": {
+      "column": "owner.isPerson",
+      "condition": "==",
+      "equality": "-------FillThis-------",
+      "order": false,
+      "where": true,
+      "serverTimestamp": false
+    },
+    "hasApproval": {
+      "column": "conditions.approval",
+      "condition": "==",
+      "equality": "-------FillThis-------",
+      "order": false,
+      "where": true,
+      "serverTimestamp": false
+    },
+    "hasUserLimit": {
+      "column": "conditions.userLimit",
+      "condition": "==",
+      "equality": 0,
+      "order": false,
+      "where": true,
+      "serverTimestamp": false
+    },
+    "hasPrice": {
+      "column": "conditions.price",
+      "condition": "==",
+      "equality": 0,
+      "order": false,
+      "where": true,
+      "serverTimestamp": false
+    },
+    "location": {
+      "column": "location.city",
+      "condition": "==",
+      "equality": "-------FillThis-------",
+      "order": false,
+      "where": true,
+      "serverTimestamp": false
+    },
+    "isOnline": {
+      "column": "location.isOnline",
+      "condition": "==",
+      "equality": "-------FillThis-------",
+      "order": false,
+      "where": true,
+      "serverTimestamp": false
+    }
+  },
+  "EventCreated": [
+    {
+      "column": "timestamp",
+      "condition": "",
+      "equality": "",
+      "orderType": "desc",
+      "order": true,
+      "where": false,
+      "serverTimestamp": true
+    },
+    {
+      "column": "owner.uID",
+      "condition": "==",
+      "equality": "-------FillThis-------",
+      "order": false,
+      "where": true,
+      "serverTimestamp": false
+    }
+  ],
+  "EventJoined": [
+    {
+      "column": "timestamp",
+      "equality": "",
+      "orderType": "desc",
+      "order": true,
+      "where": false,
+      "serverTimestamp": true
+    },
+    {
+      "column": "uID",
+      "condition": "==",
+      "equality": "-------FillThis-------",
+      "order": false,
+      "where": true,
+      "serverTimestamp": false
+    }
+  ]
+}

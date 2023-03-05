@@ -20,10 +20,10 @@
                 </div>
             </div>
             <div class="row no-wrap items-center justify-center" style="flex-grow: 1;">
-                <template v-if="event.conditions.price != 0">
+                <template v-if="event.data.conditions.price != 0">
                     <q-icon size="md" name="local_activity" color="accent" />
                     <div class="text-caption">
-                        {{ event.conditions.price }} ₺
+                        {{ event.data.conditions.price }} ₺
                     </div>
                 </template>
             </div>
@@ -47,10 +47,10 @@
                 <q-tooltip :hide-delay="5000">
                     <div>
                         <div>
-                            {{ event.location.text }}
+                            {{ event.data.location.text }}
                         </div>
                         <div>
-                            {{ event.location.description }}
+                            {{ event.data.location.description }}
 
                         </div>
                     </div>
@@ -88,35 +88,39 @@ export default {
             else this.joinEvent()
         },
         joinEvent() {
-            joinEvent(this.event.eID, this.userStore.uID)
+            const photoURL = this.userStore.user.userFire.settings.isHidden ? false : this.userStore.user.userFire.account.photoURL
+            joinEvent(this.userStore.uID, this.event.eID, this.event.data.date.end, photoURL, this.event.data.general.userPhotoURLs)
         },
         exitEvent() {
-            exitEvent(this.event.eID, this.userStore.uID)
+            const photoURL = this.userStore.user.userFire.settings.isHidden ? true : this.userStore.user.userFire.account.photoURL
+            const dID = this.event.listJoined?.dID
+            exitEvent(this.userStore.uID, this.event.eID, dID, photoURL, this.event.data.general.userPhotoURLs)
         },
     },
     computed: {
         state() {
+            if (this.event.joined?.data.isJoining) return true
             return false
         },
         startDate() {
-            const date = new Date(this.event.date.start.seconds * 1000);
+            const date = new Date(this.event.data.date.start.seconds * 1000);
             return date.toLocaleDateString("tr-TR")
         },
         endDate() {
-            const date = new Date(this.event.date.end.seconds * 1000);
+            const date = new Date(this.event.data.date.end.seconds * 1000);
             return date.toLocaleDateString("tr-TR")
         },
         startTime() {
-            const date = new Date(this.event.date.start.seconds * 1000);
+            const date = new Date(this.event.data.date.start.seconds * 1000);
             return date.toLocaleTimeString("tr-TR").split(":").splice(0, 2).join(":")
         },
         endTime() {
-            const date = new Date(this.event.date.end.seconds * 1000);
+            const date = new Date(this.event.data.date.end.seconds * 1000);
             return date.toLocaleTimeString("tr-TR").split(":").splice(0, 2).join(":")
         },
         location() {
-            if (this.event.location.isOnline) return this.event.location.text
-            const location = this.event.location.text.split(",")
+            if (this.event.data.location.isOnline) return this.event.data.location.text
+            const location = this.event.data.location.text.split(",")
             const end = location.length - 1
             const start = Math.round(end / 2)
             return location.slice(start, end).join(", ")

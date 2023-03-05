@@ -5,7 +5,7 @@ const event = {
     name: "",
     description: "",
     photoURLs: [],
-    userPhotoURL: [],
+    userPhotoURLs: [],
   },
   owner: {
     name: "",
@@ -70,67 +70,74 @@ export const useEvents = defineStore("events", {
     filterArgs: filterArgs,
     tags: [],
     dict: {},
-    listAll: [],
-    listFlow: [],
-    listJoined: [],
-    listCreated: [],
+    lists: {},
   }),
   actions: {
-    add(document = { dID: "" }) {
-      this.dict[document.dID] = { eID: document.dID, ...document.data };
-      if (!this.eventList.includes(document.dID))
-        this.listAll.push(document.dID);
+    addData(eID, data) {
+      if (!this.dict[eID]) this.dict[eID] = {};
+      this.dict[eID].eID = eID;
+      this.dict[eID].data = data;
     },
-    addTo(key = "", document = { dID: "" }) {
-      this.dict[document.dID] = { eID: document.dID, ...document.data };
-      if (!this[key].includes(document.dID)) this[key].push(document.dID);
+    addDataAs(dID, eID, listID, data) {
+      if (!this.dict[eID]) this.dict[eID] = {};
+      if (!this.dict[eID][listID]) this.dict[eID][listID] = {};
+      this.dict[eID][listID].dID = dID;
+      this.dict[eID][listID].data = data;
     },
-    addList(documents = [{ dID: "" }]) {
-      documents.forEach((document) => {
-        this.addEvent(document);
+    addList(listID, dID) {
+      if (!this.lists[listID]) this.lists[listID] = [];
+      if (!this.lists[listID].includes(dID)) this.lists[listID].push(dID);
+    },
+    addListAs(dID, dID2) {
+      if (!this.lists[dID]) this.lists[dID] = [];
+      if (!this.lists[dID].includes(dID2)) this.lists[dID].push(dID2);
+    },
+    addTo(listID, data) {
+      this.addData(data.dID, data.data);
+      this.addList(listID, data.dID);
+    },
+    addToMany(listID, data) {
+      data.forEach((d) => {
+        this.addTo(listID, d);
       });
     },
-    addListTo(key = "", documents = [{ dID: "" }]) {
-      documents.forEach((document) => {
-        this.addTo(key, document);
+    addToAs(listID, dID, data) {
+      this.addDataAs(data.dID, data.data[dID], listID, data.data);
+      this.addListAs(listID, data.data[dID]);
+    },
+    addToAsMany(listID, dID2, data) {
+      data.forEach((d) => {
+        this.addToAs(listID, dID2, d);
       });
     },
-    remove(eID = "") {
-      this.listAll = this.listAll.filter((e) => e !== eID);
-      this.listFlow = this.listFlow.filter((e) => e !== eID);
-      this.listJoined = this.listJoined.filter((e) => e !== eID);
-      this.listCreated = this.listCreated.filter((e) => e !== eID);
-      delete this.eventDict[eID];
+    removeData(dID) {
+      delete this.dict[dID][dID];
+      delete this.dict[dID].data;
     },
-    removeFrom(key = "", eID = "") {
-      return (this[key] = this[key].filter((e) => e !== eID));
+    removeDataAs(dID, dID2) {
+      delete this.dict[dID][dID2][dID2];
+      delete this.dict[dID][dID2].data;
     },
-    lastItemID() {
-      return this.listAll[this.listAll.length - 1];
+    removeList(dID) {
+      this.lists[dID] = this.lists[dID].filter((id) => id != dID);
     },
-    lastItem() {
-      return this.dict[this.lastItemID()];
+    removeListAs(dID, dID2) {
+      this.lists[dID] = this.lists[dID].filter((id) => id != dID2);
     },
-    lastItemIDFrom(key = "") {
-      const index = this[key].length - 1;
-      return this[key][index];
+    removeFrom(dID, data) {
+      this.removeData(dID, data);
+      this.removeList(dID);
     },
-    lastItemFrom(key = "") {
-      return this.dict[this.lastItemIDFrom(key)];
+    removeFromAs(dID, dID2, data) {
+      this.removeData(dID, dID2, data);
+      this.removeList(dID, dID2);
     },
-  },
-  getters: {
-    all: (state) => {
-      return state.listAll.map((eID) => state.dict[eID]);
+    getLastID(listID) {
+      return this.lists[listID][this.lists[listID].length - 1];
     },
-    flow: (state) => {
-      return state.listFlow.map((eID) => state.dict[eID]);
-    },
-    joined: (state) => {
-      return state.listJoined.map((eID) => state.dict[eID]);
-    },
-    created: (state) => {
-      return state.listCreated.map((eID) => state.dict[eID]);
+    getLast(listID) {
+      if (!this.lists[listID]) return null;
+      else return this.dict[this.getLastID(listID)]
     },
   },
 });

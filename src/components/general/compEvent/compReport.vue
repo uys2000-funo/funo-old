@@ -11,33 +11,24 @@
 </template>
 <script>
 import { reportEvent } from "@/services/app/event"
-import { user } from "@/store/user";
+import { useUser } from "@/store/user";
 export default {
     props: ["openSettings", "event"],
     data() {
         return {
-            user: user(),
+            userStore: useUser(),
             report: {
-                eID: "",
-                oID: "",
-                uID: "",
                 reason: "",
                 explanation: ""
             },
-            options: ["Uygunsuz Dçerik", "Dolandırıcılık",
-            ],
+            options: ["Uygunsuz Dçerik", "Dolandırıcılık"],
 
         }
     },
     methods: {
         onSubmit() {
-            reportEvent(this.event.eID, this.report).then(() => this.openSettings())
+            reportEvent(this.userStore.uID, this.event.owner.uID, this.event.eID, this.report).then(() => this.openSettings())
         }
-    },
-    mounted() {
-        this.report.uID = this.user.uID;
-        this.report.eID = this.event.eID;
-        this.report.oID = this.event.general.oID;
     }
 }
 </script>

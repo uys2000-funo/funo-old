@@ -1,5 +1,5 @@
 <template>
-    <div class="event full-width text-black q-mb-md">
+    <div v-if="show" class="event full-width text-black q-mb-md">
         <comp-header :event="event" :icon="icon" :openSettings="openSettings" />
         <q-carousel keep-alive v-model="slide" transition-prev="slide-right" transition-next="slide-left" animated
             class="bg-secondary" style="height: min-content;">
@@ -22,12 +22,16 @@ import compBody from './compEvent/compBody.vue';
 import compSettings from './compEvent/compSettings.vue';
 import compReport from './compEvent/compReport.vue';
 import compFooter from './compEvent/compFooter.vue';
+import { getEvent } from '@/services/app/event';
+import { useEvents } from '@/store/event';
 export default {
     components: { compHeader, compBody, compSettings, compReport, compFooter },
-    props: ["event"],
+    props: ["event", "eID"],
     data() {
         return {
-            slide: "event"
+            slide: "event",
+            eventsStore: useEvents(),
+            show: false
         }
     },
     methods: {
@@ -39,6 +43,13 @@ export default {
         openReport() {
             this.slide = "report"
         }
+    },
+    mounted() {
+        if (this.event) this.show = true
+        else getEvent(this.eID).then(event => {
+            console.log(event)
+            this.eventsStore.addData(event.dID, event.data)
+        })
     },
     computed: {
         icon() {

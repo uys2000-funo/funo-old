@@ -1,23 +1,23 @@
 <template>
     <div class="q-px-sm rounded-borders" style="height:35vw">
-        <div class="image fit rounded-borders relative" :style="`background-image: url(${event.general.photoURLs[0]});`">
+        <div class="image fit rounded-borders relative" :style="`background-image: url(${event.data.general.photoURLs[0]});`">
             <div class="full-width row no-wrap justify-end">
-                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.tags.main.includes('art')">
+                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.data.tags.main.includes('art')">
                     <icon-art />
                 </q-icon>
-                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.tags.main.includes('education')">
+                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.data.tags.main.includes('education')">
                     <icon-education />
                 </q-icon>
-                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.tags.main.includes('meeting')">
+                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.data.tags.main.includes('meeting')">
                     <icon-meeting />
                 </q-icon>
-                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.tags.main.includes('music')">
+                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.data.tags.main.includes('music')">
                     <icon-music />
                 </q-icon>
-                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.tags.main.includes('party')">
+                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.data.tags.main.includes('party')">
                     <icon-party />
                 </q-icon>
-                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.tags.main.includes('sport')">
+                <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.data.tags.main.includes('sport')">
                     <icon-sport />
                 </q-icon>
             </div>
@@ -42,7 +42,7 @@ export default {
     },
     methods: {
         getImage() {
-            if (this.event.counters.image != 0)
+            if (this.event.data.counters.image != 0)
                 getEventImage(this.event.eID)
                     .then(srcImg => this.srcImg = srcImg)
         }

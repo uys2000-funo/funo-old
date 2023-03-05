@@ -71,10 +71,6 @@ export default {
     },
     methods: {
         onUpdate() {
-            console.log(
-                this.isHidden,
-                this.isReceivable,
-            )
             this.userStore.user.userFire.settings.isHidden = this.isHidden;
             this.userStore.user.userFire.settings.isReceivable = this.isReceivable;
             updateUserData(this.userStore.uID,

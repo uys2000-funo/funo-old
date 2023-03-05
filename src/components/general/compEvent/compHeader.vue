@@ -3,15 +3,16 @@
         <div class="row no-wrap justify-between">
             <q-btn flat dense no-caps class="row no-wrap items-center">
                 <q-avatar size="md" class="shadow-2 q-mr-sm">
-                    <img :src="event.owner?.photoURL" alt="">
+                    <img v-if="event.data.owner?.photoURL" :src="event.data.owner?.photoURL" alt="">
+                    <q-icon v-else name="person"/>
                 </q-avatar>
                 <span>
-                    {{ event.owner?.nickName }}
+                    {{ event.data.owner?.nickName }}
                 </span>
             </q-btn>
             <div flat dense no-caps class="row no-wrap items-center justify-end">
                 <span>
-                    {{ event.general?.name }}
+                    {{ event.data.general?.name }}
                 </span>
                 <q-btn flat dense no-caps round class="q-ml-sm" @click="openSettings">
                     <q-avatar size="md">
