@@ -1,6 +1,7 @@
 <template>
     <q-infinite-scroll class="full-width" @load="onLoad">
-        <comp-event v-for="(eID, index) in eventsStore.lists[list]" :key="index" :event="eventsStore.dict[eID]" />
+        <comp-event v-for="(eID, index) in eventsStore.lists[list]" :key="index" :event="eventsStore.dict[eID]"
+            :eID="eventsStore.dict[eID][this.list].data.eID" />
         <template v-slot:loading>
             <div class="row justify-center q-my-md">
                 <q-spinner-dots color="primary" size="40px" />
@@ -28,15 +29,25 @@ export default {
     methods: {
         onLoad(index, done) {
             let startPoint = Timestamp.now()
-            eventArgs.EventJoined[1].equality = this.userStore.uID
+
+            if (this.$route.params.uID)
+                eventArgs.EventJoined[1].equality = this.$route.params.uID
+            else
+                eventArgs.EventJoined[1].equality = this.userStore.uID
+
             if (index - 1 != 0)
-                startPoint = this.eventsStore.getLast(this.list).data.timestamp
+                startPoint = this.eventsStore.getLast(this.list)[this.list].data.timestamp
+
             getEvents(startPoint, eventArgs.EventJoined, "UserJoinedEvent").then(documents => {
                 if (documents.length == 0) done(true)
-                else this.eventsStore.addToMany(this.list, documents)
+                else this.eventsStore.addToAsMany(this.list, "eID", documents)
                 done()
             })
         },
+    },
+    mounted() {
+        if (this.$route.params.uID) this.list = "UserJoined"
+
     }
 }
 </script>

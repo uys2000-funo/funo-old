@@ -1,0 +1,22 @@
+{
+  "followedUser": [
+    {
+      "column": "uID",
+      "condition": "==",
+      "equality": "-------FillThis-------",
+      "orderType": "asc",
+      "order": false,
+      "where": true,
+      "timestamp": false
+    },
+    {
+      "column": "fID",
+      "condition": "==",
+      "equality": "-------FillThis-------",
+      "orderType": "asc",
+      "order": false,
+      "where": true,
+      "timestamp": false
+    }
+  ]
+}

@@ -42,14 +42,18 @@ export default {
         },
         openReport() {
             this.slide = "report"
+        },
+        loadEvent() {
+            getEvent(this.eID).then(event => {
+                this.eventsStore.dict[this.eID].eID = this.eID
+                this.eventsStore.dict[this.eID].data = event.data
+                this.show = true;
+            })
         }
     },
     mounted() {
-        if (this.event) this.show = true
-        else getEvent(this.eID).then(event => {
-            console.log(event)
-            this.eventsStore.addData(event.dID, event.data)
-        })
+        if (this.event.data) this.show = true
+        else this.loadEvent()
     },
     computed: {
         icon() {

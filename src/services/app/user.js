@@ -6,12 +6,15 @@ import {
 import { signInWithEmailAndPassword } from "@/services/app/auth";
 import { signOutFirebase } from "@/services/firebase/authentication";
 import {
+  addDocument,
+  getCollectionOWU,
   getDocument,
   increaseDocument,
   setDocument,
 } from "@/services/firebase/firestore";
 import { updateDocument } from "@/services/firebase/firestore";
 import { getFile, uploadFile } from "../firebase/storage";
+import user from "@/services/app/user.json";
 
 export const createUser = function (uID, data, image) {
   l("Run - createUser", arguments);
@@ -68,4 +71,19 @@ export const updatePassword = function (mail, oldPassword, newPassword) {
 export const signOut = function () {
   l("Run - signOut", arguments);
   return signOutFirebase().then(() => signOutCapacitor());
+};
+export const followedUser = function (uID, fID) {
+  user.followedUser[0].equality = uID;
+  user.followedUser[1].equality = fID;
+  return f(getCollectionOWU, ["UserFollowedUser", null, user.followedUser]);
+};
+export const followUser = function (uID, fID) {
+  return f(addDocument, ["UserFollowedUser", { uID, fID, isFollowing: true }])
+    .then((r) => f(increaseDocument, ["User", fID, "follower", 1], r))
+    .then((r) => f(increaseDocument, ["User", uID, "followed", 1], r));
+};
+export const unfollowUser = function (uID, fID, dID) {
+  return f(updateDocument, ["UserFollowedUser", dID, { isFollowing: false }])
+    .then((r) => f(increaseDocument, ["User", fID, "follower", -1], r))
+    .then((r) => f(increaseDocument, ["User", uID, "followed", -1], r));
 };

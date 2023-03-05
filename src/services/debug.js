@@ -52,7 +52,7 @@ let f = function (
     promise
       .apply(null, paramaters)
       .then((r) => l(`Res : ${promise.name}`, paramaters, res(r)))
-      .then((r) => resolve(r))
+      .then((r) => resolve(res(r)))
       .catch((e) => lE(`Err : ${promise.name}`, paramaters, e))
       .then((e) => reject(e));
   });

@@ -126,6 +126,14 @@
       "order": false,
       "where": true,
       "serverTimestamp": false
+    },
+    {
+      "column": "isJoining",
+      "condition": "==",
+      "equality": true,
+      "order": false,
+      "where": true,
+      "serverTimestamp": false
     }
   ]
 }

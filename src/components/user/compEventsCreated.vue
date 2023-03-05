@@ -28,15 +28,25 @@ export default {
     methods: {
         onLoad(index, done) {
             let startPoint = Timestamp.now()
-            eventArgs.EventCreated[1].equality = this.userStore.uID
+
+            if (this.$route.params.uID)
+                eventArgs.EventCreated[1].equality = this.$route.params.uID
+            else
+                eventArgs.EventCreated[1].equality = this.userStore.uID
+
             if (index - 1 != 0)
                 startPoint = this.eventsStore.getLast(this.list).data.timestamp
+
             getEvents(startPoint, eventArgs.EventCreated).then(documents => {
                 if (documents.length == 0) done(true)
                 else this.eventsStore.addToMany(this.list, documents)
                 done()
             })
         },
+    },
+    mounted() {
+        if (this.$route.params.uID) this.list = "UserCreated"
+
     }
 }
 </script>

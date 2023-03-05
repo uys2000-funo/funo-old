@@ -112,7 +112,6 @@ const getQuery = function (table, start, qa) {
   });
   args.push(where("isDeleted", "==", false));
   if (start != null) args.push(startAfter(start));
-  else args.push(startAfter(Timestamp.now()));
   args.push(limit(settings.limitFirestore));
   l(`Arg: getQuery`, args);
   return query(...args);

@@ -1,14 +1,14 @@
 <template>
     <q-carousel :model-value="p" :transition-prev="animation" :transition-next="animation" animated infinite
         class="fit bg-secondary text-black" keep-alive>
-        <q-carousel-slide :name="0" class="column no-wrap flex-start"  style="padding: 0px;">
-            <comp-followed-users />
+        <q-carousel-slide :name="0" class="column no-wrap flex-start" style="padding: 0px;">
+            <comp-followed-users :user="user" />
         </q-carousel-slide>
         <q-carousel-slide :name="1" class="column no-wrap flex-start" style="padding: 0px;">
-            <comp-events-joined />
+            <comp-events-joined :user="user" />
         </q-carousel-slide>
         <q-carousel-slide :name="2" class="column no-wrap flex-start" style="padding: 0px;">
-            <comp-events-created />
+            <comp-events-created :user="user" />
         </q-carousel-slide>
         <q-carousel-slide :name="3" class="column no-wrap flex-start" style="padding: 0px;">
             <comp-edit />
@@ -28,7 +28,7 @@ export default {
     components: {
         compFollowedUsers, compEventsJoined, compEventsCreated, compEdit, compSettings,
     },
-    props: ["pageNumber", "setPage", "images"],
+    props: ["pageNumber", "setPage", "images", "user", "type"],
     data() {
         return {
             animation: "slide-left",

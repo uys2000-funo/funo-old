@@ -151,9 +151,12 @@ export default {
     }
   },
   mounted() {
-    if (this.type){
+    if (this.type) {
       this.components[3] = "iconMail"
       this.components[4] = "iconAccount"
+    } else {
+      this.components[3] = "iconEdit"
+      this.components[4] = "iconSettings"
     }
     this.updateIcons(0)
     this.moveEndEvent(this.pageNumber);
