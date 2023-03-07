@@ -37,6 +37,7 @@ export const getOldSendedChatMessages = function (uID, rID, last) {
     messages.oldChatMessages,
   ]);
 };
+
 export const getOldReceivedChatMessages = function (uID, rID, last) {
   messages.oldChatMessages[1].equality = rID;
   messages.oldChatMessages[2].equality = uID;
@@ -46,6 +47,7 @@ export const getOldReceivedChatMessages = function (uID, rID, last) {
     messages.oldChatMessages,
   ]);
 };
+
 export const watchNewChatMessages = function (uID, rID, addFunc) {
   messages.newChatMessages[1].equality = rID;
   messages.newChatMessages[2].equality = uID;
@@ -61,12 +63,24 @@ export const watchNewChatMessages = function (uID, rID, addFunc) {
 export const setMessageHistory = function (
   uID,
   rID,
+  uNickName,
+  rNickName,
   message,
   uPhotoURL,
   rPhotoURL
 ) {
-  const uHistory = { uID: rID, lastMessage: message, photoURL: rPhotoURL };
-  const rHistory = { uID: uID, lastMessage: message, photoURL: uPhotoURL };
+  const uHistory = {
+    uID: rID,
+    nickName: rNickName,
+    lastMessage: message,
+    photoURL: rPhotoURL,
+  };
+  const rHistory = {
+    uID: uID,
+    nickName: uNickName,
+    lastMessage: message,
+    photoURL: uPhotoURL,
+  };
   const uArgs = ["UserMessageHistory", uID, "History", rID, uHistory];
   const rArgs = ["UserMessageHistory", rID, "History", uID, rHistory];
   return f(setDocumentSubCollection, uArgs).then(() =>

@@ -1,11 +1,11 @@
 <template>
     <div class="fit column no-wrap overflow-hidden">
-        <q-carousel v-model="slide" vertical transition-prev="slide-up" transition-next="slide-up" swipeable animated
-            control-color="white" class="bg-secondary fit">
-            <q-carousel-slide name="event" class="fit">
+        <q-carousel v-model="slide" vertical transition-prev="slide-up" transition-next="slide-up" animated
+            control-color="white" class="bg-secondary fit  overflow-hidden">
+            <q-carousel-slide name="event" class="fit ">
                 <compEvent />
             </q-carousel-slide>
-            <q-carousel-slide name="comment">
+            <q-carousel-slide name="comment" class="fit overflow-hidden">
                 <comp-comments />
             </q-carousel-slide>
         </q-carousel>

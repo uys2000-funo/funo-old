@@ -1,7 +1,7 @@
 <template>
     <router-view v-slot="{ Component }">
         <comp-popup fullscreen v-if="show">
-            <div class="fit column no-wrap align-center">
+            <div class="fit column no-wrap align-center overflow-hidden">
                 <comp-image :photoURLs="eventStore.event.data.general.photoURLs" />
                 <div class=" full-width absolute row items-center align-center">
                     <div class="col-4">
@@ -18,7 +18,7 @@
                 <div class="text-h6 text-center q-pt-md">
                     {{ eventStore.event.data.general.name }}
                 </div>
-                <div class="fit">
+                <div class="fit  overflow-hidden">
                     <component :is="Component" />
                 </div>
             </div>
@@ -43,7 +43,7 @@ export default {
     },
     mounted() {
         if (this.$route.params.eID) {
-            if (!this.eventStore.event?.data?.general) getEvent(this.$route.params.eID).then(document => {
+            if (!this.eventStore.event?.data?.general?.name) getEvent(this.$route.params.eID).then(document => {
                 this.eventStore.event = {
                     data: document.data,
                     eID: this.$route.params.eID

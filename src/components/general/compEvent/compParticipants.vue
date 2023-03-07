@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userPhotoURLs.length == 0">
+  <div v-if="userPhotoURLs?.length == 0">
     İlk Olabilirsin :)
   </div>
   <template v-for="(item, index) in userPhotoURLs" :key="index">

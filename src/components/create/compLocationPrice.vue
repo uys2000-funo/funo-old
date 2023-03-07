@@ -2,12 +2,12 @@
   <div>
     <div class="row no-wrap justify-between">
       <span class="text-h6">Etkinlik Türü <span class="text-caption">(Yüz Yüze / Online)</span></span>
-      <q-toggle color="bg-primary" v-model="eventStore.event.location.isOnline" />
+      <q-toggle color="bg-primary" v-model="eventStore.event.data.location.isOnline" />
     </div>
     <div class="full-width">
       <span class="text-h6">{{ isOnline ? "Platform" : "Konum" }}</span>
       <div>
-        <q-input v-model="eventStore.event.location.text" outlined
+        <q-input v-model="eventStore.event.data.location.text" outlined
           :placeholder="isOnline ? 'Platform ismi' : 'Konum seçiniz'" @click="clickLocationText">
           <template v-slot:append v-if="!isOnline">
             <q-btn round dense class="bg-primary text-black" @click="() => showLocationChooser = true">></q-btn>
@@ -18,7 +18,7 @@
     <div class="full-width">
       <span class="text-h6">{{ isOnline ? "Link" : "Tarif" }}</span>
       <div>
-        <q-input v-model="eventStore.event.location.description" outlined
+        <q-input v-model="eventStore.event.data.location.description" outlined
           :placeholder="isOnline ? 'Etkinlik adresi (URL)' : 'Konum tarifi'" />
       </div>
     </div>
@@ -29,7 +29,7 @@
       </div>
       <q-slide-transition>
         <div v-show="showPrice">
-          <q-input dense v-model.number="eventStore.event.conditions.price" type="number">
+          <q-input dense v-model.number="eventStore.event.data.conditions.price" type="number">
             <template v-slot:prepend>
               <span class="text-caption">
                 Ücret:
@@ -64,16 +64,16 @@ export default {
   },
   methods: {
     clickLocationText() {
-      if (this.eventStore.event.location.cordinates == null && this.isOnline == false) this.showLocationChooser = true
+      if (this.eventStore.event.data.location.coordinates == null && this.isOnline == false) this.showLocationChooser = true
     },
     setLocation(coordinates) {
       if (this.isOnline) return;
       getLocation(coordinates).then(result => {
         console.log(result)
         if (!result.status) return showAlert("Hata", "Lütfen Geçerli bi konum seçiniz")
-        this.eventStore.event.location.coordinates = coordinates
-        this.eventStore.event.location.text = result.address
-        this.eventStore.event.location.city = result.city
+        this.eventStore.event.data.location.coordinates = coordinates
+        this.eventStore.event.data.location.text = result.address
+        this.eventStore.event.data.location.city = result.city
         this.coords = coordinates
       })
 
@@ -81,24 +81,24 @@ export default {
   },
   computed: {
     isOnline() {
-      return this.eventStore.event.location.isOnline;
+      return this.eventStore.event.data.location.isOnline;
     }
   },
   mounted() {
     if (this.page == 0 && this.setPage) this.setPage(1);
-    this.coords = this.eventStore.event.location.coordinates
+    this.coords = this.eventStore.event.data.location.coordinates
   },
   watch: {
     showPrice() {
       if (!this.showPrice) {
-        this.eventStore.event.conditions.price = 0
+        this.eventStore.event.data.conditions.price = 0
       }
     },
     isOnline() {
-      this.textCache = this.eventStore.event.location.text;
-      this.descriptionCache = this.eventStore.event.location.description;
-      this.eventStore.event.location.text = ""
-      this.eventStore.event.location.description = ""
+      this.textCache = this.eventStore.event.data.location.text;
+      this.descriptionCache = this.eventStore.event.data.location.description;
+      this.eventStore.event.data.location.text = ""
+      this.eventStore.event.data.location.description = ""
     }
   }
 };

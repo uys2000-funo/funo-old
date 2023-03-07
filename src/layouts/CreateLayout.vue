@@ -60,14 +60,14 @@ export default {
       else this.isEditPage() ? this.updateEvent() : this.createEvent()
     },
     updateEvent() {
-      updateEvent(this.userStore.uID, this.eventStore.event, this.eventStore.images)
+      updateEvent(this.userStore.uID, this.eventStore.event.data, this.eventStore.images)
         .then(() => {
           this.$router.push({ name: "EventsPage" })
           this.eventStore.clear()
         })
     },
     createEvent() {
-      createEvent(this.userStore.uID, this.eventStore.event, this.eventStore.images)
+      createEvent(this.userStore.uID, this.eventStore.event.data, this.eventStore.images)
         .then(() => {
           this.$router.push({ name: "EventsPage" })
           this.eventStore.clear()
@@ -77,8 +77,8 @@ export default {
     loadEvent() {
       return getEvent(this.$route.params.eID)
         .then(({ data: event }) => {
-          this.eventStore.event = { eID: this.$route.params.eID, ...event }
-          this.eventStore.event.general.photoURLs.forEach(url => {
+          this.eventStore.event = { eID: this.$route.params.eID, data: event }
+          this.eventStore.event.data.general.photoURLs.forEach(url => {
             this.eventStore.imageURLs.push(url)
             this.eventStore.images.push(false)
           });
@@ -86,10 +86,10 @@ export default {
         })
     },
     loadUser() {
-      this.eventStore.event.owner.isPerson = this.userStore.isPerson
-      this.eventStore.event.owner.nickName = this.userStore.nickName
-      this.eventStore.event.owner.uID = this.userStore.uID
-      this.eventStore.event.owner.photoURL = this.userStore.user.userFire.account.photoURL
+      this.eventStore.event.data.owner.isPerson = this.userStore.isPerson
+      this.eventStore.event.data.owner.nickName = this.userStore.nickName
+      this.eventStore.event.data.owner.uID = this.userStore.uID
+      this.eventStore.event.data.owner.photoURL = this.userStore.user.userFire.account.photoURL
     },
   },
   mounted() {

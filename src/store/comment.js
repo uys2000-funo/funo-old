@@ -25,13 +25,34 @@ export const useComments = defineStore("comments", {
       if (!this.lists[listID]) this.lists[listID] = [];
       if (!this.lists[listID].includes(cID)) this.lists[listID].push(cID);
     },
+    addListBegin(listID, cID) {
+      if (!this.lists[listID]) this.lists[listID] = [];
+      if (!this.lists[listID].includes(cID)) this.lists[listID].unshift(cID);
+    },
+    addListAsBegin(listID, cID) {
+      if (!this.lists[listID]) this.lists[listID] = [];
+      if (!this.lists[listID].includes(cID)) this.lists[listID].unshift(cID);
+    },
+    add(listID, data) {
+      this.addData(data.dID, data.data);
+      this.addList(listID, data.dID);
+    },
     addTo(listID, data) {
       this.addData(data.dID, data.data);
       this.addList(listID, data.dID);
     },
+    addToBegin(listID, data) {
+      this.addData(data.dID, data.data);
+      this.addListBegin(listID, data.dID);
+    },
     addToMany(listID, data) {
       data.forEach((d) => {
         this.addTo(listID, d);
+      });
+    },
+    addToManyBegin(listID, data) {
+      data.forEach((d) => {
+        this.addToBegin(listID, d);
       });
     },
     addToAs(listID, dID, data) {

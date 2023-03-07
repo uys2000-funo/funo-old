@@ -3,13 +3,13 @@
         <div class="full-width">
             <span class="text-h6">Etkinlik Adı</span>
             <div>
-                <q-input v-model="eventStore.event.general.name" outlined placeholder="Etkinlik Adı" />
+                <q-input v-model="eventStore.event.data.general.name" outlined placeholder="Etkinlik Adı" />
             </div>
         </div>
         <div class="full-width">
             <span class="text-h6">Açıklama</span>
             <div>
-                <q-input v-model="eventStore.event.general.description" outlined type="textarea"
+                <q-input v-model="eventStore.event.data.general.description" outlined type="textarea"
                     placeholder="Etkinlik hakkında detaylı bilgi girin" />
             </div>
         </div>

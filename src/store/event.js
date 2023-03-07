@@ -57,7 +57,7 @@ export const useEvent = defineStore("event", {
   }),
   actions: {
     clear() {
-      this.event = event;
+      this.event = { data: event, eID: "" };
       this.images = [];
       this.imageURLs = [];
     },

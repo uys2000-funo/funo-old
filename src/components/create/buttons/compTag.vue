@@ -18,12 +18,12 @@ export default {
     },
     methods: {
         clickEvent() {
-            if (!this.state) this.eventStore.event.tags.main.push(this.value)
-            else this.eventStore.event.tags.main = this.eventStore.event.tags.main.filter(i => i != this.value)
+            if (!this.state) this.eventStore.event.data.tags.main.push(this.value)
+            else this.eventStore.event.data.tags.main = this.eventStore.event.data.tags.main.filter(i => i != this.value)
             this.state = !this.state;
         },
         checkTag() {
-            if (this.eventStore.event.tags.main.includes(this.value))
+            if (this.eventStore.event.data.tags.main.includes(this.value))
                 this.state = true;
         }
     },

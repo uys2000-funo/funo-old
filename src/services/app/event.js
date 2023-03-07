@@ -111,6 +111,8 @@ export const exitEvent = function (
     .then(() => f(increaseDocument, ["Event", eID, "joinEvent", -1]));
 };
 
+export const addUserToEvent = function () {};
+
 export const getEvents = function (
   start,
   queryArgs = [

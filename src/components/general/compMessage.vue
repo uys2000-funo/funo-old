@@ -34,7 +34,7 @@ import { Timestamp } from '@firebase/firestore';
 import { setMessageHistory } from '@/services/app/message';
 export default {
   components: { compMessageGetted, compMessageSended },
-  props: ["rID", "rPhotoURL"],
+  props: ["rID", "rPhotoURL", "rNickName"],
   data() {
     return {
       message: "",
@@ -49,11 +49,11 @@ export default {
       )
     },
     setMessageHistory(message) {
-      setMessageHistory(this.userStore.uID, this.rID, message, this.userStore.photoURL, this.rPhotoURL)
+      setMessageHistory(this.userStore.uID, this.rID, this.userStore.nickName, this.rNickName, message, this.userStore.photoURL, this.rPhotoURL)
     },
     updateMessageHistory() {
       const lastMessage = this.messageStore.getLast(this.rID);
-      updateMessageHistory(this.userStore.uID, this.rID, lastMessage.data.message, this.userStore.photoURL, this.rPhotoURL)
+      updateMessageHistory(this.userStore.uID, this.rID, this.userStore.nickName, this.rNickName, lastMessage.data.message, this.userStore.photoURL, this.rPhotoURL)
     },
     getReceivedMessages(last) {
       return getOldReceivedChatMessages(this.userStore.uID, this.rID, last)

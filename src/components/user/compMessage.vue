@@ -1,6 +1,7 @@
 <template>
     <div class="fit">
-        <comp-message :rID="user.uID" :rPhotoURL="user.account.photoURL" v-if="isReceivable" />
+        <comp-message :rID="user.uID" :rPhotoURL="user.account.photoURL" :rNickName="user.general.nickName"
+            v-if="isReceivable" />
         <div v-else class="q-px-lg q-py-xl">
             <p>
                 Kullanıcı Yeni Mesajları Engelliyor.
