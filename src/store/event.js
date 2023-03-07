@@ -84,13 +84,13 @@ export const useEvents = defineStore("events", {
       this.dict[eID][listID].dID = dID;
       this.dict[eID][listID].data = data;
     },
-    addList(listID, dID) {
+    addList(listID, eID) {
       if (!this.lists[listID]) this.lists[listID] = [];
-      if (!this.lists[listID].includes(dID)) this.lists[listID].push(dID);
+      if (!this.lists[listID].includes(eID)) this.lists[listID].push(eID);
     },
-    addListAs(dID, dID2) {
-      if (!this.lists[dID]) this.lists[dID] = [];
-      if (!this.lists[dID].includes(dID2)) this.lists[dID].push(dID2);
+    addListAs(listID, eID) {
+      if (!this.lists[listID]) this.lists[listID] = [];
+      if (!this.lists[listID].includes(eID)) this.lists[listID].push(eID);
     },
     addTo(listID, data) {
       this.addData(data.dID, data.data);
@@ -110,34 +110,34 @@ export const useEvents = defineStore("events", {
         this.addToAs(listID, dID2, d);
       });
     },
-    removeData(dID) {
-      delete this.dict[dID][dID];
-      delete this.dict[dID].data;
+    removeData(listID) {
+      if (this.dict[listID].eID) delete this.dict[listID].eID;
+      if (this.dict[listID].data) delete this.dict[listID].data;
     },
-    removeDataAs(dID, dID2) {
-      delete this.dict[dID][dID2][dID2];
-      delete this.dict[dID][dID2].data;
+    removeDataAs(listID, eID) {
+      if (this.dict[eID][listID].dID) delete this.dict[eID][listID].dID;
+      if (this.dict[eID][listID].data) delete this.dict[eID][listID].data;
     },
-    removeList(dID) {
-      this.lists[dID] = this.lists[dID].filter((id) => id != dID);
+    removeList(listID, eID) {
+      this.lists[listID] = this.lists[listID].filter((id) => id != eID);
     },
-    removeListAs(dID, dID2) {
-      this.lists[dID] = this.lists[dID].filter((id) => id != dID2);
+    removeListAs(listID, eID) {
+      this.lists[listID] = this.lists[listID].filter((id) => id != eID);
     },
-    removeFrom(dID, data) {
-      this.removeData(dID, data);
-      this.removeList(dID);
+    removeFrom(listID, data) {
+      this.removeData(listID, data);
+      this.removeList(listID);
     },
-    removeFromAs(dID, dID2, data) {
-      this.removeData(dID, dID2, data);
-      this.removeList(dID, dID2);
+    removeFromAs(listID, dID, data) {
+      data.data[dID], listID, this.removeDataAs(listID, data.data[dID]);
+      this.removeListAs(listID, data.data[dID]);
     },
     getLastID(listID) {
       return this.lists[listID][this.lists[listID].length - 1];
     },
     getLast(listID) {
       if (!this.lists[listID]) return null;
-      else return this.dict[this.getLastID(listID)]
+      else return this.dict[this.getLastID(listID)];
     },
   },
 });

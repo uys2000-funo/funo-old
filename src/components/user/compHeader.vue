@@ -52,9 +52,7 @@ export default {
                 this.state = false
 
             })
-
         },
-
         followUser() {
             followUser(this.userStore.uID, this.$route.params.uID).then(doc => {
                 this.dID = doc.dID
@@ -63,28 +61,22 @@ export default {
             })
         },
         followButton() {
-            console.log(this.state)
             if (!this.state) this.followUser()
             else this.unfollowUser()
         }
     },
     mounted() {
-        console.log(this.$route.params.uID)
         if (!this.$route.params.uID) this.count = this.userStore.user.userFire.count
         else {
             followedUser(this.userStore.uID, this.$route.params.uID).then(doc => {
                 if (doc.length == 0) this.state = false
                 else {
-                    console.log(doc)
                     this.dID = doc[0].dID
                     this.state = doc[0].data.isFollowing
                 }
             })
-
         }
-
     }
-
 }
 </script>
 <style>

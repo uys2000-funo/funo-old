@@ -8,7 +8,7 @@
                 </div>
             </q-btn>
         </div>
-        <template v-if="userStore.uID == event.owner.uID">
+        <template v-if="userStore.uID == event.data.owner.uID">
             <div class="btn">
                 <q-btn rounded class="fit" :to="`/app/edit/${event.eID}/`">
                     <q-icon size="lg" name="edit_note" />

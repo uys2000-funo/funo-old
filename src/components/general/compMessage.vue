@@ -1,116 +1,127 @@
 <template>
-  <div class="column reverse no-wrap fit">
-    <div class="rounded">
-      <q-input outlined rounded v-model="msg" placeholder="Mesaj Gönder">
+  <div class="fit column no-wrap">
+    <div class="fit column no-wrap justify-end overflow-hidden" style="flex-grow: 1;">
+      <q-infinite-scroll reverse class="fit column no-wrap reverse overflow-auto q-pb-sm q-px-sm" @load="getOldMessages">
+        <div v-for="(mID, index) in messages" :key="index" :set="uID = messageStore.dict[mID].data.rID">
+          <comp-message-getted v-if="uID != rID" :message="messageStore.dict[mID].data.message"
+            :photoUrl="userStore.photoURL" />
+          <comp-message-sended v-else :message="messageStore.dict[mID].data.message" :photoUrl="rPhotoURL" />
+        </div>
+        <template v-slot:loading>
+          <div class="row justify-center q-my-md">
+            <q-spinner-dots color="primary" size="40px" />
+          </div>
+        </template>
+      </q-infinite-scroll>
+    </div>
+
+    <div class="q-mb-sm q-px-sm">
+      <q-input rounded outlined v-model="message" placeholder="Mesaj Gönder">
         <template v-slot:append>
           <q-btn flat dense round icon="send" @click="sendMessage" />
         </template>
       </q-input>
     </div>
-    <q-scroll-area style="width: 100%; height: 100%">
-      <div class="full-height column reverse ">
-        {{ msgs }}
-        <template v-for="m in msgs" :key="m">
-          <div>
-            m
-          </div>
-        </template>
-        <template v-for="msgID in messages.msgDict[sID]" :key="msgID">
-          <comp-message-getted v-if="msgID.user != uID"
-            uIMG="https://firebasestorage.googleapis.com/v0/b/gogol-test-app.appspot.com/o/U%2FXvrtXQT8S4aPiF4YwQ5q7jJKbpS2%2Fimgs%2FuImg?alt=media&token=1d976c42-5d36-4492-afb4-ddb77c3ca726"
-            :msg="msgID.msg" />
-          <comp-message-sended v-else
-            uIMG="https://firebasestorage.googleapis.com/v0/b/gogol-test-app.appspot.com/o/U%2FXvrtXQT8S4aPiF4YwQ5q7jJKbpS2%2Fimgs%2FuImg?alt=media&token=1d976c42-5d36-4492-afb4-ddb77c3ca726"
-            :msg="msgID.msg" />
-        </template>
-      </div>
-    </q-scroll-area>
   </div>
 </template>
 <script>
+import { useUser } from '@/store/user';
+import { useMessages } from "@/store/messages"
 import compMessageGetted from './compMessage/compMessageGetted.vue';
 import compMessageSended from './compMessage/compMessageSended.vue';
-import { user } from '@/store/user';
-import { messages } from "@/store/messages"
-import { getTarget, sendMessage, setupMessage, getMessages, getMessage, shortMessages } from '@/services/app/message';
-getMessages
+import { sendMessage, getOldReceivedChatMessages, getOldSendedChatMessages, watchNewChatMessages, updateMessageHistory } from '@/services/app/messages';
+import { Timestamp } from '@firebase/firestore';
+import { setMessageHistory } from '@/services/app/messages';
 export default {
   components: { compMessageGetted, compMessageSended },
+  props: ["rID", "rPhotoURL"],
   data() {
     return {
-      uID: "",
-      sID: "",
-      msg: "",
-      msgs: [],
-      target: "",
-      user: user(),
-      messages: messages(),
-      msgListener: null,
+      message: "",
+      userStore: useUser(),
+      messageStore: useMessages(),
     }
   },
   methods: {
-    setTarget() {
-      const uID = this.user.ID;
-      const sID = this.$route.params.id
-
-      this.uID = uID;
-      this.target = getTarget(uID, sID);
-    },
-    isFisrtTime() {
-      if (this.messages.msgIDList.includes(this.$route.params.id))
-        return false;
-      return true;
-    },
-    setFirstTime() {
-      const c = this.sendMessage
-      this.sendMessage = this.sendMessageFirstTime;
-      this.sendMessageFirstTime = c;
-    },
     setListener() {
-      this.messages.msgDict[this.sID] = []
-      this.msgListener = getMessage(this.target, changes => {
-        changes.forEach((change) => {
-          console.log(change.type);
-          if (change.type == "added")
-            this.messages.addMsg(this.sID, change.doc.data())
+      watchNewChatMessages(this.userStore.uID, this.rID, (doc) =>
+        this.messageStore.addTo(this.rID, doc)
+      )
+    },
+    setMessageHistory(message) {
+      setMessageHistory(this.userStore.uID, this.rID, message, this.userStore.photoURL, this.rPhotoURL)
+    },
+    updateMessageHistory() {
+      const lastMessage = this.messageStore.getLast(this.rID);
+      updateMessageHistory(this.userStore.uID, this.rID, lastMessage.data.message, this.userStore.photoURL, this.rPhotoURL)
+    },
+    getReceivedMessages(last) {
+      return getOldReceivedChatMessages(this.userStore.uID, this.rID, last)
+    },
+    getSendedMessages(last) {
+      return getOldSendedChatMessages(this.userStore.uID, this.rID, last)
+    },
+    shortOldMessages(rMessages = [], sMessages = [], done) {
+      const l = rMessages.length + sMessages.length
+      let [rIndex, sIndex, messages] = [0, 0, []]
+      for (let i = 0; i < l; i++) {
+        if (!rMessages[rIndex] && !sMessages[sIndex]) {
+          break;
+        } else if (!rMessages[rIndex]) {
+          messages.push(sMessages[sIndex])
+          sIndex++
+        } else if (!sMessages[sIndex]) {
+          messages.push(rMessages[rIndex])
+          rIndex++
+        } else if (rMessages[rIndex].data.timestamp.seconds < sMessages[sIndex].data.timestamp.seconds) {
+          messages.push(sMessages[sIndex])
+          sIndex++
+        } else if (rMessages[rIndex].data.timestamp.seconds > sMessages[sIndex].data.timestamp.seconds) {
+          messages.push(rMessages[rIndex])
+          rIndex++
+        } else if (rMessages[rIndex].data.timestamp.nanoseconds < sMessages[sIndex].data.timestamp.nanoseconds) {
+          messages.push(sMessages[sIndex])
+          sIndex++
+        } else if (rMessages[rIndex].data.timestamp.nanoseconds > sMessages[sIndex].data.timestamp.nanoseconds) {
+          messages.push(rMessages[rIndex])
+          rIndex++
+        }
+      }
+      this.messageStore.addToMany(this.rID, messages.reverse())
+      done(messages.length == 0)
+    },
+    getOldMessages(index, done) {
+      const last = this.messageStore.getFirst(this.rID)?.data.timestamp
+      this.getReceivedMessages(last).then((receivedMessages) => {
+        this.getSendedMessages(last).then((sendedMessages) => {
+          this.shortOldMessages(receivedMessages, sendedMessages, done)
         })
-        this.messages.msgDict[this.sID] = shortMessages(this.messages.msgDict[this.sID])
       })
     },
-    sendMessageFirstTime() {
-      this.uID = this.user.ID;
-      this.sID = this.$route.params.id
-
-      this.messages.msgIDList.push(this.sID)
-      setupMessage(this.uID, this.sID)
-
-      sendMessage(this.target, this.uID, this.msg);
-      this.setListener();
-      this.setFirstTime();
-    },
-    sendMessage: function () {
-      sendMessage(this.target, this.uID, this.msg)
-    },
-    getMessages: function () {
-      getMessages(this.target).then(msgs => {
-        this.messages.addMsgs(this.sID, shortMessages(msgs))
+    sendMessage() {
+      sendMessage(this.userStore.uID, this.rID, this.message).then(({ dID }) => {
+        if (this.messages.length == 0) this.setMessageHistory(this.message)
+        const m = { dID: dID, data: { rID: this.rID, message: this.message, timestamp: Timestamp.now() } }
+        this.messageStore.addTo(this.rID, m)
+        this.message = ""
       })
     }
-  }, mounted() {
-    this.setTarget();
-    if (this.isFisrtTime())
-      this.setFirstTime();
-    else this.setListener();
+  },
+  computed: {
+    messages() {
+      if (!this.messageStore.lists[this.rID])
+        return []
+      return [...this.messageStore.lists[this.rID]].reverse()
+    }
+  },
+  mounted() {
+    this.setListener();
 
-  }, beforeUnmount() {
+  },
+  beforeUnmount() {
     if (this.msgListener)
       this.msgListener()
+    this.updateMessageHistory()
   }
 }
 </script>
-<style scoped>
-.rounded {
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 30px;
-}
-</style>

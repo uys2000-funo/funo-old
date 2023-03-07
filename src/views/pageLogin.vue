@@ -110,7 +110,7 @@ export default {
     signInSucces(user, userAuth) {
       user.userAuth = userAuth.user
       getUserData(userAuth.user.uid)
-        .then(userFire => this.getUserSucces(user, userFire))
+        .then(({ data: userFire }) => this.getUserSucces(user, userFire))
     },
     login() {
       let user = { userFire: {}, userAuth: {} }

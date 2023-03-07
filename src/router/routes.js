@@ -126,6 +126,18 @@ export default [
           },
         ],
       },
+      {
+        path: "messages",
+        name: "Messages",
+        component: () => import("../layouts/MessagesLayout.vue"),
+        children: [
+          {
+            path: "",
+            name: "MessagesPage",
+            component: () => import("../views/pageMessages.vue"),
+          },
+        ],
+      },
     ],
   },
   // Test Page

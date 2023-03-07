@@ -1,29 +1,23 @@
 <template>
-  <div class="row no-wrap items-center content-center">
-    <div class="img" :style="`background-image: url('${uIMG}'`" />
-    <div class="full-width msg q-py-sm q-px-md">
-      {{ msg }}
+  <div class="full-width rounded shadow-3 row no-wrap q-pt-sm q-pb-sm q-px-sm">
+    <q-avatar size="lg" class="q-mr-sm shadow-10">
+      <img v-if="photoUrl" :src="photoUrl" alt="">
+      <q-icon v-else name="person" />
+    </q-avatar>
+    <div class="column justify-center overflow-hidden" style="flex-grow: 1;">
+      <div class="full-width overflow-hidden" style="overflow-wrap: break-word;">
+        {{ message }}
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["uIMG", "msg"]
+  props: ["photoUrl", "message"]
 }
 </script>
 <style scoped>
-.img {
-  width: 10vw;
-  height: 10vw;
-  min-width: 10vw;
-  min-height: 10vw;
-  border-radius: 50%;
-  margin: auto;
-  background-position: center;
-  background-size: cover;
-}
-
-.msg {
+.rounded {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
 }

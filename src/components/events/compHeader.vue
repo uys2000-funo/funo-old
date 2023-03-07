@@ -5,14 +5,14 @@
         <icon-logo-text class="s" />
       </div>
       <div class="row items-center justify-center" style="flex-grow: 1;">
-        {{locationStore.city ? locationStore.city : "Konum Seçin"}}
+        {{ locationStore.city ? locationStore.city : "Konum Seçin" }}
         <span class="q-px-xs" style="transform: rotate(90deg);">></span>
       </div>
       <div class="row no-wrap items-center justify-end" style="width:25%; height: 45px;">
-        <q-btn round dense size="md" class="bg-white q-mr-xs shadow-3">
-          <q-icon><icon-message class="fill-accent" /></q-icon>
+        <q-btn round dense size="md" flat class="q-mr-xs shadow-3">
+          <q-icon><icon-message class="fill-accent" @click="openPageMessage" /></q-icon>
         </q-btn>
-        <q-btn round dense size="md" class="bg-white q-mr-xs shadow-3">
+        <q-btn round dense size="md" flat class="q-mr-xs shadow-3">
           <q-icon><icon-notification class="fill-accent" /></q-icon>
         </q-btn>
       </div>
@@ -49,6 +49,11 @@ export default {
   data() {
     return {
       locationStore: useLocation(),
+    }
+  },
+  methods: {
+    openPageMessage() {
+      this.$router.push({ name: "MessagesPage" })
     }
   }
 }

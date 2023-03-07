@@ -56,11 +56,21 @@
                     </div>
                 </q-tooltip>
             </div>
-            <q-btn rounded class="bg-primary text-white" style="flex-grow: 1;" @click="buttonEvent">
-                <span class="text-weight-bolder text-bold">
-                    {{ state ? "Vazgeç" : "Katıl" }}
-                </span>
-            </q-btn>
+            <div>
+                <q-btn :disable="!state && !limit" rounded class="bg-primary text-white" style="flex-grow: 1;"
+                    @click="buttonEvent">
+                    <span class="text-weight-bolder text-bold">
+                        {{ state ? "Vazgeç" : limit ? "Katıl" : "Dolu" }}
+                    </span>
+                </q-btn>
+                <q-tooltip :hide-delay="5000" v-if="!state && !limit">
+                    <div>
+                        Malesef ki limit {{ this.event.data.conditions.userLimit }} kişiydi ve
+                        {{ this.event.data.count?.joinEvent }} kişi bulunmakta :'( sayfayı yebileyip
+                        tekrar kontrol edebilirsin :)
+                    </div>
+                </q-tooltip>
+            </div>
             <div class="w row no-wrap items-center justify-end">
                 <div class="text-caption t">
                     Dahası...
@@ -87,20 +97,33 @@ export default {
             if (this.state) this.exitEvent()
             else this.joinEvent()
         },
+        checkLimit() {
+        },
         joinEvent() {
             const photoURL = this.userStore.user.userFire.settings.isHidden ? false : this.userStore.user.userFire.account.photoURL
             joinEvent(this.userStore.uID, this.event.eID, this.event.data.date.end, photoURL, this.event.data.general.userPhotoURLs)
+            this.eventsStore.dict[this.event.eID].data.count.joinEvent++
         },
         exitEvent() {
             const photoURL = this.userStore.user.userFire.settings.isHidden ? true : this.userStore.user.userFire.account.photoURL
-            const dID = this.event.listJoined?.dID
+            const dID = this.event.joined?.dID
             exitEvent(this.userStore.uID, this.event.eID, dID, photoURL, this.event.data.general.userPhotoURLs)
+            this.eventsStore.dict[this.event.eID].data.count.joinEvent--
         },
+    },
+    mounted() {
+        this.checkLimit()
     },
     computed: {
         state() {
-            if (this.event.joined?.data.isJoining) return true
+            if (this.event.joined?.data?.isJoining) return true
             return false
+        },
+        limit() {
+            if (this.event.data.conditions.userLimit == 0) return true
+            if (!this.event.data.count?.joinEvent) return true
+            else if (this.event.data.count?.joinEvent < this.event.data.conditions.userLimit) return true
+            else return false
         },
         startDate() {
             const date = new Date(this.event.data.date.start.seconds * 1000);

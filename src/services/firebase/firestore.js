@@ -70,7 +70,6 @@ export const increaseDocumentMultiple = function (table, column, keys, counts) {
   });
   return updateDocument(table, column, data);
 };
-
 export const unionDocument = function (table, column, key, value) {
   let data = {};
   data["atimestamp"] = serverTimestamp();
@@ -83,23 +82,15 @@ export const removeDocument = function (table, column, key, value) {
   data[key] = arrayRemove(value);
   return updateDocument(table, column, data);
 };
-
 export const getDocument = function (table, column) {
   const docRef = doc(db, table, column);
   return getDoc(docRef).then(returnDoc);
 };
-
-export const getCollection = function (table) {
-  const colRef = collection(db, table);
-  return getDocs(colRef).then(returnDocs);
-};
-
 export const deleteDocument = function (table, column) {
   const data = { isDeleted: false, dtimestamp: serverTimestamp() };
   const docRef = doc(db, table, column);
   return updateDoc(docRef, data);
 };
-
 const getQuery = function (table, start, qa) {
   const colRef = collection(db, table);
   let args = [colRef];
@@ -134,7 +125,6 @@ export const getCollectionOWU = function (
   const q = getQuery(table, start, qa);
   return getDocs(q).then(returnDocs);
 };
-
 export const watchCollectionOWU = function (
   table,
   start,
@@ -157,6 +147,69 @@ export const watchCollectionOWU = function (
     querySnapshot.docChanges().forEach((change) => {
       if (change.type == "added") addFunc(returnDoc(change.doc));
       if (change.type == "removed") remoreFunc(returnDoc(change.doc));
+    });
+  });
+};
+
+export const setDocumentSubCollection = function (
+  table,
+  row,
+  innerTable,
+  innerRow,
+  data
+) {
+  data["timestamp"] = serverTimestamp();
+  data["utimestamp"] = serverTimestamp();
+  const docRef = doc(db, table, row);
+  const subDocRef = doc(docRef, innerTable, innerRow);
+  return setDoc(subDocRef, data);
+};
+export const updateDocumentSubCollection = function (
+  table,
+  row,
+  innerTable,
+  innerRow,
+  data
+) {
+  data["utimestamp"] = serverTimestamp();
+  const docRef = doc(db, table, row);
+  const subDocRef = doc(docRef, innerTable, innerRow);
+  return updateDoc(subDocRef, data);
+};
+
+export const getDocumentsSubCollection = function (
+  table,
+  row,
+  innerTable,
+  last
+) {
+  const docRef = doc(db, table, row);
+  const subColRef = collection(docRef, innerTable);
+  const q = query(
+    subColRef,
+    orderBy("timestamp", "desc"),
+    where("timestamp", "<", Timestamp.now()),
+    startAfter(last ? last : Timestamp.now()),
+    limit(settings.limitFirestore)
+  );
+  return getDocs(q).then(returnDocs);
+};
+export const watchDocumentsSubCollection = function (
+  table,
+  row,
+  innerTable,
+  addFunc
+) {
+  const docRef = doc(db, table, row);
+  const subColRef = collection(docRef, innerTable);
+  const q = query(
+    subColRef,
+    orderBy("timestamp", "asc"),
+    where("timestamp", ">", Timestamp.now())
+  );
+  return onSnapshot(q, (querySnapshot) => {
+    querySnapshot.docChanges().forEach((change) => {
+      if (change.type == "added") addFunc(returnDoc(change.doc));
     });
   });
 };

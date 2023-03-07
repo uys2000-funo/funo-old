@@ -58,6 +58,7 @@
 import { signOut } from '@/services/app/auth';
 import { updateUserData } from '@/services/app/user';
 import { showToast } from '@/services/capacitor/toast';
+import { useMessages } from '@/store/messages';
 import { useUser } from '@/store/user';
 
 export default {
@@ -65,6 +66,7 @@ export default {
     data() {
         return {
             userStore: useUser(),
+            messagesStore: useMessages(),
             isHidden: false,
             isReceivable: false
         }
@@ -90,6 +92,7 @@ export default {
         exit() {
             signOut()
                 .then(() => this.userStore.clear())
+                .then(() => this.messagesStore.clear())
                 .then(() => this.$router.push({ name: "LoginPage" }))
         }
     }, mounted() {

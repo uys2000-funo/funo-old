@@ -1,8 +1,8 @@
 <template>
   <div class="fit column no-wrap items-center">
-    <div class="full-width overflow-hidden" style="flex-shrink: 0;">
-      <div class="row justify-center">
-        <comp-wheel :setR="setPageNumber" :pageNumber="pageNumber" :photoURL="userStore.user.userFire.account.photoURL"
+    <div class="full-width overflow-hidden shadow-1 q-pb-sm" style="flex-shrink: 0;z-index: 10;">
+      <div class=" row justify-center">
+        <comp-wheel :setR="setPageNumber" :pageNumber="pageNumber" :photoURL="user?.account.photoURL"
           :type="type" />
       </div>
       <comp-header v-if="user" :user="user" />
@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       userStore: useUser(),
+      userOher: null,
       user: null,
       pageNumber: 0
     }
@@ -32,11 +33,20 @@ export default {
     setPageNumber(value) {
       this.pageNumber = value
     },
+    loadOtherUser() {
+      if (this.userOher?.uID == this.$route.params.uID) this.user = this.userOher;
+      else getUserData(this.$route.params.uID).then((user) => {
+        this.userOher = user.data
+        this.user = user.data
+      })
+    },
+    loadUser() {
+      if (this.type) this.loadOtherUser()
+      else this.user = this.userStore.user.userFire
+    }
   },
   mounted() {
-    if (!this.state)
-      getUserData(this.$route.params.uID).then((user) => this.user = user.data)
-    else this.user = this.userStore.user.userFire
+    this.loadUser()
   },
   provide() {
     return {
@@ -44,11 +54,16 @@ export default {
       decreaseFollwer: () => { this.user.count.follower-- }
     }
   },
+  watch: {
+    type() {
+      this.loadUser()
+    }
+  },
   computed: {
     type() {
-      if (!this.$route.params.uID) return true
+      if (this.$route.params.uID) return true
       return false
-    }
+    },
   }
 };
 </script>

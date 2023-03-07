@@ -117,6 +117,10 @@ export const useUser = defineStore("User", {
       if (state.user.userFire) return state.user.userFire.account.isPerson;
       else return false;
     },
+    photoURL: (state) => {
+      if (state.user.userFire) return state.user.userFire.account.photoURL;
+      else return false;
+    },
   },
 });
 
