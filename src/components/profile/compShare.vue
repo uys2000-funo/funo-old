@@ -1,3 +1,0 @@
-<template>
-  Paylaştığım fotolar
-</template>
