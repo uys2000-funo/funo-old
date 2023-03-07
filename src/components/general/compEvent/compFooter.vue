@@ -28,14 +28,7 @@
                 </template>
             </div>
             <div class="w row no-wrap items-center justify-end">
-                <div class="text-right row items-center">
-                    <div class="">
-                        Katılımcılar
-                    </div>
-                    <q-avatar size="md" class="bg-white q-ml-sm">
-                        <q-icon size="md" name="person" color="accent" />
-                    </q-avatar>
-                </div>
+                <comp-participants :userPhotoURLs="event.data.general.userPhotoURLs" />
             </div>
         </div>
         <div class="full-width row no-wrap">
@@ -71,24 +64,24 @@
                     </div>
                 </q-tooltip>
             </div>
-            <div class="w row no-wrap items-center justify-end">
-                <div class="text-caption t">
-                    Dahası...
-                </div>
-            </div>
+            <q-btn flat no-caps class="w" align="right" @click="toEvent">
+                Dahası
+            </q-btn>
         </div>
     </div>
 </template>
 <script>
 import { exitEvent, joinEvent } from '@/services/app/event';
-import { useEvents } from '@/store/event.js';
+import { useEvent, useEvents } from '@/store/event.js';
 import { useUser } from '@/store/user';
-
+import compParticipants from './compParticipants.vue';
 export default {
+    components: { compParticipants },
     props: ["event"],
     data() {
         return {
             userStore: useUser(),
+            eventSoter: useEvent(),
             eventsStore: useEvents(),
         }
     },
@@ -110,6 +103,10 @@ export default {
             exitEvent(this.userStore.uID, this.event.eID, dID, photoURL, this.event.data.general.userPhotoURLs)
             this.eventsStore.dict[this.event.eID].data.count.joinEvent--
         },
+        toEvent() {
+            this.eventSoter.event = this.event
+            this.$router.push({ name: "EventPage", params: { eID: this.event.eID } })
+        }
     },
     mounted() {
         this.checkLimit()

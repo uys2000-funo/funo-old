@@ -5,7 +5,6 @@
     fab-mini
     @click="goBack"
     class="bg-secondary"
-    style="position: absolute; z-index: 1000"
   >
     <g-icon src="backArrow.svg" sizeO="7vw" sizeI="7vw" />
   </q-btn>

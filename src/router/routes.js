@@ -127,6 +127,19 @@ export default [
         ],
       },
       {
+        path: "event",
+        name: "Event",
+        component: () => import("../layouts/EventLayout.vue"),
+        children: [
+          {
+            path: ":eID",
+            name: "EventPage",
+            component: () => import("../views/pageEvent.vue"),
+          },
+        ],
+      },
+      // Messages Page
+      {
         path: "messages",
         name: "Messages",
         component: () => import("../layouts/MessagesLayout.vue"),

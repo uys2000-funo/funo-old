@@ -29,9 +29,9 @@ import { useUser } from '@/store/user';
 import { useMessages } from "@/store/messages"
 import compMessageGetted from './compMessage/compMessageGetted.vue';
 import compMessageSended from './compMessage/compMessageSended.vue';
-import { sendMessage, getOldReceivedChatMessages, getOldSendedChatMessages, watchNewChatMessages, updateMessageHistory } from '@/services/app/messages';
+import { sendMessage, getOldReceivedChatMessages, getOldSendedChatMessages, watchNewChatMessages, updateMessageHistory } from '@/services/app/message';
 import { Timestamp } from '@firebase/firestore';
-import { setMessageHistory } from '@/services/app/messages';
+import { setMessageHistory } from '@/services/app/message';
 export default {
   components: { compMessageGetted, compMessageSended },
   props: ["rID", "rPhotoURL"],

@@ -1,61 +1,70 @@
 <template>
-  <div>
-    <q-input
-      v-model="comment"
-      filled
-      type="textarea"
-      autogrow
-      placeholder="..."
-    />
-    <div class="text-right">
-      <q-btn flat label="Yorum Yap" @click="clickEvent" />
+    <div class="fit column no-wrap">
+        <q-infinite-scroll class="fit" @load="onLoad" :offset="250">
+            <div v-for="(item, index) in commentsStore.lists[$route.params.eID]" :key="index" class="caption">
+                {{ item }}
+            </div>
+            <template v-slot:loading>
+                <div class="row justify-center q-my-md">
+                    <q-spinner-dots color="primary" size="40px" />
+                </div>
+            </template>
+        </q-infinite-scroll>
+        <q-input :disable="isDisabled" rounded outlined v-model="comment" placeholder="Yorum Yap">
+            <template v-slot:append>
+                <q-btn flat dense round icon="send" @click="sendComment" />
+            </template>
+        </q-input>
     </div>
-    <div>
-      <span class="text-h6 q-ml-md">Yorumlar</span>
-    </div>
-    <div class="q-pb-xl">
-      <div v-if="!comments.getComments($route.params.id)">
-        İlk yorum Yapan Olmak Ister Misin
-      </div>
-      <comp-comment
-        v-for="comment in comments.getComments($route.params.id)"
-        :key="comment"
-        :comment="comment"
-      />
-    </div>
-  </div>
 </template>
+
 <script>
-import { addComment, getComment } from "@/services/firebase/comments";
-import compComment from "./compComment.vue";
-import { comments } from "@/store/comments";
-import { user } from "@/store/user";
+import { watchComments } from '@/services/app/comment';
+import { addComment } from '@/services/app/comment';
+import { getComments } from '@/services/app/comment';
+import { useComments } from '@/store/comment';
+import { useEvent } from '@/store/event';
+import { useUser } from '@/store/user';
+
 export default {
-  components: { compComment },
-  data() {
-    return {
-      comments: comments(),
-      comment: "",
-      user: user(),
-    };
-  },
-  methods: {
-    clickEvent: function () {
-      if (this.comment) {
-        const comment = {
-          uID: this.user.ID,
-          uName: this.user.userName,
-          text: this.comment,
-        };
-        addComment(this.$route.params.id, comment);
-        this.comments.addComment(this.$route.params.id, comment);
-      }
+    data() {
+        return {
+            commentsStore: useComments(),
+            eventStore: useEvent(),
+            userStore: useUser(),
+            isDisabled: false,
+            listener: null,
+            comment: "",
+        }
     },
-  },
-  mounted() {
-    getComment(this.$route.params.id).then((res) => {
-      this.comments.setComments(this.$route.params.id, res.data().comments);
-    });
-  },
-};
+    methods: {
+        setListener() {
+            watchComments(this.$route.params.eID,
+                (doc) => this.commentsStore.addTo(this.$route.params.eID, doc),
+                (doc) => this.commentsStore.removeFrom(this.$route.params.eID, doc)
+            )
+        },
+        unmountListener() {
+            if (this.listener) this.listener();
+        },
+        onLoad(index, done) {
+            getComments(this.$route.params.eID)
+                .then(res => {
+                    this.commentsStore.addToMany(this.$route.params.eID, res)
+                    done(res.length == 0)
+                })
+        },
+        sendComment() {
+            this.isDisabled = true
+            addComment(
+                this.userStore.uID,
+                this.eventStore.event.data.owner.uID,
+                this.$route.params.eID,
+                this.userStore.photoURL,
+                this.comment).then(() => {
+                    this.isDisabled = false
+                })
+        }
+    }
+}
 </script>

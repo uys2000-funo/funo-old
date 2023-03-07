@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <span v-if="userIDs != undefined">
-      <span v-if="userIDs.length == 0"> Kimse Yok </span>
-      <span v-else-if="userIDs.length > 99"> 99+ Katılımcı </span>
-      <span v-else> {{ userIDs.length }} Katılımcı </span>
-    </span>
-    <span v-else>İlk Ol</span>
+  <div v-if="userPhotoURLs.length == 0">
+    İlk Olabilirsin :)
   </div>
+  <template v-for="(item, index) in userPhotoURLs" :key="index">
+    <q-avatar v-if="index < 3 || index > 7" size="md" style="margin-left: -10px;" class="shadow-7">
+      <img :src="item" />
+    </q-avatar>
+  </template>
 </template>
 <script>
 export default {
-  props: { userIDs: Array },
+  props: { userPhotoURLs: Array },
   data() {
     return {};
   },
@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style scoped>
-div{
+div {
   display: inline;
 }
 </style>

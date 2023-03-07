@@ -51,7 +51,7 @@ const filterArgs = [
 ];
 export const useEvent = defineStore("event", {
   state: () => ({
-    event: event,
+    event: { data: event, eID: "" },
     images: [],
     imageURLs: [],
   }),

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { getMessageHistory, watchMessageHistory } from '@/services/app/messages';
+import { getMessageHistory, watchMessageHistory } from '@/services/app/message.js';
 import { useMessages } from '@/store/messages';
 import { useUser } from '@/store/user';
 export default {
