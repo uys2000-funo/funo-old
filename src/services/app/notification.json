@@ -1,0 +1,42 @@
+{
+  "getNotifications": [
+    {
+      "column": "nTimestamp",
+      "condition": "<",
+      "equality": "",
+      "orderType": "desc",
+      "order": true,
+      "where": true,
+      "timestamp": true
+    },
+    {
+      "column": "uID",
+      "condition": "==",
+      "equality": "-------FillThis-------",
+      "orderType": "asc",
+      "order": false,
+      "where": true,
+      "timestamp": false
+    }
+  ],
+  "watchNotifications": [
+    {
+      "column": "nTimestamp",
+      "condition": ">",
+      "equality": "",
+      "orderType": "asc",
+      "order": true,
+      "where": true,
+      "timestamp": true
+    },
+    {
+      "column": "uID",
+      "condition": "==",
+      "equality": "-------FillThis-------",
+      "orderType": "asc",
+      "order": false,
+      "where": true,
+      "timestamp": false
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 <template>
   <q-btn round fab-mini @click="goBack" class="bg-transparent">
-    <q-icon name="arrow_back" color="primary"/>
+    <q-icon name="arrow_back" :color="`${color ? color : 'primary'}`" />
   </q-btn>
 </template>
 
 <script>
 export default {
-  props: ["beforeGoBack", "time", "goBackFunc"],
+  props: ["beforeGoBack", "time", "goBackFunc", "color"],
   methods: {
     goBack: function () {
       if (this.beforeGoBack) this.beforeGoBack();
@@ -24,8 +24,7 @@ export default {
 
 <style scoped>
 .q-btn {
-  position: fixed;
-  left: 2vw;
-  top: 1vh;
+  position: absolute;
+  left: 5vw;
 }
 </style>

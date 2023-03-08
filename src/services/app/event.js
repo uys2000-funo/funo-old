@@ -80,7 +80,7 @@ export const joinEvent = function (
   userPhotoURLs = []
 ) {
   l("Run - joinEvent", arguments);
-  const addImage = userPhotoURLs.length <= 10;
+  const addImage = userPhotoURLs.length <= 10 && photoURL;
   const event = {
     uID,
     eID,
@@ -110,8 +110,6 @@ export const exitEvent = function (
     .then(() => f(increaseDocument, ["User", uID, "joinEvent", -1]))
     .then(() => f(increaseDocument, ["Event", eID, "joinEvent", -1]));
 };
-
-export const addUserToEvent = function () {};
 
 export const getEvents = function (
   start,

@@ -126,6 +126,7 @@ export default [
           },
         ],
       },
+      // Event Page
       {
         path: "event",
         name: "Event",
@@ -148,6 +149,19 @@ export default [
             path: "",
             name: "MessagesPage",
             component: () => import("../views/pageMessages.vue"),
+          },
+        ],
+      },
+      // Notifications Page
+      {
+        path: "notifications",
+        name: "Notifications",
+        component: () => import("../layouts/NotificationsLayout.vue"),
+        children: [
+          {
+            path: "",
+            name: "NotificationsPage",
+            component: () => import("../views/pageNotifications.vue"),
           },
         ],
       },

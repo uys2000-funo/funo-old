@@ -3,7 +3,7 @@
         <comp-popup fullscreen bg="primary">
             <div class="fit column no-wrap items-center">
                 <div class="row justify-center align-center items-center text-h5 text-secondary " style="height: 10vh;">
-                    <back-button />
+                    <back-button color="secondary" />
                     Mesajlar
                 </div>
                 <div class="fit bg-secondary overflow-hidden round-top" style="flex-grow: 1;">

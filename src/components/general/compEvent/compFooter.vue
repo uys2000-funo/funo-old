@@ -103,9 +103,11 @@ export default {
                 type: "request",
                 eID: this.event.eID,
                 eName: this.event.data.general.name,
+                eDateEnd: this.event.data.date.end,
                 uID: this.userStore.uID,
                 uName: this.userStore.nickName,
                 uPhotoURL: this.userStore.photoURL,
+                isAnswered: false
             }
             sendNotification(this.event.data.owner.uID, this.userStore.uID, notification).then(() => {
                 showToast("İstek Başarı ile gönderildi")

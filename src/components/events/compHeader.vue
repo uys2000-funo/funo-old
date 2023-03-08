@@ -9,10 +9,10 @@
         <span class="q-px-xs" style="transform: rotate(90deg);">></span>
       </div>
       <div class="row no-wrap items-center justify-end" style="width:25%; height: 45px;">
-        <q-btn round dense size="md" flat class="q-mr-xs shadow-3">
-          <q-icon><icon-message class="fill-accent" @click="openPageMessage" /></q-icon>
+        <q-btn round dense size="md" flat class="q-mr-xs shadow-3" @click="openPageMessage">
+          <q-icon><icon-message class="fill-accent" /></q-icon>
         </q-btn>
-        <q-btn round dense size="md" flat class="q-mr-xs shadow-3">
+        <q-btn round dense size="md" flat class="q-mr-xs shadow-3" @click="openPageNotification">
           <q-icon><icon-notification class="fill-accent" /></q-icon>
         </q-btn>
       </div>
@@ -54,6 +54,9 @@ export default {
   methods: {
     openPageMessage() {
       this.$router.push({ name: "MessagesPage" })
+    },
+    openPageNotification(){
+      this.$router.push({ name: "NotificationsPage" })
     }
   }
 }
