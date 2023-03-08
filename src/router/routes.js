@@ -73,14 +73,16 @@ export default [
           },
         ],
       },
-      // Search onDevelop
+      // Discover onDevelop
       {
-        path: "serach",
-        name: "Search",
+        path: "discover",
+        name: "Discover",
+        component: () => import("@/layouts/DiscoverLayout.vue"),
         children: [
           {
             path: "",
-            name: "SearchPage",
+            name: "DiscoverPage",
+            component: () => import("../views/pageDiscover.vue"),
           },
         ],
       },
