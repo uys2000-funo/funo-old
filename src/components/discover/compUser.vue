@@ -1,68 +1,48 @@
 <template>
-  <div class="userComp" :style="`background-image: url('${require('@/assets/images/loading.gif')}'); ${userImage}`">
-    <div>
-      {{user.userName}}
-    </div>
-  </div>
+    <q-infinite-scroll class="full-width column no-wrap" @load="onLoad">
+        <div class="fit q-px-xs row justify-around">
+            <div v-for="(uID, index) in usersStore.lists[list]" :key="index" class="sz">
+                <comp-user :user="usersStore.dict[uID]" />
+            </div>
+        </div>
+        <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+                <q-spinner-dots color="primary" size="40px" />
+            </div>
+        </template>
+    </q-infinite-scroll>
 </template>
-<script>
-import { getImgStorage } from '@/services/firebase/event';
-export default {
-  props: ["user"],
-  data() {
-    return {
-      userImageUrl: "",
 
-    }
-  },
-  computed: {
-    userImage: function () {
-      return `background-image: url("${this.userImageUrl}"); `;
+<script>
+import { useUsers } from "@/store/user"
+import { getNewUsers } from "@/services/app/user"
+import compUser from "../general/compUser.vue"
+export default {
+    components: { compUser },
+    data() {
+        return {
+            usersStore: useUsers(),
+            list: "newUsers"
+        }
     },
-  },
-  mounted() {
-    getImgStorage(`U/${this.user.uID}/imgs/uImg`).then((res) => {
-      this.userImageUrl = res;
-    });
-  },
+    methods: {
+        getNewUsers() {
+            const last = this.usersStore.getFirst(this.list)?.data?.timestamp
+            return getNewUsers(last)
+        },
+        onLoad(index, done) {
+            this.getNewUsers().then((docs) => {
+                this.usersStore.addToMany(this.list, docs)
+                done(docs.length == 0)
+            })
+        }
+    }
 }
 </script>
+
 <style scoped>
-.userComp {
-  position: relative;
-  display: flex;
-  width: 30vw;
-  height: 30vw;
-  border-radius: 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  margin: auto;
-  background-position: center;
-  background-size: cover;
-  overflow: hidden;
-}
-
-.userComp>div {
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 5vw;
-  line-height: 100%;
-  
-  align-items: center;
-  text-align: center;
-  color: #FFFFFF;
-
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  background: rgba(9, 43, 110, 0.295);
-  margin: 0px;
-  margin-top: auto;
-  
-  width: 100%;
-  max-width: 100%;
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+.sz {
+    width: 30vw;
+    height: 30vw;
 }
 </style>

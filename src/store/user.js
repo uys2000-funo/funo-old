@@ -124,9 +124,88 @@ export const useUser = defineStore("User", {
   },
 });
 
-export const useUsers = defineStore("Users", {
+export const useUsers = defineStore("users", {
   state: () => ({
-    userDict: {},
-    userList: [],
+    dict: {},
+    lists: {},
   }),
+  actions: {
+    addData(uID, data) {
+      if (!this.dict[uID]) this.dict[uID] = {};
+      this.dict[uID].uID = uID;
+      this.dict[uID].data = data;
+    },
+    addDataAs(dID, uID, listID, data) {
+      if (!this.dict[uID]) this.dict[uID] = {};
+      if (!this.dict[uID][listID]) this.dict[uID][listID] = {};
+      this.dict[uID][listID].dID = dID;
+      this.dict[uID][listID].data = data;
+    },
+    addList(listID, uID) {
+      if (!this.lists[listID]) this.lists[listID] = [];
+      if (!this.lists[listID].includes(uID)) this.lists[listID].push(uID);
+    },
+    addListAs(listID, uID) {
+      if (!this.lists[listID]) this.lists[listID] = [];
+      if (!this.lists[listID].includes(uID)) this.lists[listID].push(uID);
+    },
+    addTo(listID, data) {
+      this.addData(data.dID, data.data);
+      this.addList(listID, data.dID);
+    },
+    addToMany(listID, data) {
+      data.forEach((d) => {
+        this.addTo(listID, d);
+      });
+    },
+    addToAs(listID, dID, data) {
+      this.addDataAs(data.dID, data.data[dID], listID, data.data);
+      this.addListAs(listID, data.data[dID]);
+    },
+    addToAsMany(listID, dID2, data) {
+      data.forEach((d) => {
+        this.addToAs(listID, dID2, d);
+      });
+    },
+    removeData(listID) {
+      if (this.dict[listID].uID) delete this.dict[listID].uID;
+      if (this.dict[listID].data) delete this.dict[listID].data;
+    },
+    removeDataAs(listID, uID) {
+      if (this.dict[uID][listID].dID) delete this.dict[uID][listID].dID;
+      if (this.dict[uID][listID].data) delete this.dict[uID][listID].data;
+    },
+    removeList(listID, uID) {
+      this.lists[listID] = this.lists[listID].filter((id) => id != uID);
+    },
+    removeListAs(listID, uID) {
+      this.lists[listID] = this.lists[listID].filter((id) => id != uID);
+    },
+    removeFrom(listID, data) {
+      this.removeData(listID, data);
+      this.removeList(listID);
+    },
+    removeFromAs(listID, dID, data) {
+      data.data[dID], listID, this.removeDataAs(listID, data.data[dID]);
+      this.removeListAs(listID, data.data[dID]);
+    },
+    getLastID(listID) {
+      return this.lists[listID][this.lists[listID].length - 1];
+    },
+    getLast(listID) {
+      if (!this.lists[listID]) return null;
+      else return this.dict[this.getLastID(listID)];
+    },
+    getFirstID(listID) {
+      return this.lists[listID][0];
+    },
+    getFirst(listID) {
+      if (!this.lists[listID]) return null;
+      else return this.dict[this.getFirstID(listID)];
+    },
+    clear() {
+      this.dict = {};
+      this.lists = {};
+    },
+  },
 });

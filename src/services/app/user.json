@@ -18,5 +18,25 @@
       "where": true,
       "timestamp": false
     }
+  ],
+  "newUsers": [
+    {
+      "column": "timestamp",
+      "condition": "<",
+      "equality": "",
+      "orderType": "desc",
+      "order": true,
+      "where": true,
+      "timestamp": true
+    },
+    {
+      "column": "isHidden",
+      "condition": "==",
+      "equality": false,
+      "orderType": "desc",
+      "order": false,
+      "where": true,
+      "timestamp": false
+    }
   ]
 }

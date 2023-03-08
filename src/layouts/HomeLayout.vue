@@ -7,7 +7,7 @@
       <q-btn flat :to="{ name: 'CreatePage' }">
         <icon-plus class="fill-accent" />
       </q-btn>
-      <q-btn flat>
+      <q-btn flat :to="{ name: 'DiscoverPage' }">
         <icon-compass class="fill-accent" />
       </q-btn>
       <q-btn flat :to="{ name: 'EventsPage' }">

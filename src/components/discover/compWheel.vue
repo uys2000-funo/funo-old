@@ -1,132 +1,184 @@
 <template>
-  <div style="margin-top: -30%">
-    <comp-wheel
-      :s="['80vw', '80vw']"
-      :r="45"
-      :moveEvent="moveEvent"
-      :moveEndEvent="moveEndEvent"
-    >
+  <div style="margin-top: -30%;" >
+    <comp-wheel :s="['80vw', '80vw']" :p="pageNumber" :r="45" :moveEndEvent="moveEndEvent" :moveEvent="moveEvent">
       <template v-slot:c>
-        <img :src="img" style="width: 100%" alt="No Profile Photo" />
+        <div class="center">
+          <img :src="photoURL" style="width: 100%" alt="No Profile Photo" />
+        </div>
       </template>
       <template v-slot:ie>
-        <img :src="require('@/assets/images/dot.svg')" />
+        <div class="inner-dot">
+          <icon-dot class="fill-negative" />
+        </div>
       </template>
       <template v-slot:is>
-        <img :src="require('@/assets/images/dot.svg')" />
+        <div class="inner-dot">
+          <icon-dot class="fill-primary" />
+        </div>
       </template>
       <template v-slot:iw>
-        <img :src="require('@/assets/images/dot.svg')" />
+        <div class="inner-dot">
+          <icon-dot class="fill-negative" />
+        </div>
       </template>
       <template v-slot:in>
-        <img :src="require('@/assets/images/dot.svg')" />
+        <div class="inner-dot">
+          <icon-dot class="fill-primary" />
+        </div>
       </template>
       <template v-slot:oe>
-        <img :src="p.e" />
+        <div class="outter-icon">
+          <Component :is="east" class="fill-primary" />
+        </div>
       </template>
       <template v-slot:ose>
-        <img :src="p.se" />
+        <div class="outter-icon">
+          <Component :is="southEast" class="fill-accent" />
+        </div>
       </template>
       <template v-slot:os>
-        <img :src="p.s" />
+        <div class="outter-icon">
+          <Component :is="south" class="fill-negative" />
+        </div>
       </template>
       <template v-slot:osw>
-        <img :src="p.sw" />
+        <div class="outter-icon">
+          <Component :is="southWest" class="fill-accent" />
+        </div>
       </template>
       <template v-slot:ow>
-        <img :src="p.w" />
+        <div class="outter-icon">
+          <Component :is="west" class="fill-primary" />
+        </div>
       </template>
       <template v-slot:onw>
-        <img :src="p.nw" />
+        <div class="outter-icon">
+          <Component :is="northWest" class="fill-accent" />
+        </div>
       </template>
       <template v-slot:on>
-        <img :src="p.n" />
+        <div class="outter-icon">
+          <Component :is="north" class="fill-negative" />
+        </div>
       </template>
       <template v-slot:one>
-        <img :src="p.ne" />
+        <div class="outter-icon">
+          <Component :is="northEast" class="fill-accent" />
+        </div>
       </template>
+      {{ pageNumber }}
     </comp-wheel>
   </div>
 </template>
 <script>
-import { getImg } from "@/services/firebase/images";
-import { getImgStorage } from "@/services/firebase/event";
 import compWheel from "@/components/general/compWheel.vue";
-import { getLocalValue, setLocalValue } from "@/services/core/local";
-import { user } from "@/store/user";
-getImgStorage;
+import iconDot from "@/icons/general/iconDot.vue";
+
+import iconNull from "@/components/compNull.vue";
+import iconAtmosphere from "@/icons/discover/iconAtmosphere.vue";
+import iconEvent from "@/icons/discover/iconEvent.vue";
+import iconSerach from "@/icons/discover/iconSearch.vue";
+import iconUserEvent from "@/icons/discover/iconUserEvent.vue";
+import iconUser from "@/icons/discover/iconUser.vue";
+
 export default {
-  components: { compWheel },
-  props: ["r", "setR"],
+  components: {
+    compWheel, iconDot, iconNull,
+    iconAtmosphere, iconEvent, iconSerach, iconUserEvent, iconUser
+  },
+  props: ["r", "setR", "pageNumber", "photoURL"],
   data() {
     return {
-      u: user(),
-      img: "",
-      usersFY: require("@/assets/images/discover/people.svg"), //usersFY
-      eventsFY: require("@/assets/images/discover/party.svg"), //eventsFY
-      search: require("@/assets/images/discover/search.svg"), //search
-      followed: require("@/assets/images/discover/user.svg"), //followed
-      atmospher: require("@/assets/images/discover/img.svg"), //atmospher
-      p: {
-        e: "",
-        se: "",
-        s: "",
-        sw: "",
-        w: "",
-        nw: "",
-        n: "",
-        ne: "",
-      },
-    };
+      components: [
+        "iconUser",
+        "iconUserEvent",
+        "iconEvent",
+        "iconAtmosphere",
+        "iconSerach",
+      ],
+      west: "iconNull",
+      southWest: "iconNull",
+      south: "iconNull",
+      southEast: "iconNull",
+      east: "iconNull",
+      northEast: "iconNull",
+      north: "iconNull",
+      northWest: "iconNull",
+      res: -10
+    }
   },
   methods: {
-    setupEvent: function () {
-      this.p.ne = this.atmospher;
-      this.p.e = this.usersFY;
-      this.p.se = this.eventsFY;
-      this.p.s = this.search;
-      this.p.sw = this.followed;
-      this.p.w = this.atmospher;
-      this.p.nw = this.usersFY;
-    },
-    moveFunction: function (res) {
-      let i = res % 8;
-      if (i < 0) i += 8;
-      if (this.r != res && this.r < res)
-        if (i == 0) this.p.ne = this.p.w;
-        else if (i == 1) this.p.n = this.p.sw;
-        else if (i == 2) this.p.nw = this.p.s;
-        else if (i == 3) this.p.w = this.p.se;
-        else if (i == 4) this.p.sw = this.p.e;
-        else if (i == 5) this.p.s = this.p.ne;
-        else if (i == 6) this.p.se = this.p.n;
-        else this.p.e = this.p.nw;
-      else {
-        if (i == 7) this.p.nw = this.p.e;
-        else if (i == 6) this.p.n = this.p.se;
-        else if (i == 5) this.p.ne = this.p.s;
-        else if (i == 4) this.p.e = this.p.sw;
-        else if (i == 3) this.p.se = this.p.w;
-        else if (i == 2) this.p.s = this.p.nw;
-        else if (i == 1) this.p.sw = this.p.n;
-        else this.p.w = this.p.ne;
+    updateIcons(res) {
+      let getPosition;
+      if (this.res == res) return;
+      else if (res > 0)
+        getPosition = (k, l, r) => {
+          const result = (l + (Math.floor((r + k) / 8) * 3)) % 5
+          return result < 0 ? (result % 5) + 5 : result
+        }
+      else getPosition = (k, l, r) => {
+        const result = (l - (Math.floor(((r * -1) + 7 - k) / 8) * 3)) % 5
+        return result < 0 ? (result % 5) + 5 : result
       }
+      const items = [
+        getPosition(7, 0, res),
+        getPosition(6, 1, res),
+        getPosition(5, 2, res),
+        getPosition(4, 3, res),
+        getPosition(3, 4, res),
+        getPosition(2, 0, res),
+        getPosition(1, 1, res),
+        getPosition(0, 2, res),
+      ]
+      this.west = this.components[items[0]];
+      this.southWest = this.components[items[1]];
+      this.south = this.components[items[2]];
+      this.southEast = this.components[items[3]];
+      this.east = this.components[items[4]];
+      this.northEast = this.components[items[5]];
+      this.north = this.components[items[6]];
+      this.northWest = this.components[items[7]];
     },
-    moveEvent: function (res) {
-      this.moveFunction(res);
+    moveEvent(res) {
+      this.updateIcons(res)
     },
     moveEndEvent: function (res) {
-      this.moveFunction(res);
-      if (this.setR) this.setR(res);
-    },
+      if (!this.setR) return;
+      this.updateIcons(res)
+      this.setR(res);
+    }
+  },
+  computed: {
   },
   mounted() {
-    this.img = getLocalValue("uImg");
-    getImg("U/" + this.u.ID + "/imgs/uImg").then((res) => {
-      this.img = res;
-      setLocalValue("uImg", res);
-    });
-    this.setupEvent(0);
+    this.updateIcons(0)
+    this.moveEndEvent(this.pageNumber);
   },
+
 };
 </script>
+<style scoped>
+.center {
+  display: flex;
+  width: 20vw;
+  height: 20vw;
+}
+
+.inner-dot {
+  display: flex;
+  width: 2vw;
+  height: 2vw;
+}
+
+.outter-dot {
+  display: flex;
+  width: 5vw;
+  height: 5vw;
+}
+
+.outter-icon {
+  display: flex;
+  width: 10vw;
+  height: 10vw;
+}
+</style>

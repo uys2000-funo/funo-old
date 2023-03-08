@@ -15,6 +15,7 @@ import {
 import { updateDocument } from "@/services/firebase/firestore";
 import { getFile, uploadFile } from "../firebase/storage";
 import user from "@/services/app/user.json";
+import { Timestamp } from "firebase/firestore";
 
 export const createUser = function (uID, data, image) {
   l("Run - createUser", arguments);
@@ -86,4 +87,9 @@ export const unfollowUser = function (uID, fID, dID) {
   return f(updateDocument, ["UserFollowedUser", dID, { isFollowing: false }])
     .then((r) => f(increaseDocument, ["User", fID, "follower", -1], r))
     .then((r) => f(increaseDocument, ["User", uID, "followed", -1], r));
+};
+
+export const getNewUsers = function (last) {
+  const args = ["User", last ? last : Timestamp.now(), user.newUsers];
+  return f(getCollectionOWU, args);
 };

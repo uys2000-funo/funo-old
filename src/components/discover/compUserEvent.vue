@@ -1,5 +1,5 @@
 <template>
     <div>
-        search
+        userEvent
     </div>
 </template>
