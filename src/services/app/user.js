@@ -93,3 +93,13 @@ export const getNewUsers = function (last) {
   const args = ["User", last ? last : Timestamp.now(), user.newUsers];
   return f(getCollectionOWU, args);
 };
+
+export const getFollowedUsers = function (uID, last) {
+  user.followedUsers[1].equality = uID;
+  const args = [
+    "UserFollowedUser",
+    last ? last : Timestamp.now(),
+    user.followedUsers,
+  ];
+  return f(getCollectionOWU, args);
+};
