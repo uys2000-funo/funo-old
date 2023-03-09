@@ -1,7 +1,7 @@
 <template>
     <q-infinite-scroll class="full-width column no-wrap" @load="onLoad">
         <div class="fit q-px-xs row justify-around">
-            <div v-for="(uID, index) in usersStore.lists[user.uID]" :key="index" class="sz">
+            <div v-for="(uID, index) in usersStore.lists[list]" :key="index" class="sz">
                 <comp-user :uID="usersStore.dict[uID].data.fID" />
             </div>
         </div>
@@ -27,14 +27,19 @@ export default {
     },
     methods: {
         getFollowedUsers() {
-            const last = this.usersStore.getLast(this.user.uID)?.data?.timestamp
+            const last = this.usersStore.getLast(this.list)?.data?.timestamp
             return getFollowedUsers(this.user.uID, last)
         },
         onLoad(index, done) {
             this.getFollowedUsers().then((docs) => {
-                this.usersStore.addToMany(this.user.uID, docs)
+                this.usersStore.addToMany(this.list, docs)
                 done(docs.length == 0)
             })
+        }
+    },
+    computed: {
+        list() {
+            return "F-" + this.user.uID
         }
     }
 }

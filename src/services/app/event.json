@@ -135,5 +135,25 @@
       "where": true,
       "serverTimestamp": false
     }
+  ],
+  "followedUserEvent": [
+    {
+      "column": "date.end",
+      "condition": ">",
+      "equality": "",
+      "orderType": "desc",
+      "order": true,
+      "where": true,
+      "timestamp": true
+    },
+    {
+      "column": "owner.uID",
+      "condition": "in",
+      "equality": "-------FillThis-------",
+      "orderType": "asc",
+      "order": false,
+      "where": true,
+      "timestamp": false
+    }
   ]
 }

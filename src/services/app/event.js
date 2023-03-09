@@ -57,6 +57,7 @@ export const updateEvent = function (uID, event, images) {
     .then(() => f(increaseDocument, ["User", uID, "updateEvent", 1]))
     .then(() => f(increaseDocument, ["Event", event.eID, "updateEvent", 1]));
 };
+
 export const deleteEvent = function (uID, eID) {
   l("Run - deleteEvent", arguments);
   return f(deleteDocument, ["Event", eID])
