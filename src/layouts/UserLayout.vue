@@ -1,9 +1,8 @@
 <template>
-  <div class="fit column no-wrap items-center">
+  <div class="fit column no-wrap items-center" v-if="show">
     <div class="full-width overflow-hidden shadow-1 q-pb-sm" style="flex-shrink: 0;z-index: 10;">
       <div class=" row justify-center">
-        <comp-wheel :setR="setPageNumber" :pageNumber="pageNumber" :photoURL="user?.account.photoURL"
-          :type="type" />
+        <comp-wheel :setR="setPageNumber" :pageNumber="pageNumber" :photoURL="user?.account.photoURL" :type="type" />
       </div>
       <comp-header v-if="user" :user="user" />
     </div>
@@ -26,7 +25,8 @@ export default {
       userStore: useUser(),
       userOher: null,
       user: null,
-      pageNumber: 0
+      pageNumber: 0,
+      show: false
     }
   },
   methods: {
@@ -34,15 +34,22 @@ export default {
       this.pageNumber = value
     },
     loadOtherUser() {
-      if (this.userOher?.uID == this.$route.params.uID) this.user = this.userOher;
+      if (this.userOher?.uID == this.$route.params.uID) {
+        this.user = this.userOher;
+        this.show = true
+      }
       else getUserData(this.$route.params.uID).then((user) => {
         this.userOher = user.data
         this.user = user.data
+        this.show = true
       })
     },
     loadUser() {
       if (this.type) this.loadOtherUser()
-      else this.user = this.userStore.user.userFire
+      else {
+        this.user = this.userStore.user.userFire
+        this.show = true
+      }
     }
   },
   mounted() {

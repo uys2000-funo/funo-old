@@ -18,22 +18,19 @@ import eventArgs from "@/services/app/event.json"
 import { getEvents } from '@/services/app/event';
 import { Timestamp } from '@firebase/firestore';
 export default {
+    props: ["user"],
     components: { compEvent },
     data() {
         return {
             userStore: useUser(),
             eventsStore: useEvents(),
-            list: "Joined",
         }
     },
     methods: {
         onLoad(index, done) {
             let startPoint = Timestamp.now()
 
-            if (this.$route.params.uID)
-                eventArgs.EventJoined[1].equality = this.$route.params.uID
-            else
-                eventArgs.EventJoined[1].equality = this.userStore.uID
+            eventArgs.EventJoined[1].equality = this.user.uID
 
             if (index - 1 != 0)
                 startPoint = this.eventsStore.getLast(this.list)[this.list].data.timestamp
@@ -47,7 +44,11 @@ export default {
     },
     mounted() {
         if (this.$route.params.uID) this.list = "UserJoined"
-
-    }
+    },
+    computed: {
+        list() {
+            return "JE-" + this.user?.uID
+        }
+    },
 }
 </script>

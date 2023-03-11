@@ -17,12 +17,13 @@ import eventArgs from "@/services/app/event.json"
 import { getEvents } from '@/services/app/event';
 import { Timestamp } from '@firebase/firestore';
 export default {
+    props: ["user"],
     components: { compEvent },
     data() {
         return {
+            props: ["user"],
             userStore: useUser(),
             eventsStore: useEvents(),
-            list: "Created",
         }
     },
     methods: {
@@ -45,8 +46,12 @@ export default {
         },
     },
     mounted() {
-        if (this.$route.params.uID) this.list = "UserCreated"
-
-    }
+        console.log(this.user)
+    },
+    computed: {
+        list() {
+            return "CE-" + this.user?.uID
+        }
+    },
 }
 </script>

@@ -15,7 +15,8 @@
             <comp-message v-else :user="user" />
         </q-carousel-slide>
         <q-carousel-slide :name="4" class="column no-wrap flex-start" style="padding: 0px;">
-            <comp-settings />
+            <comp-settings v-if="!type" />
+            <comp-user-event v-else :user="user" />
         </q-carousel-slide>
     </q-carousel>
 </template>
@@ -26,9 +27,10 @@ import compEventsCreated from '@/components/user/compEventsCreated.vue';
 import compEdit from '@/components/user/compEdit.vue';
 import compSettings from '@/components/user/compSettings.vue';
 import compMessage from '@/components/user/compMessage.vue';
+import compUserEvent from '@/components/user/compUserEvent.vue';
 export default {
     components: {
-        compFollowedUsers, compEventsJoined, compEventsCreated, compEdit, compSettings, compMessage
+        compFollowedUsers, compEventsJoined, compEventsCreated, compEdit, compSettings, compMessage, compUserEvent
     },
     props: ["pageNumber", "setPage", "images", "user", "type"],
     data() {
