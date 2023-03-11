@@ -1,5 +1,5 @@
 <template>
-    <div class="q-px-sm rounded-borders" style="height:35vw">
+    <div class="q-px-sm rounded-borders" style="height:40vw">
         <div class="image fit rounded-borders relative" :style="`background-image: url(${event.data.general.photoURLs[0]});`">
             <div class="full-width row no-wrap justify-end">
                 <q-icon size="sm" class="q-mr-sm q-mt-sm" v-if="event.data.tags.main.includes('art')">

@@ -34,7 +34,7 @@ import { showToast } from "@/services/capacitor/toast";
 import { useLocation } from "@/store/location";
 import { Timestamp } from "@firebase/firestore";
 import { useEvents } from "@/store/event";
-import { watchEventsJoined } from "@/services/app/event";
+import { getEvents, watchEvents, watchEventsJoined } from "@/services/app/event";
 import eventArgs from "@/services/app/event.json";
 export default {
   name: "AppLayout",
@@ -65,7 +65,11 @@ export default {
 
     },
     listenPopularEvents() {
-
+      watchEvents(null, [],
+        (doc) => this.eventsStore.addToAs("popular", "eID", doc),
+        (doc) => this.eventsStore.removeFromAs("popular", "eID", doc),
+        "EventPopular",
+      )
     },
     listenJoinedEvents() {
       const startPoint = Timestamp.now();
@@ -86,7 +90,7 @@ export default {
         clearInterval(interval)
       }
     }, 200);
-
+    getEvents(null, [], "EventPopular")
   },
   beforeUnmount() {
     if (this.notificationsListener) {

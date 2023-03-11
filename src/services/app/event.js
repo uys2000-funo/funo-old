@@ -142,9 +142,13 @@ export const watchEvents = function (
       where: true,
       serverTimestamp: false,
     },
-  ]
+  ],
+  addFunc,
+  remoreFunc,
+  table = "Event"
 ) {
-  return watchCollectionOWU("Event", start, queryArgs);
+  l("Run - watchEvents", arguments);
+  return watchCollectionOWU(table, start, queryArgs, addFunc, remoreFunc);
 };
 
 export const watchEventsJoined = function (
@@ -163,6 +167,7 @@ export const watchEventsJoined = function (
   addFunc = () => "",
   remoreFunc = () => ""
 ) {
+  l("Run - watchEventsJoined", arguments);
   return watchCollectionOWU(
     "UserJoinedEvent",
     start,

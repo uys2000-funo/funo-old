@@ -87,11 +87,11 @@ export const getDocument = function (table, column) {
   return getDoc(docRef).then(returnDoc);
 };
 export const deleteDocument = function (table, column) {
-  const data = { isDeleted: false, dtimestamp: serverTimestamp() };
+  const data = { isDeleted: true, dtimestamp: serverTimestamp() };
   const docRef = doc(db, table, column);
   return updateDoc(docRef, data);
 };
-const getQuery = function (table, start, qa) {
+const getQuery = function (table, start, qa, watch = false) {
   const colRef = collection(db, table);
   let args = [colRef];
   qa.forEach((a) => {
@@ -103,7 +103,7 @@ const getQuery = function (table, start, qa) {
   });
   args.push(where("isDeleted", "==", false));
   if (start != null) args.push(startAfter(start));
-  args.push(limit(settings.limitFirestore));
+  if (!watch) args.push(limit(settings.limitFirestore));
   l(`Arg: getQuery`, args);
   return query(...args);
 };
@@ -142,7 +142,7 @@ export const watchCollectionOWU = function (
   addFunc = () => "",
   remoreFunc = () => ""
 ) {
-  const q = getQuery(table, start, qa);
+  const q = getQuery(table, start, qa, true);
   return onSnapshot(q, (querySnapshot) => {
     querySnapshot.docChanges().forEach((change) => {
       if (change.type == "added") addFunc(returnDoc(change.doc));

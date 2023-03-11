@@ -139,5 +139,9 @@ export const useEvents = defineStore("events", {
       if (!this.lists[listID]) return null;
       else return this.dict[this.getLastID(listID)];
     },
+    getEvents(listID) {
+      if (!this.lists[listID]) this.lists[listID] = [];
+      return this.lists[listID].map((eID) => this.dict[eID]);
+    },
   },
 });

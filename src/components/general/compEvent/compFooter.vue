@@ -77,6 +77,7 @@ import { useUser } from '@/store/user';
 import compParticipants from './compParticipants.vue';
 import { sendNotification } from '@/services/app/notification';
 import { showToast } from '@/services/capacitor/toast';
+import { addPopularEvent, updatePopularEvent, removePopularEvent } from "@/services/app/poplarEvent.js"
 export default {
     components: { compParticipants },
     props: ["event"],
@@ -94,10 +95,7 @@ export default {
             else if (this.type) this.requestJoinEvent()
             else this.joinEvent()
         },
-        checkLimit() {
-        },
         requestJoinEvent() {
-            console.log(this.event)
             this.isDisabled = true;
             const notification = {
                 type: "request",
@@ -118,7 +116,10 @@ export default {
             this.isDisabled = true;
             const photoURL = this.userStore.user.userFire.settings.isHidden ? false : this.userStore.user.userFire.account.photoURL
             joinEvent(this.userStore.uID, this.event.eID, this.event.data.date.end, photoURL, this.event.data.general.userPhotoURLs).then(() => this.isDisabled = false)
+            if (!this.eventsStore.dict[this.event.eID].data.count) this.eventsStore.dict[this.event.eID].data.count = { joinEvent: 0 }
+            if (!this.eventsStore.dict[this.event.eID].data.count.joinEvent) this.eventsStore.dict[this.event.eID].data.count.joinEvent = 0
             this.eventsStore.dict[this.event.eID].data.count.joinEvent++
+            this.joinPopularEvent()
         },
         exitEvent() {
             this.isDisabled = true;
@@ -126,14 +127,45 @@ export default {
             const dID = this.event.joined?.dID
             exitEvent(this.userStore.uID, this.event.eID, dID, photoURL, this.event.data.general.userPhotoURLs).then(() => this.isDisabled = false)
             this.eventsStore.dict[this.event.eID].data.count.joinEvent--
+            this.exitPopularEvent()
         },
         toEvent() {
             this.eventSoter.event = this.event
             this.$router.push({ name: "EventPage", params: { eID: this.event.eID } })
+        },
+        joinPopularEvent() {
+            const events = this.eventsStore.getEvents("popular")
+            const isPopular = this.eventsStore.lists["popular"].includes(this.event.eID)
+            if (isPopular) this.updatePopularEvent()
+            else if (events.length <= 1) this.addToPopularEvents()
+            else {
+                const min = events.reduce((prev, current) => (prev.data.count.joinEvent < current.data.count.joinEvent) ? prev : current)
+                console.log("------------", "min", min)
+                if (min.popular?.data.count.user < this.eventsStore.dict[this.event.eID].data.count.joinEvent) {
+                    console.log("------------", "update End remove", min)
+                    this.addToPopularEvents()
+                    this.removePopularEvents(min.eID)
+                }
+            }
+
+        },
+        exitPopularEvent() {
+            const isPopular = this.eventsStore.lists["popular"].includes(this.event.eID)
+            if (!isPopular) return;
+            else {
+                if (this.eventsStore.dict[this.event.eID].data.count.joinEvent == 0) this.removePopularEvents(this.event.eID)
+                else this.updatePopularEvent()
+            }
+        },
+        addToPopularEvents() {
+            addPopularEvent(this.event.eID, this.event.data)
+        },
+        updatePopularEvent() {
+            updatePopularEvent(this.event.eID, this.event.data)
+        },
+        removePopularEvents(eID, count) {
+            removePopularEvent(eID, count)
         }
-    },
-    mounted() {
-        this.checkLimit()
     },
     computed: {
         type() {
