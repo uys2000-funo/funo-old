@@ -1,0 +1,16 @@
+{
+  "getAtmosphere": [
+    {
+      "where": true,
+      "column": "uID",
+      "condition": "==",
+      "equality": "-------FillThis-------"
+    },
+    {
+      "where": true,
+      "column": "eID",
+      "condition": "==",
+      "equality": "-------FillThis-------"
+    }
+  ]
+}

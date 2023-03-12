@@ -1,5 +1,5 @@
 <template>
-    <q-img class="q-mx-sm shadow-3 popularEventImage" :src="data.photoURL">
+    <q-img class="q-mx-sm q-mb-xs shadow-3 popularEventImage" :src="data.photoURL">
         <div class="absolute-bottom text-caption text-center" style="padding: 5px;">
             {{ data.name }}
         </div>

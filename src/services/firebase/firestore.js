@@ -49,10 +49,35 @@ export const addDocument = function (table, data) {
   const colRef = collection(db, table);
   return addDoc(colRef, data).then(returnId);
 };
-export const updateDocument = function (table, column, data) {
+
+const updateData = function (
+  data,
+  increaments = [{ key: "", value: "" }],
+  arrays = [{ key: "", value: "", union: true }]
+) {
+  const result = { ...data };
+  if (increaments[0]?.key != "")
+    increaments.forEach(({ key, value }) => {
+      result[key] = increment(value);
+    });
+  if (arrays[0]?.key != "")
+    arrays.forEach(({ key, value, union }) => {
+      if (union) result[key] = arrayUnion(...value);
+      else result[key] = arrayRemove(...value);
+    });
+  return result;
+};
+
+export const updateDocument = function (
+  table,
+  column,
+  data,
+  increaments,
+  arrays
+) {
   data["utimestamp"] = serverTimestamp();
   const docRef = doc(db, table, column);
-  return updateDoc(docRef, data);
+  return updateDoc(docRef, updateData(data, increaments, arrays));
 };
 export const increaseDocument = function (table, column, key, count) {
   let data = {};
