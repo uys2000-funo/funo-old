@@ -37,6 +37,9 @@ export default {
         .then(() => {
           this.showPopup = false;
           this.pageLoad = true
+          console.log(this.$route.fullPath)
+          if (this.$route.fullPath == "/" || this.$route.fullPath == "/login" || this.$route.fullPath == "/register" || this.$route.fullPath == "/app")
+            this.$router.push({ name: "EventsPage" });
         })
         .catch(() => {
           this.showPopup = false;

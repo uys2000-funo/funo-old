@@ -1,0 +1,19 @@
+{
+  "event": {
+    "near": {
+      "title": "Etkinlik Yaklaşıyor :)",
+      "body": "{eName} adlı etkinlik yaklaşıyor hala katılmayı düşünüyor musun? :)",
+      "extra": { "url": "notifications/{nID}" }
+    },
+    "start": {
+      "title": "Etkinlik Başladı :)",
+      "body": "{eName} adlı etkinlik başladı. Yetişebildin mi? Atmosferi paylaşmak ister misin? :)",
+      "extra": { "url": "notifications/{nID}" }
+    },
+    "end": {
+      "title": "Etkinlik Bitti :)",
+      "body": "{eName} adlı etkinlik bitti. Yorumları alalım mı? :)",
+      "extra": { "url": "notifications/{nID}" }
+    }
+  }
+}

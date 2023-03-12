@@ -15,4 +15,5 @@ ext {
     cordovaAndroidVersion = '10.1.1'
     rgcfaIncludeFacebook = true
     rgcfaIncludeGoogle = true
+    playServicesLocationVersion = "20.0.0" 
 }

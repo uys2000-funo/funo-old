@@ -1,5 +1,5 @@
 {
-  "isMobile": false,
+  "isMobile": true,
   "debug": true,
   "limitFirestore": 10,
   "limitFirestore-Note": "It can be mox 10"

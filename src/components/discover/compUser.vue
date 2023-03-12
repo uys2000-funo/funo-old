@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         getNewUsers() {
-            const last = this.usersStore.getFirst(this.list)?.data?.timestamp
+            const last = this.usersStore.getLast(this.list)?.data?.timestamp
             return getNewUsers(last)
         },
         onLoad(index, done) {

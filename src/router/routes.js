@@ -73,7 +73,7 @@ export default [
           },
         ],
       },
-      // Discover onDevelop
+      // Discover
       {
         path: "discover",
         name: "Discover",
@@ -97,7 +97,7 @@ export default [
           },
         ],
       },
-      // User onDevelop
+      // User
       {
         path: "user",
         name: "User",

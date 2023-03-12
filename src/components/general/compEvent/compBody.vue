@@ -25,7 +25,6 @@
     </div>
 </template>
 <script>
-import { getEventImage } from "@/services/app/event.js";
 import iconArt from '@/icons/tags/iconArt.vue';
 import iconEducation from '@/icons/tags/iconEducation.vue';
 import iconMeeting from '@/icons/tags/iconMeeting.vue';
@@ -40,15 +39,6 @@ export default {
             srcImg: "https://mehmetuysal.dev/_nuxt/logo.f6c5d2fc.jpg"
         }
     },
-    methods: {
-        getImage() {
-            if (this.event.data.counters.image != 0)
-                getEventImage(this.event.eID)
-                    .then(srcImg => this.srcImg = srcImg)
-        }
-    },
-    mounted() {
-    }
 }
 </script>
 <style>

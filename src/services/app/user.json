@@ -50,7 +50,7 @@
       "timestamp": true
     },
     {
-      "column": "isHidden",
+      "column": "settings.isHidden",
       "condition": "==",
       "equality": false,
       "orderType": "desc",
