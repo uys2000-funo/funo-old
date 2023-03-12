@@ -4,6 +4,9 @@
             <q-avatar v-if="notification.data.notification.uPhotoURL">
                 <img :src="notification.data.notification.uPhotoURL" alt="">
             </q-avatar>
+            <q-avatar v-else-if="notification.data.notification.ePhotoURL">
+                <img :src="notification.data.notification.ePhotoURL" alt="">
+            </q-avatar>
             <q-icon v-else color="primary" name="info" />
         </q-item-section>
 
@@ -34,6 +37,9 @@ export default {
     computed: {
         text() {
             if (this.notification.data.notification.type == "request") return "Katılım Onay"
+            else if (this.notification.data.notification.type == "near") return "Yaklaşan Etkinlik Var :)"
+            else if (this.notification.data.notification.type == "start") return "Etkinlik Başladı :)"
+            else if (this.notification.data.notification.type == "end") return "Etkinlik Bitti :)"
             return ""
         }
     }

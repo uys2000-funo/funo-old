@@ -2,21 +2,22 @@ import { Timestamp } from "firebase/firestore";
 import { f, l } from "../debug";
 import {
   addDocument,
+  deleteDocument,
   getCollectionOWU,
   increaseDocument,
   updateDocument,
   watchCollectionOWU,
 } from "../firebase/firestore";
 import notification from "@/services/app/notification.json";
-export const createNotification = function (uID, notification) {
+export const createNotification = function (uID, notification, nTimestamp) {
   l("Run - createNotification", arguments);
   const n = {
     uID: uID,
     notification: notification,
-    nTimestamp: Timestamp.now(),
+    nTimestamp: nTimestamp ? nTimestamp : Timestamp.now(),
   };
-  return f(addDocument, ["UserNotification", n]).then(() =>
-    f(increaseDocument, ["User", uID, "createNotification", 1])
+  return f(addDocument, ["UserNotification", n]).then((nID) =>
+    f(increaseDocument, ["User", uID, "createNotification", 1], nID)
   );
 };
 
@@ -34,8 +35,8 @@ export const sendNotification = function (uID, sID, notification, nTimestamp) {
 
 export const deleteNotification = function (uID, nID) {
   l("Run - deleteNotification", arguments);
-  return f(deleteNotification, ["UserNotification", nID]).then(() =>
-    f(increaseDocument, ["User", uID, "deleteNotification", -1])
+  return f(deleteDocument, ["UserNotification", nID]).then(() =>
+    f(increaseDocument, ["User", uID, "deleteNotification", 1])
   );
 };
 export const updateNotification = function (uID, nID, data) {
@@ -47,6 +48,7 @@ export const updateNotification = function (uID, nID, data) {
 export const getNotifications = function (uID, last) {
   l("Run - getNotifications", arguments);
   notification.getNotifications[1].equality = uID;
+  l("Run - getNotifications", notification.getNotifications);
   return f(getCollectionOWU, [
     "UserNotification",
     last ? last : Timestamp.now(),

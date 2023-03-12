@@ -30,7 +30,6 @@ export default {
     methods: {
         getNotifications() {
             const last = this.notificationsStore.getLast(this.list)?.data.nTimestamp
-            console.log(last)
             return getNotifications(this.userStore.uID, last).then(docs => {
                 this.notificationsStore.addToMany(this.list, docs)
                 return docs.length

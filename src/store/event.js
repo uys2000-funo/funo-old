@@ -139,6 +139,13 @@ export const useEvents = defineStore("events", {
       if (!this.lists[listID]) return null;
       else return this.dict[this.getLastID(listID)];
     },
+    getFirstID(listID) {
+      return this.lists[listID][0];
+    },
+    getFirst(listID) {
+      if (!this.lists[listID]) return null;
+      else return this.dict[this.getFirstID(listID)];
+    },
     getEvents(listID) {
       if (!this.lists[listID]) this.lists[listID] = [];
       return this.lists[listID].map((eID) => this.dict[eID]);

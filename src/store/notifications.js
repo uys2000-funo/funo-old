@@ -2,9 +2,9 @@ import { defineStore } from "pinia";
 
 export const useNotifications = defineStore("nottifications", {
   state: () => ({
-      dict: {},
-      lists: {},
-      notification: {},
+    dict: {},
+    lists: {},
+    notification: {},
   }),
   actions: {
     addData(nID, data) {
@@ -26,9 +26,17 @@ export const useNotifications = defineStore("nottifications", {
       if (!this.lists[listID]) this.lists[listID] = [];
       if (!this.lists[listID].includes(nID)) this.lists[listID].push(nID);
     },
+    addListBegin(listID, nID) {
+      if (!this.lists[listID]) this.lists[listID] = [];
+      if (!this.lists[listID].includes(nID)) this.lists[listID].unshift(nID);
+    },
     addTo(listID, data) {
       this.addData(data.dID, data.data);
       this.addList(listID, data.dID);
+    },
+    addToBegin(listID, data) {
+      this.addData(data.dID, data.data);
+      this.addListBegin(listID, data.dID);
     },
     addToMany(listID, data) {
       data.forEach((d) => {
@@ -44,9 +52,11 @@ export const useNotifications = defineStore("nottifications", {
         this.addToAs(listID, dID2, d);
       });
     },
-    removeData(listID) {
-      if (this.dict[listID].nID) delete this.dict[listID].nID;
-      if (this.dict[listID].data) delete this.dict[listID].data;
+    removeData(dID) {
+      if (this.dict[dID]) {
+        if (this.dict[dID].nID) delete this.dict[dID].nID;
+        if (this.dict[dID].data) delete this.dict[dID].data;
+      }
     },
     removeDataAs(listID, nID) {
       if (this.dict[nID][listID].dID) delete this.dict[nID][listID].dID;
@@ -59,11 +69,11 @@ export const useNotifications = defineStore("nottifications", {
       this.lists[listID] = this.lists[listID].filter((id) => id != nID);
     },
     removeFrom(listID, data) {
-      this.removeData(listID, data);
-      this.removeList(listID);
+      this.removeData(data.dID);
+      this.removeList(listID, data.dID);
     },
     removeFromAs(listID, dID, data) {
-      data.data[dID], listID, this.removeDataAs(listID, data.data[dID]);
+      this.removeDataAs(listID, data.data[dID]);
       this.removeListAs(listID, data.data[dID]);
     },
     getLastID(listID) {
@@ -79,6 +89,13 @@ export const useNotifications = defineStore("nottifications", {
     getFirst(listID) {
       if (!this.lists[listID]) return null;
       else return this.dict[this.getFirstID(listID)];
+    },
+    getList(listID) {
+      if (!this.lists[listID]) this.lists[listID] = [];
+      return this.lists[listID];
+    },
+    getItems(listID) {
+      return this.getList(listID).map((nID) => this.dict[nID]);
     },
     clear() {
       this.dict = {};

@@ -98,13 +98,13 @@ export default {
       if (!this.startDate || !this.startTime) return;
       const date = this.startDate.split(".");
       const time = this.startTime.split(":");
-      this.eventStore.event.data.date.start = new Date(date[2], date[1], date[0], time[0], time[1]).getTime()
+      this.eventStore.event.data.date.start = new Date(date[2], date[1] - 1, date[0], time[0], time[1]).getTime()
     },
     updateEndDate() {
       if (!this.endDate || !this.endTime) return;
       const date = this.endDate.split(".");
       const time = this.endTime.split(":");
-      this.eventStore.event.data.date.end = new Date(date[2], date[1], date[0], time[0], time[1]).getTime()
+      this.eventStore.event.data.date.end = new Date(date[2], date[1] - 1, date[0], time[0], time[1]).getTime()
     },
   },
   mounted() {

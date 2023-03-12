@@ -34,8 +34,10 @@ import { showToast } from "@/services/capacitor/toast";
 import { useLocation } from "@/store/location";
 import { Timestamp } from "@firebase/firestore";
 import { useEvents } from "@/store/event";
-import { getEvents, watchEvents, watchEventsJoined } from "@/services/app/event";
+import { getEvents, watchEvents } from "@/services/app/event";
 import eventArgs from "@/services/app/event.json";
+import { watchNotifications } from "@/services/app/notification";
+import { useNotifications } from "@/store/notifications";
 export default {
   name: "AppLayout",
   components: { iconPlus, iconCompass, iconLogo, iconWorld, iconPerson },
@@ -45,8 +47,11 @@ export default {
       userStore: useUser(),
       eventsStore: useEvents(),
       localStorage: useLocation(),
+      notificationsStore: useNotifications(),
 
-      notificationsListener: null,
+      notificationUpdateListener: null,
+
+      notificationListener: null,
       popularEventListener: null,
       joinedEventListener: null,
 
@@ -61,11 +66,27 @@ export default {
         this.localStorage.coordinates = locationResult.coordinates;
       })
     },
+    notificationUpdate() {
+      this.notificationsStore.getItems("futureNotifications").forEach(notification => {
+        if (notification.data.nTimestamp.seconds <= Timestamp.now().seconds) {
+          this.notificationsStore.addToBegin("Notifications", notification)
+          this.notificationsStore.removeFrom("futureNotifications", notification)
+        }
+      });
+    },
+    listenNotificationUpdate() {
+      this.notificationUpdateListener = setInterval(() => {
+        this.notificationUpdate()
+      }, 50000)
+    },
     listenNotifications() {
-
+      this.notificationListener = watchNotifications(this.userStore.uID,
+        (doc) => this.notificationsStore.addTo("futureNotifications", doc),
+        (doc) => this.notificationsStore.removeFrom("futureNotifications", doc)
+      )
     },
     listenPopularEvents() {
-      watchEvents(null, [],
+      this.popularEventListener = watchEvents(null, [],
         (doc) => this.eventsStore.addToAs("popular", "eID", doc),
         (doc) => this.eventsStore.removeFromAs("popular", "eID", doc),
         "EventPopular",
@@ -74,9 +95,10 @@ export default {
     listenJoinedEvents() {
       const startPoint = Timestamp.now();
       eventArgs.watchEventsJoined[2].equality = this.userStore.uID
-      watchEventsJoined(startPoint, eventArgs.watchEventsJoined,
+      this.joinedEventListener = watchEvents(startPoint, eventArgs.watchEventsJoined,
         (doc) => this.eventsStore.addToAs("joined", "eID", doc),
         (doc) => this.eventsStore.removeFromAs("joined", "eID", doc),
+        "UserJoinedEvent"
       )
     }
   },
@@ -84,17 +106,21 @@ export default {
     this.setLocation()
     let interval = setInterval(() => {
       if (this.userStore.uID) {
+        this.listenNotificationUpdate();
         this.listenNotifications();
-        this.listenPopularEvents()
-        this.listenJoinedEvents()
+        this.listenPopularEvents();
+        this.listenJoinedEvents();
         clearInterval(interval)
       }
     }, 200);
     getEvents(null, [], "EventPopular")
   },
   beforeUnmount() {
+    if (this.notificationUpdateListener) {
+      clearInterval(this.notificationUpdateListener)
+    }
     if (this.notificationsListener) {
-      this.notificationsListener()
+      this.notificationListener()
     }
     if (this.popularEventListener) {
       this.popularEventListener()

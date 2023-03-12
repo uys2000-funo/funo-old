@@ -75,9 +75,12 @@ import { exitEvent, joinEvent } from '@/services/app/event';
 import { useEvent, useEvents } from '@/store/event.js';
 import { useUser } from '@/store/user';
 import compParticipants from './compParticipants.vue';
-import { sendNotification } from '@/services/app/notification';
+import { createNotification, deleteNotification, sendNotification } from '@/services/app/notification';
 import { showToast } from '@/services/capacitor/toast';
 import { addPopularEvent, updatePopularEvent, removePopularEvent } from "@/services/app/poplarEvent.js"
+import { scheduleLocalEventNotificattion } from '@/services/app/localNotifications';
+import { Timestamp } from '@firebase/firestore';
+import { useNotifications } from '@/store/notifications';
 export default {
     components: { compParticipants },
     props: ["event"],
@@ -86,6 +89,7 @@ export default {
             userStore: useUser(),
             eventSoter: useEvent(),
             eventsStore: useEvents(),
+            notificationsStore: useNotifications(),
             isDisabled: false
         }
     },
@@ -120,6 +124,7 @@ export default {
             if (!this.eventsStore.dict[this.event.eID].data.count.joinEvent) this.eventsStore.dict[this.event.eID].data.count.joinEvent = 0
             this.eventsStore.dict[this.event.eID].data.count.joinEvent++
             this.joinPopularEvent()
+            this.createNotifications()
         },
         exitEvent() {
             this.isDisabled = true;
@@ -128,6 +133,7 @@ export default {
             exitEvent(this.userStore.uID, this.event.eID, dID, photoURL, this.event.data.general.userPhotoURLs).then(() => this.isDisabled = false)
             this.eventsStore.dict[this.event.eID].data.count.joinEvent--
             this.exitPopularEvent()
+            this.removeNotifications()
         },
         toEvent() {
             this.eventSoter.event = this.event
@@ -139,10 +145,8 @@ export default {
             if (isPopular) this.updatePopularEvent()
             else if (events.length <= 1) this.addToPopularEvents()
             else {
-                const min = events.reduce((prev, current) => (prev.data.count.joinEvent < current.data.count.joinEvent) ? prev : current)
-                console.log("------------", "min", min)
+                const min = events.reduce((prev, current) => (prev.data?.count.joinEvent < current.data?.count.joinEvent) ? prev : current)
                 if (min.popular?.data.count.user < this.eventsStore.dict[this.event.eID].data.count.joinEvent) {
-                    console.log("------------", "update End remove", min)
                     this.addToPopularEvents()
                     this.removePopularEvents(min.eID)
                 }
@@ -165,6 +169,50 @@ export default {
         },
         removePopularEvents(eID, count) {
             removePopularEvent(eID, count)
+        },
+        createNotifications() {
+            this.createRemoteNotifications().then(nIDS => {
+                this.createLocalNotifications(nIDS)
+            })
+        },
+        createRemoteNotifications() {
+            const nIDs = Array(3)
+            const notification = {
+                type: "near",
+                eID: this.event.eID,
+                eName: this.event.data.general.name,
+                ePhotoURL: this.event.data.general.photoURLs[0],
+            }
+            const nearDate = Timestamp.fromMillis((this.event.data.date.start.seconds - 3600) * 1000)
+            return createNotification(this.userStore.uID, notification, nearDate).then(nID => {
+                nIDs[0] = nID
+                notification.type = "start"
+                return createNotification(this.userStore.uID, notification, this.event.data.date.start).then(nID => {
+                    nIDs[1] = nID
+                    notification.type = "end"
+                    return createNotification(this.userStore.uID, notification, this.event.data.date.end).then(nID => {
+                        nIDs[1] = nID
+                        return nIDs
+                    })
+                })
+            })
+        },
+        createLocalNotifications(nIDs) {
+            scheduleLocalEventNotificattion(this.event.eID, this.event.data, nIDs)
+        },
+        removeNotifications() {
+            this.removeRemoteNotifications()
+        },
+        removeRemoteNotifications() {
+            let notifications = this.notificationsStore.getItems("futureNotifications")
+            notifications = notifications.filter(notification => notification.data.notification.eID == this.event.eID)
+            notifications.forEach(notification => {
+                console.log(notification)
+                deleteNotification(this.userStore.uID, notification.nID)
+            })
+        },
+        removeLocalNotifications() {
+
         }
     },
     computed: {

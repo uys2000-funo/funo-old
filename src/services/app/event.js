@@ -151,28 +151,3 @@ export const watchEvents = function (
   return watchCollectionOWU(table, start, queryArgs, addFunc, remoreFunc);
 };
 
-export const watchEventsJoined = function (
-  start,
-  queryArgs = [
-    {
-      column: "",
-      condition: "",
-      equality: "",
-      orderType: "desc",
-      order: true,
-      where: true,
-      serverTimestamp: false,
-    },
-  ],
-  addFunc = () => "",
-  remoreFunc = () => ""
-) {
-  l("Run - watchEventsJoined", arguments);
-  return watchCollectionOWU(
-    "UserJoinedEvent",
-    start,
-    queryArgs,
-    addFunc,
-    remoreFunc
-  );
-};

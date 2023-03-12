@@ -66,7 +66,6 @@
           <Component :is="northEast" class="fill-accent" />
         </div>
       </template>
-      {{ pageNumber }}
     </comp-wheel>
   </div>
 </template>
