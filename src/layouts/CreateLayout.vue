@@ -1,10 +1,10 @@
 <template>
   <router-view v-slot="{ Component }">
     <comp-popup fullscreen v-if="show">
-      <back-button />
       <div class="fit column no-wrap justify-center items-center content-center" style="overflow: hidden;">
         <div>
-          <div class="q-pt-md q-pb-md text-h5 text-center">
+          <div class="row justify-center align-center items-center text-h5 text-black" style="height: 10vh;">
+            <back-button color="black" />
             {{ pageNumber == 0 ? "Temel Bilgiler" :
               pageNumber == 1 ? "Tarih & Kitle" :
                 pageNumber == 2 ? "Konum & Fiyat" : "Görseller" }}
