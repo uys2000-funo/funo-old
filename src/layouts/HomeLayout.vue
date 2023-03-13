@@ -77,7 +77,7 @@ export default {
     listenNotificationUpdate() {
       this.notificationUpdateListener = setInterval(() => {
         this.notificationUpdate()
-      }, 50000)
+      }, 10000)
     },
     listenNotifications() {
       this.notificationListener = watchNotifications(this.userStore.uID,

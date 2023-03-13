@@ -45,6 +45,7 @@
 
 <script>
 import { getAtmosphere, uploadAtmosphere } from '@/services/app/atmosphere';
+import { useUser } from '@/store/user';
 
 export default {
     props: ["notification"],
@@ -53,7 +54,8 @@ export default {
             aID: null,
             time: 0,
             images: [],
-            imageURLs: []
+            imageURLs: [],
+            userStore: useUser(),
         }
     },
     methods: {
@@ -77,9 +79,15 @@ export default {
             this.images.splice(index, 1);
         },
         uploadAtmosphere() {
-            const uID = this.notification.data.uID
+            const uID = this.userStore.uID
+            const uName = this.userStore.nickName
             const eID = this.notification.data.notification.eID
-            uploadAtmosphere(uID, eID, this.aID, this.time, this.images).then(() => {
+            const eName = this.notification.data.notification.eName
+            const ePhotoURL = this.notification.data.notification.ePhotoURL
+            const uPhotoURL = this.userStore.photoURL
+            const atmosphere = { uID, uName, eID, eName, time: this.time, ePhotoURL, uPhotoURL }
+
+            uploadAtmosphere(uID, eID, atmosphere, this.aID, this.time, this.images).then(() => {
                 this.time++
                 this.images = []
                 this.imageURLs = []
@@ -92,10 +100,13 @@ export default {
     mounted() {
         const uID = this.notification.data.uID
         const eID = this.notification.data.notification.eID
+        console.log(this.notification.data)
         getAtmosphere(uID, eID).then(([res]) => {
-            if (res.dID) this.aID = res.dID
-            if (res.data?.time) this.time = res.data.time
-            console.log(JSON.stringify( res))
+            if (res) {
+                if (res.dID) this.aID = res.dID
+                if (res.data?.time) this.time = res.data.time
+                console.log("res", res)
+            }
         })
     }
 }
