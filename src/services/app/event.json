@@ -158,10 +158,10 @@
   ],
   "randomEvents": [
     {
-      "column": "date.end",
+      "column": "date.start",
       "condition": ">",
       "equality": "",
-      "orderType": "desc",
+      "orderType": "asc",
       "order": false,
       "where": true,
       "timestamp": true

@@ -103,17 +103,17 @@ export default {
     },
     methods: {
         setupFilter() {
-            this.filter = this.eventsStore.filter
+            this.filter = { ...this.eventsStore.filter }
         },
         cancelFilter() {
-            this.eventsStore.filter = { ...this.tmp }
+            this.filter = { ...this.eventsStore.filter }
             this.isOpen = false
         },
         updateFilter() {
             if (this.filter != this.eventsStore.filter) {
                 this.eventsStore.filter = this.filter;
                 this.isOpen = false
-                this.eventsStore.eventsFlowList = []
+                this.eventsStore.lists["EventFlow"] = []
                 if (this.reset) this.reset()
             }
         },
@@ -124,4 +124,5 @@ export default {
 <style>
 .tab {
     width: 35%;
-}</style>
+}
+</style>

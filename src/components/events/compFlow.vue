@@ -26,8 +26,11 @@ export default {
     },
     methods: {
         reset() {
+            this.$refs.flow.stop()
             this.$refs.flow.reset()
-            this.$refs.flow.trigger()
+            this.$refs.flow.resume()
+            this.$refs.flow.poll()
+            console.log("res")
         },
         createMethodArgs() {
             this.eventsStore.filterArgs = [
