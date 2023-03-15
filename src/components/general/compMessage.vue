@@ -53,7 +53,8 @@ export default {
     },
     updateMessageHistory() {
       const lastMessage = this.messageStore.getLast(this.rID);
-      updateMessageHistory(this.userStore.uID, this.rID, this.userStore.nickName, this.rNickName, lastMessage.data.message, this.userStore.photoURL, this.rPhotoURL)
+      if (lastMessage?.data)
+        updateMessageHistory(this.userStore.uID, this.rID, this.userStore.nickName, this.rNickName, lastMessage.data.message, this.userStore.photoURL, this.rPhotoURL)
     },
     getReceivedMessages(last) {
       return getOldReceivedChatMessages(this.userStore.uID, this.rID, last)

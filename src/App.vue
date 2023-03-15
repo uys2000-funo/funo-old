@@ -10,10 +10,9 @@ import { useUser } from "@/store/user";
 import { checkAuth } from "./services/app/auth";
 import { getUserData } from "./services/app/user";
 import { getLocalObject } from "./services/capacitor/preferences";
+import { setErrorHandler } from "./services/app/app";
 export default {
   name: "LayoutDefault",
-  // Fetch events will be in here
-  components: {},
   data() {
     return {
       pageLoad: false,
@@ -22,35 +21,37 @@ export default {
     };
   },
   methods: {
+    succesfullLogin() {
+      this.showPopup = false;
+      this.pageLoad = true
+      if (this.$route.fullPath == "/" || this.$route.fullPath == "/login" || this.$route.fullPath == "/register" || this.$route.fullPath == "/app")
+        this.$router.push({ name: "EventsPage" });
+    },
+    unsuccesfullLogin() {
+      this.showPopup = false;
+      if (!(this.$route.fullPath == "/") & !(this.$route.fullPath == "/login") & !(this.$route.fullPath == "/register") & !(this.$route.fullPath == "/app"))
+        this.$router.push({ name: "LoginPage" });
+      this.pageLoad = true
+    },
     autoLogin() {
       checkAuth()
         .then(this.userStore.setUserAuth)
         .then(() => getUserData(this.userStore.uID))
         .then(({ data }) => data)
         .then(this.userStore.setUserFire)
-        .then(() => {
-          this.showPopup = false;
-          this.pageLoad = true
-          if (this.$route.fullPath == "/" || this.$route.fullPath == "/login" || this.$route.fullPath == "/register" || this.$route.fullPath == "/app")
-            this.$router.push({ name: "EventsPage" });
-        })
-        .catch(() => {
-          this.showPopup = false;
-          if (!(this.$route.fullPath == "/") & !(this.$route.fullPath == "/login") & !(this.$route.fullPath == "/register") & !(this.$route.fullPath == "/app"))
-            this.$router.push({ name: "LoginPage" });
-          this.pageLoad = true
-        })
+        .then(this.succesfullLogin)
+        .catch(this.unsuccesfullLogin)
     }
   },
   mounted() {
     getLocalObject("isLogged").then(({ value }) => {
-      console.log(value)
       if (value) this.autoLogin()
       else {
         this.$router.push({ name: "Enterance" });
         this.pageLoad = true
       }
     })
+    setErrorHandler()
   }
 };
 </script>

@@ -1,9 +1,9 @@
 <template>
     <router-view v-slot="{ Component }">
-        <comp-popup fullscreen bg="primary">
+        <comp-popup ref="pop" fullscreen bg="primary">
             <div class="fit column no-wrap items-center">
                 <div class="row justify-center align-center items-center text-h5 text-secondary " style="height: 10vh;">
-                    <back-button color="secondary" />
+                    <back-button color="secondary" :beforeGoBack="beforeBackFunction" />
                     Mesajlar
                 </div>
                 <div class="fit bg-secondary overflow-hidden round-top" style="flex-grow: 1;">
@@ -19,6 +19,11 @@ import compPopup from '@/components/general/compPopup.vue';
 import backButton from '@/components/general/backButton.vue';
 export default {
     components: { compPopup, backButton },
+    methods: {
+        beforeBackFunction() {
+            this.$refs.pop.closePopup()
+        },
+    }
 }
 </script>
 <style scoped>

@@ -57,8 +57,14 @@ export default {
   },
   provide() {
     return {
-      increaseFollwer: () => { this.user.count.follower++ },
-      decreaseFollwer: () => { this.user.count.follower-- }
+      increaseFollwer: () => {
+        this.user.count.follower++
+        this.userStore.user.userFire.count.followed++
+      },
+      decreaseFollwer: () => {
+        this.user.count.follower--
+        this.userStore.user.userFire.count.followed--
+      }
     }
   },
   watch: {

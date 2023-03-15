@@ -13,6 +13,14 @@ export default {
       popup: true,
     };
   },
+  methods: {
+    closePopup() {
+      this.popup = false;
+    },
+    openPopup() {
+      this.popup = true;
+    }
+  },
   mounted() {
     setTimeout(() => {
       this.popup = true;

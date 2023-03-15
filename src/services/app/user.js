@@ -1,4 +1,4 @@
-import { l, f } from "@/services/debug.js";
+import { l, f, p } from "@/services/debug.js";
 import {
   signOutCapacitor,
   updateCapacitorPassword,
@@ -78,8 +78,11 @@ export const followedUser = function (uID, fID) {
   user.followedUser[1].equality = fID;
   return f(getCollectionOWU, ["UserFollowedUser", null, user.followedUser]);
 };
-export const followUser = function (uID, fID) {
-  return f(addDocument, ["UserFollowedUser", { uID, fID, isFollowing: true }])
+export const followUser = function (dID, uID, fID) {
+  const fd = { uID, fID, isFollowing: true };
+  return p
+    .then(() => (uID ? f(updateDocument, ["UserFollowedUser", dID, fd]) : null))
+    .then((r) => (!uID ? f(addDocument, ["UserFollowedUser", fd]) : r))
     .then((r) => f(increaseDocument, ["User", fID, "follower", 1], r))
     .then((r) => f(increaseDocument, ["User", uID, "followed", 1], r));
 };

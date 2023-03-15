@@ -1,10 +1,10 @@
 <template>
     <router-view v-slot="{ Component }">
-        <comp-popup fullscreen bg="primary">
+        <comp-popup ref="pop" fullscreen bg="primary">
             <div class="fit column no-wrap items-center">
                 <div class="full-width row justify-center align-center items-center text-h4 text-secondary q-mt-sm "
                     style="height: 10vh;">
-                    <back-button color="secondary" />
+                    <back-button color="secondary" :beforeGoBack="beforeBackFunction" />
                     Bildirimler
                 </div>
                 <div class="text-h4">
@@ -30,6 +30,11 @@ export default {
         return {
             tab: 'notifications'
         }
+    },
+    methods: {
+        beforeBackFunction() {
+            this.$refs.pop.closePopup()
+        },
     }
 }
 </script>

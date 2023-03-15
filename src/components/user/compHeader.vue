@@ -54,7 +54,7 @@ export default {
             })
         },
         followUser() {
-            followUser(this.userStore.uID, this.$route.params.uID).then(doc => {
+            followUser(this.dID, this.userStore.uID, this.$route.params.uID).then(doc => {
                 this.dID = doc.dID
                 this.increaseFollwer()
                 this.state = true
@@ -69,6 +69,7 @@ export default {
         if (!this.$route.params.uID) this.count = this.userStore.user.userFire.count
         else {
             followedUser(this.userStore.uID, this.$route.params.uID).then(doc => {
+                console.log(doc)
                 if (doc.length == 0) this.state = false
                 else {
                     this.dID = doc[0].dID

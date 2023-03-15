@@ -1,10 +1,10 @@
 <template>
   <router-view v-slot="{ Component }">
-    <comp-popup fullscreen v-if="show">
+    <comp-popup fullscreen ref="pop" v-if="show">
       <div class="fit column no-wrap justify-center items-center content-center" style="overflow: hidden;">
         <div>
           <div class="row justify-center align-center items-center text-h5 text-black" style="height: 10vh;">
-            <back-button color="black" />
+            <back-button color="black" :goBackFunc="backFunction" :beforeGoBack="befreBackFunction"/>
             {{ pageNumber == 0 ? "Temel Bilgiler" :
               pageNumber == 1 ? "Tarih & Kitle" :
                 pageNumber == 2 ? "Konum & Fiyat" : "Görseller" }}
@@ -47,6 +47,13 @@ export default {
     }
   },
   methods: {
+    befreBackFunction() {
+      if (this.pageNumber == 0) this.$refs.pop.closePopup()
+    },
+    backFunction() {
+      if (this.pageNumber == 0) this.$router.back()
+      else this.pageNumber--;
+    },
     isEditPage() {
       if (this.$route.params.eID) return true
       else return false

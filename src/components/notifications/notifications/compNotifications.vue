@@ -1,11 +1,13 @@
 <template>
     <q-infinite-scroll class="fit" ref="notifications" @load="onLoad" :offset="250">
-        <q-list class="fit">
+        <q-list class="fit" v-if="notificationsStore.lists[list]?.length>0">
             <template v-for="(nID, index) in notificationsStore.lists[list]" :key="index">
                 <comp-item :notification="notificationsStore.dict[nID]"/>
             </template>
-
         </q-list>
+        <div class="q-pa-md row justify-center" v-else>
+            Buralar bomboş ama buralar ilerde çok değerlenir :)
+        </div>
         <template v-slot:loading>
             <div class="row justify-center q-my-md">
                 <q-spinner-dots color="primary" size="40px" />
