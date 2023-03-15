@@ -4,7 +4,7 @@
       <div style="width:25%">
         <icon-logo-text class="s" />
       </div>
-      <div class="row items-center justify-center" style="flex-grow: 1;">
+      <div class="row items-center justify-center" style="flex-grow: 1;" @click="() => showLocation = !showLocation">
         {{ locationStore.city ? locationStore.city : "Konum Seçin" }}
         <span class="q-px-xs" style="transform: rotate(90deg);">></span>
       </div>
@@ -30,8 +30,12 @@
       </q-scroll-area>
     </div>
   </div>
+  <template v-if="showLocation">
+    <comp-location-choose @set-cord="setLocation" @end-func="showLocation = false" />
+  </template>
 </template>
 <script>
+import compLocationChoose from "../general/compLocationChoose.vue";
 import iconLogoText from "@/icons/general/iconLogoText.vue";
 import iconMessage from "@/icons/events/iconMessage.vue";
 import iconNotification from "@/icons/events/iconNotification.vue";
@@ -44,18 +48,29 @@ import iconMusic from "@/icons/tags/iconMusic.vue";
 import iconParty from "@/icons/tags/iconParty.vue";
 import iconSport from "@/icons/tags/iconSport.vue";
 import { useLocation } from "@/store/location.js";
+import { getLocation } from "@/services/app/location";
+import { showAlert } from "@/services/capacitor/dialog";
 export default {
-  components: { iconLogoText, iconMessage, iconNotification, compButton, iconArt, iconEducation, iconMeeting, iconMusic, iconParty, iconSport },
+  components: { compLocationChoose, iconLogoText, iconMessage, iconNotification, compButton, iconArt, iconEducation, iconMeeting, iconMusic, iconParty, iconSport },
   data() {
     return {
+      showLocation: false,
       locationStore: useLocation(),
     }
   },
   methods: {
+    setLocation(coordinates) {
+      getLocation(coordinates).then(result => {
+        if (!result.status) return showAlert("Hata", "Lütfen Geçerli bi konum seçiniz")
+        this.locationStore.city = result.city;
+        this.locationStore.address = result.address;
+        this.locationStore.coordinates = result.coordinates;
+      })
+    },
     openPageMessage() {
       this.$router.push({ name: "MessagesPage" })
     },
-    openPageNotification(){
+    openPageNotification() {
       this.$router.push({ name: "NotificationsPage" })
     }
   }

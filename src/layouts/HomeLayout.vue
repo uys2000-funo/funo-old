@@ -13,7 +13,7 @@
       <q-btn flat :to="{ name: 'EventsPage' }">
         <icon-logo />
       </q-btn>
-      <q-btn flat>
+      <q-btn flat :to="{ name: 'MapPage' }">
         <icon-world class="fill-accent" />
       </q-btn>
       <q-btn flat :to="{ name: 'UserPage' }">
@@ -46,7 +46,7 @@ export default {
     return {
       userStore: useUser(),
       eventsStore: useEvents(),
-      localStorage: useLocation(),
+      locationStore: useLocation(),
       notificationsStore: useNotifications(),
 
       notificationUpdateListener: null,
@@ -61,9 +61,9 @@ export default {
     setLocation() {
       getCurrentLocation().then((locationResult) => {
         if (!locationResult.status) return showToast("Konuma ulaşılamadı");
-        this.localStorage.city = locationResult.city;
-        this.localStorage.address = locationResult.address;
-        this.localStorage.coordinates = locationResult.coordinates;
+        this.locationStore.city = locationResult.city;
+        this.locationStore.address = locationResult.address;
+        this.locationStore.coordinates = locationResult.coordinates;
       })
     },
     notificationUpdate() {

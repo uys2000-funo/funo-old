@@ -88,12 +88,14 @@ export default [
       },
       // Map onDevelop
       {
-        path: "serach",
-        name: "Search",
+        path: "map",
+        name: "Map",
+        component: () => import("../layouts/EventsLayout.vue"),
         children: [
           {
             path: "",
-            name: "SearchPage",
+            component: () => import("../views/pageMap.vue"),
+            name: "MapPage",
           },
         ],
       },

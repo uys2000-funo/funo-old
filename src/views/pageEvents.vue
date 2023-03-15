@@ -1,5 +1,5 @@
 <template>
-    <comp-inner-sticky :target="2">
+    <comp-inner-sticky :target="2" class="fit column no-wrap">
         <comp-popular />
         <div class="full-width">
             <comp-filter :reset="reset" />

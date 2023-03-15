@@ -1,21 +1,15 @@
 <template>
   <router-view v-if="pageLoad" />
-
-  <q-dialog v-model="showPopup">
-    <q-card style="width: 50vw">
-      <q-card-section>
-        <div class="text-h6">Info</div>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none"> Loginning </q-card-section>
-    </q-card>
-  </q-dialog>
+  <div v-else class="fit column justify-center items-center">
+    <q-spinner-dots color="primary" size="40px" />
+  </div>
 </template>
 
 <script>
 import { useUser } from "@/store/user";
 import { checkAuth } from "./services/app/auth";
 import { getUserData } from "./services/app/user";
+import { getLocalObject } from "./services/capacitor/preferences";
 export default {
   name: "LayoutDefault",
   // Fetch events will be in here
@@ -37,19 +31,26 @@ export default {
         .then(() => {
           this.showPopup = false;
           this.pageLoad = true
-          console.log(this.$route.fullPath)
           if (this.$route.fullPath == "/" || this.$route.fullPath == "/login" || this.$route.fullPath == "/register" || this.$route.fullPath == "/app")
             this.$router.push({ name: "EventsPage" });
         })
         .catch(() => {
           this.showPopup = false;
-          this.$router.push({ name: "LoginPage" });
+          if (!(this.$route.fullPath == "/") & !(this.$route.fullPath == "/login") & !(this.$route.fullPath == "/register") & !(this.$route.fullPath == "/app"))
+            this.$router.push({ name: "LoginPage" });
           this.pageLoad = true
         })
     }
   },
   mounted() {
-    this.autoLogin()
+    getLocalObject("isLogged").then(({ value }) => {
+      console.log(value)
+      if (value) this.autoLogin()
+      else {
+        this.$router.push({ name: "Enterance" });
+        this.pageLoad = true
+      }
+    })
   }
 };
 </script>

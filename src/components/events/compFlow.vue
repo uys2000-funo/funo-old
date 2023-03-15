@@ -1,5 +1,5 @@
 <template>
-    <q-infinite-scroll ref="flow" class="full-width" @load="onLoad">
+    <q-infinite-scroll ref="flow" class="fit" @load="onLoad">
         <comp-event v-for="(eID, index) in eventsStore.lists[this.list]" :key="index" :event="eventsStore.dict[eID]" />
         <template v-slot:loading>
             <div class="row justify-center q-my-md">
@@ -14,7 +14,6 @@ import { useEvents } from '@/store/event';
 import { getEvents } from "@/services/app/event"
 import eventArgs from "@/services/app/event.json"
 import { useLocation } from '@/store/location';
-import { Timestamp } from '@firebase/firestore';
 export default {
     components: { compEvent },
     data() {
@@ -30,7 +29,6 @@ export default {
             this.$refs.flow.reset()
             this.$refs.flow.resume()
             this.$refs.flow.poll()
-            console.log("res")
         },
         createMethodArgs() {
             this.eventsStore.filterArgs = [
@@ -69,17 +67,15 @@ export default {
         },
         onLoad(index, done) {
             this.createMethodArgs();
-            let startPoint = Timestamp.now()
 
-            if (index - 1 != 0)
-                startPoint = this.eventsStore.getLast(this.list).data.date.end
+            const startPoint = this.eventsStore.getLast(this.list)?.data.date.end
+
             if (this.eventsStore.filter.isOnline == "false" && this.locationStore.city == "")
                 setTimeout(() => this.onLoad(index, done), 100);
             else
                 getEvents(startPoint, this.eventsStore.filterArgs).then(documents => {
-                    if (documents.length == 0) done(true)
-                    else this.eventsStore.addToMany(this.list, documents)
-                    done()
+                    this.eventsStore.addToMany(this.list, documents)
+                    done(documents.length == 0)
                 }).catch(() => done(true))
         },
     },

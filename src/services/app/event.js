@@ -14,6 +14,7 @@ import {
 import { f, l } from "@/services/debug.js";
 import { uploadFiles } from "../firebase/storage";
 import { getFiles } from "../firebase/storage";
+import { Timestamp } from "firebase/firestore";
 
 const getEventDoc = (doc) => ({ eID: doc.id, data: doc.data });
 
@@ -113,7 +114,7 @@ export const exitEvent = function (
 };
 
 export const getEvents = function (
-  start,
+  last,
   queryArgs = [
     {
       column: "",
@@ -127,7 +128,7 @@ export const getEvents = function (
   ],
   table = "Event"
 ) {
-  return f(getCollectionOWU, [table, start, queryArgs]);
+  return f(getCollectionOWU, [table, last ? last : Timestamp.now(), queryArgs]);
 };
 
 export const watchEvents = function (
@@ -150,4 +151,3 @@ export const watchEvents = function (
   l("Run - watchEvents", arguments);
   return watchCollectionOWU(table, start, queryArgs, addFunc, remoreFunc);
 };
-
