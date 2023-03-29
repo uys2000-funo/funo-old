@@ -11,10 +11,10 @@
         <div>
             <p>Telefon Numarası</p>
             <q-input outlined v-model="userStore.user.account.phoneNumber" placeholder="Telefon numaranızı giriniz" mask="#"
-                reverse-fill-mask prefix="+90" />
+                reverse-fill-mask prefix="+90" :rules="phoneRules" />
         </div>
         <div>
-            <p>İşletme Konumu</p>
+            <p class="q-mt-none">İşletme Konumu</p>
             <q-input outlined placeholder="İşletme konumunu şeçin" v-model="userStore.company.general.address" />
         </div>
     </div>
@@ -25,7 +25,11 @@ export default {
     props: ["page", "setPage"],
     data() {
         return {
-            userStore: useUserRegister()
+            userStore: useUserRegister(),
+            phoneRules: [
+                val => val.length > 9 || 'Daha tamamını girmedin sanırsam :)',
+                val => val.length < 11 || 'Şey şey bi uzunoldu sanki :)',
+            ]
         }
     },
     mounted() {

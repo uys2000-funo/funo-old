@@ -108,6 +108,6 @@ export default {
 </script>
 <style>
 p{
-  margin: 10px 5px 0 0 ;
+  margin: 20px 0 0 0 ;
 }
 </style>

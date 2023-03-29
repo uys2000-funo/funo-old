@@ -6,7 +6,7 @@
                 :rules="nameRules" />
         </div>
         <div>
-            <p>Doğum Tarihi</p>
+            <p class="q-mt-none">Doğum Tarihi</p>
             <q-input outlined placeholder="Doğum tarihinizi  seçiniz" v-model="date" mask="##.##.####"
                 :rules="birthdateRules">
                 <template v-slot:append>
@@ -23,7 +23,7 @@
             </q-input>
         </div>
         <div>
-            <p>Telefon Numarası</p>
+            <p class="q-mt-none">Telefon Numarası</p>
             <q-input outlined placeholder="Telefon numaranızı giriniz" mask="#" reverse-fill-mask prefix="+90"
                 v-model="userStore.user.account.phoneNumber" :rules="phoneRules" />
         </div>
@@ -31,7 +31,7 @@
             <div class="col-5">Cinsiyet</div>
             <div class="col-7 column no-wrap justify-around items-center content-center">
                 <div>
-                    <q-toggle size="8vh" v-model="userStore.user.general.gender" color="orange" keep-color />
+                    <q-toggle dense size="8vh" v-model="userStore.user.general.gender" color="orange" keep-color />
                 </div>
                 <div>Kadın / Erkek</div>
             </div>
