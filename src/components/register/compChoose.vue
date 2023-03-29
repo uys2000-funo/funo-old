@@ -1,15 +1,21 @@
 <template>
-    <div class="fit row no-wrap text-h5 t">
-        <div class="full-width column justify-center content-center r"
+    <div class="fit column no-wrap text-center text-h6 t">
+        <div>
+            Lütfen kullanıcı türünü seçin...
+        </div>
+        <div class="fit row no-wrap ">
+
+            <div class="full-width column justify-center content-center r"
             :class="{ 'bg-primary': userStore.user.account.isPerson, 'text-secondary': userStore.user.account.isPerson }"
             @click="setPersonnel">
             Bireysel
         </div>
         <div class="full-width column justify-center content-center r"
-            :class="{ 'bg-primary': !userStore.user.account.isPerson, 'text-secondary': !userStore.user.account.isPerson }"
-            @click="setCompany">
-            İşletme
-        </div>
+        :class="{ 'bg-primary': !userStore.user.account.isPerson, 'text-secondary': !userStore.user.account.isPerson }"
+        @click="setCompany">
+        İşletme
+    </div>
+</div>
     </div>
 </template>
 <script>

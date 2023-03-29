@@ -1,9 +1,9 @@
 <template>
-  <div class="column no-wrap justify-center items-center content-center" style="height:100vh; overflow: hidden;">
+  <div class="column no-wrap justify-center items-center content-center montserrat" style="height:100vh; overflow: hidden;">
     <div class="column justify-center" style="height:70vw; max-height:40vh;flex-shrink: 0;">
       <compWheel :setR="setPageNumber" :pageNumber="pageNumber" />
     </div>
-    <div class="full-width" style="flex-grow: 1; overflow: auto; ">
+    <div class="full-width q-px-md" style="flex-grow: 1; overflow: auto; ">
       <router-view :pageNumber="pageNumber" :setPageNumber="setPageNumber" />
     </div>
     <div class="full-width flex justify-center q-pb-md q-pt-xs">
@@ -106,3 +106,8 @@ export default {
   }
 }
 </script>
+<style>
+p{
+  margin: 10px 5px 0 0 ;
+}
+</style>

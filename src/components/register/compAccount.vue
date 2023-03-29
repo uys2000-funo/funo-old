@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="form">
         <div>
             <p>Kullanıcı Adı</p>
             <q-input outlined placeholder="Kullanıcı adınızı girin" v-model="userStore.user.general.nickName" />
@@ -7,6 +7,10 @@
         <div>
             <p>Şifre</p>
             <q-input outlined placeholder="Şİfrenizi giriniz" v-model="userStore.password" />
+        </div>
+        <div>
+            <p>Şifre Tekrar</p>
+            <q-input outlined placeholder="Şİfrenizi giriniz" v-model="userStore.password2" />
         </div>
         <div>
             <p>Mail</p>

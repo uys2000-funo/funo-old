@@ -58,6 +58,7 @@ export const useUserRegister = defineStore("UserRegister", {
     photo: null,
     photoUrl: "",
     password: "",
+    password2: "",
     agreement: false,
 
     user: user,
