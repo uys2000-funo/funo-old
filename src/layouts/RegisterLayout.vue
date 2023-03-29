@@ -1,5 +1,6 @@
 <template>
-  <div class="column no-wrap justify-center items-center content-center montserrat" style="height:100vh; overflow: hidden;">
+  <div class="column no-wrap justify-center items-center content-center montserrat"
+    style="height:100vh; overflow: hidden;">
     <div class="column justify-center" style="height:70vw; max-height:40vh;flex-shrink: 0;">
       <compWheel :setR="setPageNumber" :pageNumber="pageNumber" />
     </div>
@@ -40,17 +41,17 @@ export default {
     },
     checkPerson() {
       if (this.userStore.user.general.birthdate.seconds < -631245600) {
-        showAlert("Uyarı", "Lütfen geçerli bir doğum tarihi girin")
+        this.pageNumber = 1
         return false
       }
       return true
     },
     checkCompany() {
       if (this.userStore.company.general.taxID.length < 3) {
-        showAlert("Uyarı", "Lütfen vergi numaranızı girin")
+        this.pageNumber = 1
         return false
       } else if (this.userStore.company.general.address.length < 3) {
-        showAlert("Uyarı", "Lütfen bir adress girin")
+        this.pageNumber = 1
         return false
       }
       return true
@@ -58,22 +59,25 @@ export default {
     },
     checkUser() {
       if (this.userStore.user.general.name.length < 3) {
-        showAlert("Uyarı", "Lütfen isminizi girin")
+        this.pageNumber = 1
         return false
       } else if (this.userStore.user.account.phoneNumber.length != 10) {
-        showAlert("Uyarı", "Lütfen telefon numaranızı doğru girin")
+        this.pageNumber = 1
         return false
       } else if (this.userStore.user.general.nickName.length < 3) {
-        showAlert("Uyarı", "Lütfen kullanıcı adı girin")
+        this.pageNumber = 2
         return false
       } else if (this.userStore.password.length < 6) {
-        showAlert("Uyarı", "Şifre en az 6 karakterden oluşmalı")
+        this.pageNumber = 2
+        return false
+      } else if (this.userStore.password != this.userStore.password2) {
+        this.pageNumber = 2
         return false
       } else if (this.userStore.user.account.mail.length < 3) {
-        showAlert("Uyarı", "Lütfen geçerli bir mail girin")
+        this.pageNumber = 2
         return false
       } else if (!this.userStore.agreement) {
-        showAlert("Uyarı", "Lütfen kullanıcı sözleşmesini kabul edin")
+        this.pageNumber = 2
         return false
       }
       if (this.userStore.user.account.isPerson)
@@ -107,7 +111,7 @@ export default {
 }
 </script>
 <style>
-p{
-  margin: 20px 0 0 0 ;
+p {
+  margin: 20px 0 0 0;
 }
 </style>

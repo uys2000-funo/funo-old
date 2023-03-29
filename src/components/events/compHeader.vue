@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row no-wrap q-px-sm q-pt-md">
-      <div style="width:25%">
+      <div style="width:20%">
         <icon-logo-text class="s" />
       </div>
       <div class="row items-center justify-center" style="flex-grow: 1;" @click="() => showLocation = !showLocation">
@@ -20,12 +20,12 @@
     <div>
       <q-scroll-area style="height: 45px; width: 100vw">
         <div class="row no-wrap items-center" style="height: 45px;">
-          <comp-button value="art" text="Sanat"><icon-art /></comp-button>
-          <comp-button value="education" text="Eğitim"><icon-education /></comp-button>
-          <comp-button value="meeting" text="Buluşma"><icon-meeting /></comp-button>
-          <comp-button value="music" text="Müzik"><icon-music /></comp-button>
-          <comp-button value="party" text="Parti"><icon-party /></comp-button>
           <comp-button value="sport" text="Spor"><icon-sport /></comp-button>
+          <comp-button value="art" text="Sanat"><icon-art /></comp-button>
+          <comp-button value="music" text="Müzik"><icon-music /></comp-button>
+          <comp-button value="education" text="Eğitim"><icon-education /></comp-button>
+          <comp-button value="party" text="Parti"><icon-party /></comp-button>
+          <comp-button value="meeting" text="Buluşma"><icon-meeting /></comp-button>
         </div>
       </q-scroll-area>
     </div>

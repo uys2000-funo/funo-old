@@ -1,5 +1,5 @@
 <template>
-  <q-btn no-cap class="q-mx-xs shadow-1" :class="{ 'bg-primary': state, 'text-white': state }" rounded
+  <q-btn no-cap class="q-mx-xs shadow-1" :class="{ 'bg-primary': state, 'text-white': state,'bg-white': !state,}" rounded
     @click="updateTags">
     <div class="row no-wrap">
       <q-icon>

@@ -79,6 +79,7 @@ import { useUser } from '@/store/user';
 import { sendPasswordResetEmail, signInWithEmailAndPassword, signInWithGoogle, signInWithFacebook, signOut } from "@/services/app/auth.js"
 import { getUserData } from '@/services/app/user.js';
 import { setLocalObject } from '@/services/capacitor/preferences';
+import { showToast } from '@/services/capacitor/toast';
 export default {
   data() {
     return {
@@ -98,9 +99,12 @@ export default {
           this.slide = "login"
         })
     },
+    loginHandler(err) {
+      if (err.code == "auth/user-not-found")
+        showToast("Kullanıcıyı bulamadık. E-mailine dikkatli bakarsan sevinirim veya kaydolabilirsin :) ")
+    },
     loginSucces() {
       this.$router.push({ name: "EventsPage" })
-
     },
     getUserSucces(user, userFire) {
       user.userFire = userFire;
@@ -115,6 +119,7 @@ export default {
     login() {
       let user = { userFire: {}, userAuth: {} }
       signInWithEmailAndPassword(this.email, this.password)
+        .catch(this.loginHandler)
         .then((userAuth) => this.signInSucces(user, userAuth))
         .then(() => this.loginSucces())
         .catch(() => signOut())
