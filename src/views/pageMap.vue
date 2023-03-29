@@ -34,8 +34,16 @@ export default {
             this.$router.push({ path: `/app/main/events/event/${eID}` })
         }
     },
+    errorCaptured() {
+        //if get errors refreshes page
+        this.$router.go()
+    },
     mounted() {
+        this.$refs.ymap.$options.beforeUnmount = function () {
+            this.myMap && this.myMap.geoObjects && this.myMap.geoObjects.removeAll();
+        }
         this.coords__ = this.locationStore.getCoordinates;
+
     },
 };
 </script>
