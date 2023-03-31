@@ -1,0 +1,7 @@
+{
+  "name": "gogal",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}

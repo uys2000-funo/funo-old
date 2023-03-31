@@ -1,24 +1,62 @@
-# gogal
+# Funo
 
 ## Project setup
-```
+
+```bash
 yarn install
+npx cap update
+npx cap sync
 ```
 
-### Compiles and hot-reloads for development
-```
+## Compiles and hot-reloads for development
+
+### Web side development
+
+```bash
 yarn serve
 ```
 
-### Compiles and minifies for production
+### Android side development
+
+```bash
+yarn serve
 ```
+
+add this part to `capacitor.config.json` file with changing url value with url which comes from yarn serve network value
+
+```json
+  "server": {
+    "url": "http://192.168.1.156:8080/",
+    "cleartext": true
+  }
+```
+
+Then in andorid studio start applicaiton
+
+## Build Application
+
+```bash
 yarn build
 ```
 
-### Lints and fixes files
-```
-yarn lint
+remove this part to `capacitor.config.json` file
+
+```json
+  "server": {
+    "url": "http://192.168.1.156:8080/",
+    "cleartext": true
+  }
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```bash
+npx cap update
+npx cap sync
+```
+
+then build apk in android studio
+
+## Lints and fixes files
+
+```bash
+yarn lint
+```

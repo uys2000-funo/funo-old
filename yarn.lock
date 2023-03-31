@@ -2892,11 +2892,6 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001449, caniuse-lite@^1.0.30001464:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001467.tgz#1afc9c16ed61f50dd87139da87ca43a3e0051c77"
   integrity sha512-cEdN/5e+RPikvl9AHm4uuLXxeCNq8rFsQ+lPHTfe/OtypP3WwnVVbjn+6uBV7PaFL6xUFzTh+sSCOz1rKhcO+Q==
 
-capacitor-widgetsbridge-plugin@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/capacitor-widgetsbridge-plugin/-/capacitor-widgetsbridge-plugin-0.1.0.tgz#463cc0628d63d7db28a96260da04b3876e644964"
-  integrity sha512-/z8x9n1YxBNq64gDhBjIZRV8Ra2ZviNErzgmb0zfT+T7mXjsAr8VNAugiojQXmR9okRFYYQr9SY/qA25EEtoJA==
-
 case-sensitive-paths-webpack-plugin@^2.3.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.4.0.tgz#db64066c6422eed2e08cc14b986ca43796dbc6d4"

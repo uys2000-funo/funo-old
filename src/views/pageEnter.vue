@@ -1,5 +1,5 @@
 <template>
-  <div class="column no-wrap justify-center items-center content-center">
+  <div class="fit column no-wrap justify-center items-center content-center">
     <div class="col-1 column no-wrap justify-center items-center content-center">
       <p class="text-center">
         Find <b><span class="text-primary">events</span></b> your envirenmont
