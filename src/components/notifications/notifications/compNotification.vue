@@ -9,6 +9,9 @@
         <template v-if="notificationsStore.notification.data.notification.type == 'start'">
             <comp-start :notification="notificationsStore.notification" />
         </template>
+        <template v-if="notificationsStore.notification.data.notification.type == 'end'">
+            <comp-end :notification="notificationsStore.notification" />
+        </template>
     </div>
 </template>
 
@@ -17,8 +20,9 @@ import { useNotifications } from '@/store/notifications';
 import compRequest from './notification/compRequest.vue';
 import compNear from './notification/compNear.vue';
 import compStart from './notification/compStart.vue';
+import compEnd from './notification/compEnd.vue';
 export default {
-    components: { compRequest, compNear, compStart },
+    components: { compRequest, compNear, compStart, compEnd },
     data() {
         return {
             notificationsStore: useNotifications()

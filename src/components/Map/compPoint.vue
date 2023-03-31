@@ -1,6 +1,6 @@
 <template>
     <template v-if="show && eventData?.location.coordinates">
-        <ymap-marker marker-id="1" :coords="eData.location.coordinates" @click="clickEvent" />
+        <ymap-marker marker-id="1" :coords="eData.location.coordinates" :icon="markerIcon" @click="clickEvent" />
     </template>
 </template>
 <script>
@@ -14,6 +14,13 @@ export default {
         return {
             show: false,
             eventData: {},
+            markerIcon: {
+                layout: 'default#imageWithContent',
+                imageHref: require('@/assets/images/logoLocation.svg'),
+                imageSize: [50, 50],
+                imageOffset: [-25, -50],
+                contentOffset: [-25, -25],
+            }
         }
     },
     methods: {

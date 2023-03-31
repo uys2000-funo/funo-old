@@ -41,7 +41,8 @@ export default {
   },
   methods: {
     updateLocation(e) {
-      this.coords__ = e.get("coords");
+      if (e.get)
+        this.coords__ = e.get("coords");
     },
     setLocation() {
       this.$emit("setCord", this.coords__);

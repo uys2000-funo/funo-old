@@ -1,5 +1,5 @@
 <template>
-    <div class="full-width row justify-around items-end align-center no-wrap text-h6 q-pt-md q-pb-xs">
+    <div class="full-width row justify-around items-end align-center no-wrap text-subtitle1 q-pt-md q-pb-xs">
         <div class="w text-center">
             <div class="text-bold">
                 {{ user?.count.point }}

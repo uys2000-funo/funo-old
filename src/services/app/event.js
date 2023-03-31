@@ -151,3 +151,5 @@ export const watchEvents = function (
   l("Run - watchEvents", arguments);
   return watchCollectionOWU(table, start, queryArgs, addFunc, remoreFunc);
 };
+
+export const shareEvent = function () {};
