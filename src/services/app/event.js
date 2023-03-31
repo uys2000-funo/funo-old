@@ -15,6 +15,7 @@ import { f, l } from "@/services/debug.js";
 import { uploadFiles } from "../firebase/storage";
 import { getFiles } from "../firebase/storage";
 import { Timestamp } from "firebase/firestore";
+import { share } from "../capacitor/share";
 
 const getEventDoc = (doc) => ({ eID: doc.id, data: doc.data });
 
@@ -152,4 +153,10 @@ export const watchEvents = function (
   return watchCollectionOWU(table, start, queryArgs, addFunc, remoreFunc);
 };
 
-export const shareEvent = function () {};
+export const shareEvent = function (eID) {
+  return f(share, [
+    "Muhteşem Bir Etkiblik",
+    "Yüce Bir etkinlik katılamyı düşünmelisin :)",
+    `funo.funo/e-${eID}`,
+  ]);
+};
