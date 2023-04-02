@@ -1,6 +1,5 @@
 <template>
     <div v-if="show" class="user-borders fit">
-        {{ localUser.data.account.photoURL }}
         <q-img :src="localUser.data.account.photoURL ? localUser.data.account.photoURL : require('@/assets/images/logo.svg')" v-ripple @click="openUserProfile">
             <div class="absolute-bottom text-center">{{ localUser.data.general.nickName }}</div>
         </q-img>
