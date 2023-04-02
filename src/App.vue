@@ -10,7 +10,7 @@ import { useUser } from "@/store/user";
 import { checkAuth } from "./services/app/auth";
 import { getUserData } from "./services/app/user";
 import { getLocalObject } from "./services/capacitor/preferences";
-import { setErrorHandler } from "./services/app/app";
+import { setBackButton, setErrorHandler } from "./services/app/app";
 export default {
   name: "LayoutDefault",
   data() {
@@ -44,6 +44,7 @@ export default {
     }
   },
   mounted() {
+    setBackButton();
     getLocalObject("isLogged").then(({ value }) => {
       if (value) this.autoLogin()
       else {
