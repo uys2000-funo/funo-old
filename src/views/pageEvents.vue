@@ -1,24 +1,28 @@
 <template>
-    <comp-inner-sticky :target="2" class="fit column no-wrap">
-        <comp-popular />
-        <div class="full-width">
-            <comp-filter :reset="reset" />
-        </div>
-        <comp-flow ref="flow" />
-    </comp-inner-sticky>
+    <div class="fit column no-wrap" style="gap: 24px; overflow-y: auto;">
+        <comp-slider target="popular">
+            Populer Etkinlikler
+        </comp-slider>
+        <comp-slider target="popular">
+            Çevrendekiler
+        </comp-slider>
+        <comp-slider target="popular">
+            Sana Özel
+        </comp-slider>
+    </div>
 </template>
 <script>
-import compInnerSticky from '@/components/general/compInnerSticky.vue';
-import compPopular from '@/components/events/compPopular.vue';
-import compFilter from '@/components/events/compFilter.vue';
-import compFlow from '@/components/events/compFlow.vue';
+import compSlider from '@/components/events/compSlider.vue';
+import { useEvents } from '@/store/event';
 export default {
-    components: { compInnerSticky, compPopular, compFilter, compFlow },
-    methods: {
-        reset() {
-            this.$refs.flow.reset();
+    components: { compSlider },
+    data() {
+        return {
+            eventsStore: useEvents()
         }
     },
-}
+    mounted() {
 
+    }
+}
 </script>

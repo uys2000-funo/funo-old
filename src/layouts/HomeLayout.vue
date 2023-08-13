@@ -3,32 +3,63 @@
     <div class="fit overflow-auto">
       <router-view />
     </div>
-    <div class="full-width row no-wrap justify-around" style="height: 15vw;">
-      <q-btn flat :to="{ name: 'CreatePage' }">
-        <icon-plus class="fill-accent" />
+    <div class="full-width row justify-around" style="height: 78px; overflow-y:visible; padding-bottom: 18px;">
+      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;">
+        <div class="column justify-center content-center items-center" style="gap:2px">
+          <q-icon size="24px">
+            <icon-home />
+          </q-icon>
+          <span style="font-weight: 400; color: #7B7B7B; line-height: 15px;">
+            Anasayfa
+          </span>
+        </div>
       </q-btn>
-      <q-btn flat :to="{ name: 'DiscoverPage' }">
-        <icon-compass class="fill-accent" />
+      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;;">
+        <div class="column justify-center content-center items-center" style="gap:2px">
+          <q-icon size="24px">
+            <icon-calendar />
+          </q-icon>
+          <span style="font-weight: 400; color: #7B7B7B; line-height: 15px;">
+            Takvim
+          </span>
+        </div>
       </q-btn>
-      <q-btn flat :to="{ name: 'EventsPage' }">
-        <icon-logo />
+      <q-btn flat dense round no-caps class="bg-secondary"
+        style="width: 69px; height: 69px; border: 1px solid #3C485332; margin-top: -9px;">
+        <div class=" column justify-center content-center items-center" style="gap:2px">
+          <q-icon size="28px">
+            <icon-logo />
+          </q-icon>
+          <span style="font-size: 12px; font-weight: 400; color: #7B7B7B; line-height: 15px;">
+            Keşfet
+          </span>
+        </div>
       </q-btn>
-      <q-btn flat :to="{ name: 'MapPage' }">
-        <icon-world class="fill-accent" />
+      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;">
+        <div class="column justify-center content-center items-center" style="gap:2px">
+          <q-icon size=" 24px">
+            <icon-world />
+          </q-icon>
+          <span style="font-weight: 400; color: #7B7B7B; line-height: 15px;">
+            Harita
+          </span>
+        </div>
       </q-btn>
-      <q-btn flat :to="{ name: 'UserPage' }">
-        <icon-person class="fill-accent" />
+      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;">
+        <div class="column justify-center content-center items-center" style="gap:2px">
+          <q-icon size="24px">
+            <icon-account />
+          </q-icon>
+          <span style="font-weight: 400; color: #7B7B7B; line-height: 15px;">
+            Profilim
+          </span>
+        </div>
       </q-btn>
     </div>
   </div>
 </template>
 <script>
 import { useUser } from "@/store/user";
-import iconPlus from "@/icons/home/iconPlus.vue";
-import iconCompass from "@/icons/home/iconCompass.vue"
-import iconLogo from "@/icons/general/iconLogo.vue";
-import iconWorld from "@/icons/home/iconWorld.vue"
-import iconPerson from "@/icons/general/iconPerson.vue";
 import { getCurrentLocation } from "@/services/app/location"
 import { showToast } from "@/services/capacitor/toast";
 import { useLocation } from "@/store/location";
@@ -38,9 +69,15 @@ import { getEvents, watchEvents } from "@/services/app/event";
 import eventArgs from "@/services/app/event.json";
 import { watchNotifications } from "@/services/app/notification";
 import { useNotifications } from "@/store/notifications";
+
+import IconHome from "@/icons/home/iconHome.vue";
+import iconCalendar from "@/icons/home/iconCalendar.vue";
+import IconAccount from "@/icons/home/iconAccount.vue";
+import IconWorld from "@/icons/home/iconWorld.vue";
+import IconLogo from "@/icons/general/iconLogo.vue";
 export default {
   name: "AppLayout",
-  components: { iconPlus, iconCompass, iconLogo, iconWorld, iconPerson },
+  components: { IconHome, iconCalendar, IconAccount, IconWorld, IconLogo },
   //After Login General Fetchs And Listeners
   data() {
     return {
