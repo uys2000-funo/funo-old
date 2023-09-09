@@ -4,7 +4,7 @@
       <router-view />
     </div>
     <div class="full-width row justify-around" style="height: 78px; overflow-y:visible; padding-bottom: 18px;">
-      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;">
+      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;" to="/app/events">
         <div class="column justify-center content-center items-center" style="gap:2px">
           <q-icon size="24px">
             <icon-home />
@@ -14,7 +14,7 @@
           </span>
         </div>
       </q-btn>
-      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;;">
+      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;" to="/app/events">
         <div class="column justify-center content-center items-center" style="gap:2px">
           <q-icon size="24px">
             <icon-calendar />
@@ -25,7 +25,7 @@
         </div>
       </q-btn>
       <q-btn flat dense round no-caps class="bg-secondary"
-        style="width: 69px; height: 69px; border: 1px solid #3C485332; margin-top: -9px;">
+        style="width: 69px; height: 69px; border: 1px solid #3C485332; margin-top: -9px;" to="/app/discover">
         <div class=" column justify-center content-center items-center" style="gap:2px">
           <q-icon size="28px">
             <icon-logo />
@@ -35,7 +35,7 @@
           </span>
         </div>
       </q-btn>
-      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;">
+      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;" to="/app/events">
         <div class="column justify-center content-center items-center" style="gap:2px">
           <q-icon size=" 24px">
             <icon-world />
@@ -45,7 +45,7 @@
           </span>
         </div>
       </q-btn>
-      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;">
+      <q-btn flat dense rounded no-caps style="width: 72px; height: 42px; margin-top: 12px;" to="/app/user">
         <div class="column justify-center content-center items-center" style="gap:2px">
           <q-icon size="24px">
             <icon-account />

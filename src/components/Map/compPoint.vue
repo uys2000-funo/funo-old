@@ -16,7 +16,7 @@ export default {
             eventData: {},
             markerIcon: {
                 layout: 'default#imageWithContent',
-                imageHref: require('@/assets/images/logoLocation.svg'),
+                imageHref: '',
                 imageSize: [50, 50],
                 imageOffset: [-25, -50],
                 contentOffset: [-25, -25],

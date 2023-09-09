@@ -3,7 +3,6 @@
     <comp-wheel :s="['60vw', '60vw']" :p="pageNumber" :r="90" :moveEndEvent="moveEndEvent">
       <template v-slot:c>
         <div class="center">
-          <img :src="require('@/assets/images/logo.svg')" style="width: 100%" alt="No Profile Photo" />
         </div>
       </template>
       <template v-slot:ie>

@@ -31,7 +31,7 @@ export default {
       },
       markerIcon: {
         layout: "default#imageWithContent",
-        imageHref: require("@/assets/images/logoLocation.svg"),
+        imageHref: '',
         imageSize: [40, 40],
         imageOffset: [-20, -30],
         contentOffset: [0, 0],

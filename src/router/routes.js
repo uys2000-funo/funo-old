@@ -3,13 +3,13 @@ export default [
   {
     path: "/",
     name: "Enterance",
-    component: () => import("../views/pageEnter.vue"),
+    component: () => import("../views/LandingPage.vue"),
   },
   // Login Page
   {
     path: "/login",
     name: "LoginPage",
-    component: () => import("../views/pageLogin.vue"),
+    component: () => import("../views/LoginPage.vue"),
   },
   // Register Page
   {

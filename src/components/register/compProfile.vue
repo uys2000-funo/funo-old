@@ -1,10 +1,9 @@
 <template>
     <div>
         <p>Profil Fotoğrafı</p>
-        <q-img :src="
-            userStore.photoUrl == '' ?
-                require('@/assets/images/registerUpload.svg') :
-                userStore.photoUrl" @click="openImageChooser">
+        <q-img :src="userStore.photoUrl == '' ?
+            '' :
+            userStore.photoUrl" @click="openImageChooser">
             <div class="absolute-full text-subtitle2 flex flex-center bg">
                 Profil fotoğrafı yüklemek için dokunun
             </div>

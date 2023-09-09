@@ -2,13 +2,11 @@
   <q-dialog v-model="pages.eventSettingsDialog" full-width position="bottom">
     <q-card>
       <q-card-section class="row">
-        <div
-          style="
+        <div style="
             border: 2px solid rgba(180, 180, 180, 0.3);
             width: 50%;
             margin: auto;
-          "
-        />
+          " />
       </q-card-section>
       <q-card-section class="q-pt-none">
         <div class="row justify-center">
@@ -16,9 +14,7 @@
           <q-btn flat @click="share">
             <div>
               <div>
-                <img
-                  :src="require('@/assets/images/eventSettings/share.svg')"
-                />
+                <img :src="''" />
               </div>
               <div>
                 <span>Share</span>
@@ -29,9 +25,7 @@
           <q-btn flat>
             <div>
               <div>
-                <img
-                  :src="require('@/assets/images/eventSettings/report.svg')"
-                />
+                <img :src="''" />
               </div>
               <div>
                 <span>Report</span>
@@ -42,9 +36,7 @@
           <q-btn flat>
             <div>
               <div>
-                <img
-                  :src="require('@/assets/images/eventSettings/logout.svg')"
-                />
+                <img :src="''" />
               </div>
               <div><span>Follow !</span></div>
             </div>
@@ -55,21 +47,16 @@
           <q-btn flat :disable="isDisabled" @click="deleteEvent">
             <div>
               <div>
-                <img
-                  :src="require('@/assets/images/eventSettings/delete.svg')"
-                />
+                <img :src="''" />
               </div>
               <div><span>Delete</span></div>
             </div>
           </q-btn>
           <!--Edit-->
-          <q-btn
-            flat
-            @click="$router.push(`/app/main/events/edit/${pages.event.id}`)"
-          >
+          <q-btn flat @click="$router.push(`/app/main/events/edit/${pages.event.id}`)">
             <div>
               <div>
-                <img :src="require('@/assets/images/eventSettings/edit.svg')" />
+                <img :src="''" />
               </div>
               <div><span>Edit</span></div>
             </div>

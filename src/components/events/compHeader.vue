@@ -73,7 +73,7 @@
 </template>
 <script>
 import compLocationChoose from "../general/compLocationChoose.vue";
-import iconLogoText from "@/icons/general/iconLogoText.vue";
+import iconLogoText from "@/icons/logo/iconFunoText.vue";
 import iconMessage from "@/icons/events/iconMessage.vue";
 import iconNotification from "@/icons/events/iconNotification.vue";
 import iconArrow from "@/icons/events/iconArrow.vue";
